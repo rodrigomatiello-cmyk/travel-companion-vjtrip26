@@ -7,6 +7,7 @@ Este pacote transforma o arquivo criado no Claude em um app web/PWA para usar no
 - Roda fora do Claude, como site/app web.
 - Pode ser publicada gratuitamente na Vercel.
 - Pode sincronizar Rodrigo, Luciana e Luísa via Firebase/Firestore gratuito.
+- Tem **Config > Manutenção** para exportar/importar o roteiro em JSON, criar backup automático e restaurar versões anteriores.
 - Se o Firebase não estiver configurado, funciona em modo teste local no próprio aparelho.
 
 ## Passo 1 — Criar Firebase gratuito
@@ -46,6 +47,23 @@ Configuração esperada:
 - Framework: Vite
 - Build command: `npm run build`
 - Output directory: `dist`
+
+
+## Manutenção do roteiro
+
+No app publicado, entre em **Config > Manutenção**.
+
+A seção de Manutenção fica aberta em Configurações. Ações destrutivas continuam pedindo confirmação e geram backup automático antes de substituir o roteiro.
+
+Funções disponíveis:
+
+- **Exportar roteiro**: baixa um JSON com o roteiro atual.
+- **Importar JSON**: substitui o roteiro atual para todos os usuários. Antes da substituição, o app cria backup automático.
+- **Backup completo**: baixa roteiro + dados do app + backups anteriores.
+- **Roteiro original**: restaura o roteiro embutido nesta versão do app.
+- **Restaurar backup anterior**: volta para uma versão anterior salva no Firebase.
+
+Ao editar o JSON, mantenha a estrutura. Os campos mais seguros para alteração são textos, horários, títulos, mapas, refeições, compras e atividades. Evite apagar campos estruturais como `day`, `date`, `anchor` e `activities`.
 
 ## Passo 3 — Colocar no iPhone como app
 
