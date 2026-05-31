@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════════
-//  TRAVEL COMPANION · Dubai + Japão 2026 · v4 (manutenção do roteiro)
+//  TRAVEL COMPANION · Dubai + Japão 2026 · v5 (compras com fotos)
 // ═══════════════════════════════════════════════════════════════════════════
 import { useState, useEffect, useCallback, useRef } from "react";
 import { storage, isFirebaseEnabled } from "./sharedStorage";
@@ -138,6 +138,63 @@ function dayMonth(dateStr) {
   return `${dd} ${mon}`;
 }
 
+function collectShoppingPhotoKeys(data) {
+  const keys = new Set();
+  if (!data?.shopping) return [];
+  USERS.forEach((u) => {
+    (data.shopping?.[u] || []).forEach((item) => {
+      if (item?.photoKey) keys.add(item.photoKey);
+    });
+  });
+  return [...keys];
+}
+
+function compressShopImage(file, maxBytes = 650000) {
+  return new Promise((resolve, reject) => {
+    if (!file || !file.type?.startsWith("image/")) {
+      reject(new Error("Escolha uma imagem válida."));
+      return;
+    }
+    const reader = new FileReader();
+    const img = new Image();
+    reader.onerror = () => reject(new Error("Não consegui ler a foto."));
+    img.onerror = () => reject(new Error("Não consegui abrir a foto."));
+    reader.onload = () => { img.src = reader.result; };
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      let last = { dataUrl: "", width: 0, height: 0, quality: 0.68 };
+      const render = (maxSide, quality) => {
+        const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+        canvas.width = Math.max(1, Math.round(img.width * scale));
+        canvas.height = Math.max(1, Math.round(img.height * scale));
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        last = { dataUrl: canvas.toDataURL("image/jpeg", quality), width: canvas.width, height: canvas.height, quality };
+        return last.dataUrl;
+      };
+      let maxSide = 900;
+      let quality = 0.68;
+      let dataUrl = render(maxSide, quality);
+      while (dataUrl.length > maxBytes && quality > 0.36) {
+        quality = Math.max(0.36, quality - 0.08);
+        dataUrl = render(maxSide, quality);
+      }
+      while (dataUrl.length > maxBytes && maxSide > 420) {
+        maxSide -= 140;
+        quality = 0.56;
+        dataUrl = render(maxSide, quality);
+      }
+      if (dataUrl.length > maxBytes) {
+        reject(new Error("A foto ficou grande demais. Tente recortar ou escolher outra imagem."));
+        return;
+      }
+      resolve({ ...last, size: dataUrl.length, type: "image/jpeg", originalName: file.name || "foto.jpg" });
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 function validateRoutePayload(payload) {
   const days = Array.isArray(payload) ? payload : payload?.days;
   if (!Array.isArray(days)) throw new Error("O arquivo precisa ter um array 'days' ou ser um array de dias.");
@@ -196,16 +253,45 @@ export default function App() {
   const [importingRoute, setImportingRoute] = useState(false);
   const routeFileRef = useRef(null);
   const pollRef = useRef(null);
+  const shopPhotoInputRef = useRef(null);
+  const [shopPhotos, setShopPhotos] = useState({});
+  const [pendingShopPhoto, setPendingShopPhoto] = useState(null);
+  const [shopPhotoBusy, setShopPhotoBusy] = useState(null);
+  const [shopPhotoViewer, setShopPhotoViewer] = useState(null);
 
   // ── storage ──
+  const loadShopPhotos = useCallback(async (data) => {
+    const keys = collectShoppingPhotoKeys(data);
+    if (!keys.length) return;
+    try {
+      const pairs = await Promise.all(keys.map(async (key) => {
+        try {
+          const r = await storage.get(key, true);
+          if (!r?.value) return null;
+          const parsed = JSON.parse(r.value);
+          return parsed?.dataUrl ? [key, parsed.dataUrl] : null;
+        } catch {
+          return null;
+        }
+      }));
+      const next = {};
+      pairs.filter(Boolean).forEach(([key, dataUrl]) => { next[key] = dataUrl; });
+      if (Object.keys(next).length) setShopPhotos((prev) => ({ ...prev, ...next }));
+    } catch {
+      // Fotos são best-effort: se falhar, o app segue funcionando sem imagem.
+    }
+  }, []);
+
   const load = useCallback(async (quiet = false) => {
     if (!quiet) setSyncing(true);
     try {
       const r = await storage.get("vjtrip26", true);
       let appData = null;
+      let resolvedData = null;
       if (r?.value) {
         const parsed = JSON.parse(r.value);
         appData = { ...EMPTY, ...parsed, shopping: { ...EMPTY.shopping, ...(parsed.shopping || {}) } };
+        resolvedData = appData;
         setSt(appData);
       }
       // Semear listas sugeridas UMA vez, só se ninguém adicionou nada ainda.
@@ -217,9 +303,11 @@ export default function App() {
           const seededData = { ...cur, shopping: buildSeedShopping(), meta: { lastBy: "sugestão", lastAt: new Date().toISOString() } };
           await storage.set("vjtrip26", JSON.stringify(seededData), true);
           await storage.set(SHOP_SEED_KEY, "done", true);
+          resolvedData = seededData;
           setSt(seededData);
         }
       } catch (e) { /* seed best-effort */ }
+      if (resolvedData) await loadShopPhotos(resolvedData);
       const route = await storage.get(ROUTE_STORAGE_KEY, true);
       if (route?.value) {
         const parsedRoute = JSON.parse(route.value);
@@ -234,7 +322,7 @@ export default function App() {
       setLastSync(new Date());
     } catch (e) { /* first run */ }
     if (!quiet) setSyncing(false);
-  }, []);
+  }, [loadShopPhotos]);
 
   const save = useCallback(async (next, label = "") => {
     const withMeta = { ...next, meta: { lastBy: who || "?", lastAt: new Date().toISOString() } };
@@ -394,10 +482,67 @@ export default function App() {
     u[user] = u[user].map(i => i.id === id ? { ...i, done: !i.done } : i);
     save({ ...st, shopping: u });
   };
-  const rmShop = (user, id) => {
+  const rmShop = async (user, id) => {
+    const item = (st.shopping?.[user] || []).find(i => i.id === id);
+    if (item?.photoKey) {
+      try { await storage.set(item.photoKey, "", true); } catch {}
+      setShopPhotos((prev) => { const next = { ...prev }; delete next[item.photoKey]; return next; });
+    }
     const u = { ...st.shopping };
     u[user] = u[user].filter(i => i.id !== id);
     save({ ...st, shopping: u }, "Item removido");
+  };
+
+  const openShopPhotoPicker = (user, id) => {
+    setPendingShopPhoto({ user, id });
+    setTimeout(() => shopPhotoInputRef.current?.click(), 0);
+  };
+
+  const handleShopPhotoFile = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    const target = pendingShopPhoto;
+    if (!file || !target) return;
+    const busyKey = `${target.user}-${target.id}`;
+    setShopPhotoBusy(busyKey);
+    try {
+      const currentItem = (st.shopping?.[target.user] || []).find(i => i.id === target.id);
+      if (!currentItem) throw new Error("Item não encontrado na lista.");
+      const compressed = await compressShopImage(file);
+      const photoKey = currentItem.photoKey || `shopPhoto_${target.id}`;
+      const photoPayload = {
+        dataUrl: compressed.dataUrl,
+        updatedAt: new Date().toISOString(),
+        updatedBy: who || "?",
+        width: compressed.width,
+        height: compressed.height,
+        type: compressed.type,
+        size: compressed.size,
+        originalName: compressed.originalName,
+      };
+      await storage.set(photoKey, JSON.stringify(photoPayload), true);
+      const u = { ...st.shopping };
+      u[target.user] = (u[target.user] || []).map(i => i.id === target.id ? { ...i, photoKey, photoUpdatedAt: photoPayload.updatedAt } : i);
+      setShopPhotos((prev) => ({ ...prev, [photoKey]: compressed.dataUrl }));
+      await save({ ...st, shopping: u }, "Foto adicionada");
+    } catch (e) {
+      setToast(`⚠️ Foto não salva: ${e.message || "erro"}`);
+      setTimeout(() => setToast(null), 4200);
+    } finally {
+      setPendingShopPhoto(null);
+      setShopPhotoBusy(null);
+    }
+  };
+
+  const removeShopPhoto = async (user, id) => {
+    const item = (st.shopping?.[user] || []).find(i => i.id === id);
+    if (!item?.photoKey) return;
+    if (!confirm("Remover a foto deste item?")) return;
+    try { await storage.set(item.photoKey, "", true); } catch {}
+    setShopPhotos((prev) => { const next = { ...prev }; delete next[item.photoKey]; return next; });
+    const u = { ...st.shopping };
+    u[user] = (u[user] || []).map(i => i.id === id ? (() => { const { photoKey, photoUpdatedAt, ...rest } = i; return rest; })() : i);
+    save({ ...st, shopping: u }, "Foto removida");
   };
 
   const fmt = (d) => d ? new Date(d).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "—";
@@ -716,6 +861,15 @@ export default function App() {
     return (
       <>
         <Header grad="linear-gradient(135deg,#6d28d9,#db2777)" title="🛍️ Compras" sub={`${doneAll}/${totalAll} comprados`} />
+        <input ref={shopPhotoInputRef} type="file" accept="image/*" onChange={handleShopPhotoFile} style={{ display: "none" }} />
+        {shopPhotoViewer && (
+          <div onClick={() => setShopPhotoViewer(null)} style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(15,23,42,.86)", display: "flex", alignItems: "center", justifyContent: "center", padding: 18 }}>
+            <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 520 }}>
+              <img src={shopPhotoViewer.dataUrl} alt={shopPhotoViewer.title || "Foto do item"} style={{ width: "100%", maxHeight: "76vh", objectFit: "contain", borderRadius: 18, background: "#0f172a" }} />
+              <button onClick={() => setShopPhotoViewer(null)} style={{ marginTop: 12, width: "100%", padding: 13, borderRadius: 12, border: "none", background: "#fff", color: "#0f172a", fontWeight: 900, fontSize: fs(15) }}>Fechar</button>
+            </div>
+          </div>
+        )}
         <div style={{ padding: "8px 12px 110px" }}>
           {/* Quem */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6, marginBottom: 10 }}>
@@ -761,20 +915,41 @@ export default function App() {
                   <span style={{ fontWeight: 800, fontSize: fs(14), color: UCOLOR[u] }}>{UEMOJI[u]} {u}</span>
                   <span style={{ fontSize: fs(11), color: "#94a3b8" }}>{dn}/{items.length} comprados</span>
                 </div>
-                {items.map(item => (
-                  <div key={item.id} style={{ background: "#fff", borderRadius: 10, padding: "9px 12px", marginBottom: 5, boxShadow: "0 1px 4px #0000000d", display: "flex", alignItems: "center", gap: 10, opacity: item.done ? .55 : 1 }}>
-                    <button onClick={() => toggleShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0 }}>
-                      <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${item.done ? UCOLOR[u] : "#cbd5e1"}`, background: item.done ? UCOLOR[u] : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        {item.done && <span style={{ color: "#fff", fontWeight: 900, fontSize: fs(12) }}>✓</span>}
+                {items.map(item => {
+                  const photoData = item.photoKey ? shopPhotos[item.photoKey] : null;
+                  const busy = shopPhotoBusy === `${u}-${item.id}`;
+                  return (
+                    <div key={item.id} style={{ background: "#fff", borderRadius: 12, padding: "9px 12px", marginBottom: 7, boxShadow: "0 1px 4px #0000000d", opacity: item.done ? .58 : 1 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <button onClick={() => toggleShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0 }}>
+                          <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${item.done ? UCOLOR[u] : "#cbd5e1"}`, background: item.done ? UCOLOR[u] : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            {item.done && <span style={{ color: "#fff", fontWeight: 900, fontSize: fs(12) }}>✓</span>}
+                          </div>
+                        </button>
+                        {photoData && (
+                          <button onClick={() => setShopPhotoViewer({ dataUrl: photoData, title: item.text })} style={{ border: "none", background: "transparent", padding: 0, cursor: "pointer", flexShrink: 0 }}>
+                            <img src={photoData} alt={item.text} style={{ width: 46, height: 46, objectFit: "cover", borderRadius: 10, border: "1px solid #e2e8f0" }} />
+                          </button>
+                        )}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: fs(14), color: "#1e293b", textDecoration: item.done ? "line-through" : "none", fontWeight: 600, overflowWrap: "anywhere" }}>{item.text}</div>
+                          <div style={{ fontSize: fs(11), color: "#94a3b8" }}>🏬 {item.store}{item.by ? ` · add por ${item.by}` : ""}</div>
+                        </div>
+                        <button onClick={() => rmShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fca5a5", fontSize: fs(19), lineHeight: 1 }}>×</button>
                       </div>
-                    </button>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: fs(14), color: "#1e293b", textDecoration: item.done ? "line-through" : "none", fontWeight: 500 }}>{item.text}</div>
-                      <div style={{ fontSize: fs(11), color: "#94a3b8" }}>🏬 {item.store}{item.by ? ` · add por ${item.by}` : ""}</div>
+                      <div style={{ display: "flex", gap: 8, marginTop: 8, marginLeft: 32, flexWrap: "wrap" }}>
+                        <button onClick={() => openShopPhotoPicker(u, item.id)} disabled={!!busy} style={{ border: "1px solid #e2e8f0", background: busy ? "#f1f5f9" : "#f8fafc", color: "#475569", borderRadius: 9, padding: "6px 9px", fontSize: fs(11), fontWeight: 800, cursor: busy ? "default" : "pointer" }}>
+                          {busy ? "Salvando foto…" : photoData ? "📷 Trocar foto" : "📷 Adicionar foto"}
+                        </button>
+                        {photoData && (
+                          <button onClick={() => removeShopPhoto(u, item.id)} style={{ border: "1px solid #fee2e2", background: "#fff7f7", color: "#dc2626", borderRadius: 9, padding: "6px 9px", fontSize: fs(11), fontWeight: 800, cursor: "pointer" }}>
+                            Remover foto
+                          </button>
+                        )}
+                      </div>
                     </div>
-                    <button onClick={() => rmShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fca5a5", fontSize: fs(19), lineHeight: 1 }}>×</button>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             );
           })}
