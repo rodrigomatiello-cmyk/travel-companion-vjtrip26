@@ -53,6 +53,47 @@ const EMPTY = {
 const mapsUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 const ROUTE_STORAGE_KEY = "vjroute26";
 const ROUTE_BACKUPS_KEY = "vjroute26_backups";
+const SHOP_SEED_KEY = "vjseed26";
+const SHOP_SEED = {
+  "Luísa": [
+    "Canmake Marshmallow Powder (~¥770)",
+    "Canmake Mermaid Skin Gel UV",
+    "Cezanne base/blush",
+    "Kate paleta de olhos",
+    "Heroine Make rímel à prova d'água",
+    "Lip tint rom&nd / Peripera (Loft/PLAZA)",
+    "Biore UV Aqua Rich (protetor diário)",
+    "Glitter de pálpebra / highlighter (tendência kira kira)",
+  ],
+  "Luciana": [
+    "Anessa Perfect UV Sunscreen (~¥2.500)",
+    "Hada Labo Gokujyun lotion (~¥800)",
+    "Senka Perfect Whip (sabonete facial, ~¥500)",
+    "Melano CC (vitamina C / manchas)",
+    "Shiseido (linha premium)",
+    "SK-II Facial Treatment Essence (loja de departamento)",
+  ],
+  "Rodrigo": [
+    "RiUP X5 Plus NEO ou Charge (minoxidil 5% — balcão 薬)",
+    "Senka Perfect Whip (sabonete facial)",
+    "Hada Labo Gokujyun lotion",
+    "Melano CC (vitamina C)",
+    "Bioré UV Aqua Rich (protetor)",
+    "Shampoo/tônico Scalp-D (Angfa)",
+    "Faca Sujihiki 270mm (Tower Knives, Dia 7)",
+    "Vinil KISS / rock-metal (Disk Union Shibuya)",
+  ],
+};
+function buildSeedShopping() {
+  const out = { Rodrigo: [], Luciana: [], "Luísa": [] };
+  let id = Date.now();
+  Object.keys(SHOP_SEED).forEach((u) => {
+    SHOP_SEED[u].forEach((text) => {
+      out[u].push({ id: id++, text, store: "", done: false, by: "sugestão" });
+    });
+  });
+  return out;
+}
 
 function makeRoutePayload(content, extra = {}) {
   return {
@@ -83,6 +124,18 @@ function downloadJson(filename, payload) {
 
 function safeStamp() {
   return new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+}
+
+const MONTH_ABBR = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+function dayMonth(dateStr) {
+  // "04/12/2026" -> "04 dez"
+  if (!dateStr || typeof dateStr !== "string") return "";
+  const parts = dateStr.split("/");
+  if (parts.length < 2) return dateStr;
+  const dd = parts[0];
+  const mi = parseInt(parts[1], 10) - 1;
+  const mon = MONTH_ABBR[mi] || parts[1];
+  return `${dd} ${mon}`;
 }
 
 function validateRoutePayload(payload) {
@@ -149,10 +202,24 @@ export default function App() {
     if (!quiet) setSyncing(true);
     try {
       const r = await storage.get("vjtrip26", true);
+      let appData = null;
       if (r?.value) {
         const parsed = JSON.parse(r.value);
-        setSt({ ...EMPTY, ...parsed, shopping: { ...EMPTY.shopping, ...(parsed.shopping || {}) } });
+        appData = { ...EMPTY, ...parsed, shopping: { ...EMPTY.shopping, ...(parsed.shopping || {}) } };
+        setSt(appData);
       }
+      // Semear listas sugeridas UMA vez, só se ninguém adicionou nada ainda.
+      try {
+        const seeded = await storage.get(SHOP_SEED_KEY, true);
+        const cur = appData || EMPTY;
+        const totalItems = ["Rodrigo", "Luciana", "Luísa"].reduce((a, u) => a + ((cur.shopping?.[u] || []).length), 0);
+        if (!seeded?.value && totalItems === 0) {
+          const seededData = { ...cur, shopping: buildSeedShopping(), meta: { lastBy: "sugestão", lastAt: new Date().toISOString() } };
+          await storage.set("vjtrip26", JSON.stringify(seededData), true);
+          await storage.set(SHOP_SEED_KEY, "done", true);
+          setSt(seededData);
+        }
+      } catch (e) { /* seed best-effort */ }
       const route = await storage.get(ROUTE_STORAGE_KEY, true);
       if (route?.value) {
         const parsedRoute = JSON.parse(route.value);
@@ -274,6 +341,22 @@ export default function App() {
       setToast("⚠️ Erro ao restaurar roteiro original");
       setTimeout(() => setToast(null), 2600);
     }
+  };
+
+  const restoreSuggestedShopping = async () => {
+    if (!confirm("Adicionar de volta as listas de compras sugeridas (Rodrigo, Luciana e Luísa)? Os itens que você já tem serão mantidos.")) return;
+    try {
+      const seed = buildSeedShopping();
+      const merged = { Rodrigo: [], Luciana: [], "Luísa": [] };
+      ["Rodrigo", "Luciana", "Luísa"].forEach((u) => {
+        const existing = st.shopping?.[u] || [];
+        const existingText = new Set(existing.map((i) => i.text));
+        const toAdd = seed[u].filter((i) => !existingText.has(i.text));
+        merged[u] = [...existing, ...toAdd];
+      });
+      await save({ ...st, shopping: merged }, "Listas sugeridas restauradas");
+      try { await storage.set(SHOP_SEED_KEY, "done", true); } catch {}
+    } catch { setToast("⚠️ Erro ao restaurar listas"); setTimeout(() => setToast(null), 2600); }
   };
 
   // ── mutations ──
@@ -403,8 +486,8 @@ export default function App() {
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 4, alignItems: "center" }}>
-                      <span style={{ background: d.color, color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>Dia {d.day}</span>
-                      <span style={{ fontSize: fs(11), color: "#94a3b8", fontWeight: 600 }}>{d.date.slice(0, 5)} · {d.weekday}</span>
+                      <span style={{ background: d.color, color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>{dayMonth(d.date)}</span>
+                      <span style={{ fontSize: fs(11), color: "#94a3b8", fontWeight: 600 }}>{d.weekday}</span>
                       {ds === "done" && <span style={{ background: "#d1fae5", color: "#065f46", fontSize: fs(10), padding: "2px 7px", borderRadius: 99 }}>✓ Feito</span>}
                       {ds === "partial" && <span style={{ background: "#fef3c7", color: "#92400e", fontSize: fs(10), padding: "2px 7px", borderRadius: 99 }}>⚡ Parcial</span>}
                     </div>
@@ -520,8 +603,8 @@ export default function App() {
             return (
               <Card key={g.day}>
                 <div style={{ padding: "10px 14px 4px", display: "flex", gap: 8, alignItems: "center", borderBottom: "1px solid #f8fafc" }}>
-                  <span style={{ background: day?.color || "#64748b", color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>Dia {g.day}</span>
-                  <span style={{ fontWeight: 700, fontSize: fs(13), color: "#1e293b" }}>{day?.date.slice(0, 5)} · {day?.anchor}</span>
+                  <span style={{ background: day?.color || "#64748b", color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>{dayMonth(day?.date)}</span>
+                  <span style={{ fontWeight: 700, fontSize: fs(13), color: "#1e293b" }}>{day?.anchor}</span>
                 </div>
                 <div style={{ padding: "6px 14px 12px" }}>
                   {g.items.map((it, i) => {
@@ -611,8 +694,8 @@ export default function App() {
           return (
             <Card key={m.day}>
               <div style={{ padding: "10px 14px 8px", borderBottom: "1px solid #f1f5f9", display: "flex", gap: 8, alignItems: "center" }}>
-                <span style={{ background: day?.color || "#64748b", color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>Dia {m.day}</span>
-                <span style={{ fontSize: fs(12), color: "#64748b", fontWeight: 600 }}>{day?.date.slice(0, 5)} · {day?.city} · {day?.anchor}</span>
+                <span style={{ background: day?.color || "#64748b", color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>{dayMonth(day?.date)}</span>
+                <span style={{ fontSize: fs(12), color: "#64748b", fontWeight: 600 }}>{day?.city} · {day?.anchor}</span>
               </div>
               <div style={{ padding: "10px 14px" }}>
                 <Meal icon="🍱" label="ALMOÇO" meal={m.lunch} note={m.lunchNote} />
@@ -720,12 +803,12 @@ export default function App() {
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center", marginBottom: 3 }}>
-                        <span style={{ background: d.color, color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>Dia {d.day}</span>
+                        <span style={{ background: d.color, color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>{dayMonth(d.date)}</span>
                         {ds === "done" && <span style={{ fontSize: fs(10), background: "#d1fae5", color: "#065f46", padding: "2px 7px", borderRadius: 99 }}>✓ Feito</span>}
                         {ds === "partial" && <span style={{ fontSize: fs(10), background: "#fef3c7", color: "#92400e", padding: "2px 7px", borderRadius: 99 }}>⚡ Parcial</span>}
                         {doneA > 0 && <span style={{ fontSize: fs(10), color: "#059669", fontWeight: 700 }}>{doneA}/{totalA} atividades</span>}
                       </div>
-                      <div style={{ fontWeight: 700, fontSize: fs(13), color: "#1e293b" }}>{d.date.slice(0, 5)} · {d.anchor}</div>
+                      <div style={{ fontWeight: 700, fontSize: fs(13), color: "#1e293b" }}>{d.anchor}</div>
                     </div>
                     <span style={{ color: "#cbd5e1", transform: open ? "rotate(180deg)" : "none", transition: ".2s" }}>▼</span>
                   </div>
@@ -804,8 +887,7 @@ export default function App() {
           <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 8 }}>📅 Âncora de cada dia</div>
           {DAYS.map(d => (
             <div key={d.day} style={{ display: "flex", gap: 8, padding: "4px 0", fontSize: fs(12), alignItems: "center" }}>
-              <span style={{ background: d.color, color: "#fff", fontWeight: 700, fontSize: fs(10), padding: "1px 6px", borderRadius: 99, minWidth: 20, textAlign: "center" }}>{d.day}</span>
-              <span style={{ color: "#94a3b8", width: 38 }}>{d.date.slice(0, 5)}</span>
+              <span style={{ background: d.color, color: "#fff", fontWeight: 700, fontSize: fs(10), padding: "1px 6px", borderRadius: 99, minWidth: 44, textAlign: "center" }}>{dayMonth(d.date)}</span>
               <span style={{ color: "#334155", flex: 1 }}>{d.anchor}</span>
             </div>
           ))}
@@ -950,6 +1032,7 @@ export default function App() {
                   <button onClick={() => routeFileRef.current?.click()} disabled={importingRoute} style={{ padding: 11, borderRadius: 9, border: "none", background: "#fef3c7", color: "#92400e", fontWeight: 800, cursor: "pointer", fontSize: fs(12), opacity: importingRoute ? .6 : 1 }}>⬆️ Importar JSON</button>
                   <button onClick={exportFullBackup} style={{ padding: 11, borderRadius: 9, border: "none", background: "#eef2ff", color: "#4338ca", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>💾 Backup completo</button>
                   <button onClick={resetRouteToDefault} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>↩️ Roteiro original</button>
+                  <button onClick={restoreSuggestedShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>🛍️ Restaurar listas sugeridas</button>
                 </div>
                 <div style={{ fontSize: fs(11), color: "#b45309", marginTop: 8 }}>
                   Dica: depois de exportar, edite o arquivo mantendo a estrutura JSON. Campos mais seguros para alterar: horários, títulos, textos, mapas, refeições, compras e atividades.
