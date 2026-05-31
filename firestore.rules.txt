@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Simples para uso familiar: permite ler/escrever apenas na área trips.
+    // NÃO coloque documentos sensíveis no app.
+    match /trips/{tripId}/kv/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
