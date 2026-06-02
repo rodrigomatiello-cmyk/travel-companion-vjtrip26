@@ -285,7 +285,13 @@ export default function App() {
       reason,
       days: DAYS,
     };
-    const nextBackups = [backup, ...routeBackups].slice(0, 8);
+    // Trim existing backups: keep only 'days' to avoid Firestore 1MB limit.
+    // Old backups may have 'content' (all 5 sections). Strip to just days.
+    const slimBackup = (b) => {
+      const { content, ...rest } = b;
+      return { ...rest, days: b.days ?? b.content?.days ?? [] };
+    };
+    const nextBackups = [backup, ...routeBackups.map(slimBackup)].slice(0, 5);
     const routePayload = makeRoutePayload(newContent, { updatedAt: new Date().toISOString(), updatedBy: who || "?", source: reason });
     await storage.set(ROUTE_BACKUPS_KEY, JSON.stringify(nextBackups), true);
     await storage.set(ROUTE_STORAGE_KEY, JSON.stringify(routePayload), true);
