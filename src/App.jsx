@@ -39,8 +39,10 @@ const MODE_META = {
 };
 // Ícone final da atividade: usa o modal quando existir, senão o ícone da categoria.
 const actIcon = (a) => (a && a.mode && MODE_META[a.mode] ? MODE_META[a.mode].e : (CAT_META[a.cat] || CAT_META.activity).e);
-// Rótulo/ícone do campo "Deslocamento" conforme o modal.
-const moveMeta = (a) => (a && a.mode && MODE_META[a.mode]) ? MODE_META[a.mode] : { e: "🚕", label: "Deslocamento" };
+// Modais que são DESLOCAMENTO de verdade (não "parada"/"no local").
+const TRANSPORT_MODES = new Set(["walk", "train", "subway", "taxi", "car", "bus", "shinkansen", "flight"]);
+// Descritor do campo de logística: transporte real -> ícone/rótulo do modal; senão "No local".
+const moveMeta = (a) => (a && a.mode && TRANSPORT_MODES.has(a.mode)) ? MODE_META[a.mode] : { e: "🧭", label: "No local" };
 
 const HOTELS = [
   ["Sofitel Dubai Downtown", "Dubai", "28/11", "01/12", "3"],
@@ -573,7 +575,7 @@ export default function App() {
                           </button>
                           {ao && (
                             <div style={{ padding: "10px 12px", borderTop: `1px solid ${cm.c}22` }}>
-                              {a.logistics && <Field icon={moveMeta(a).e} label={moveMeta(a).label === "Hotel/Parada" ? "Deslocamento" : moveMeta(a).label} text={a.logistics} bg="#ecfeff" fg="#155e75" />}
+                              {a.logistics && <Field icon={moveMeta(a).e} label={moveMeta(a).label} text={a.logistics} bg="#ecfeff" fg="#155e75" />}
                               {a.onArrival && <Field icon="👉" label="Ao chegar" text={a.onArrival} bg="#f8fafc" fg="#334155" />}
                               {a.insight && <Field icon="💡" label="Por que está no roteiro" text={a.insight} bg="#eff6ff" fg="#1e40af" />}
                               {a.eat && <Field icon="🍴" label="Comer/pedir" text={a.eat} bg="#fff7ed" fg="#c2410c" />}
