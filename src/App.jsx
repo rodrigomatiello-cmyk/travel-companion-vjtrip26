@@ -25,6 +25,23 @@ const CAT_META = {
   logistic: { e: "📦", c: "#d97706", label: "Logística" },
 };
 
+// Ícone por modal de transporte (campo "mode" do JSON). Cai no genérico se não houver.
+const MODE_META = {
+  walk:       { e: "🚶", label: "A pé" },
+  train:      { e: "🚆", label: "Trem" },
+  subway:     { e: "🚇", label: "Metrô" },
+  taxi:       { e: "🚕", label: "Táxi" },
+  car:        { e: "🚐", label: "Carro/Van" },
+  bus:        { e: "🚌", label: "Ônibus" },
+  shinkansen: { e: "🚄", label: "Shinkansen" },
+  flight:     { e: "✈️", label: "Voo" },
+  stay:       { e: "🏨", label: "Hotel/Parada" },
+};
+// Ícone final da atividade: usa o modal quando existir, senão o ícone da categoria.
+const actIcon = (a) => (a && a.mode && MODE_META[a.mode] ? MODE_META[a.mode].e : (CAT_META[a.cat] || CAT_META.activity).e);
+// Rótulo/ícone do campo "Deslocamento" conforme o modal.
+const moveMeta = (a) => (a && a.mode && MODE_META[a.mode]) ? MODE_META[a.mode] : { e: "🚕", label: "Deslocamento" };
+
 const HOTELS = [
   ["Sofitel Dubai Downtown", "Dubai", "28/11", "01/12", "3"],
   ["JR Kyushu Hotel Blossom Shinjuku", "Tóquio", "02/12", "08/12", "6"],
@@ -546,7 +563,7 @@ export default function App() {
                         <div key={i} style={{ borderRadius: 12, border: `1px solid ${cm.c}33`, overflow: "hidden", background: "#fff" }}>
                           <button onClick={() => setOpenAct(p => ({ ...p, [k]: !p[k] }))} style={{ width: "100%", padding: "10px 12px", background: cm.c + "0c", border: "none", cursor: "pointer", textAlign: "left" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                              <span style={{ fontSize: fs(17) }}>{cm.e}</span>
+                              <span style={{ fontSize: fs(17) }}>{actIcon(a)}</span>
                               <div style={{ flex: 1 }}>
                                 <div style={{ fontWeight: 700, fontSize: fs(13), color: "#1e293b" }}>{a.title}</div>
                                 <div style={{ fontSize: fs(11), color: cm.c, fontWeight: 600 }}>{a.time}{a.type ? ` · ${a.type}` : ""}</div>
@@ -556,7 +573,7 @@ export default function App() {
                           </button>
                           {ao && (
                             <div style={{ padding: "10px 12px", borderTop: `1px solid ${cm.c}22` }}>
-                              {a.logistics && <Field icon="🚕" label="Deslocamento" text={a.logistics} bg="#ecfeff" fg="#155e75" />}
+                              {a.logistics && <Field icon={moveMeta(a).e} label={moveMeta(a).label === "Hotel/Parada" ? "Deslocamento" : moveMeta(a).label} text={a.logistics} bg="#ecfeff" fg="#155e75" />}
                               {a.onArrival && <Field icon="👉" label="Ao chegar" text={a.onArrival} bg="#f8fafc" fg="#334155" />}
                               {a.insight && <Field icon="💡" label="Por que está no roteiro" text={a.insight} bg="#eff6ff" fg="#1e40af" />}
                               {a.eat && <Field icon="🍴" label="Comer/pedir" text={a.eat} bg="#fff7ed" fg="#c2410c" />}
@@ -831,7 +848,7 @@ export default function App() {
                           <div style={{ width: 20, height: 20, borderRadius: 6, border: `2px solid ${dn ? "#059669" : "#cbd5e1"}`, background: dn ? "#059669" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                             {dn && <span style={{ color: "#fff", fontWeight: 900, fontSize: fs(11) }}>✓</span>}
                           </div>
-                          <span style={{ fontSize: fs(12) }}>{cm.e}</span>
+                          <span style={{ fontSize: fs(12) }}>{actIcon(a)}</span>
                           <span style={{ flex: 1, fontSize: fs(13), color: dn ? "#94a3b8" : "#334155", textDecoration: dn ? "line-through" : "none" }}>{a.title}<span style={{ color: "#cbd5e1", fontSize: fs(11) }}> · {a.time}</span></span>
                         </button>
                       );
