@@ -66,21 +66,8 @@ const EMPTY = {
   shopping: { Rodrigo: [], Luciana: [], "Luísa": [] }, // [{id,text,store,done,by}]
   dayNote: {},    // { day: "texto" }
   dayStatus: {},  // { day: "done"|"partial" }
-  // gastos/reservas: cada item {id,label,amount,currency,pay,status,date,link,note}
-  expenses: { hotel: [], flight: [], ticket: [] },
   meta: { lastBy: "", lastAt: "" },
 };
-
-// multi-moeda da viagem
-const CURRENCIES = ["JPY", "BRL", "AED", "USD"];
-const CUR_SYMBOL = { JPY: "¥", BRL: "R$", AED: "AED", USD: "US$" };
-const PAY_METHODS = ["Cartão de crédito", "Débito", "Pix", "Dinheiro", "Outro"];
-const EXP_CATS = [
-  { id: "hotel", label: "🏨 Hotéis", color: "#7c3aed" },
-  { id: "flight", label: "✈️ Passagens", color: "#0ea5e9" },
-  { id: "ticket", label: "🎟️ Ingressos e passeios", color: "#f59e0b" },
-];
-const fmtMoney = (n, cur) => `${CUR_SYMBOL[cur] || ""} ${Number(n || 0).toLocaleString("pt-BR")}`.trim();
 
 const mapsUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 const ROUTE_STORAGE_KEY = "vjroute26";
@@ -224,11 +211,6 @@ export default function App() {
   const [shopText, setShopText] = useState("");
   const [shopStore, setShopStore] = useState("");
   const [shopCustom, setShopCustom] = useState("");
-  // ── gastos/reservas ──
-  const [expCat, setExpCat] = useState("hotel");
-  const [expForm, setExpForm] = useState(null); // {label,amount,currency,pay,status,date,link,note} ou null
-  const blankExp = { label: "", amount: "", currency: "JPY", pay: "Cartão de crédito", status: "prepaid", date: "", link: "", note: "" };
-  const inp = { width: "100%", boxSizing: "border-box", padding: "10px 12px", borderRadius: 9, border: "1px solid #e2e8f0", fontSize: fs(14), outline: "none", background: "#f8fafc" };
   const [maintUnlocked] = useState(true);
   const [importingRoute, setImportingRoute] = useState(false);
   const routeFileRef = useRef(null);
@@ -242,7 +224,7 @@ export default function App() {
       let appData = null;
       if (r?.value) {
         const parsed = JSON.parse(r.value);
-        appData = { ...EMPTY, ...parsed, shopping: { ...EMPTY.shopping, ...(parsed.shopping || {}) }, expenses: { ...EMPTY.expenses, ...(parsed.expenses || {}) } };
+        appData = { ...EMPTY, ...parsed, shopping: { ...EMPTY.shopping, ...(parsed.shopping || {}) } };
         setSt(appData);
       }
       // Semear listas sugeridas UMA vez, só se ninguém adicionou nada ainda.
@@ -282,23 +264,6 @@ export default function App() {
       if (label) { setToast(`✓ ${label}`); setTimeout(() => setToast(null), 2200); }
     } catch { setToast("⚠️ Erro ao salvar"); setTimeout(() => setToast(null), 2200); }
   }, [who]);
-
-  // ── gastos/reservas ──
-  const saveExpense = (cat, item) => {
-    const list = st.expenses?.[cat] || [];
-    let next;
-    if (item.id) {
-      next = list.map(x => x.id === item.id ? item : x);
-    } else {
-      next = [...list, { ...item, id: Date.now() + "" + Math.floor(Math.random() * 999) }];
-    }
-    save({ ...st, expenses: { ...EMPTY.expenses, ...st.expenses, [cat]: next } }, "Gasto salvo");
-    setExpForm(null);
-  };
-  const removeExpense = (cat, id) => {
-    const list = (st.expenses?.[cat] || []).filter(x => x.id !== id);
-    save({ ...st, expenses: { ...EMPTY.expenses, ...st.expenses, [cat]: list } }, "Gasto removido");
-  };
 
   useEffect(() => {
     (async () => {
@@ -1012,122 +977,12 @@ export default function App() {
       </div>
   );
 
-  // ════════════════════ GASTOS / RESERVAS (sub-aba de Info) ════════════════════
-  const expensesBody = () => {
-    const all = [...(st.expenses?.hotel || []), ...(st.expenses?.flight || []), ...(st.expenses?.ticket || [])];
-    // totais por moeda, separando pago x a pagar no local
-    const totals = {};
-    all.forEach(e => {
-      const c = e.currency || "JPY";
-      if (!totals[c]) totals[c] = { paid: 0, due: 0 };
-      const v = Number(e.amount || 0);
-      if (e.status === "onsite") totals[c].due += v; else totals[c].paid += v;
-    });
-    const curList = CURRENCIES.filter(c => totals[c]);
-
-    return (
-      <div style={{ padding: "4px 0 0" }}>
-        {/* TOTALIZADOR */}
-        <Card s={{ borderLeft: "4px solid #16a34a" }}>
-          <div style={{ padding: 14 }}>
-            <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 10 }}>💰 Total por moeda</div>
-            {curList.length === 0 && <div style={{ fontSize: fs(12), color: "#94a3b8" }}>Nenhum gasto lançado ainda. Adicione abaixo.</div>}
-            {curList.map(c => (
-              <div key={c} style={{ marginBottom: 8, paddingBottom: 8, borderBottom: "1px dashed #f1f5f9" }}>
-                <div style={{ fontWeight: 700, fontSize: fs(13), color: "#0f172a", marginBottom: 3 }}>{c}</div>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  <span style={{ fontSize: fs(12), color: "#16a34a" }}>✅ Pago: <b>{fmtMoney(totals[c].paid, c)}</b></span>
-                  <span style={{ fontSize: fs(12), color: "#dc2626" }}>🔸 A pagar no local: <b>{fmtMoney(totals[c].due, c)}</b></span>
-                  <span style={{ fontSize: fs(12), color: "#475569" }}>Σ Total: <b>{fmtMoney(totals[c].paid + totals[c].due, c)}</b></span>
-                </div>
-              </div>
-            ))}
-            <div style={{ fontSize: fs(10), color: "#94a3b8", marginTop: 4 }}>Moedas somadas separadamente — sem conversão automática (câmbio muda).</div>
-          </div>
-        </Card>
-
-        {/* SELETOR DE CATEGORIA */}
-        <div style={{ display: "flex", gap: 6, padding: "4px 0 8px" }}>
-          {EXP_CATS.map(c => (
-            <button key={c.id} onClick={() => { setExpCat(c.id); setExpForm(null); }} style={{ flex: 1, padding: "8px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(11), background: expCat === c.id ? c.color : "#fff", color: expCat === c.id ? "#fff" : "#475569", boxShadow: expCat === c.id ? `0 2px 8px ${c.color}55` : "0 1px 4px #0000000d" }}>{c.label}</button>
-          ))}
-        </div>
-
-        {/* LISTA DA CATEGORIA */}
-        {(st.expenses?.[expCat] || []).map(e => (
-          <Card key={e.id}>
-            <div style={{ padding: 14 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: fs(14), color: "#1e293b" }}>{e.label || "(sem nome)"}</div>
-                  <div style={{ fontSize: fs(16), fontWeight: 900, color: "#0f172a", margin: "2px 0" }}>{fmtMoney(e.amount, e.currency)}</div>
-                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
-                    <span style={{ fontSize: fs(10), fontWeight: 700, padding: "2px 8px", borderRadius: 99, background: e.status === "onsite" ? "#fef2f2" : "#f0fdf4", color: e.status === "onsite" ? "#dc2626" : "#16a34a" }}>{e.status === "onsite" ? "🔸 Pagar no local" : "✅ Pré-pago"}</span>
-                    {e.pay && <span style={{ fontSize: fs(10), padding: "2px 8px", borderRadius: 99, background: "#f1f5f9", color: "#475569" }}>{e.pay}</span>}
-                    {e.date && <span style={{ fontSize: fs(10), padding: "2px 8px", borderRadius: 99, background: "#eff6ff", color: "#1d4ed8" }}>📅 {e.date}</span>}
-                  </div>
-                  {e.note && <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 6 }}>{e.note}</div>}
-                  {e.link && <a href={e.link} target="_blank" rel="noreferrer" style={{ display: "inline-block", marginTop: 8, fontSize: fs(12), fontWeight: 700, color: "#fff", background: "#16a34a", padding: "5px 12px", borderRadius: 8, textDecoration: "none" }}>📎 Ver reserva</a>}
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  <button onClick={() => setExpForm({ ...e })} style={{ background: "#f1f5f9", border: "none", borderRadius: 8, padding: "5px 8px", cursor: "pointer", fontSize: fs(12) }}>✏️</button>
-                  <button onClick={() => removeExpense(expCat, e.id)} style={{ background: "#fef2f2", border: "none", borderRadius: 8, padding: "5px 8px", cursor: "pointer", fontSize: fs(12) }}>🗑️</button>
-                </div>
-              </div>
-            </div>
-          </Card>
-        ))}
-
-        {/* BOTÃO ADICIONAR / FORMULÁRIO */}
-        {!expForm && (
-          <button onClick={() => setExpForm({ ...blankExp })} style={{ width: "100%", padding: "12px", marginTop: 4, borderRadius: 10, border: "2px dashed #cbd5e1", background: "#fff", color: "#475569", fontWeight: 700, fontSize: fs(13), cursor: "pointer" }}>＋ Adicionar {EXP_CATS.find(c => c.id === expCat)?.label.replace(/^[^ ]+ /, "")}</button>
-        )}
-
-        {expForm && (
-          <Card s={{ borderLeft: "4px solid #16a34a" }}>
-            <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 10 }}>
-              <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b" }}>{expForm.id ? "Editar" : "Novo"} lançamento</div>
-              <input value={expForm.label} onChange={ev => setExpForm({ ...expForm, label: ev.target.value })} placeholder={expCat === "hotel" ? "Ex: Toy Story Hotel — 1 noite" : expCat === "flight" ? "Ex: GRU → DXB (Emirates)" : "Ex: USJ VIP 5h × 3"} style={inp} />
-              <div style={{ display: "flex", gap: 8 }}>
-                <input value={expForm.amount} onChange={ev => setExpForm({ ...expForm, amount: ev.target.value.replace(/[^\d.]/g, "") })} inputMode="decimal" placeholder="Valor" style={{ ...inp, flex: 2 }} />
-                <select value={expForm.currency} onChange={ev => setExpForm({ ...expForm, currency: ev.target.value })} style={{ ...inp, flex: 1 }}>
-                  {CURRENCIES.map(c => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
-              <select value={expForm.pay} onChange={ev => setExpForm({ ...expForm, pay: ev.target.value })} style={inp}>
-                {PAY_METHODS.map(p => <option key={p} value={p}>{p}</option>)}
-              </select>
-              <div style={{ display: "flex", gap: 6 }}>
-                <button onClick={() => setExpForm({ ...expForm, status: "prepaid" })} style={{ flex: 1, padding: "9px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: expForm.status === "prepaid" ? "#16a34a" : "#f1f5f9", color: expForm.status === "prepaid" ? "#fff" : "#475569" }}>✅ Pré-pago</button>
-                <button onClick={() => setExpForm({ ...expForm, status: "onsite" })} style={{ flex: 1, padding: "9px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: expForm.status === "onsite" ? "#dc2626" : "#f1f5f9", color: expForm.status === "onsite" ? "#fff" : "#475569" }}>🔸 Pagar no local</button>
-              </div>
-              <div>
-                <label style={{ fontSize: fs(11), color: "#64748b", fontWeight: 600 }}>{expForm.status === "onsite" ? "Data prevista da cobrança" : "Data da cobrança"}</label>
-                <input value={expForm.date} onChange={ev => setExpForm({ ...expForm, date: ev.target.value })} placeholder="Ex: 09/12/2026" style={inp} />
-              </div>
-              <div>
-                <label style={{ fontSize: fs(11), color: "#64748b", fontWeight: 600 }}>📎 Link da reserva (Google Drive)</label>
-                <input value={expForm.link} onChange={ev => setExpForm({ ...expForm, link: ev.target.value })} placeholder="Cole o link do Drive (com acesso por link)" style={inp} />
-              </div>
-              <input value={expForm.note} onChange={ev => setExpForm({ ...expForm, note: ev.target.value })} placeholder="Nota / localizador (opcional)" style={inp} />
-              <div style={{ display: "flex", gap: 8 }}>
-                <button onClick={() => setExpForm(null)} style={{ flex: 1, padding: "11px", borderRadius: 9, border: "1px solid #e2e8f0", background: "#fff", color: "#64748b", fontWeight: 700, fontSize: fs(13), cursor: "pointer" }}>Cancelar</button>
-                <button onClick={() => saveExpense(expCat, expForm)} disabled={!expForm.label} style={{ flex: 2, padding: "11px", borderRadius: 9, border: "none", background: expForm.label ? "#16a34a" : "#cbd5e1", color: "#fff", fontWeight: 800, fontSize: fs(13), cursor: expForm.label ? "pointer" : "default" }}>Salvar</button>
-              </div>
-            </div>
-          </Card>
-        )}
-        <div style={{ background: "#eff6ff", borderRadius: 10, padding: "10px 14px", margin: "8px 0", fontSize: fs(11), color: "#075985" }}>💡 Para anexar a reserva: suba o PDF/print no Google Drive, defina <b>"qualquer pessoa com o link pode ver"</b> e cole o link no campo 📎. Vira um botão "Ver reserva".</div>
-      </div>
-    );
-  };
-
   // aba INFO: Dicas | Resumo | Voos
   const renderInfo = () => {
-    const subs = [["dicas", "💡 Dicas"], ["resumo", "📌 Resumo"], ["voos", "✈️ Voos"], ["gastos", "💰 Gastos"]];
+    const subs = [["dicas", "💡 Dicas"], ["resumo", "📌 Resumo"], ["voos", "✈️ Voos"]];
     return (
       <>
-        <Header grad="linear-gradient(135deg,#78350f,#f59e0b)" title="💡 Dicas & Info" sub="Dicas · Resumo · Voos · Gastos" />
+        <Header grad="linear-gradient(135deg,#78350f,#f59e0b)" title="💡 Dicas & Info" sub="Dicas · Resumo · Voos" />
         <div style={{ display: "flex", gap: 6, padding: "10px 12px 4px" }}>
           {subs.map(([id, label]) => (
             <button key={id} onClick={() => setInfoSub(id)} style={{ flex: 1, padding: "8px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: infoSub === id ? "#b45309" : "#fff", color: infoSub === id ? "#fff" : "#92400e", boxShadow: infoSub === id ? "0 2px 8px #b4530955" : "0 1px 4px #0000000d" }}>{label}</button>
@@ -1137,7 +992,6 @@ export default function App() {
           {infoSub === "dicas" && tipsBody()}
           {infoSub === "resumo" && summaryBody()}
           {infoSub === "voos" && flightsBody()}
-          {infoSub === "gastos" && expensesBody()}
         </div>
       </>
     );
