@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════════
-//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.9 (reservas e prazos)
+//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.10 (transporte mais visível)
 // ═══════════════════════════════════════════════════════════════════════════
 import { useState, useEffect, useCallback, useRef } from "react";
 import { storage, isFirebaseEnabled } from "./sharedStorage";
@@ -557,10 +557,14 @@ export default function App() {
     const signs = Array.isArray(guide.stationSigns) ? guide.stationSigns : [];
     const conf = guide.confidence === "alta" ? ["#dcfce7", "#166534", "alta"] : guide.confidence === "média" ? ["#fef3c7", "#92400e", "média"] : ["#f1f5f9", "#475569", guide.confidence || "—"];
     return (
-      <details style={{ background: "#f0fdfa", border: "1px solid #99f6e4", borderRadius: 10, margin: "7px 0", overflow: "hidden" }}>
-        <summary style={{ padding: "9px 11px", cursor: "pointer", fontSize: fs(12), fontWeight: 900, color: "#115e59", listStyle: "none" }}>
-          🚆 Guia de transporte <span style={{ fontWeight: 600, color: "#0f766e" }}>· {guide.summary || guide.method || "abrir passo a passo"}</span>
+      <details style={{ background: "#ecfeff", border: "2px solid #06b6d4", borderRadius: 12, margin: "9px 0", overflow: "hidden", boxShadow: "0 1px 5px #0891b21f" }}>
+        <summary style={{ padding: "11px 12px", cursor: "pointer", fontSize: fs(13), fontWeight: 900, color: "#155e75", listStyle: "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+          <span>🚆 TOQUE AQUI · Guia de transporte</span>
+          <span style={{ fontSize: fs(11), fontWeight: 800, color: "#0f766e", background: "#ccfbf1", borderRadius: 99, padding: "3px 8px", whiteSpace: "nowrap" }}>passo a passo ▼</span>
         </summary>
+        <div style={{ padding: "0 12px 9px", marginTop: -4, fontSize: fs(11), color: "#0f766e", fontWeight: 700 }}>
+          {guide.summary || guide.method || "Placas, saída correta, armadilhas e plano B."}
+        </div>
         <div style={{ borderTop: "1px solid #ccfbf1", padding: "9px 11px" }}>
           <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 8 }}>
             {guide.method && <span style={{ background: "#ccfbf1", color: "#115e59", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 800 }}>{guide.method}</span>}
@@ -672,6 +676,11 @@ export default function App() {
                               <div style={{ flex: 1 }}>
                                 <div style={{ fontWeight: 700, fontSize: fs(13), color: "#1e293b" }}>{a.title}</div>
                                 <div style={{ fontSize: fs(11), color: cm.c, fontWeight: 600 }}>{a.time}{a.type ? ` · ${a.type}` : ""}</div>
+                                {a.transportGuide && (
+                                  <div style={{ marginTop: 5, display: "inline-flex", alignItems: "center", gap: 5, background: "#ecfeff", color: "#155e75", border: "1px solid #67e8f9", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 900 }}>
+                                    🚆 tem guia detalhado · toque no card
+                                  </div>
+                                )}
                               </div>
                               <span style={{ color: "#cbd5e1", fontSize: fs(13), transform: ao ? "rotate(180deg)" : "none", transition: ".2s" }}>▼</span>
                             </div>
