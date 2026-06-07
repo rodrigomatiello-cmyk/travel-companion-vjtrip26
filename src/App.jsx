@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════════
-//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.11 (ícones personalizados)
+//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.12 (bandeira + fotos)
 // ═══════════════════════════════════════════════════════════════════════════
 import { useState, useEffect, useCallback, useRef } from "react";
 import { storage, isFirebaseEnabled } from "./sharedStorage";
@@ -14,27 +14,51 @@ const DEFAULT_RESERVATIONS_META = {"title":"Reservas e Prazos","generatedAt":"20
 const USERS = ["Rodrigo", "Luciana", "Luísa"];
 const UCOLOR = { Rodrigo: "#2563eb", Luciana: "#db2777", "Luísa": "#7c3aed" };
 const UEMOJI = { Rodrigo: "👨", Luciana: "👩", "Luísa": "👧" };
+const PHOTO_STORAGE_KEY = "vjtrip26-profile-photos-v1";
 
-
-// Ícones personalizados do projeto/família. Mantidos em SVG inline para não depender de arquivos externos.
+// Ícone do site: bandeira do Japão. Fotos dos perfis são carregadas pelo usuário e salvas localmente no aparelho.
 const PERSON_PROFILE = {
-  Rodrigo: { skin: "#e0a981", hair: "#111827", eyes: "#1f2937", shirt: "#2563eb", initials: "R", label: "Rodrigo" },
-  Luciana: { skin: "#f0b98f", hair: "#6b3f22", eyes: "#2f855a", shirt: "#db2777", initials: "L", label: "Luciana" },
-  "Luísa": { skin: "#f2c39b", hair: "#7c4a27", eyes: "#2f855a", shirt: "#7c3aed", initials: "L", label: "Luísa" },
+  Rodrigo: { initials: "R", label: "Rodrigo", color: "#2563eb" },
+  Luciana: { initials: "L", label: "Luciana", color: "#db2777" },
+  "Luísa": { initials: "L", label: "Luísa", color: "#7c3aed" },
 };
 
 const APP_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <defs>
-    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#0f2a4a"/><stop offset="0.48" stop-color="#0ea5e9"/><stop offset="1" stop-color="#f97316"/>
-    </linearGradient>
-  </defs>
-  <rect width="128" height="128" rx="28" fill="url(#g)"/>
-  <circle cx="90" cy="34" r="18" fill="#fff7ed" opacity=".95"/>
-  <path d="M23 82c20-7 34-22 49-45 5-8 14-5 9 4-11 20-24 38-43 50l30 8-10 9-43-13 8-13Z" fill="#fff" opacity=".96"/>
-  <path d="M24 94h80" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".92"/>
-  <text x="64" y="118" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="900" fill="#fff">JP 26</text>
+  <rect width="128" height="128" rx="26" fill="#ffffff"/>
+  <circle cx="64" cy="64" r="31" fill="#bc002d"/>
 </svg>`;
+
+const readStoredProfilePhotos = () => {
+  if (typeof localStorage === "undefined") return {};
+  try { return JSON.parse(localStorage.getItem(PHOTO_STORAGE_KEY) || "{}"); } catch { return {}; }
+};
+
+const writeStoredProfilePhotos = (photos) => {
+  if (typeof localStorage === "undefined") return;
+  try { localStorage.setItem(PHOTO_STORAGE_KEY, JSON.stringify(photos || {})); } catch {}
+};
+
+const imageFileToAvatarDataUrl = (file, size = 420) => new Promise((resolve, reject) => {
+  if (!file) return resolve(null);
+  const reader = new FileReader();
+  reader.onerror = () => reject(new Error("Não consegui ler a foto."));
+  reader.onload = () => {
+    const img = new Image();
+    img.onerror = () => reject(new Error("Arquivo de imagem inválido."));
+    img.onload = () => {
+      const minSide = Math.min(img.width, img.height);
+      const sx = Math.round((img.width - minSide) / 2);
+      const sy = Math.round((img.height - minSide) / 2);
+      const canvas = document.createElement("canvas");
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+      resolve(canvas.toDataURL("image/jpeg", 0.86));
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
 
 function installAppBranding() {
   if (typeof document === "undefined") return;
@@ -55,45 +79,38 @@ function installAppBranding() {
   ensureLink("apple-touch-icon", "image/svg+xml", svgData);
   const manifest = {
     name: "Travel Companion Dubai + Japão 2026",
-    short_name: "JP+DXB 26",
+    short_name: "Japão 26",
     start_url: ".",
     display: "standalone",
-    background_color: "#0f2a4a",
-    theme_color: "#0ea5e9",
+    background_color: "#ffffff",
+    theme_color: "#bc002d",
     icons: [{ src: svgData, sizes: "128x128", type: "image/svg+xml" }],
   };
   ensureLink("manifest", "application/manifest+json", `data:application/manifest+json;charset=utf-8,${encodeURIComponent(JSON.stringify(manifest))}`);
 }
 
 const ProjectIcon = ({ size = 56 }) => (
-  <span style={{ width: size, height: size, display: "inline-flex", borderRadius: Math.round(size * .22), overflow: "hidden", boxShadow: "0 10px 30px #00000025", flexShrink: 0 }}
+  <span style={{ width: size, height: size, display: "inline-flex", borderRadius: Math.round(size * .22), overflow: "hidden", boxShadow: "0 10px 30px #00000025", flexShrink: 0, border: "1px solid rgba(0,0,0,.08)", background: "#fff" }}
     dangerouslySetInnerHTML={{ __html: APP_ICON_SVG }} />
 );
 
-const PersonAvatar = ({ name, size = 28, selected = false }) => {
+const PersonAvatar = ({ name, size = 28, selected = false, photoSrc = "" }) => {
   const p = PERSON_PROFILE[name] || PERSON_PROFILE.Rodrigo;
   const s = size;
   return (
-    <span title={name} aria-label={name} style={{ width: s, height: s, display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: 999, background: selected ? "rgba(255,255,255,.22)" : "#ffffff", boxShadow: selected ? "0 0 0 2px rgba(255,255,255,.25)" : "0 1px 4px #0000001a", overflow: "hidden", flexShrink: 0 }}>
-      <svg viewBox="0 0 64 64" width={s} height={s} role="img" aria-label={name}>
-        <rect width="64" height="64" rx="32" fill="#f8fafc"/>
-        <path d="M12 59c3-12 12-18 20-18s17 6 20 18" fill={p.shirt}/>
-        <circle cx="32" cy="28" r="15" fill={p.skin}/>
-        <path d="M17 25c1-12 9-18 18-17 8 1 13 7 13 17-8-6-20-7-31 0Z" fill={p.hair}/>
-        <path d="M19 31c0-9 5-17 13-18 9-1 15 5 16 14-8-6-18-8-29-2Z" fill={p.hair} opacity=".95"/>
-        <circle cx="26" cy="30" r="2.4" fill={p.eyes}/>
-        <circle cx="38" cy="30" r="2.4" fill={p.eyes}/>
-        <path d="M26 38c4 3 8 3 12 0" stroke="#7f4f35" strokeWidth="2.2" strokeLinecap="round" fill="none" opacity=".7"/>
-        <circle cx="22" cy="34" r="2" fill="#efb08f" opacity=".55"/>
-        <circle cx="42" cy="34" r="2" fill="#efb08f" opacity=".55"/>
-      </svg>
+    <span title={name} aria-label={name} style={{ width: s, height: s, display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: 999, background: selected ? "rgba(255,255,255,.22)" : "#ffffff", boxShadow: selected ? "0 0 0 2px rgba(255,255,255,.28)" : "0 1px 4px #0000001a", overflow: "hidden", flexShrink: 0, border: selected ? "1px solid rgba(255,255,255,.35)" : "1px solid #e2e8f0" }}>
+      {photoSrc ? (
+        <img src={photoSrc} alt={name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+      ) : (
+        <span style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: Math.max(12, Math.round(s * .42)), color: selected ? "#fff" : p.color, background: selected ? p.color : "#f8fafc" }}>{p.initials}</span>
+      )}
     </span>
   );
 };
 
-const PersonLabel = ({ name, size = 24, selected = false, color = "inherit" }) => (
+const PersonLabel = ({ name, size = 24, selected = false, color = "inherit", photoSrc = "" }) => (
   <span style={{ display: "inline-flex", alignItems: "center", gap: 7, color }}>
-    <PersonAvatar name={name} size={size} selected={selected} />
+    <PersonAvatar name={name} size={size} selected={selected} photoSrc={photoSrc} />
     <span>{name}</span>
   </span>
 );
@@ -288,6 +305,7 @@ function validateRoutePayload(payload) {
 export default function App() {
   const [tab, setTab] = useState("itinerary");
   const [who, setWho] = useState(null);
+  const [profilePhotos, setProfilePhotos] = useState(() => readStoredProfilePhotos());
   const [st, setSt] = useState(EMPTY);
   const [routeDays, setRouteDays] = useState(DEFAULT_DAYS);
   const [stores, setStores] = useState(DEFAULT_STORES);
@@ -568,6 +586,29 @@ export default function App() {
 
   const fmt = (d) => d ? new Date(d).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "—";
   const chooseScale = async (v) => { setFontScale(v); try { await storage.set("vjscale26", String(v)); } catch {} };
+  const photoFor = (name) => profilePhotos?.[name] || "";
+  const setUserPhoto = async (name, file) => {
+    if (!file) return;
+    try {
+      const dataUrl = await imageFileToAvatarDataUrl(file, 420);
+      const next = { ...(profilePhotos || {}), [name]: dataUrl };
+      setProfilePhotos(next);
+      writeStoredProfilePhotos(next);
+      setToast(`✓ Foto de ${name} atualizada neste aparelho`);
+      setTimeout(() => setToast(null), 2200);
+    } catch (e) {
+      setToast("⚠️ Não consegui carregar essa foto");
+      setTimeout(() => setToast(null), 2200);
+    }
+  };
+  const removeUserPhoto = (name) => {
+    const next = { ...(profilePhotos || {}) };
+    delete next[name];
+    setProfilePhotos(next);
+    writeStoredProfilePhotos(next);
+    setToast(`✓ Foto de ${name} removida deste aparelho`);
+    setTimeout(() => setToast(null), 2200);
+  };
 
   // ════════════════════ WHO AM I ════════════════════
   if (!who) return (
@@ -579,7 +620,7 @@ export default function App() {
       {USERS.map(u => (
         <button key={u} onClick={() => chooseWho(u)}
           style={{ width: "100%", maxWidth: 280, margin: "6px 0", padding: 16, borderRadius: 16, border: "none", cursor: "pointer", background: "rgba(255,255,255,.15)", color: "#fff", fontSize: 18, fontWeight: 800, backdropFilter: "blur(10px)", display: "flex", alignItems: "center", gap: 14, justifyContent: "center" }}>
-          <PersonLabel name={u} size={34} selected />
+          <PersonLabel name={u} size={34} selected photoSrc={photoFor(u)} />
         </button>
       ))}
       <div style={{ color: "#93c5fd", fontSize: 12, marginTop: 32, textAlign: "center", maxWidth: 260 }}>
@@ -608,7 +649,7 @@ export default function App() {
             <div style={{ fontSize: 12, opacity: .85 }}>{sub}</div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-<PersonAvatar name={who} size={24} selected />
+<PersonAvatar name={who} size={24} selected photoSrc={photoFor(who)} />
             <span style={{ fontSize: 12, fontWeight: 700 }}>{who}</span>
             <button onClick={() => setWho(null)} style={{ background: "rgba(255,255,255,.25)", border: "none", color: "#fff", borderRadius: 6, fontSize: 10, padding: "2px 6px", cursor: "pointer" }}>trocar</button>
           </div>
@@ -1031,7 +1072,7 @@ export default function App() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6, marginBottom: 10 }}>
             {USERS.map(u => (
               <button key={u} onClick={() => setShopUser(u)} style={{ padding: "9px 4px", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: shopUser === u ? UCOLOR[u] : "#f1f5f9", color: shopUser === u ? "#fff" : "#64748b", boxShadow: shopUser === u ? `0 3px 10px ${UCOLOR[u]}55` : "none" }}>
-                <PersonLabel name={u} size={22} selected={shopUser === u} />
+                <PersonLabel name={u} size={22} selected={shopUser === u} photoSrc={photoFor(u)} />
               </button>
             ))}
           </div>
@@ -1068,7 +1109,7 @@ export default function App() {
             return (
               <div key={u} style={{ marginBottom: 14 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                  <span style={{ fontWeight: 800, fontSize: fs(14), color: UCOLOR[u] }}><PersonLabel name={u} size={24} /></span>
+                  <span style={{ fontWeight: 800, fontSize: fs(14), color: UCOLOR[u] }}><PersonLabel name={u} size={24} photoSrc={photoFor(u)} /></span>
                   <span style={{ fontSize: fs(11), color: "#94a3b8" }}>{dn}/{items.length} comprados</span>
                 </div>
                 {items.map(item => (
@@ -1511,7 +1552,27 @@ export default function App() {
             <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 10 }}>👤 Trocar usuário</div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6 }}>
               {USERS.map(u => (
-                <button key={u} onClick={() => chooseWho(u)} style={{ padding: "9px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: who === u ? UCOLOR[u] : "#f1f5f9", color: who === u ? "#fff" : "#64748b" }}><PersonLabel name={u} size={22} selected={who === u} /></button>
+                <button key={u} onClick={() => chooseWho(u)} style={{ padding: "9px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: who === u ? UCOLOR[u] : "#f1f5f9", color: who === u ? "#fff" : "#64748b" }}><PersonLabel name={u} size={22} selected={who === u} photoSrc={photoFor(u)} /></button>
+              ))}
+            </div>
+          </div></Card>
+          <Card><div style={{ padding: 14 }}>
+            <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 6 }}>📷 Fotos dos perfis</div>
+            <div style={{ fontSize: fs(12), color: "#64748b", marginBottom: 10 }}>As fotos ficam salvas neste aparelho. Para aparecer em outro celular, carregue a foto também naquele aparelho.</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {USERS.map(u => (
+                <div key={u} style={{ display: "flex", alignItems: "center", gap: 10, padding: 10, borderRadius: 12, background: "#f8fafc", border: "1px solid #e2e8f0" }}>
+                  <PersonAvatar name={u} size={44} photoSrc={photoFor(u)} />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 800, fontSize: fs(13), color: "#1e293b" }}>{u}</div>
+                    <div style={{ fontSize: fs(11), color: "#64748b" }}>{photoFor(u) ? "foto carregada" : "sem foto — mostra inicial"}</div>
+                  </div>
+                  <label style={{ cursor: "pointer", background: UCOLOR[u], color: "#fff", borderRadius: 9, padding: "8px 10px", fontSize: fs(12), fontWeight: 800 }}>
+                    escolher foto
+                    <input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => setUserPhoto(u, e.target.files?.[0])} />
+                  </label>
+                  {photoFor(u) && <button onClick={() => removeUserPhoto(u)} style={{ cursor: "pointer", background: "#fee2e2", color: "#991b1b", border: "none", borderRadius: 9, padding: "8px 10px", fontSize: fs(12), fontWeight: 800 }}>remover</button>}
+                </div>
               ))}
             </div>
           </div></Card>
