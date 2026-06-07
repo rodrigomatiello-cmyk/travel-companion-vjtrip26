@@ -692,11 +692,13 @@ export default function App() {
 
   // ════════════════════ RESTAURANTES (escolhido x alternativa, por dia) ════════════════════
   const RestoCard = ({ r, role }) => {
-    const cat = role === "alt" ? "alt" : (r.src === "ia" ? "ia" : "roteiro");
+    const isLogistico = r.rtype === "logistico" || r.mealType === "logistico" || r.tipo === "logistico";
+    const cat = isLogistico ? "logistico" : (role === "alt" ? "alt" : (r.src === "ia" ? "ia" : "roteiro"));
     const STYLES = {
-      roteiro: { accent: "#16a34a", bg: "#f0fdf4", tag: "ESCOLHIDO", ico: "✓ " },
-      ia:      { accent: "#6366f1", bg: "#eef2ff", tag: "SUGESTÃO IA", ico: "✨ " },
-      alt:     { accent: "#d97706", bg: "#fffbeb", tag: "ALTERNATIVA", ico: "↻ " },
+      roteiro:   { accent: "#16a34a", bg: "#f0fdf4", tag: "ESCOLHIDO", ico: "✓ " },
+      ia:        { accent: "#6366f1", bg: "#eef2ff", tag: "SUGESTÃO IA", ico: "✨ " },
+      alt:       { accent: "#d97706", bg: "#fffbeb", tag: "ALTERNATIVA", ico: "↻ " },
+      logistico: { accent: "#0f766e", bg: "#ecfeff", tag: "LOGÍSTICO", ico: "🧭 " },
     };
     const { accent, bg, tag, ico } = STYLES[cat];
     return (
@@ -726,12 +728,18 @@ export default function App() {
   };
 
   const Meal = ({ icon, label, meal, note }) => {
-    if (note) return (
-      <div style={{ margin: "0 0 10px" }}>
-        <div style={{ fontSize: fs(12), fontWeight: 800, color: "#475569", marginBottom: 4 }}>{icon} {label}</div>
-        <div style={{ background: "#f1f5f9", borderRadius: 10, padding: "9px 12px", fontSize: fs(12), color: "#64748b", fontStyle: "italic" }}>{note}</div>
-      </div>
-    );
+    if (note) {
+      const logNote = /logístic|aeroporto|voo|lounge|counter service|CityWalk|shopping|konbini|hotel/i.test(note);
+      return (
+        <div style={{ margin: "0 0 10px" }}>
+          <div style={{ fontSize: fs(12), fontWeight: 800, color: "#475569", marginBottom: 4 }}>{icon} {label}</div>
+          <div style={{ background: logNote ? "#ecfeff" : "#f1f5f9", border: logNote ? "1px solid #99f6e4" : "none", borderRadius: 10, padding: "9px 12px", fontSize: fs(12), color: logNote ? "#0f766e" : "#64748b", fontStyle: "italic" }}>
+            {logNote && <span style={{ display: "inline-block", background: "#0f766e", color: "#fff", fontSize: fs(9), fontWeight: 800, padding: "2px 7px", borderRadius: 99, marginRight: 6, fontStyle: "normal" }}>🧭 LOGÍSTICO</span>}
+            {note}
+          </div>
+        </div>
+      );
+    }
     if (!meal) return null;
     return (
       <div style={{ margin: "0 0 10px" }}>
@@ -748,8 +756,8 @@ export default function App() {
       <Header grad="linear-gradient(135deg,#c2410c,#ea580c)" title="🍽️ Restaurantes" sub="Almoço e jantar por dia · escolhido vs alternativa" />
       <div style={{ padding: "8px 12px 110px" }}>
         <div style={{ background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 12, padding: "10px 12px", margin: "4px 0 12px", fontSize: fs(12), color: "#7c2d12" }}>
-          <b>🟢 Escolhido</b> = definido no roteiro · <b>🟣 Sugestão IA</b> = roteiro deixou em aberto e sugeri · <b>🟡 Alternativa</b> = plano B na mesma região.
-          <div style={{ marginTop: 4, color: "#9a3412" }}>Notas: <b>✓ verif.</b> = confirmada no Tabelog; <b>≈ aprox.</b> = estimativa — reconfirme perto da viagem. Japão usa Tabelog (3.5+ já é excelente); Dubai usa TripAdvisor.</div>
+          <b>🟢 Escolhido</b> = definido no roteiro · <b>🟣 Sugestão IA</b> = roteiro deixou em aberto e sugeri · <b>🟡 Alternativa</b> = plano B na mesma região · <b>🧭 Logístico</b> = refeição prática sem restaurante fixo/nota específica.
+          <div style={{ marginTop: 4, color: "#9a3412" }}>Notas: <b>✓ verif.</b> = confirmada no Tabelog; <b>≈ aprox.</b> = estimativa — reconfirme perto da viagem. Japão usa Tabelog (3.5+ já é excelente); Dubai usa TripAdvisor. Itens logísticos não exibem nota quando não há restaurante específico.</div>
         </div>
         {MEALS.map(m => {
           const day = DAYS.find(d => d.day === m.day);
