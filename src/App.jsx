@@ -82,6 +82,11 @@ const EXP_CATS = [
 ];
 const fmtMoney = (n, cur) => `${CUR_SYMBOL[cur] || ""} ${Number(n || 0).toLocaleString("pt-BR")}`.trim();
 
+
+const Card = ({ children, s = {} }) => (
+  <div style={{ background: "#fff", borderRadius: 16, boxShadow: "0 1px 6px #00000010", margin: "0 12px 10px", overflow: "hidden", ...s }}>{children}</div>
+);
+
 const mapsUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 const ROUTE_STORAGE_KEY = "vjroute26";
 const ROUTE_BACKUPS_KEY = "vjroute26_backups";
@@ -522,9 +527,6 @@ export default function App() {
     <div style={{ background: "#e2e8f0", borderRadius: 99, height: 7, overflow: "hidden" }}>
       <div style={{ width: `${t > 0 ? Math.round(v / t * 100) : 0}%`, background: c || "#3b82f6", height: "100%", transition: "width .4s", borderRadius: 99 }} />
     </div>
-  );
-  const Card = ({ children, s = {} }) => (
-    <div style={{ background: "#fff", borderRadius: 16, boxShadow: "0 1px 6px #00000010", margin: "0 12px 10px", overflow: "hidden", ...s }}>{children}</div>
   );
   const Field = ({ icon, label, text, bg, fg }) => (
     <div style={{ background: bg, borderRadius: 8, padding: "7px 10px", marginBottom: 5 }}>
