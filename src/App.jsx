@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════════
-//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.10 (transporte mais visível)
+//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.11 (ícones personalizados)
 // ═══════════════════════════════════════════════════════════════════════════
 import { useState, useEffect, useCallback, useRef } from "react";
 import { storage, isFirebaseEnabled } from "./sharedStorage";
@@ -14,6 +14,89 @@ const DEFAULT_RESERVATIONS_META = {"title":"Reservas e Prazos","generatedAt":"20
 const USERS = ["Rodrigo", "Luciana", "Luísa"];
 const UCOLOR = { Rodrigo: "#2563eb", Luciana: "#db2777", "Luísa": "#7c3aed" };
 const UEMOJI = { Rodrigo: "👨", Luciana: "👩", "Luísa": "👧" };
+
+
+// Ícones personalizados do projeto/família. Mantidos em SVG inline para não depender de arquivos externos.
+const PERSON_PROFILE = {
+  Rodrigo: { skin: "#e0a981", hair: "#111827", eyes: "#1f2937", shirt: "#2563eb", initials: "R", label: "Rodrigo" },
+  Luciana: { skin: "#f0b98f", hair: "#6b3f22", eyes: "#2f855a", shirt: "#db2777", initials: "L", label: "Luciana" },
+  "Luísa": { skin: "#f2c39b", hair: "#7c4a27", eyes: "#2f855a", shirt: "#7c3aed", initials: "L", label: "Luísa" },
+};
+
+const APP_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0f2a4a"/><stop offset="0.48" stop-color="#0ea5e9"/><stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="url(#g)"/>
+  <circle cx="90" cy="34" r="18" fill="#fff7ed" opacity=".95"/>
+  <path d="M23 82c20-7 34-22 49-45 5-8 14-5 9 4-11 20-24 38-43 50l30 8-10 9-43-13 8-13Z" fill="#fff" opacity=".96"/>
+  <path d="M24 94h80" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity=".92"/>
+  <text x="64" y="118" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="900" fill="#fff">JP 26</text>
+</svg>`;
+
+function installAppBranding() {
+  if (typeof document === "undefined") return;
+  document.title = "Dubai + Japão 2026";
+  const svgData = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(APP_ICON_SVG)}`;
+  const ensureLink = (rel, type, href) => {
+    let link = document.querySelector(`link[rel='${rel}']`);
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = rel;
+      document.head.appendChild(link);
+    }
+    if (type) link.type = type;
+    link.href = href;
+  };
+  ensureLink("icon", "image/svg+xml", svgData);
+  ensureLink("shortcut icon", "image/svg+xml", svgData);
+  ensureLink("apple-touch-icon", "image/svg+xml", svgData);
+  const manifest = {
+    name: "Travel Companion Dubai + Japão 2026",
+    short_name: "JP+DXB 26",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#0f2a4a",
+    theme_color: "#0ea5e9",
+    icons: [{ src: svgData, sizes: "128x128", type: "image/svg+xml" }],
+  };
+  ensureLink("manifest", "application/manifest+json", `data:application/manifest+json;charset=utf-8,${encodeURIComponent(JSON.stringify(manifest))}`);
+}
+
+const ProjectIcon = ({ size = 56 }) => (
+  <span style={{ width: size, height: size, display: "inline-flex", borderRadius: Math.round(size * .22), overflow: "hidden", boxShadow: "0 10px 30px #00000025", flexShrink: 0 }}
+    dangerouslySetInnerHTML={{ __html: APP_ICON_SVG }} />
+);
+
+const PersonAvatar = ({ name, size = 28, selected = false }) => {
+  const p = PERSON_PROFILE[name] || PERSON_PROFILE.Rodrigo;
+  const s = size;
+  return (
+    <span title={name} aria-label={name} style={{ width: s, height: s, display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: 999, background: selected ? "rgba(255,255,255,.22)" : "#ffffff", boxShadow: selected ? "0 0 0 2px rgba(255,255,255,.25)" : "0 1px 4px #0000001a", overflow: "hidden", flexShrink: 0 }}>
+      <svg viewBox="0 0 64 64" width={s} height={s} role="img" aria-label={name}>
+        <rect width="64" height="64" rx="32" fill="#f8fafc"/>
+        <path d="M12 59c3-12 12-18 20-18s17 6 20 18" fill={p.shirt}/>
+        <circle cx="32" cy="28" r="15" fill={p.skin}/>
+        <path d="M17 25c1-12 9-18 18-17 8 1 13 7 13 17-8-6-20-7-31 0Z" fill={p.hair}/>
+        <path d="M19 31c0-9 5-17 13-18 9-1 15 5 16 14-8-6-18-8-29-2Z" fill={p.hair} opacity=".95"/>
+        <circle cx="26" cy="30" r="2.4" fill={p.eyes}/>
+        <circle cx="38" cy="30" r="2.4" fill={p.eyes}/>
+        <path d="M26 38c4 3 8 3 12 0" stroke="#7f4f35" strokeWidth="2.2" strokeLinecap="round" fill="none" opacity=".7"/>
+        <circle cx="22" cy="34" r="2" fill="#efb08f" opacity=".55"/>
+        <circle cx="42" cy="34" r="2" fill="#efb08f" opacity=".55"/>
+      </svg>
+    </span>
+  );
+};
+
+const PersonLabel = ({ name, size = 24, selected = false, color = "inherit" }) => (
+  <span style={{ display: "inline-flex", alignItems: "center", gap: 7, color }}>
+    <PersonAvatar name={name} size={size} selected={selected} />
+    <span>{name}</span>
+  </span>
+);
 
 const CAT_META = {
   transfer: { e: "🚕", c: "#0891b2", label: "Deslocamento" },
@@ -221,6 +304,7 @@ export default function App() {
   const RESERVATIONS = reservations;
   const RESERVATIONS_META = reservationsMeta;
   const currentContent = () => ({ days: DAYS, stores: STORES, mustdo: MUSTDO, tips: TIPS, meals: MEALS, reservations: RESERVATIONS, reservationsMeta: RESERVATIONS_META });
+  useEffect(() => { installAppBranding(); }, []);
   const applyContent = (c) => { setRouteDays(c.days); setStores(c.stores); setMustdo(c.mustdo); setTips(c.tips); setMeals(c.meals); setReservations(c.reservations || DEFAULT_RESERVATIONS); setReservationsMeta(c.reservationsMeta || DEFAULT_RESERVATIONS_META); };
   const [routeBackups, setRouteBackups] = useState([]);
   const [syncing, setSyncing] = useState(false);
@@ -488,14 +572,14 @@ export default function App() {
   // ════════════════════ WHO AM I ════════════════════
   if (!who) return (
     <div style={{ maxWidth: 440, margin: "0 auto", minHeight: "100vh", background: "linear-gradient(160deg,#0f2a4a,#0ea5e9)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 32, fontFamily: "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" }}>
-      <div style={{ fontSize: 54, marginBottom: 6 }}>✈️</div>
+      <ProjectIcon size={72} />
       <div style={{ color: "#fff", fontSize: 27, fontWeight: 900, textAlign: "center" }}>Travel Companion</div>
       <div style={{ color: "#bfdbfe", fontSize: 14, marginBottom: 40, textAlign: "center" }}>Dubai + Japão 2026 · Família</div>
       <div style={{ color: "#e0f2fe", fontSize: 15, fontWeight: 700, marginBottom: 16 }}>Quem é você?</div>
       {USERS.map(u => (
         <button key={u} onClick={() => chooseWho(u)}
           style={{ width: "100%", maxWidth: 280, margin: "6px 0", padding: 16, borderRadius: 16, border: "none", cursor: "pointer", background: "rgba(255,255,255,.15)", color: "#fff", fontSize: 18, fontWeight: 800, backdropFilter: "blur(10px)", display: "flex", alignItems: "center", gap: 14, justifyContent: "center" }}>
-          <span style={{ fontSize: 28 }}>{UEMOJI[u]}</span> {u}
+          <PersonLabel name={u} size={34} selected />
         </button>
       ))}
       <div style={{ color: "#93c5fd", fontSize: 12, marginTop: 32, textAlign: "center", maxWidth: 260 }}>
@@ -524,7 +608,7 @@ export default function App() {
             <div style={{ fontSize: 12, opacity: .85 }}>{sub}</div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <span style={{ fontSize: 16 }}>{UEMOJI[who]}</span>
+<PersonAvatar name={who} size={24} selected />
             <span style={{ fontSize: 12, fontWeight: 700 }}>{who}</span>
             <button onClick={() => setWho(null)} style={{ background: "rgba(255,255,255,.25)", border: "none", color: "#fff", borderRadius: 6, fontSize: 10, padding: "2px 6px", cursor: "pointer" }}>trocar</button>
           </div>
@@ -947,14 +1031,14 @@ export default function App() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6, marginBottom: 10 }}>
             {USERS.map(u => (
               <button key={u} onClick={() => setShopUser(u)} style={{ padding: "9px 4px", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: shopUser === u ? UCOLOR[u] : "#f1f5f9", color: shopUser === u ? "#fff" : "#64748b", boxShadow: shopUser === u ? `0 3px 10px ${UCOLOR[u]}55` : "none" }}>
-                {UEMOJI[u]} {u}
+                <PersonLabel name={u} size={22} selected={shopUser === u} />
               </button>
             ))}
           </div>
 
           {/* Form de adição */}
           <div style={{ background: "#fff", padding: 12, borderRadius: 14, boxShadow: "0 1px 6px #0000000d", marginBottom: 16 }}>
-            <div style={{ fontSize: fs(12), fontWeight: 700, color: UCOLOR[shopUser], marginBottom: 8 }}>Adicionar item para {UEMOJI[shopUser]} {shopUser}</div>
+            <div style={{ fontSize: fs(12), fontWeight: 700, color: UCOLOR[shopUser], marginBottom: 8 }}>Adicionar item para {shopUser}</div>
             <input value={shopText} onChange={e => setShopText(e.target.value)} placeholder="O que comprar? (ex: Heattech, vinil KISS, perfume...)"
               style={{ width: "100%", boxSizing: "border-box", padding: "10px 12px", borderRadius: 9, border: "1px solid #e2e8f0", fontSize: fs(14), outline: "none", background: "#f8fafc", marginBottom: 8 }} />
             <select value={shopStore} onChange={e => setShopStore(e.target.value)}
@@ -984,7 +1068,7 @@ export default function App() {
             return (
               <div key={u} style={{ marginBottom: 14 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                  <span style={{ fontWeight: 800, fontSize: fs(14), color: UCOLOR[u] }}>{UEMOJI[u]} {u}</span>
+                  <span style={{ fontWeight: 800, fontSize: fs(14), color: UCOLOR[u] }}><PersonLabel name={u} size={24} /></span>
                   <span style={{ fontSize: fs(11), color: "#94a3b8" }}>{dn}/{items.length} comprados</span>
                 </div>
                 {items.map(item => (
@@ -1427,13 +1511,13 @@ export default function App() {
             <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 10 }}>👤 Trocar usuário</div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6 }}>
               {USERS.map(u => (
-                <button key={u} onClick={() => chooseWho(u)} style={{ padding: "9px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: who === u ? UCOLOR[u] : "#f1f5f9", color: who === u ? "#fff" : "#64748b" }}>{UEMOJI[u]} {u}</button>
+                <button key={u} onClick={() => chooseWho(u)} style={{ padding: "9px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: who === u ? UCOLOR[u] : "#f1f5f9", color: who === u ? "#fff" : "#64748b" }}><PersonLabel name={u} size={22} selected={who === u} /></button>
               ))}
             </div>
           </div></Card>
           <Card><div style={{ padding: 14 }}>
             <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 12 }}>📊 Progresso</div>
-            {[["Must Do", mDone, mTot, "#e11d48"], ["Dias concluídos", doneDays, DAYS.length, "#059669"], ["Compras total", shopD, shopT || 1, "#7c3aed"], ...USERS.map(u => [`${UEMOJI[u]} ${u}`, st.shopping[u].filter(i => i.done).length, st.shopping[u].length || 1, UCOLOR[u]])].map(([l, v, t, c], i) => (
+            {[["Must Do", mDone, mTot, "#e11d48"], ["Dias concluídos", doneDays, DAYS.length, "#059669"], ["Compras total", shopD, shopT || 1, "#7c3aed"], ...USERS.map(u => [`${u}`, st.shopping[u].filter(i => i.done).length, st.shopping[u].length || 1, UCOLOR[u]])].map(([l, v, t, c], i) => (
               <div key={i} style={{ marginBottom: 10 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: fs(12), color: "#64748b", marginBottom: 3 }}><span>{l}</span><span style={{ fontWeight: 700, color: c }}>{v}/{t}</span></div>
                 <Bar v={v} t={t} c={c} />
