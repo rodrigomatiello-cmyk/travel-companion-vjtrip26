@@ -221,6 +221,7 @@ export default function App() {
   // UI state
   const [openDay, setOpenDay] = useState(null);
   const [openAct, setOpenAct] = useState({});
+  const [openResto, setOpenResto] = useState({});
   const [openTip, setOpenTip] = useState(null);
   const [openReport, setOpenReport] = useState(null);
   const [infoSub, setInfoSub] = useState("dicas");
@@ -701,6 +702,17 @@ export default function App() {
       logistico: { accent: "#0f766e", bg: "#ecfeff", tag: "LOGÍSTICO", ico: "🧭 " },
     };
     const { accent, bg, tag, ico } = STYLES[cat];
+    const guide = r.fieldGuide || r.guide || null;
+    const gkey = `${role}-${r.name}-${r.area || ""}`;
+    const isOpen = !!openResto[gkey];
+    const toggleGuide = () => setOpenResto(prev => ({ ...prev, [gkey]: !prev[gkey] }));
+    const GuideText = ({ label, children }) => children ? (
+      <div style={{ marginTop: 8 }}>
+        <div style={{ fontSize: fs(10), color: accent, fontWeight: 900, textTransform: "uppercase", letterSpacing: .4 }}>{label}</div>
+        <div style={{ fontSize: fs(12), color: "#334155", lineHeight: 1.45 }}>{children}</div>
+      </div>
+    ) : null;
+    const arr = (v) => Array.isArray(v) ? v : [];
     return (
       <div style={{ border: `2px solid ${accent}`, borderRadius: 12, overflow: "hidden", marginBottom: 8, background: "#fff" }}>
         <div style={{ background: bg, padding: "8px 12px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
@@ -720,8 +732,51 @@ export default function App() {
           )}
         </div>
         <div style={{ padding: "8px 12px" }}>
-          <div style={{ fontSize: fs(12), color: "#475569", marginBottom: 6 }}>🥢 {r.dishes}</div>
-          <Maps q={r.maps} />
+          {r.cardSummary && <div style={{ fontSize: fs(12), color: "#334155", marginBottom: 6 }}>🎯 <b>Por que ir:</b> {r.cardSummary}</div>}
+          <div style={{ fontSize: fs(12), color: "#475569", marginBottom: 6 }}>🥢 <b>Pedir:</b> {r.mustOrder || r.dishes}</div>
+          {r.tripDayHours && <div style={{ fontSize: fs(11), color: "#64748b", marginBottom: 5 }}>🕒 <b>Horário no dia:</b> {r.tripDayHours}</div>}
+          {r.arrivalAlert && <div style={{ fontSize: fs(11), color: "#9a3412", marginBottom: 6 }}>⚠️ {r.arrivalAlert}</div>}
+          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <Maps q={r.maps} />
+            {guide && <button onClick={toggleGuide} style={{ border: `1px solid ${accent}`, background: isOpen ? accent : "#fff", color: isOpen ? "#fff" : accent, borderRadius: 9, padding: "7px 10px", fontSize: fs(11), fontWeight: 800, cursor: "pointer" }}>
+              {isOpen ? "Fechar guia" : "Guia no local"}
+            </button>}
+          </div>
+          {guide && isOpen && (
+            <div style={{ marginTop: 10, borderTop: "1px solid #e2e8f0", paddingTop: 10 }}>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 }}>
+                {guide.confidence && <span style={{ background: "#f1f5f9", color: "#334155", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 800 }}>Confiança: {guide.confidence}</span>}
+                {guide.validatedAt && <span style={{ background: "#f8fafc", color: "#64748b", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 700 }}>Validado: {guide.validatedAt}</span>}
+              </div>
+              <GuideText label="Cheguei. Como funciona?">{guide.arrival}</GuideText>
+              <GuideText label="O que pedir sem erro">{guide.orderMust}</GuideText>
+              <GuideText label="Regra se der errado">{guide.queueRule}</GuideText>
+              <GuideText label="Evitar">{guide.avoid}</GuideText>
+              {arr(guide.menuWords).length > 0 && (
+                <div style={{ marginTop: 8 }}>
+                  <div style={{ fontSize: fs(10), color: accent, fontWeight: 900, textTransform: "uppercase", letterSpacing: .4 }}>Palavras do cardápio</div>
+                  <div style={{ display: "grid", gap: 4, marginTop: 4 }}>
+                    {arr(guide.menuWords).slice(0, 8).map((w, idx) => (
+                      <div key={idx} style={{ fontSize: fs(11), color: "#334155", background: "#f8fafc", borderRadius: 8, padding: "5px 7px" }}>
+                        <b>{w.jp}</b> <span style={{ color: "#64748b" }}>({w.romaji})</span> — {w.pt}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {arr(guide.phrases).length > 0 && (
+                <div style={{ marginTop: 8 }}>
+                  <div style={{ fontSize: fs(10), color: accent, fontWeight: 900, textTransform: "uppercase", letterSpacing: .4 }}>Frases úteis</div>
+                  {arr(guide.phrases).slice(0, 4).map((ph, idx) => (
+                    <div key={idx} style={{ fontSize: fs(11), color: "#334155", marginTop: 3 }}>
+                      <b>{ph.jp}</b> <span style={{ color: "#64748b" }}>({ph.romaji})</span> — {ph.pt}
+                    </div>
+                  ))}
+                </div>
+              )}
+              <GuideText label="Fonte/observação">{guide.sourceNote}</GuideText>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -770,6 +825,7 @@ export default function App() {
               <div style={{ padding: "10px 14px" }}>
                 <Meal icon="🍱" label="ALMOÇO" meal={m.lunch} note={m.lunchNote} />
                 {m.snackNote && <div style={{ background: "#fdf4ff", borderRadius: 10, padding: "8px 12px", marginBottom: 10, fontSize: fs(12), color: "#86198f" }}>🍢 <b>Snack:</b> {m.snackNote}</div>}
+                {m.snackGuide && <RestoCard r={{...m.snackGuide, cuisine: "Snack", area: "Osaka", maps: m.snackGuide.maps || "Takoya Dotonbori Kukuru Dotonbori Konamon Museum"}} role="chosen" />}
                 <Meal icon="🍶" label="JANTAR" meal={m.dinner} note={m.dinnerNote} />
               </div>
             </Card>
