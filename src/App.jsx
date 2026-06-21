@@ -1,6 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
-//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.15 (compras com abas por pessoa)
+//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.19-SELETORES-RODRIGO (edição guiada de compras)
 // ═══════════════════════════════════════════════════════════════════════════
+//  BUILD_CHECK: V4_19_SELETORES_LOJA_CATEGORIA_PRIORIDADE_PESSOA_2026_06_21
 import { useState, useEffect, useCallback, useRef } from "react";
 import { storage, isFirebaseEnabled } from "./sharedStorage";
 
@@ -198,9 +199,9 @@ const SHOPPING_LIST_SCHEMA = "vjtrip26-shopping-v1";
 const DEFAULT_SHOPPING_LIST = {
   "schema": "vjtrip26-shopping-v1",
   "app": "Travel Companion Dubai + Japão 2026",
-  "version": "compras-v4.0.0-editavel-sem-travas",
+  "version": "compras-v4.2.0-edicao-guiada",
   "exportedAt": "2026-06-21T13:45:47.606Z",
-  "note": "Lista editável. Importação padrão substitui a lista atual para respeitar exclusões feitas pelo Rodrigo. Todos os itens podem ser excluídos, reclassificados e movidos de pessoa/categoria/modo de compra no app.",
+  "note": "Lista editável. Importação padrão substitui a lista atual para respeitar exclusões feitas pelo Rodrigo. Todos os itens podem ser excluídos, reclassificados e movidos de pessoa/categoria/modo de compra no app. v4.19 traz edição guiada com listas de seleção para loja, categoria, prioridade, dia e modo de compra.",
   "lists": {
     "Rodrigo": [
       {
@@ -3549,6 +3550,41 @@ export default function App() {
     }).sort((a, b) => (Number(a.item.sort ?? 999999) - Number(b.item.sort ?? 999999)) || shoppingKey(a.item.text).localeCompare(shoppingKey(b.item.text), "pt-BR"));
     const filteredDone = filteredPairs.filter(({ item }) => item.done).length;
 
+    const uniq = (arr) => [...new Set((arr || []).map(x => String(x || "").trim()).filter(Boolean))];
+    const withCurrent = (arr, cur) => uniq([cur, ...arr]);
+    const cleanFirst = (v) => asArray(v)[0] || String(v || "").split(/[|,]/)[0].trim();
+    const commonStores = [
+      "Matsumoto Kiyoshi", "Don Quijote", "@cosme", "Loft", "PLAZA", "Hands", "Shiseido", "FANCL", "Decorté", "SUQQU", "Depachika / lojas de departamento",
+      "Shibuya 109", "UNIQLO / GU", "Tower Records", "HMV", "disk union", "Mandarake", "Super Potato", "Tower Knives", "Aritsugu Kyoto",
+      "Dubai Duty Free", "Dubai Mall", "Sephora Dubai", "Life Pharmacy", "Boots", "Aster Pharmacy", "Óticas Dubai", "Rasasi", "Ajmal", "Al Haramain", "Prada"
+    ];
+    const commonPriorities = ["altíssima", "essencial", "alta", "média", "baixa", "teste", "opcional"];
+    const commonCountries = ["Japan", "UAE", "Brasil"];
+    const commonCities = ["Tokyo", "Kyoto", "Osaka", "Dubai", "Tokyo/Kyoto/Osaka", "Brasil"];
+    const commonDays = ["Primeiros dias Tóquio", "03/12 Shibuya/Harajuku", "04/12 Asakusa/Ueno", "05/12 Ginza", "Kyoto", "Osaka", "Dubai final / aeroporto", "Sem dia definido"];
+    const primaryStoreOptions = uniqueSorted(uniq([...commonStores, ...allPairs.map(({ item }) => item.primaryStore), ...allPairs.map(({ item }) => item.store).flatMap(v => String(v || "").split("/")).map(v => v.trim())]));
+    const priorityOptions = withCurrent(commonPriorities, editShopDraft?.priority);
+    const countryOptions = withCurrent(commonCountries, editShopDraft?.country);
+    const cityOptions = uniqueSorted(withCurrent([...commonCities, ...allPairs.map(({ item }) => item.city)], editShopDraft?.city));
+    const routeOptions = uniqueSorted(withCurrent([...commonDays, ...allPairs.map(({ item }) => item.routeDay || item.dayHint)], editShopDraft?.routeDay), dayOrder);
+    const editCategoryOptions = uniqueSorted(withCurrent([...categoryOptions.filter(x => x !== "Sem categoria")], editShopDraft?.category));
+    const editModeOptions = uniqueSorted(withCurrent([...storeOptions], cleanFirst(editShopDraft?.shoppingMode)), modeOrder);
+    const SelectField = ({ label, value, onChange, options, placeholder = "Escolher" }) => (
+      <label style={{ display: "block" }}>
+        <div style={{ fontSize: fs(10), fontWeight: 900, color: "#64748b", marginBottom: 3 }}>{label}</div>
+        <select value={value || ""} onChange={e => onChange(e.target.value)} style={{ ...inp, fontSize: fs(12), background: "#fff", width: "100%" }}>
+          <option value="">{placeholder}</option>
+          {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+        </select>
+      </label>
+    );
+    const TextField = ({ label, value, onChange, placeholder = "" }) => (
+      <label style={{ display: "block" }}>
+        <div style={{ fontSize: fs(10), fontWeight: 900, color: "#64748b", marginBottom: 3 }}>{label}</div>
+        <input value={value || ""} onChange={e => onChange(e.target.value)} placeholder={placeholder} style={{ ...inp, fontSize: fs(12), width: "100%" }} />
+      </label>
+    );
+
     const renderChips = (items, active, onPick, color = "#7c3aed") => (
       <div style={{ display: "flex", gap: 7, overflowX: "auto", paddingBottom: 6, WebkitOverflowScrolling: "touch" }}>
         {items.map((x) => {
@@ -3582,31 +3618,43 @@ export default function App() {
               {(item.city || item.country) && <span style={{ fontSize: fs(10), color: "#065f46", background: "#d1fae5", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{[item.city, item.country].filter(Boolean).join(" · ")}</span>}
             </div>
             {item.note && <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 5, lineHeight: 1.35 }}>📝 {item.note}</div>}
+            {editShopKey !== `${u}::${item.id}` && (
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 92px", gap: 8, marginTop: 9 }}>
+                <button onClick={() => openShopEdit(u, item)} style={{ background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: 10, cursor: "pointer", color: "#4338ca", fontSize: fs(12), fontWeight: 1000, padding: "9px 10px", textAlign: "center" }}>✏️ Editar este item</button>
+                <button onClick={() => rmShop(u, item.id)} style={{ background: "#fff1f2", border: "1px solid #fecdd3", borderRadius: 10, cursor: "pointer", color: "#be123c", fontSize: fs(12), fontWeight: 1000, padding: "9px 10px", textAlign: "center" }}>Excluir</button>
+              </div>
+            )}
             {editShopKey === `${u}::${item.id}` && editShopDraft && (
-              <div style={{ marginTop: 10, background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, padding: 10 }}>
-                <div style={{ fontWeight: 900, color: "#334155", fontSize: fs(12), marginBottom: 8 }}>Editar item</div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
-                  <select value={editShopDraft.owner} onChange={e => setEditShopDraft({ ...editShopDraft, owner: e.target.value })} style={{ ...inp, fontSize: fs(12) }}>{USERS.map(x => <option key={x} value={x}>{x}</option>)}</select>
-                  <input value={editShopDraft.qty} onChange={e => setEditShopDraft({ ...editShopDraft, qty: e.target.value })} placeholder="Qtd" style={{ ...inp, fontSize: fs(12) }} />
-                  <input value={editShopDraft.priority} onChange={e => setEditShopDraft({ ...editShopDraft, priority: e.target.value })} placeholder="Prioridade" style={{ ...inp, fontSize: fs(12) }} />
-                  <input value={editShopDraft.category} onChange={e => setEditShopDraft({ ...editShopDraft, category: e.target.value })} placeholder="Categoria" style={{ ...inp, fontSize: fs(12) }} />
-                  <input value={editShopDraft.primaryStore} onChange={e => setEditShopDraft({ ...editShopDraft, primaryStore: e.target.value })} placeholder="Loja principal" style={{ ...inp, fontSize: fs(12) }} />
-                  <input value={editShopDraft.routeDay} onChange={e => setEditShopDraft({ ...editShopDraft, routeDay: e.target.value })} placeholder="Dia/rota" style={{ ...inp, fontSize: fs(12) }} />
-                  <input value={editShopDraft.city} onChange={e => setEditShopDraft({ ...editShopDraft, city: e.target.value })} placeholder="Cidade" style={{ ...inp, fontSize: fs(12) }} />
-                  <input value={editShopDraft.country} onChange={e => setEditShopDraft({ ...editShopDraft, country: e.target.value })} placeholder="País" style={{ ...inp, fontSize: fs(12) }} />
+              <div style={{ marginTop: 10, background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 12, padding: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 8 }}>
+                  <div>
+                    <div style={{ fontWeight: 1000, color: "#334155", fontSize: fs(13) }}>Editar item</div>
+                    <div style={{ color: "#64748b", fontSize: fs(10), fontWeight: 700 }}>Use as listas. Campo livre só para nome/observação.</div>
+                  </div>
+                  <button onClick={() => { setEditShopKey(null); setEditShopDraft(null); }} style={{ border: "none", background: "#fff", color: "#64748b", borderRadius: 999, padding: "6px 9px", fontWeight: 900, cursor: "pointer", boxShadow: "inset 0 0 0 1px #e2e8f0" }}>Fechar</button>
                 </div>
-                <input value={editShopDraft.text} onChange={e => setEditShopDraft({ ...editShopDraft, text: e.target.value })} placeholder="Item" style={{ ...inp, fontSize: fs(12), marginTop: 7 }} />
-                <input value={editShopDraft.store} onChange={e => setEditShopDraft({ ...editShopDraft, store: e.target.value })} placeholder="Lojas alternativas / descrição de loja" style={{ ...inp, fontSize: fs(12), marginTop: 7 }} />
-                <input value={editShopDraft.shoppingMode} onChange={e => setEditShopDraft({ ...editShopDraft, shoppingMode: e.target.value })} placeholder="Modo de compra / abas de loja — separe por vírgula" style={{ ...inp, fontSize: fs(12), marginTop: 7 }} />
-                <textarea value={editShopDraft.note} onChange={e => setEditShopDraft({ ...editShopDraft, note: e.target.value })} placeholder="Observação" style={{ ...inp, fontSize: fs(12), marginTop: 7, minHeight: 64, resize: "vertical", fontFamily: "inherit" }} />
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7, marginTop: 8 }}>
-                  <button onClick={() => { setEditShopKey(null); setEditShopDraft(null); }} style={{ padding: 9, borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", color: "#64748b", fontWeight: 900, cursor: "pointer" }}>Cancelar</button>
-                  <button onClick={() => saveShopEdit(u, item.id)} style={{ padding: 9, borderRadius: 8, border: "none", background: UCOLOR[u], color: "#fff", fontWeight: 900, cursor: "pointer" }}>Salvar</button>
+                <TextField label="Item" value={editShopDraft.text} onChange={v => setEditShopDraft({ ...editShopDraft, text: v })} placeholder="Nome do item" />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
+                  <SelectField label="Pessoa" value={editShopDraft.owner} onChange={v => setEditShopDraft({ ...editShopDraft, owner: v })} options={USERS} />
+                  <SelectField label="Prioridade" value={editShopDraft.priority} onChange={v => setEditShopDraft({ ...editShopDraft, priority: v })} options={priorityOptions} />
+                  <SelectField label="Loja principal" value={editShopDraft.primaryStore} onChange={v => setEditShopDraft({ ...editShopDraft, primaryStore: v })} options={primaryStoreOptions} />
+                  <SelectField label="Aba / modo de compra" value={cleanFirst(editShopDraft.shoppingMode)} onChange={v => setEditShopDraft({ ...editShopDraft, shoppingMode: v })} options={editModeOptions} />
+                  <SelectField label="Categoria" value={editShopDraft.category} onChange={v => setEditShopDraft({ ...editShopDraft, category: v })} options={editCategoryOptions} />
+                  <TextField label="Quantidade" value={editShopDraft.qty} onChange={v => setEditShopDraft({ ...editShopDraft, qty: v })} placeholder="Ex.: 2 tubos" />
+                  <SelectField label="Dia / rota" value={editShopDraft.routeDay} onChange={v => setEditShopDraft({ ...editShopDraft, routeDay: v })} options={routeOptions} />
+                  <SelectField label="Cidade" value={editShopDraft.city} onChange={v => setEditShopDraft({ ...editShopDraft, city: v })} options={cityOptions} />
+                  <SelectField label="País" value={editShopDraft.country} onChange={v => setEditShopDraft({ ...editShopDraft, country: v })} options={countryOptions} />
+                  <TextField label="Lojas alternativas" value={editShopDraft.store} onChange={v => setEditShopDraft({ ...editShopDraft, store: v })} placeholder="Ex.: Donki / Loft" />
+                </div>
+                <textarea value={editShopDraft.note} onChange={e => setEditShopDraft({ ...editShopDraft, note: e.target.value })} placeholder="Observação" style={{ ...inp, fontSize: fs(12), marginTop: 8, minHeight: 64, resize: "vertical", fontFamily: "inherit", width: "100%" }} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 8 }}>
+                  <button onClick={() => { setEditShopKey(null); setEditShopDraft(null); }} style={{ padding: 10, borderRadius: 10, border: "1px solid #e2e8f0", background: "#fff", color: "#64748b", fontWeight: 1000, cursor: "pointer" }}>Cancelar</button>
+                  <button onClick={() => saveShopEdit(u, item.id)} style={{ padding: 10, borderRadius: 10, border: "none", background: UCOLOR[u], color: "#fff", fontWeight: 1000, cursor: "pointer" }}>Salvar alterações</button>
                 </div>
               </div>
             )}
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0 }}><button onClick={() => openShopEdit(u, item)} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, cursor: "pointer", color: "#475569", fontSize: fs(11), fontWeight: 900, padding: "5px 7px" }}>Editar</button><button onClick={() => rmShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fca5a5", fontSize: fs(19), lineHeight: 1, padding: 0 }}>×</button></div>
+          <div style={{ flexShrink: 0, width: 1 }} />
         </div>
       );
     };
@@ -3622,6 +3670,10 @@ export default function App() {
               const count = tab === "Todos" ? filteredPairs.length : filteredPairs.filter(p => p.u === tab).length;
               return `${tab} ${count}`;
             }), `${shopView} ${shopView === "Todos" ? filteredPairs.length : filteredPairs.filter(p => p.u === shopView).length}`, (label) => changeShopView(label.replace(/ \d+$/, "")), "#0f766e")}
+          </div>
+
+          <div style={{ background: "#ecfeff", borderRadius: 12, padding: "10px 12px", marginBottom: 10, border: "1px solid #bae6fd", color: "#075985", fontSize: fs(12), fontWeight: 800, lineHeight: 1.35 }}>
+            Para corrigir um item: toque em <b>✏️ Editar este item</b>. A edição agora é guiada, com listas para loja principal, aba de compra, categoria, prioridade, cidade e dia/rota.
           </div>
 
           <div style={{ background: "#fff", borderRadius: 12, padding: 12, marginBottom: 12, boxShadow: "0 1px 4px #0000000d" }}>
