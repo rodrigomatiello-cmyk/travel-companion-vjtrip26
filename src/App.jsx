@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════════
-//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.12 (bandeira + fotos)
+//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.13 (lista de compras externa)
 // ═══════════════════════════════════════════════════════════════════════════
 import { useState, useEffect, useCallback, useRef } from "react";
 import { storage, isFirebaseEnabled } from "./sharedStorage";
@@ -192,119 +192,113 @@ const mapsUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encode
 const ROUTE_STORAGE_KEY = "vjroute26";
 const ROUTE_BACKUPS_KEY = "vjroute26_backups";
 const SHOP_SEED_KEY = "vjseed26";
-const SHOP_SEED = {
-  "Rodrigo": [
-    { text: "💇 RiUP X5 Charge / RiUP X5 Plus NEO (minoxidil 5%)", store: "Tóquio • Matsumoto Kiyoshi / Sundrug / Don Quijote (balcão 薬)", aliases: ["RiUP X5 Plus NEO ou Charge (minoxidil 5% — balcão 薬)"] },
-    { text: "💇 ANGFA Scalp-D Medicated Scalp Shampoo", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi / @cosme", aliases: ["Shampoo/tônico Scalp-D (Angfa)"] },
-    { text: "💇 Scalp-D NEXT+ Volume Up Shampoo", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi / @cosme" },
-    { text: "💇 Shiseido Adenovital Shampoo / Advanced Scalp Essence", store: "Tóquio • @cosme / lojas de beleza / departamentos" },
-    { text: "💇 Nizoral 2% Ketoconazole Shampoo", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "💇 DS Laboratories Revita Shampoo OU Vichy Dercos Densi-Solutions", store: "Dubai • Life Pharmacy / Boots / lojas de suplemento" },
-    { text: "💇 Toppik Hair Building Fibers", store: "Dubai • Sephora / Amazon.ae / lojas de beleza" },
-
-    { text: "🧴 Anessa Perfect UV Skincare Milk SPF50+ PA++++", store: "Tóquio • @cosme / Matsumoto Kiyoshi / Don Quijote" },
-    { text: "🧴 Bioré UV Aqua Rich Watery Essence SPF50+ PA++++", store: "Tóquio • farmácias / Don Quijote / @cosme", aliases: ["Bioré UV Aqua Rich (protetor)"] },
-    { text: "🧴 Hada Labo Gokujyun Premium Hydrating Lotion", store: "Tóquio • Matsumoto Kiyoshi / Don Quijote / @cosme", aliases: ["Hada Labo Gokujyun lotion"] },
-    { text: "🧴 Melano CC Premium Essence (vitamina C)", store: "Tóquio • Matsumoto Kiyoshi / Don Quijote / @cosme", aliases: ["Melano CC (vitamina C)"] },
-    { text: "🧴 Obagi C25 Serum Neo", store: "Tóquio • @cosme / departamentos / farmácias grandes" },
-    { text: "🧴 ELIXIR Retinol Power Wrinkle Cream OU Shiseido Vital Perfection WrinkleSpot", store: "Tóquio • @cosme / Shiseido / departamentos" },
-    { text: "🧴 Curél Intensive Moisture Cream", store: "Tóquio • Matsumoto Kiyoshi / @cosme" },
-    { text: "🧴 La Roche-Posay Anthelios UVMune 400 Invisible Fluid SPF50+", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "🧴 La Roche-Posay Cicaplast Baume B5+ 100 ml", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "🧴 La Roche-Posay Hyalu B5 Serum", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "🧴 La Roche-Posay Retinol B3 OU Vichy Liftactiv Retinol", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "🧴 CeraVe Moisturising Cream", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "🧴 CeraVe Hydrating Cleanser OU Foaming Cleanser", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "🧴 SkinCeuticals C E Ferulic (só se preço compensar)", store: "Dubai • Sephora / dermocosméticos" },
-
-    { text: "💊 Shiseido The Collagen Powder", store: "Tóquio • @cosme / Matsumoto Kiyoshi / Don Quijote / departamentos" },
-    { text: "💊 FANCL Deep Charge Collagen", store: "Tóquio • FANCL / @cosme / duty-free" },
-    { text: "💊 Collagen Peptides pote grande sem sabor (Organic Earth / KIKI / Vital Proteins)", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "💪 Creatina monohidratada Creapure OU Optimum Nutrition Micronized Creatine", store: "Dubai • Life Pharmacy / GNC / lojas de suplemento" },
-    { text: "💪 Whey isolado Dymatize ISO100 / ON Gold Standard Isolate / Isopure", store: "Dubai • Life Pharmacy / GNC — comprar só se preço compensar" },
-    { text: "💊 Ômega-3 concentrado Solgar Omega-3 700 / Nordic / Life Extension", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "🦵 Osteo Bi-Flex / Move Free / Solgar Glucosamine Chondroitin MSM — escolher UM", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "🥤 Nuun Sport Electrolytes / Hydralyte Electrolyte Tablets", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "💊 Magnesium Glycinate/Bisglycinate — só se substituir fórmula atual", store: "Dubai • Life Pharmacy / Boots" },
-
-    { text: "🦵 Salonpas / Hisamitsu Pain Relieving Patches", store: "Tóquio • Matsumoto Kiyoshi / Sundrug / Don Quijote" },
-    { text: "🦵 Loxonin S Tape / Loxoprofen Sodium Patch", store: "Tóquio • farmácia com orientação do farmacêutico" },
-    { text: "🦵 Zamst EK-3 ou ZK-7 Knee Support", store: "Tóquio • ABC-Mart / Alpen / Sports Depo / lojas esportivas" },
-    { text: "👟 Dr. Scholl GelActiv Insoles / palmilha de gel", store: "Tóquio • Don Quijote / farmácias / lojas esportivas" },
-    { text: "🧦 Meias de compressão Dr. Scholl / MediQtto / Uniqlo", store: "Tóquio • Uniqlo / farmácias" },
-
-    { text: "🦷 Apagard Premio OU Apagard Royal", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi / @cosme" },
-    { text: "🦷 Ora2 Premium Stain Clear OU Lion Brilliant More W", store: "Tóquio • Don Quijote / farmácias" },
-    { text: "💋 Compeed Cold Sore Patch + Cicaplast Lips + lip balm com FPS", store: "Dubai • Boots / Life Pharmacy; Japão • farmácias" },
-    { text: "👣 Lamisil AT / Terbinafine + spray seca-sapato", store: "Dubai/Japão • Life Pharmacy / Boots / Don Quijote / farmácias" },
-    { text: "👁 Air Optix Night & Day Aqua — Alcon (+1,75 e +2,75 se BC/DIA bater)", store: "Dubai • óticas / Alensa.ae" },
-
-    { text: "🔪 Faca Sujihiki 270 mm ou Gyuto 240 mm + pedra #1000/#3000", store: "Tóquio/Kyoto • Tower Knives / Kamata Hakensha / Aritsugu", aliases: ["Faca Sujihiki 270mm (Tower Knives, Dia 7)"] },
-    { text: "💿 Vinil KISS japonês com OBI (procurar KISS e キッス)", store: "Tóquio • Disk Union Shinjuku / Tower Shibuya / HMV Shibuya", aliases: ["Vinil KISS / rock-metal (Disk Union Shibuya)"] },
-    { text: "💿 KISS memorabilia / action figures / pôsteres", store: "Tóquio • Mandarake Nakano; Osaka • Mandarake Grand Chaos / Surugaya" },
-    { text: "🕹 Games retrô / Super Potato / Surugaya / Mandarake", store: "Tóquio • Akihabara / Nakano; Osaka • Den-Den Town" },
-    { text: "🎯 Pinball: The Silver Ball Planet", store: "Osaka • Americamura — experiência, não compra pesada" },
-    { text: "🌲 Perfume woody amber: Amouage Epic Man / Ajmal Amber Wood / Rasasi / Lattafa", store: "Dubai • Amouage / Ajmal / Rasasi / Lattafa — testar na pele 1h" },
-  ],
-  "Luciana": [
-    { text: "🧴 Anessa Perfect UV Milk / Allie Chrono Beauty / Bioré UV", store: "Tóquio • @cosme / Matsumoto Kiyoshi / Don Quijote", aliases: ["Anessa Perfect UV Sunscreen (~¥2.500)"] },
-    { text: "🧴 Hada Labo Gokujyun Premium / Curél / Minon", store: "Tóquio • @cosme / farmácias", aliases: ["Hada Labo Gokujyun lotion (~¥800)"] },
-    { text: "🧴 Senka Perfect Whip", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi", aliases: ["Senka Perfect Whip (sabonete facial, ~¥500)"] },
-    { text: "🧴 Melano CC Premium Essence", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi", aliases: ["Melano CC (vitamina C / manchas)"] },
-    { text: "🧴 SK-II Facial Treatment Essence", store: "Tóquio • Ginza Mitsukoshi / Matsuya / departamentos", aliases: ["SK-II Facial Treatment Essence (loja de departamento)"] },
-    { text: "🧴 Shiseido Ultimune Power Infusing Concentrate", store: "Tóquio • Shiseido / @cosme / departamentos", aliases: ["Shiseido (linha premium)"] },
-    { text: "💄 SUQQU The Liquid Foundation", store: "Tóquio • Ginza / departamentos" },
-    { text: "💄 SUQQU Pure Color Blush", store: "Tóquio • Ginza / departamentos" },
-    { text: "💄 Kanebo / Clé de Peau / Decorté", store: "Tóquio • Ginza / departamentos" },
-    { text: "🧴 La Roche-Posay / CeraVe / Bioderma Sensibio H2O", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "🧴 Cicaplast Baume B5+ / Anthelios UVMune 400", store: "Dubai • Life Pharmacy / Boots" },
-    { text: "👜 Komehyo / Brand Off / Daikokuya — bolsas usadas autenticadas", store: "Tóquio • Ginza; Osaka • Shinsaibashi — só se sobrar tempo" },
-    { text: "👚 UNIQLO / GU / MUJI — peças, básicos, organizadores e travel goods", store: "Tóquio • Ginza/Shinjuku/Shibuya" },
-    { text: "🏠 Toalhas Imabari", store: "Japão • Loft / Hands / departamentos" },
-    { text: "🏠 Cerâmica, hashis bons, chá Ippodo e presentes úteis", store: "Kyoto • Nishiki/Kiyomizu; Tóquio • Kappabashi/Loft/Hands" },
-    { text: "🌲 Perfume e maquiagem em Sephora Dubai", store: "Dubai • Sephora Dubai Mall / Mall of the Emirates" },
-  ],
-  "Luísa": [
-    { text: "💄 Canmake Marshmallow Finish Powder", store: "Tóquio • @cosme / Don Quijote / Matsumoto Kiyoshi", aliases: ["Canmake Marshmallow Powder (~¥770)"] },
-    { text: "🧴 Canmake Mermaid Skin Gel UV", store: "Tóquio • @cosme / Don Quijote", aliases: ["Canmake Mermaid Skin Gel UV"] },
-    { text: "💄 Canmake Cream Cheek", store: "Tóquio • @cosme / Don Quijote" },
-    { text: "💄 Cezanne Pearl Glow Highlight / Lasting Lip Color", store: "Tóquio • @cosme / Don Quijote", aliases: ["Cezanne base/blush"] },
-    { text: "💄 Kate Lip Monster", store: "Tóquio • @cosme / Don Quijote" },
-    { text: "💄 Kate Designing Eyebrow 3D", store: "Tóquio • @cosme / Don Quijote", aliases: ["Kate paleta de olhos"] },
-    { text: "💄 Heroine Make Long & Curl Mascara Advanced Film", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi", aliases: ["Heroine Make rímel à prova d'água"] },
-    { text: "💄 Rom&nd Juicy Lasting Tint / Glasting Melting Balm", store: "Tóquio • @cosme / Don Quijote / Loft / PLAZA", aliases: ["Lip tint rom&nd / Peripera (Loft/PLAZA)"] },
-    { text: "💄 Peripera / Clio — lip tint, cushion, blush", store: "Tóquio • Don Quijote / @cosme / Shin-Okubo" },
-    { text: "🧴 COSRX Advanced Snail 96 Mucin", store: "Tóquio • Don Quijote / @cosme / Shin-Okubo" },
-    { text: "🧴 Anua Heartleaf 77 Toner", store: "Tóquio • Don Quijote / @cosme / Shin-Okubo" },
-    { text: "🧴 Beauty of Joseon Relief Sun", store: "Tóquio • Don Quijote / @cosme / Shin-Okubo" },
-    { text: "🧴 Bioré UV Aqua Rich / Skin Aqua UV Super Moisture Gel", store: "Tóquio • farmácias / Don Quijote", aliases: ["Biore UV Aqua Rich (protetor diário)"] },
-    { text: "✨ Glitter de pálpebra / highlighter kira-kira", store: "Tóquio • Loft / PLAZA / @cosme", aliases: ["Glitter de pálpebra / highlighter (tendência kira kira)"] },
-    { text: "👗 Shibuya 109 — moda jovem", store: "Tóquio • Shibuya" },
-    { text: "🎮 Shibuya PARCO 6F — Nintendo Tokyo / Pokémon Center", store: "Tóquio • Shibuya PARCO" },
-    { text: "📸 Purikura", store: "Tóquio • Harajuku/Shibuya arcades" },
-    { text: "🎀 Takeshita acessórios, meias, pelúcias e itens kawaii úteis", store: "Tóquio • Harajuku — sem focar doces/snacks" },
-    { text: "✒️ Papelaria japonesa: Uni Jetstream / Zebra Sarasa / Pilot Frixion / Kokuyo", store: "Tóquio • Loft / Hands" },
-    { text: "👚 UNIQLO / GU — básicos e moda jovem", store: "Tóquio • Ginza/Shibuya/Shinjuku" },
-  ],
+const SHOPPING_LIST_STORAGE_KEY = "vjshopping26";
+const SHOPPING_LIST_BACKUPS_KEY = "vjshopping26_backups";
+const SHOPPING_LIST_SCHEMA = "vjtrip26-shopping-v1";
+const DEFAULT_SHOPPING_LIST = {
+  schema: SHOPPING_LIST_SCHEMA,
+  app: "Travel Companion Dubai + Japão 2026",
+  version: "compras-v1.0.0",
+  updatedAt: "2026-06-21T00:00:00-03:00",
+  updatedBy: "base recuperada do app",
+  note: "Arquivo externo da lista de compras. Edite os arrays em lists.Rodrigo, lists.Luciana e lists['Luísa']; depois importe em Config > Manutenção da lista de compras. O app cria backup automático antes de substituir a lista atual.",
+  lists: {
+    "Luísa": [
+      { text: "Canmake Marshmallow Powder (~¥770)", store: "" },
+      { text: "Canmake Mermaid Skin Gel UV", store: "" },
+      { text: "Cezanne base/blush", store: "" },
+      { text: "Kate paleta de olhos", store: "" },
+      { text: "Heroine Make rímel à prova d'água", store: "" },
+      { text: "Lip tint rom&nd / Peripera (Loft/PLAZA)", store: "" },
+      { text: "Biore UV Aqua Rich (protetor diário)", store: "" },
+      { text: "Glitter de pálpebra / highlighter (tendência kira kira)", store: "" },
+    ],
+    "Luciana": [
+      { text: "Anessa Perfect UV Sunscreen (~¥2.500)", store: "" },
+      { text: "Hada Labo Gokujyun lotion (~¥800)", store: "" },
+      { text: "Senka Perfect Whip (sabonete facial, ~¥500)", store: "" },
+      { text: "Melano CC (vitamina C / manchas)", store: "" },
+      { text: "Shiseido (linha premium)", store: "" },
+      { text: "SK-II Facial Treatment Essence (loja de departamento)", store: "" },
+    ],
+    "Rodrigo": [
+      { text: "RiUP X5 Plus NEO ou Charge (minoxidil 5% — balcão 薬)", store: "" },
+      { text: "Senka Perfect Whip (sabonete facial)", store: "" },
+      { text: "Hada Labo Gokujyun lotion", store: "" },
+      { text: "Melano CC (vitamina C)", store: "" },
+      { text: "Bioré UV Aqua Rich (protetor)", store: "" },
+      { text: "Shampoo/tônico Scalp-D (Angfa)", store: "" },
+      { text: "Faca Sujihiki 270mm (Tower Knives, Dia 7)", store: "" },
+      { text: "Vinil KISS / rock-metal (Disk Union Shibuya)", store: "" },
+    ],
+  },
 };
-function normalizeSeedItem(item) {
-  if (typeof item === "string") return { text: item, store: "", aliases: [] };
-  return { text: item.text || "", store: item.store || "", aliases: item.aliases || [] };
-}
+const SHOP_SEED = DEFAULT_SHOPPING_LIST.lists;
 
-function buildSeedShopping() {
+const normalizePersonName = (name) => {
+  const clean = (name || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  return USERS.find((u) => u.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === clean) || null;
+};
+
+const normalizeShoppingListsInput = (payload) => {
+  const grouped = { Rodrigo: [], Luciana: [], "Luísa": [] };
+  if (Array.isArray(payload?.items)) {
+    payload.items.forEach((item) => {
+      const owner = normalizePersonName(item?.person || item?.owner || item?.user || item?.by) || "Rodrigo";
+      grouped[owner].push(item);
+    });
+    return grouped;
+  }
+  const raw = payload?.lists || payload?.shopping || payload;
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("O arquivo precisa ter 'lists' com Rodrigo, Luciana e/ou Luísa.");
+  Object.entries(raw).forEach(([key, value]) => {
+    const person = normalizePersonName(key);
+    if (person) {
+      if (!Array.isArray(value)) throw new Error(`A lista de ${person} precisa ser um array.`);
+      grouped[person] = value;
+    }
+  });
+  return grouped;
+};
+
+const shoppingKey = (text) => (text || "").toString().trim().toLocaleLowerCase("pt-BR");
+const stableShoppingId = (person, text, index) => `shop-${person.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()}-${index + 1}-${Math.abs([...text].reduce((a, ch) => ((a << 5) - a + ch.charCodeAt(0)) | 0, 0))}`;
+
+function validateShoppingListPayload(payload, existingShopping = EMPTY.shopping, sourceLabel = "arquivo") {
+  if (payload?.schema && payload.schema !== SHOPPING_LIST_SCHEMA) {
+    throw new Error(`Schema de compras inválido: ${payload.schema}. Esperado: ${SHOPPING_LIST_SCHEMA}.`);
+  }
+  const lists = normalizeShoppingListsInput(payload);
   const out = { Rodrigo: [], Luciana: [], "Luísa": [] };
-  let id = Date.now();
-  Object.keys(SHOP_SEED).forEach((u) => {
-    SHOP_SEED[u].forEach((raw) => {
-      const item = normalizeSeedItem(raw);
-      if (!item.text) return;
-      out[u].push({ id: id++, text: item.text, store: item.store || "", done: false, by: "sugestão", aliases: item.aliases || [] });
+  USERS.forEach((person) => {
+    const existingByText = new Map((existingShopping?.[person] || []).map((item) => [shoppingKey(item.text), item]));
+    out[person] = (lists[person] || []).map((raw, index) => {
+      const source = typeof raw === "string" ? { text: raw } : (raw || {});
+      const text = (source.text || source.title || source.name || "").toString().trim();
+      if (!text) throw new Error(`${person}: item ${index + 1} sem campo 'text'.`);
+      const prev = existingByText.get(shoppingKey(text));
+      return {
+        id: source.id || prev?.id || stableShoppingId(person, text, index),
+        text,
+        store: (source.store ?? source.where ?? prev?.store ?? "").toString(),
+        done: typeof source.done === "boolean" ? source.done : Boolean(prev?.done),
+        by: source.by || source.owner || source.person || sourceLabel,
+        ...(source.category ? { category: source.category } : {}),
+        ...(source.city ? { city: source.city } : {}),
+        ...(source.country ? { country: source.country } : {}),
+        ...(source.priority ? { priority: source.priority } : {}),
+        ...(source.note ? { note: source.note } : {}),
+      };
     });
   });
+  const total = USERS.reduce((acc, person) => acc + out[person].length, 0);
+  if (total < 1) throw new Error("A lista de compras está vazia.");
   return out;
 }
 
+function buildSeedShopping(payload = DEFAULT_SHOPPING_LIST) {
+  return validateShoppingListPayload(payload, EMPTY.shopping, "sugestão");
+}
 
 function makeRoutePayload(content, extra = {}) {
   return {
@@ -319,6 +313,33 @@ function makeRoutePayload(content, extra = {}) {
     tips: content.tips,
     reservations: content.reservations,
     reservationsMeta: content.reservationsMeta,
+    ...extra,
+  };
+}
+
+function makeShoppingListPayload(shopping, extra = {}) {
+  const lists = { Rodrigo: [], Luciana: [], "Luísa": [] };
+  USERS.forEach((person) => {
+    lists[person] = (shopping?.[person] || []).map((item) => {
+      const clean = {
+        text: item.text || "",
+        store: item.store || "",
+      };
+      if (item.category) clean.category = item.category;
+      if (item.city) clean.city = item.city;
+      if (item.country) clean.country = item.country;
+      if (item.priority) clean.priority = item.priority;
+      if (item.note) clean.note = item.note;
+      return clean;
+    }).filter((item) => item.text);
+  });
+  return {
+    schema: SHOPPING_LIST_SCHEMA,
+    app: "Travel Companion Dubai + Japão 2026",
+    version: `compras-${safeStamp()}`,
+    exportedAt: new Date().toISOString(),
+    note: "Arquivo externo da lista de compras. Edite os arrays em lists.Rodrigo, lists.Luciana e lists['Luísa']; depois importe em Config > Manutenção da lista de compras. O app cria backup automático antes de substituir a lista atual. Campos aceitos por item: text, store, category, city, country, priority e note.",
+    lists,
     ...extra,
   };
 }
@@ -398,6 +419,13 @@ export default function App() {
   useEffect(() => { installAppBranding(); }, []);
   const applyContent = (c) => { setRouteDays(c.days); setStores(c.stores); setMustdo(c.mustdo); setTips(c.tips); setMeals(c.meals); setReservations(c.reservations || DEFAULT_RESERVATIONS); setReservationsMeta(c.reservationsMeta || DEFAULT_RESERVATIONS_META); };
   const [routeBackups, setRouteBackups] = useState([]);
+  const [shoppingBackups, setShoppingBackups] = useState([]);
+  const [shoppingListMeta, setShoppingListMeta] = useState({
+    schema: DEFAULT_SHOPPING_LIST.schema,
+    version: DEFAULT_SHOPPING_LIST.version,
+    updatedAt: DEFAULT_SHOPPING_LIST.updatedAt,
+    updatedBy: DEFAULT_SHOPPING_LIST.updatedBy,
+  });
   const [syncing, setSyncing] = useState(false);
   const [lastSync, setLastSync] = useState(null);
   const [toast, setToast] = useState(null);
@@ -424,7 +452,9 @@ export default function App() {
   const inp = { width: "100%", boxSizing: "border-box", padding: "10px 12px", borderRadius: 9, border: "1px solid #e2e8f0", fontSize: fs(14), outline: "none", background: "#f8fafc" };
   const [maintUnlocked] = useState(true);
   const [importingRoute, setImportingRoute] = useState(false);
+  const [importingShopping, setImportingShopping] = useState(false);
   const routeFileRef = useRef(null);
+  const shoppingFileRef = useRef(null);
   const pollRef = useRef(null);
 
   // ── storage ──
@@ -460,6 +490,22 @@ export default function App() {
       if (backups?.value) {
         const parsedBackups = JSON.parse(backups.value);
         if (Array.isArray(parsedBackups)) setRouteBackups(parsedBackups);
+      }
+      const shoppingMetaRaw = await storage.get(SHOPPING_LIST_STORAGE_KEY, true);
+      if (shoppingMetaRaw?.value) {
+        const parsedShoppingMeta = JSON.parse(shoppingMetaRaw.value);
+        setShoppingListMeta({
+          schema: parsedShoppingMeta.schema || SHOPPING_LIST_SCHEMA,
+          version: parsedShoppingMeta.version || parsedShoppingMeta.updatedAt || "arquivo",
+          updatedAt: parsedShoppingMeta.updatedAt || parsedShoppingMeta.exportedAt || "",
+          updatedBy: parsedShoppingMeta.updatedBy || parsedShoppingMeta.exportedBy || "arquivo",
+          source: parsedShoppingMeta.source || "",
+        });
+      }
+      const shoppingBackupsRaw = await storage.get(SHOPPING_LIST_BACKUPS_KEY, true);
+      if (shoppingBackupsRaw?.value) {
+        const parsedShoppingBackups = JSON.parse(shoppingBackupsRaw.value);
+        if (Array.isArray(parsedShoppingBackups)) setShoppingBackups(parsedShoppingBackups);
       }
       setLastSync(new Date());
     } catch (e) { /* first run */ }
@@ -523,8 +569,11 @@ export default function App() {
       exportedAt: new Date().toISOString(),
       exportedBy: who || "?",
       route: makeRoutePayload(currentContent()),
+      shoppingList: makeShoppingListPayload(st.shopping, { exportedBy: who || "?" }),
       appData: st,
       routeBackups,
+      shoppingBackups,
+      shoppingListMeta,
     });
   };
 
@@ -600,36 +649,112 @@ export default function App() {
     }
   };
 
+  // ── manutenção da lista de compras ──
+  const exportShoppingList = () => {
+    downloadJson(`lista-compras-vjtrip26-${safeStamp()}.json`, makeShoppingListPayload(st.shopping, {
+      exportedBy: who || "?",
+      source: "exportado do app",
+      previousVersion: shoppingListMeta?.version || DEFAULT_SHOPPING_LIST.version,
+    }));
+  };
+
+  const saveShoppingListWithBackup = async (newShopping, reason = "Importação manual", sourceFile = "") => {
+    const currentTotal = USERS.reduce((acc, person) => acc + (st.shopping?.[person] || []).length, 0);
+    const backup = {
+      id: `shopping-backup-${safeStamp()}`,
+      createdAt: new Date().toISOString(),
+      createdBy: who || "?",
+      reason,
+      version: shoppingListMeta?.version || DEFAULT_SHOPPING_LIST.version,
+      totalItems: currentTotal,
+      shopping: { ...EMPTY.shopping, ...(st.shopping || {}) },
+    };
+    const nextBackups = [backup, ...shoppingBackups].slice(0, 5);
+    const payload = makeShoppingListPayload(newShopping, {
+      version: `compras-${safeStamp()}`,
+      updatedAt: new Date().toISOString(),
+      updatedBy: who || "?",
+      source: sourceFile || reason,
+    });
+    await storage.set(SHOPPING_LIST_BACKUPS_KEY, JSON.stringify(nextBackups), true);
+    await storage.set(SHOPPING_LIST_STORAGE_KEY, JSON.stringify(payload), true);
+    setShoppingBackups(nextBackups);
+    setShoppingListMeta({
+      schema: payload.schema,
+      version: payload.version,
+      updatedAt: payload.updatedAt,
+      updatedBy: payload.updatedBy,
+      source: payload.source,
+    });
+    await save({ ...st, shopping: newShopping }, "Lista de compras atualizada");
+    try { await storage.set(SHOP_SEED_KEY, "done", true); } catch {}
+  };
+
+  const importShoppingFile = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    setImportingShopping(true);
+    try {
+      const text = await file.text();
+      const payload = JSON.parse(text);
+      const nextShopping = validateShoppingListPayload(payload, st.shopping, file.name);
+      const total = USERS.reduce((acc, person) => acc + nextShopping[person].length, 0);
+      const msg = `Importar ${total} itens de compras e substituir a lista atual para todos? Itens com o mesmo texto preservam o status de comprado.`;
+      if (!confirm(msg)) return;
+      await saveShoppingListWithBackup(nextShopping, `Importado de ${file.name}`, file.name);
+      setToast(`✓ Lista importada: ${total} itens`);
+      setTimeout(() => setToast(null), 2600);
+    } catch (e) {
+      setToast(`⚠️ JSON de compras inválido: ${e.message}`);
+      setTimeout(() => setToast(null), 4200);
+    } finally {
+      setImportingShopping(false);
+    }
+  };
+
+  const restoreShoppingBackup = async (backup) => {
+    if (!backup?.shopping) return;
+    const when = backup.createdAt ? new Date(backup.createdAt).toLocaleString("pt-BR") : "backup selecionado";
+    if (!confirm(`Restaurar a lista de compras do backup de ${when}? Um backup da lista atual será criado antes.`)) return;
+    try {
+      const nextShopping = validateShoppingListPayload({ lists: backup.shopping }, st.shopping, `backup ${backup.id || ""}`);
+      await saveShoppingListWithBackup(nextShopping, `Restauração do ${backup.id || "backup"}`);
+      setToast("✓ Backup de compras restaurado");
+      setTimeout(() => setToast(null), 2600);
+    } catch (e) {
+      setToast(`⚠️ Falha ao restaurar compras: ${e.message}`);
+      setTimeout(() => setToast(null), 4200);
+    }
+  };
+
+  const resetShoppingToDefault = async () => {
+    if (!confirm("Voltar à lista de compras original transportada do app? Um backup da lista atual será criado.")) return;
+    try {
+      const nextShopping = buildSeedShopping(DEFAULT_SHOPPING_LIST);
+      await saveShoppingListWithBackup(nextShopping, "Voltar à lista de compras original", "lista original embutida");
+      setToast("✓ Lista original de compras restaurada");
+      setTimeout(() => setToast(null), 2600);
+    } catch (e) {
+      setToast(`⚠️ Erro ao restaurar lista original: ${e.message}`);
+      setTimeout(() => setToast(null), 3200);
+    }
+  };
+
   const restoreSuggestedShopping = async () => {
-    if (!confirm("Adicionar/atualizar as listas de compras sugeridas (Rodrigo, Luciana e Luísa)? Os itens que você já marcou serão mantidos.")) return;
+    if (!confirm("Adicionar de volta as listas de compras sugeridas (Rodrigo, Luciana e Luísa)? Os itens que você já tem serão mantidos.")) return;
     try {
       const seed = buildSeedShopping();
       const merged = { Rodrigo: [], Luciana: [], "Luísa": [] };
       ["Rodrigo", "Luciana", "Luísa"].forEach((u) => {
-        const current = (st.shopping?.[u] || []).map((i) => ({ ...i }));
-        seed[u].forEach((s) => {
-          const idx = current.findIndex((i) => i.text === s.text || (s.aliases || []).includes(i.text));
-          if (idx >= 0) {
-            current[idx] = {
-              ...current[idx],
-              text: s.text,
-              store: (!current[idx].store || current[idx].store === "—") ? (s.store || current[idx].store || "") : current[idx].store,
-              by: current[idx].by || "sugestão"
-            };
-          } else {
-            current.push(s);
-          }
-        });
-        const seen = new Set();
-        merged[u] = current.filter((i) => {
-          if (seen.has(i.text)) return false;
-          seen.add(i.text);
-          return true;
-        }).map(({ aliases, ...clean }) => clean);
+        const existing = st.shopping?.[u] || [];
+        const existingText = new Set(existing.map((i) => i.text));
+        const toAdd = seed[u].filter((i) => !existingText.has(i.text));
+        merged[u] = [...existing, ...toAdd];
       });
-      await save({ ...st, shopping: merged }, "Listas sugeridas atualizadas");
+      await save({ ...st, shopping: merged }, "Listas sugeridas restauradas");
       try { await storage.set(SHOP_SEED_KEY, "done", true); } catch {}
-    } catch { setToast("⚠️ Erro ao atualizar listas"); setTimeout(() => setToast(null), 2600); }
+    } catch { setToast("⚠️ Erro ao restaurar listas"); setTimeout(() => setToast(null), 2600); }
   };
 
   // ── mutations ──
@@ -1702,7 +1827,6 @@ export default function App() {
                   <button onClick={() => routeFileRef.current?.click()} disabled={importingRoute} style={{ padding: 11, borderRadius: 9, border: "none", background: "#fef3c7", color: "#92400e", fontWeight: 800, cursor: "pointer", fontSize: fs(12), opacity: importingRoute ? .6 : 1 }}>⬆️ Importar JSON</button>
                   <button onClick={exportFullBackup} style={{ padding: 11, borderRadius: 9, border: "none", background: "#eef2ff", color: "#4338ca", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>💾 Backup completo</button>
                   <button onClick={resetRouteToDefault} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>↩️ Roteiro original</button>
-                  <button onClick={restoreSuggestedShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>🛍️ Adicionar/atualizar listas sugeridas</button>
                 </div>
                 <div style={{ fontSize: fs(11), color: "#b45309", marginTop: 8 }}>
                   Dica: depois de exportar, edite o arquivo mantendo a estrutura JSON. Campos mais seguros para alterar: horários, títulos, textos, mapas, refeições, compras e atividades.
@@ -1717,6 +1841,50 @@ export default function App() {
                           <div style={{ fontSize: fs(10), color: "#b45309" }}>{b.reason || "Backup"} · por {b.createdBy || "—"}</div>
                         </div>
                         <button onClick={() => restoreRouteBackup(b)} style={{ border: "none", borderRadius: 8, background: "#fff7ed", color: "#c2410c", padding: "7px 9px", fontWeight: 800, cursor: "pointer", fontSize: fs(11) }}>Restaurar</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div></Card>
+          <Card s={{ borderLeft: "4px solid #7c3aed" }}><div style={{ padding: 14 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <div>
+                <div style={{ fontWeight: 900, fontSize: fs(15), color: "#581c87" }}>🛍️ Manutenção da lista de compras</div>
+                <div style={{ fontSize: fs(12), color: "#7e22ce", marginTop: 2 }}>{shopT} itens carregados · backups: {shoppingBackups.length}</div>
+              </div>
+              <span style={{ background: "#f3e8ff", color: "#6b21a8", fontSize: fs(10), fontWeight: 800, padding: "4px 8px", borderRadius: 99 }}>JSON</span>
+            </div>
+            <div style={{ background: "#faf5ff", border: "1px solid #e9d5ff", borderRadius: 10, padding: 10, fontSize: fs(12), color: "#6b21a8", marginBottom: 8 }}>
+              A lista de compras agora é arquivo externo versionado. Importe um JSON novo para substituir a lista inteira sem alterar o fonte do app; itens com o mesmo texto mantêm o check de comprado.
+            </div>
+            <div style={{ fontSize: fs(11), color: "#7e22ce", marginBottom: 10 }}>
+              Versão atual: <b>{shoppingListMeta?.version || DEFAULT_SHOPPING_LIST.version}</b><br/>
+              Atualizada por: <b>{shoppingListMeta?.updatedBy || "base"}</b>{shoppingListMeta?.updatedAt ? ` · ${new Date(shoppingListMeta.updatedAt).toLocaleString("pt-BR")}` : ""}
+            </div>
+            {maintUnlocked && (
+              <>
+                <input ref={shoppingFileRef} type="file" accept="application/json,.json" onChange={importShoppingFile} style={{ display: "none" }} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
+                  <button onClick={exportShoppingList} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f3e8ff", color: "#6b21a8", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>⬇️ Exportar compras</button>
+                  <button onClick={() => shoppingFileRef.current?.click()} disabled={importingShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#ede9fe", color: "#5b21b6", fontWeight: 800, cursor: "pointer", fontSize: fs(12), opacity: importingShopping ? .6 : 1 }}>⬆️ Importar compras</button>
+                  <button onClick={resetShoppingToDefault} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>↩️ Lista original</button>
+                  <button onClick={restoreSuggestedShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f8fafc", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>➕ Repor itens base</button>
+                </div>
+                <div style={{ fontSize: fs(11), color: "#7e22ce", marginTop: 8 }}>
+                  Edite somente o arquivo de compras quando quiser fazer alteração em massa. Campos aceitos por item: <b>text</b>, <b>store</b>, <b>category</b>, <b>city</b>, <b>country</b>, <b>priority</b> e <b>note</b>.
+                </div>
+                {shoppingBackups.length > 0 && (
+                  <div style={{ marginTop: 12 }}>
+                    <div style={{ fontWeight: 800, fontSize: fs(12), color: "#581c87", marginBottom: 6 }}>Restaurar backup de compras</div>
+                    {shoppingBackups.slice(0, 5).map((b, i) => (
+                      <div key={b.id || i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 0", borderTop: i === 0 ? "1px solid #e9d5ff" : "1px dashed #e9d5ff" }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: fs(12), fontWeight: 800, color: "#581c87" }}>{new Date(b.createdAt).toLocaleString("pt-BR")}</div>
+                          <div style={{ fontSize: fs(10), color: "#7e22ce" }}>{b.reason || "Backup"} · {b.totalItems || 0} itens · por {b.createdBy || "—"}</div>
+                        </div>
+                        <button onClick={() => restoreShoppingBackup(b)} style={{ border: "none", borderRadius: 8, background: "#faf5ff", color: "#6b21a8", padding: "7px 9px", fontWeight: 800, cursor: "pointer", fontSize: fs(11) }}>Restaurar</button>
                       </div>
                     ))}
                   </div>
