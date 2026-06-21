@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
-//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.19-SELETORES-RODRIGO (edição guiada de compras)
+//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.20-SELETORES-DISCRETOS (edição guiada sem banner)
 // ═══════════════════════════════════════════════════════════════════════════
-//  BUILD_CHECK: V4_19_SELETORES_LOJA_CATEGORIA_PRIORIDADE_PESSOA_2026_06_21
+//  BUILD_CHECK: V4_20_SELETORES_BOTOES_DISCRETOS_SEM_BANNER_2026_06_21
 import { useState, useEffect, useCallback, useRef } from "react";
 import { storage, isFirebaseEnabled } from "./sharedStorage";
 
@@ -3618,12 +3618,6 @@ export default function App() {
               {(item.city || item.country) && <span style={{ fontSize: fs(10), color: "#065f46", background: "#d1fae5", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{[item.city, item.country].filter(Boolean).join(" · ")}</span>}
             </div>
             {item.note && <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 5, lineHeight: 1.35 }}>📝 {item.note}</div>}
-            {editShopKey !== `${u}::${item.id}` && (
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 92px", gap: 8, marginTop: 9 }}>
-                <button onClick={() => openShopEdit(u, item)} style={{ background: "#eef2ff", border: "1px solid #c7d2fe", borderRadius: 10, cursor: "pointer", color: "#4338ca", fontSize: fs(12), fontWeight: 1000, padding: "9px 10px", textAlign: "center" }}>✏️ Editar este item</button>
-                <button onClick={() => rmShop(u, item.id)} style={{ background: "#fff1f2", border: "1px solid #fecdd3", borderRadius: 10, cursor: "pointer", color: "#be123c", fontSize: fs(12), fontWeight: 1000, padding: "9px 10px", textAlign: "center" }}>Excluir</button>
-              </div>
-            )}
             {editShopKey === `${u}::${item.id}` && editShopDraft && (
               <div style={{ marginTop: 10, background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 12, padding: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 8 }}>
@@ -3654,7 +3648,12 @@ export default function App() {
               </div>
             )}
           </div>
-          <div style={{ flexShrink: 0, width: 1 }} />
+          {editShopKey !== `${u}::${item.id}` && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0, alignItems: "center", marginTop: 1 }}>
+              <button onClick={() => openShopEdit(u, item)} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, cursor: "pointer", color: "#475569", fontSize: fs(11), fontWeight: 900, padding: "5px 7px" }}>Editar</button>
+              <button onClick={() => rmShop(u, item.id)} title="Excluir" style={{ background: "none", border: "none", cursor: "pointer", color: "#fca5a5", fontSize: fs(19), lineHeight: 1, padding: 0 }}>×</button>
+            </div>
+          )}
         </div>
       );
     };
@@ -3672,9 +3671,6 @@ export default function App() {
             }), `${shopView} ${shopView === "Todos" ? filteredPairs.length : filteredPairs.filter(p => p.u === shopView).length}`, (label) => changeShopView(label.replace(/ \d+$/, "")), "#0f766e")}
           </div>
 
-          <div style={{ background: "#ecfeff", borderRadius: 12, padding: "10px 12px", marginBottom: 10, border: "1px solid #bae6fd", color: "#075985", fontSize: fs(12), fontWeight: 800, lineHeight: 1.35 }}>
-            Para corrigir um item: toque em <b>✏️ Editar este item</b>. A edição agora é guiada, com listas para loja principal, aba de compra, categoria, prioridade, cidade e dia/rota.
-          </div>
 
           <div style={{ background: "#fff", borderRadius: 12, padding: 12, marginBottom: 12, boxShadow: "0 1px 4px #0000000d" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
