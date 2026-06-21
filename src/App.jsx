@@ -1,0 +1,4247 @@
+// ═══════════════════════════════════════════════════════════════════════════
+//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.15 (compras com abas por pessoa)
+// ═══════════════════════════════════════════════════════════════════════════
+import { useState, useEffect, useCallback, useRef } from "react";
+import { storage, isFirebaseEnabled } from "./sharedStorage";
+
+const DEFAULT_DAYS = [{"day":1,"date":"28/11/2026","weekday":"Sábado","anchor":"Brasil -> Dubai","city":"Voo","color":"#64748b","base":"Voo / chegada internacional","logic":"Viajar com conforto e tratar o dia como 100% logístico: aeroporto, voo Brasil → Dubai, chegada, hotel e descanso. O objetivo é preservar energia e manter documentos, remédios, eletrônicos e itens essenciais sempre acessíveis.","goldenRule":"Dia exclusivamente logístico: aeroporto, voo, chegada, hotel e descanso.","expected":"Chegar em Dubai sem compromisso turístico e com o básico sob controle: documentos, remédios, eletrônicos, roupa reserva e energia preservada para o primeiro dia útil.","before":["Passaportes, cartões, reservas e seguro viagem em pasta física/digital.","Remédios, roupa reserva para emergência, fones, cabos, power banks e adaptadores na mala de mão. Power bank e item essencial não devem ir na mala despachada.","eSIM, Suica e contas/apps de viagem pré-configurados para o Japão, sem depender de resolver isso no aeroporto ou no primeiro dia em Tóquio.","Não colocar power bank ou item essencial na mala despachada."],"summary":"","activities":[{"time":"Dia todo","title":"Brasil -> Dubai","type":"Logística de viagem internacional","maps":"Dubai International Airport DXB","ifLate":"Se houver atraso de voo, cancelar qualquer intenção de saída em Dubai e dormir.","cat":"transfer","logistics":"Chegar ao aeroporto com antecedência, fazer check-in, segurança, embarque e voo sem pressa. Manter documentos, remédios, eletrônicos, cabos, power banks e troca de roupa sempre acessíveis na mala de mão.","onArrival":"Ao pousar em Dubai, seguir a sequência simples: imigração → retirada de malas → táxi/transfer → hotel. Não abrir passeio, compras ou restaurante fora da logística se o grupo estiver cansado.","insight":"Dubai tem fuso bem diferente do Brasil; tentar dormir e comer já pensando no horário local ajuda a reduzir o cansaço dos próximos dias.","decision":"Se o voo atrasar, se a imigração demorar ou se o grupo chegar muito cansado, a decisão automática é ir direto ao hotel e descansar.","mode":"flight","transportGuide":{"summary":"Fluxo de aeroporto/voo: documentos na mão, malas e segurança sem abrir passeio paralelo.","method":"Aeroporto/voo","difficulty":"média","luggageRisk":"médio","route":"Dubai International Airport DXB","stepByStep":["Manter passaportes, reservas e cartões acessíveis.","Seguir placas de Arrivals/Immigration/Baggage Claim ou Departures/Check-in conforme o caso.","Resolver imigração/segurança antes de compras/comida.","Após malas/segurança, só então pensar em lanche, banheiro ou duty free."],"stationSigns":["Arrivals","Immigration","Baggage Claim","Departures","Check-in","Security"],"correctExit":"","finalWalk":"","traps":"O risco é dispersar documentos ou parar para compras antes do fluxo crítico.","planB":"Se algo atrasar, cortar compras/refeições e proteger voo/transfer.","confidence":"alta","sourceNote":"Guia padrão de aeroporto.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}]},{"day":2,"date":"29/11/2026","weekday":"Domingo","anchor":"Dubai Mall leve","city":"Dubai","color":"#0ea5e9","base":"Dubai - Sofitel Dubai Downtown","logic":"Recuperar do voo e fazer o primeiro contato leve com Dubai usando o Dubai Mall como base indoor: compras pontuais, Burj Khalifa por fora e Dubai Fountain se houver energia, sem transformar o primeiro dia em maratona.","attention":"Tentar fazer compras demais no primeiro dia e cansar antes de Abu Dhabi.","goldenRule":"Dia leve: poucas lojas, fotos e jantar fácil.","expected":"Fazer uma adaptação leve a Dubai: comer bem, reconhecer o entorno do hotel, ver Burj/Fountain se o corpo permitir e dormir cedo para Abu Dhabi.","before":["Acordar sem pressa e tomar café no hotel.","Levar água, cartão, celular carregado e uma lista curta de compras essenciais. Sem lista, o Dubai Mall vira armadilha de tempo logo no primeiro dia.","Não sair com meta de “resolver todas as compras” no primeiro dia."],"meals":"Café no hotel. Almoço e jantar abertos no Dubai Mall/Downtown, escolhidos pela energia do grupo.","summary":"29/11: Dia de adaptação | Dubai Mall sem maratona | Burj/Fountain se houver energia | Dormir bem para Abu Dhabi","activities":[{"time":"Fim da manhã","title":"Hotel -> Dubai Mall","type":"Deslocamento curto / início leve","maps":"Sofitel Dubai Downtown to Dubai Mall","logistics":"Caminhada/conexão interna se confortável ou táxi curto. Tempo real: 5-15 min.","onArrival":"Escolher poucas lojas-alvo, fazer reconhecimento do shopping e usar o complexo como base indoor para alimentação. Não tentar “cobrir o shopping”: ele é enorme e consome horas sem perceber.","insight":"O Dubai Mall é uma boa primeira adaptação porque é indoor, perto do hotel e tem alimentação, farmácia, eletrônicos e lojas no mesmo complexo. O risco é tentar resolver compras demais antes do corpo recuperar do voo.","buy":"Marcas, eletrônicos, beleza e itens faltantes de viagem, mas só o essencial neste dia. Compras grandes ficam para os dias finais em Dubai, depois do Japão.","decision":"Limitar o primeiro bloco a 2-4 lojas grandes.","ifLate":"Se acordarem tarde, manter apenas Dubai Mall + Burj/Fountain e cortar compras longas.","cat":"transfer","mode":"walk","transportGuide":{"summary":"Sofitel Downtown → Dubai Mall; caminhar/conexão interna se o grupo estiver bem, táxi curto se calor/cansaço.","method":"Caminhada","difficulty":"baixa","luggageRisk":"baixo","route":"Sofitel Dubai Downtown → Dubai Mall / Fashion Avenue / Fountain area","stepByStep":["Abrir o destino exato no Maps antes de sair.","Caminhar pelo lado mais simples, sem atravessar estação por dentro se houver rota externa clara.","Conferir a direção a cada mudança de rua grande.","Se o Maps mandar por corredor interno confuso, preferir rota de rua ou táxi curto."],"stationSigns":["Exit / 出口","Street level / 地上","Pedestrian deck / 歩行者デッキ"],"correctExit":"","finalWalk":"5–15 min conforme entrada usada.","traps":"Dubai Mall é enorme; escolher entrada/setor evita andar sem rumo.","planB":"Táxi curto direto para a entrada mais próxima do setor desejado.","confidence":"alta","sourceNote":"Guia de caminhada curto; usar Maps ao vivo para semáforos e obras locais.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Tarde","title":"Dubai Mall","type":"Shopping gigante / compras leves / alimentação","maps":"Dubai Mall, Downtown Dubai","logistics":"Caminhar por setores definidos; não tentar cobrir o shopping inteiro.","onArrival":"Escolher poucas lojas, fazer reconhecimento e usar como base indoor para alimentação.","insight":"É um dos maiores shoppings do mundo; sem lista, vira armadilha de tempo.","eat":"Almoço simples no shopping; escolher restaurante com fila baixa.","buy":"Marcas, eletrônicos e beleza, mas só o essencial neste dia.","photo":"Áreas internas e acesso ao Burj/Dubai Fountain.","decision":"Sair para a área externa do Burj/Fountain no fim da tarde/noite.","ifLate":"Se o grupo estiver cansado, jantar no shopping e voltar ao hotel sem insistir em fotos externas.","cat":"shop","notes":["Concentrar compras PESADAS no fim da viagem (Dias 21-22), pos-Japao, quando se sabe o que faltou. Hoje: 2-4 lojas-alvo."]},{"time":"Fim da tarde/noite","title":"Burj Khalifa externo + Dubai Fountain","type":"Foto / skyline / cartão-postal","maps":"Burj Khalifa / Dubai Fountain, Downtown Dubai","logistics":"Caminhada a partir do Dubai Mall. Tempo real: 5-15 min dentro do complexo.","onArrival":"Fazer fotos externas do Burj, ver a região das fontes e encerrar com jantar fácil.","insight":"Primeiro skyline da viagem: Burj Khalifa por fora e Dubai Fountain dão a sensação de Dubai sem exigir deslocamento extra. É uma parada visual curta, não um novo passeio longo.","photo":"Burj Khalifa por fora, lago das fontes, luzes de Downtown.","decision":"Voltar ao hotel após fotos e jantar, mesmo que ainda haja lojas abertas. O dia seguinte tem Abu Dhabi/Ferrari World e precisa de energia.","ifLate":"Se estiverem exaustos, cortar fonte e voltar ao hotel.","cat":"photo"}]},{"day":3,"date":"30/11/2026","weekday":"Segunda","anchor":"Ferrari World / Abu Dhabi","city":"Dubai","color":"#0ea5e9","base":"Dubai - Sofitel Dubai Downtown","logic":"Bate-volta a Yas Island com foco no Ferrari World. Como o parque é indoor e climatizado, o risco não é calor: é chegar tarde, perder a ordem das atrações principais ou alongar demais Yas Mall. O segredo é entrada organizada, Quick Pass se necessário e saída controlada.","attention":"Sair tarde, depender de transporte improvisado ou inventar shopping pesado depois do parque.","goldenRule":"Ao entrar, confirmar a operação da Formula Rossa e do Quick Pass no balcão/app do parque. Se estiver funcionando normalmente: Formula Rossa primeiro, depois Flying Aces e Turbo Track. Se houver regra de agendamento/QR/upgrade, resolver isso antes de circular pelo parque.","expected":"Executar Ferrari World sem virar dia caótico: atrações principais cedo, almoço simples, loja no final e retorno a Dubai sem comprometer o voo do dia seguinte.","before":["Café eficiente no hotel.","Ingressos, documentos, celular e power bank em mãos.","Confirmar transporte/transfer e horário de retorno.","Não planejar outro shopping grande depois do parque."],"meals":"Café no hotel. Almoço operacional dentro do Ferrari World/Yas Mall. Jantar simples perto do hotel em Dubai.","summary":"Ferrari World indoor: Formula Rossa primeiro, depois Flying Aces e Turbo Track. Mamma Rossella para almoço, pipoca de pizza, foto sob o logo gigante, FacePass no app. Retorno tranquilo a Dubai.","activities":[{"time":"08:00 - 09:30","title":"Hotel -> Ferrari World Abu Dhabi","type":"Deslocamento longo / bate-volta","maps":"Sofitel Dubai Downtown to Ferrari World Abu Dhabi, Yas Island, Abu Dhabi","logistics":"Carro com motorista/táxi/transfer. Tempo real: 1h15-1h45.","onArrival":"Sair com margem e confirmar ponto de desembarque.","insight":"O parque mistura montanhas-russas, simuladores e experiência de marca Ferrari. O foco do dia é o Ferrari World; Yas Mall só serve como apoio de comida/banheiro/saída, não como segundo passeio.","decision":"Começar saída entre 17:00 e 17:30, mesmo que ainda falte loja. O retorno para Dubai é longo e o dia seguinte tem voo.","ifLate":"Se sair muito tarde, manter Ferrari World e cortar qualquer extensão em Yas Mall.","cat":"transfer","eat":"Almoço operacional dentro do parque ou Yas Mall, sem fila longa. Mamma Rossella é alvo se encaixar; se a fila estiver ruim, escolher refeição mais rápida e voltar às atrações.","photo":"Foto sob o teto vermelho gigante (maior logo Ferrari do mundo).","notes":["Touring plan: 1) confirmar operação/entrada da Formula Rossa assim que chegar; 2) Formula Rossa primeiro se estiver disponível; 3) Flying Aces; 4) Turbo Track; 5) Mission Ferrari/simuladores; 6) loja Ferrari só no final ou em pausa curta.","Não-óbvio: baixar o app Yas Island antes/na chegada e verificar FacePass, mapas, horários, promoções e eventuais descontos. Karting Academy é opcional pago; só entra se sobrar tempo real e não atrapalhar as atrações principais.","Quick Pass: se o parque estiver cheio, comprar/ativar cedo. Confirmar no balcão/app quais atrações ele cobre e se Formula Rossa exige regra extra, horário, QR ou upgrade. Não descobrir isso no meio da tarde."],"mode":"car","transportGuide":{"summary":"Transfer/carro privado Dubai → Yas Island/Ferrari World.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Sofitel Dubai Downtown → Ferrari World Abu Dhabi","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se o motorista atrasar ou a previsão passar de 1h45, manter Ferrari World e cortar Yas Mall/extra.","confidence":"alta","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"10:00 - 17:30","title":"Ferrari World Abu Dhabi","type":"Parque temático / Ferrari / montanhas-russas","maps":"Ferrari World Abu Dhabi, Yas Island, Abu Dhabi","logistics":"Circular pelo parque priorizando atrações principais cedo.","onArrival":"Fazer montanhas-russas/simuladores primeiro; deixar loja e fotos para depois.","insight":"É o parque temático da Ferrari, com experiências de velocidade, marca e simuladores; o foco é o parque, não o shopping.","eat":"Almoço operacional dentro do parque ou Yas Mall, sem fila longa.","buy":"Loja Ferrari apenas no final ou em pausa curta.","photo":"Entrada, carros, áreas temáticas e loja.","decision":"Começar saída entre 17:00 e 17:30.","ifLate":"Se filas estiverem pesadas, priorizar atrações mais importantes e cortar loja demorada.","cat":"activity"},{"time":"Noite","title":"Retorno para Dubai + jantar simples","type":"Logística de retorno / refeição leve","maps":"Ferrari World Abu Dhabi to Sofitel Dubai Downtown","logistics":"Retornar de carro/transfer. Tempo real: 1h15-1h45.","onArrival":"Voltar ao hotel, banho e jantar simples perto do Sofitel ou Dubai Mall se houver energia.","insight":"O dia seguinte tem voo; o jantar deve recuperar, não cansar.","eat":"Escolher opção rápida e confortável perto do hotel, no Dubai Mall ou room service. Não transformar o jantar em novo deslocamento longo depois de Abu Dhabi.","decision":"Dormir cedo.","ifLate":"Se o retorno atrasar, jantar no hotel/room service/lanche e encerrar.","cat":"transfer","mode":"car","transportGuide":{"summary":"Transfer/carro privado Yas Island → Sofitel Dubai Downtown.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Ferrari World Abu Dhabi → Sofitel Dubai Downtown","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se o trânsito estiver ruim, jantar no hotel/room service; não abrir novo deslocamento.","confidence":"alta","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}]},{"day":4,"date":"01/12/2026","weekday":"Terça","anchor":"Dubai útil + voo para Tóquio","city":"Dubai","color":"#0ea5e9","base":"Dubai -> voo DXB -> Japão","logic":"Fechar malas, descansar e sair ao aeroporto com folga. É o dia de proteger o voo Dubai → Tóquio: compras só se forem essenciais, perto do hotel e com horário de retorno claro.","attention":"Abrir compras longas e atrasar aeroporto.","goldenRule":"Dia técnico: malas, banho, documentos, aeroporto e voo. Compras só entram se não ameaçarem o check-out, o banho e a margem de aeroporto.","expected":"Embarcar para o Japão com mala de mão certa, apps prontos e sem correria no DXB.","before":["Separar roupa do voo e itens de chegada no Japão.","Deixar mala de mão com documentos, remédios, power banks, cabos e eletrônicos.","Validar eSIM, Suica e apps de mapas/tradução.","Evitar compras longe do hotel."],"meals":"Café no hotel. Almoço leve no hotel/Dubai Mall se couber. Jantar operacional no aeroporto/lounge/voo.","summary":"01/12: Malas e aeroporto mandam | Compras só essenciais | Jantar é aeroporto/voo | Dormir no voo","activities":[{"time":"Manhã","title":"Hotel / malas / descanso","type":"Logística pré-voo","maps":"Sofitel Dubai Downtown","logistics":"Manhã no hotel para organizar malas e itens de mão.","onArrival":"Separar itens do Japão, carregar eletrônicos e fechar malas parcialmente.","insight":"Este dia protege o voo e evita erro logístico logo antes do Japão. O que não estiver na mala de mão pode ficar inacessível por muitas horas.","decision":"Deixar tudo quase pronto antes do almoço.","ifLate":"Se a manhã render pouco, cancelar compras externas e focar malas.","cat":"transfer","notes":["Checklist de mala de mão: passaporte, cartões, seguro, remédios, eletrônicos, power banks, cabos, fones, roupa reserva, itens de higiene e documentos do Japão."],"mode":"stay","transportGuide":{"summary":"Deslocamento do bloco; confirmar rota ao vivo e seguir a saída correta do destino.","method":"stay","difficulty":"média","luggageRisk":"médio","route":"Sofitel Dubai Downtown","stepByStep":["Abrir o destino exato no Google Maps/Japan Travel antes de sair.","Escolher rota com menos baldeações se a família estiver cansada.","Seguir placas da linha/saída indicada, não apenas o nome geral da estação.","Ao sair na rua, conferir a direção antes de caminhar.","Se a rota ficar confusa, parar e recalcular; não continuar andando no impulso."],"stationSigns":["Exit / 出口","JR Lines","Subway","Taxi"],"correctExit":"","finalWalk":"","traps":"Risco típico: sair pela saída errada ou escolher rota rápida demais com muita baldeação.","planB":"Táxi curto se houver atraso, chuva, compras ou cansaço.","confidence":"média","sourceNote":"Guia genérico para deslocamentos menos críticos.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Tarde","title":"Compras pontuais se necessário","type":"Compras de emergência / curto","maps":"Dubai Mall, Downtown Dubai","logistics":"Somente se faltar algo essencial. Tempo real: 1-2h máximo.","onArrival":"Comprar item faltante e voltar ao hotel.","insight":"Compras úteis são aceitáveis; garimpo sem lista é risco. A pergunta do bloco é: 'isso é essencial para voar/chegar ao Japão?' Se não for, deixar para o fim da viagem.","buy":"Farmácia, adaptador, item de viagem, eletrônico emergencial.","decision":"Voltar ao hotel com tempo real para banho, fechamento final de mala e deslocamento ao DXB.","ifLate":"Se o relógio apertar, cortar Dubai Mall totalmente.","cat":"shop"},{"time":"Fim da tarde/noite","title":"Hotel -> Dubai International Airport","type":"Deslocamento para aeroporto / voo","maps":"Sofitel Dubai Downtown to Dubai International Airport DXB","logistics":"Táxi/transfer. Tempo real: 20-40 min com margem.","onArrival":"Chegar ao DXB com antecedência, check-in, segurança, lounge e embarque.","insight":"DXB é grande; margem reduz estresse no voo para Tóquio. Só olhar duty free depois de check-in e segurança resolvidos.","eat":"Jantar no lounge/aeroporto/voo.","decision":"Estar no aeroporto cerca de 3h antes do voo.","ifLate":"Se atrasar na saída, não parar para compras no aeroporto antes de check-in/segurança.","cat":"transfer","mode":"taxi","transportGuide":{"summary":"Sofitel Dubai Downtown → DXB com margem; aeroporto grande, chegar cedo.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Sofitel Dubai Downtown → Dubai International Airport DXB","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se houver trânsito/atraso, ir direto ao check-in/segurança antes de duty free.","confidence":"alta","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}]},{"day":5,"date":"02/12/2026","weekday":"Quarta","anchor":"Chegada leve em Tóquio","city":"Tóquio","color":"#f97316","base":"Tóquio - JR Kyushu Hotel Blossom Shinjuku","logic":"Chegar a Tóquio, instalar no hotel, validar internet/Suica e dormir sem inventar passeio. A primeira vitória no Japão é sair de Narita e atravessar Shinjuku com malas sem perrengue.","attention":"Sair pela porta errada da Shinjuku Station com malas e se perder.","goldenRule":"Narita -> Airport Limousine Bus -> Busta Shinjuku/Shinjuku Expressway Bus Terminal -> caminhada curta até o hotel. Se horário do bus estiver ruim ou grupo muito cansado, usar transfer privado.","expected":"Chegar ao JR Kyushu Hotel Blossom Shinjuku com internet funcionando, Suica/IC card utilizável, jantar simples e mochila do primeiro dia pronta.","before":["Ativar eSIMs ainda em Narita se possível.","Manter passaportes acessíveis até o hotel.","Não sair por portões centrais aleatórios em Shinjuku.","Jantar simples perto do hotel; nada de Shibuya/Akihabara neste dia.","Levar malas grandes com vocês apenas neste primeiro deslocamento aeroporto → hotel; não enviar do aeroporto para o hotel.","Plano padrão: Airport Limousine Bus até Busta Shinjuku/Shinjuku Expressway Bus Terminal; plano B: transfer privado; plano C: Narita Express se o bus não encaixar."],"meals":"Café/almoço operacionais em voo/aeroporto. Jantar aberto simples perto do hotel ou konbini.","summary":"02/12: Saída correta em Shinjuku é crítica | Sem atrações pesadas | Konbini e descanso | Preparar dia 03/12","activities":[{"time":"13:10 aprox.","title":"Pouso em Narita","type":"Aeroporto / imigração / chegada ao Japão","maps":"Narita International Airport, 1-1 Furugome, Narita, Chiba","logistics":"Imigração, bagagem, internet e trem. Tempo real: 1h15-1h45 até estar pronto para sair.","onArrival":"Conferir malas, ativar eSIM, validar mapas e seguir para o Narita Express.","insight":"A primeira decisão prática é sair do aeroporto com calma e sem dispersar documentos. Narita é eficiente, mas imigração, malas, eSIM e trem podem consumir energia.","decision":"Seguir para o trem assim que malas/internet estiverem resolvidas.","ifLate":"Se imigração atrasar, cortar qualquer ideia de passeio à noite.","notes":["Jantar simples: Manter raio curto em Shinjuku: konbini, CoCo Ichibanya, Ichiran se houver energia e fila baixa, ou restaurante simples perto da South Exit. Nada de Rokkasen/yakiniku pesado na chegada.","Visit Japan Web: se ainda não estiver tudo validado, resolver QR/imigração/alfândega antes de sair da área de chegada. Não deixar dúvida de documentação para a fila."],"cat":"transfer","mode":"flight","transportGuide":{"summary":"Fluxo de aeroporto/voo: documentos na mão, malas e segurança sem abrir passeio paralelo.","method":"Aeroporto/voo","difficulty":"média","luggageRisk":"médio","route":"Narita International Airport, 1-1 Furugome, Narita, Chiba","stepByStep":["Manter passaportes, reservas e cartões acessíveis.","Seguir placas de Arrivals/Immigration/Baggage Claim ou Departures/Check-in conforme o caso.","Resolver imigração/segurança antes de compras/comida.","Após malas/segurança, só então pensar em lanche, banheiro ou duty free."],"stationSigns":["Arrivals","Immigration","Baggage Claim","Departures","Check-in","Security"],"correctExit":"","finalWalk":"","traps":"O risco é dispersar documentos ou parar para compras antes do fluxo crítico.","planB":"Se algo atrasar, cortar compras/refeições e proteger voo/transfer.","confidence":"alta","sourceNote":"Guia padrão de aeroporto.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"15:00 - 17:30","title":"Narita Airport -> JR Kyushu Hotel Blossom Shinjuku","type":"Deslocamento aeroporto -> hotel / Limo Bus padrão","maps":"Narita Airport to JR Kyushu Hotel Blossom Shinjuku, 2-6-2 Yoyogi, Shibuya City, Tokyo 151-0053","logistics":"Plano A: Airport Limousine Bus de Narita até Busta Shinjuku / Shinjuku Expressway Bus Terminal, com malas no bagageiro, depois caminhada curta de 3-5 min até o JR Kyushu Hotel Blossom Shinjuku. Plano B: transfer privado direto ao hotel se o horário do bus estiver ruim ou se o grupo estiver muito cansado. Plano C: Narita Express, apenas se o bus/transfer não encaixar, saindo pela South Exit/New South Gate.","onArrival":"No desembarque em Busta Shinjuku, não atravessar Shinjuku Station por dentro com malas. Seguir direto para o hotel pela rota curta externa/indicada no Maps.","insight":"Para este hotel, o Limousine Bus é a solução mais equilibrada: evita estação lotada com malas e deixa muito perto do hotel. Transfer privado é seguro/conforto se o cansaço ou o horário do bus não ajudarem.","decision":"Escolher Limousine Bus se houver saída conveniente após imigração/malas. Se a espera estiver longa ou o grupo estiver destruído, acionar transfer privado.","ifLate":"Se imigração/malas atrasarem e o próximo bus para Shinjuku estiver ruim, usar transfer privado ou Narita Express conforme o melhor horário real.","cat":"transfer","notes":["Airport Limousine Bus é o padrão para chegada: malas no bagageiro e desembarque em Busta Shinjuku, perto do hotel.","Narita Express continua como plano C: bom trem, mas Shinjuku Station com malas é mais chata; sair pela South Exit/New South Gate/Koshu-Kaido/Busta."],"mode":"bus","transportGuide":{"summary":"Plano A: Airport Limousine Bus até Busta Shinjuku/Shinjuku Expressway Bus Terminal; depois caminhada curta ao hotel.","method":"Airport Limousine Bus","difficulty":"baixa","luggageRisk":"baixo","route":"Narita Airport → Shinjuku Expressway Bus Terminal/Busta Shinjuku → JR Kyushu Hotel Blossom Shinjuku","stepByStep":["Em Narita, após imigração e malas, siga placas de Bus / Airport Limousine Bus / Highway Bus.","Compre bilhetes para Shinjuku Expressway Bus Terminal / Busta Shinjuku, não para “Shinjuku” genérico se houver mais de uma opção.","Entregue as malas no bagageiro do ônibus e guarde recibo/controle das malas.","Desembarque no Shinjuku Expressway Bus Terminal / Busta Shinjuku, normalmente área de ônibus no 3º andar.","Siga para o 2º andar/área de pedestres e procure saída Koshu Kaido / Nishi-Shinjuku, conforme orientação do hotel.","Caminhe 3–5 min até o JR Kyushu Hotel Blossom Shinjuku sem atravessar a estação por dentro."],"stationSigns":["Bus / バス","Airport Limousine Bus","Shinjuku Expressway Bus Terminal","Busta Shinjuku","Koshu Kaido","Nishi-Shinjuku"],"correctExit":"Busta Shinjuku: descer para a área de pedestres/2F e sair pelo lado Koshu Kaido/Nishi-Shinjuku.","finalWalk":"3–5 min do terminal ao hotel.","traps":"Não entrar em Shinjuku Station com malas se não precisar; o hotel fica perto do terminal. Evitar seguir placas para East Exit/Kabukicho.","planB":"Se o próximo Limousine Bus demorar demais ou o grupo estiver destruído: transfer privado. Narita Express fica como plano C e exige acertar South/New South Gate em Shinjuku.","confidence":"alta","sourceNote":"Fontes-base: site oficial do JR Kyushu Hotel Blossom Shinjuku e páginas oficiais de ônibus de Narita/Limousine Bus.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Fim da tarde","title":"Check-in + banho + descanso","type":"Hotel / recuperação","maps":"JR Kyushu Hotel Blossom Shinjuku, 2-6-2 Yoyogi, Shibuya City, Tokyo","logistics":"Check-in, banho, carregar celulares/power banks e reorganizar mochila do dia seguinte.","onArrival":"Desfazer o mínimo necessário e proteger descanso.","insight":"A chegada leve aumenta muito a chance de o dia 03/12 funcionar bem.","decision":"Só sair de novo se todos estiverem bem.","ifLate":"Se o quarto atrasar, deixar malas no hotel e fazer apenas konbini/café curto nas redondezas.","cat":"transfer","mode":"stay","transportGuide":{"summary":"Deslocamento do bloco; confirmar rota ao vivo e seguir a saída correta do destino.","method":"stay","difficulty":"média","luggageRisk":"médio","route":"JR Kyushu Hotel Blossom Shinjuku, 2-6-2 Yoyogi, Shibuya City, Tokyo","stepByStep":["Abrir o destino exato no Google Maps/Japan Travel antes de sair.","Escolher rota com menos baldeações se a família estiver cansada.","Seguir placas da linha/saída indicada, não apenas o nome geral da estação.","Ao sair na rua, conferir a direção antes de caminhar.","Se a rota ficar confusa, parar e recalcular; não continuar andando no impulso."],"stationSigns":["Exit / 出口","JR Lines","Subway","Taxi"],"correctExit":"","finalWalk":"","traps":"Risco típico: sair pela saída errada ou escolher rota rápida demais com muita baldeação.","planB":"Táxi curto se houver atraso, chuva, compras ou cansaço.","confidence":"média","sourceNote":"Guia genérico para deslocamentos menos críticos.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Noite","title":"Jantar Ichiran + 🛒 Don Quijote Shinjuku (24h)","type":"Refeição operacional / adaptação","maps":"JR Shinjuku Station South Exit / 7-Eleven FamilyMart Lawson near JR Kyushu Hotel Blossom Shinjuku","logistics":"Caminhada curta no raio do hotel, 5-15 min.","onArrival":"Comprar água, snacks, café da manhã extra e jantar leve.","insight":"Chegada pede algo leve mas a familia ja quer 'a novidade'. Ichiran (ramen tonkotsu em cabine) resolve o jantar; a Don Quijote Shinjuku Higashiguchi e 24h e fica a 5-10 min do hotel — primeira imersao sem comprometer o sono.","eat":"Onigiri (bolinho de arroz recheado), sanduíche japonês, frango quente, iogurte, sobremesa ou refeição simples de micro-ondas.","buy":"Água, snacks, itens de higiene, sobremesa Häagen-Dazs se aparecer.","decision":"Voltar cedo ao hotel.","ifLate":"Se o grupo estiver destruído, jantar no quarto com konbini e dormir.","notes":["Donki 24h: compra leve hoje (snacks, agua). Ja da pra mapear o cortador de unha com lente/lupa.","Se chegarem destruidos: konbini/CoCo Ichibanya e dormir."],"cat":"food"}],"transportBriefing":"Chegada em Tóquio: usar Limo Bus para Busta Shinjuku e evitar entrar em Shinjuku Station com malas grandes."},{"day":6,"date":"03/12/2026","weekday":"Quinta","anchor":"Meiji, Harajuku, Omotesando e Shibuya","city":"Tóquio","color":"#f97316","base":"Tóquio - Shinjuku","logic":"Primeiro grande dia urbano de Tóquio: santuário xintoísta em floresta, cultura jovem de Harajuku, cosméticos para Luísa/Luciana, vinil/KISS para Rodrigo, Shibuya Sky no sunset e Shibuya neon à noite.","attention":"Perder o Shibuya Sky por lojas ou fila de almoço.","goldenRule":"Proteger Shibuya Sky no sunset e Shibuya PARCO 6F com tempo real. MAGNET/MAG8, Donki e split de lojas são cortáveis se ameaçarem PARCO, Crossing ou jantar.","expected":"Equilibrar cultura, compras e fotos sem perder o horário do Shibuya Sky nem transformar lojas em maratona.","before":["Café no hotel sem atrasar.","Levar passaportes se houver tax-free em lojas de moda/tênis.","Power bank carregado; dia longo de fotos e mapas.","Reserva/horário do Shibuya Sky confirmado."],"meals":"Almoço-alvo: Tonkatsu Maisen Aoyama Honten; alternativa: Harajuku Gyozaro. Jantar-alvo: Yakiniku ZENIBA Shibuya, em GEMS Jingumae 10F, reserva recomendada. Alternativa real: voltar para Shinjuku e usar Gyu-Kaku/Yakiniku Like apenas se o ZENIBA ficar inviável.","summary":"03/12: Meiji cedo | Harajuku/Takeshita | almoço Maisen | Omotesando/@cosme | Shibuya Sky | PARCO 6F | Crossing/Hachiko | jantar reservado no ZENIBA Shibuya","activities":[{"time":"08:30 - 09:10","title":"Hotel -> Meiji Jingu","type":"Deslocamento urbano / início cultural","maps":"JR Kyushu Hotel Blossom Shinjuku to Meiji Jingu, 1-1 Yoyogikamizonocho, Shibuya City, Tokyo","logistics":"Caminhar até JR Shinjuku, pegar JR Yamanote Line até Harajuku Station e caminhar até a entrada do santuário. Tempo: 35-40 min.","onArrival":"Entrar pelo torii gigante e seguir pela alameda arborizada.","insight":"Meiji Jingu é um santuário xintoísta (ligado à religião nativa japonesa, diferente de templo budista). Torii é o portal simbólico de entrada; a experiência é de floresta, silêncio e ritual simples, não de museu.","decision":"Chegar ao pátio principal sem desviar para museus.","ifLate":"Se sair tarde, manter Meiji mas acelerar o caminho interno.","cat":"transfer","notes":["Etiqueta rápida: andar pelas laterais do caminho principal, falar baixo, observar purificação/orações sem pressa e não tratar o espaço como cenário de fotos invasivas."],"mode":"train","transportGuide":{"summary":"JR Yamanote Line: Shinjuku → Harajuku; sair pelo lado Meiji Jingu/Yoyogi Park, não pela Takeshita.","method":"JR Yamanote Line","difficulty":"média","luggageRisk":"baixo","route":"JR Shinjuku → JR Harajuku → Meiji Jingu","stepByStep":["Do hotel, caminhe para JR Shinjuku Station pela South Exit/New South Gate.","Dentro da JR, siga placas para JR Lines / Yamanote Line.","Pegue a Yamanote Line no sentido Shibuya / Harajuku / Shinagawa.","Desça em Harajuku Station.","Para Meiji Jingu, siga placas para Meiji Jingu / Yoyogi Park / Jingu Bridge; evite sair primeiro pela Takeshita Exit.","Caminhe pela ponte/entrada até o torii e siga a alameda do santuário."],"stationSigns":["JR Lines","Yamanote Line","Shibuya / Harajuku / Shinagawa","Harajuku","Meiji Jingu","Yoyogi Park"],"correctExit":"Harajuku: saída/lado Meiji Jingu-Yoyogi Park/Jingu Bridge.","finalWalk":"10–15 min de caminhada interna até o pátio principal do santuário.","traps":"Shinjuku e Harajuku têm saídas que mudam totalmente a direção; para Meiji, não mire Takeshita Street na chegada.","planB":"Se estiverem atrasados ou chovendo forte: táxi hotel → Meiji Jingu/Yoyogi Park entrance.","confidence":"alta","sourceNote":"Base: mapas oficiais JR East de Shinjuku/Harajuku e acesso do hotel.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"09:10 - 10:30","title":"Meiji Jingu","type":"Santuário xintoísta / floresta urbana / cultura tradicional","maps":"Meiji Jingu, 1-1 Yoyogikamizonocho, Shibuya City, Tokyo 151-8557","logistics":"Caminhada interna com baixa dificuldade, mas o caminho é longo.","onArrival":"Ver torii, barris de saquê, alameda arborizada e pátio principal. Não entrar em museu.","insight":"É um dos santuários mais importantes de Tóquio e cria contraste perfeito entre tradição e a cidade moderna.","photo":"Torii, barris de saquê e pátio principal.","decision":"Começar a caminhar para Takeshita até 10:30.","ifLate":"Se atrasar, cortar paradas laterais e seguir para Harajuku.","cat":"cultural"},{"time":"10:30 - 12:10","title":"Takeshita Street / Harajuku","type":"Rua jovem / moda / snacks / compras adolescentes","maps":"Takeshita Street, 1 Chome Jingumae, Shibuya City, Tokyo","logistics":"Caminhada curta do Meiji Jingu para Harajuku/Takeshita.","onArrival":"Entrar em poucas lojinhas, provar 1 snack e sentir a cultura jovem/kawaii.","insight":"Takeshita Street é a vitrine mais concentrada da cultura jovem/kawaii de Harajuku. O valor está em ver vitrines, snacks, moda teen e energia visual; não em entrar em todas as lojas.","eat":"Crepe de Harajuku, doce colorido ou snack rápido. É lanche/experiência, não almoço.","buy":"Meias, acessórios, cosméticos baratos, itens divertidos para adolescente.","photo":"Entrada da Takeshita e vitrines coloridas.","decision":"Sair para almoço/Omotesando até 12:10.","ifLate":"Se estiver insuportavelmente lotada, atravessar, comprar 1 snack e seguir para Omotesando.","notes":["Foco: cultura jovem, snacks e compras leves. Não virar maratona de lojas antes de Omotesando/Shibuya.","Compras úteis: meias, acessórios, cosméticos baratos e itens divertidos para adolescente."],"cat":"food"},{"time":"12:10 - 13:10","title":"Almoço - Tonkatsu Maisen Aoyama Honten","type":"Almoço principal / tonkatsu ou gyoza rápido","maps":"Tonkatsu Maisen Aoyama Honten, 4-8-5 Jingumae, Shibuya-ku, Tokyo 150-0001, Japan","logistics":"Caminhada de Harajuku/Omotesando conforme restaurante escolhido.","onArrival":"Priorizar Maisen se fila aceitável; usar Gyozaro se a fila ameaçar o dia.","insight":"Maisen é um clássico de tonkatsu: porco empanado e frito, servido com arroz, repolho e molho adocicado. Harajuku Gyozaro fica como alternativa rápida se a fila passar do aceitável.","eat":"Maisen: Kurobuta Tonkatsu Set ou tonkatsu set. Alternativa Harajuku Gyozaro: yaki gyoza, arroz e pepino com gergelim.","decision":"Terminar almoço até 13:10 para proteger Omotesando, Shibuya Sky e PARCO.","ifLate":"Se a fila do Maisen passar de 30 min, abortar e usar Harajuku Gyozaro ou refeição rápida na rota.","notes":["Alternativa de mapa se trocar o almoço: Harajuku Gyozaro, 6-2-4 Jingumae, Shibuya-ku, Tokyo 150-0001, Japan"],"cat":"food"},{"time":"13:10 - 15:00","title":"Omotesando + Cat Street + @cosme TOKYO (flagship)","type":"Compras / moda / arquitetura / caminhada urbana","maps":"Omotesando Hills / Cat Street, Jingumae, Shibuya City, Tokyo","logistics":"Caminhar de Omotesando em direção a Shibuya, selecionando poucas lojas.","onArrival":"Ver arquitetura, vitrines e lojas de moda sem virar maratona.","insight":"Omotesando/Cat Street é o eixo elegante-jovem entre Harajuku e Shibuya: arquitetura, streetwear, tênis e lojas selecionadas. Entrar com foco para não perder o Shibuya Sky.","buy":"Beams, United Arrows, Atmos, ABC-MART Grand Stage se estiverem no fluxo.","photo":"Arquitetura de Omotesando e Cat Street.","decision":"Sair em direção ao Shibuya Sky até 14:45-15:00.","ifLate":"Cortar lojas secundárias sem dó. Shibuya Sky é prioridade.","cat":"shop","notes":["Âncora real do bloco: @cosme TOKYO para Luísa/Luciana, com rankings e marcas japonesas/K-beauty fáceis de navegar sem japonês.","Cat Street/Omotesando entram como passagem com lojas selecionadas; cortar lojas secundárias se ameaçar Shibuya Sky."]},{"time":"15:30 - 16:50","title":"Shibuya Sky","type":"Mirante / skyline / sunset","maps":"SHIBUYA SKY, Shibuya Scramble Square, 2-24-12 Shibuya, Shibuya City, Tokyo","logistics":"Chegar por Shibuya Scramble Square com antecedência do horário reservado.","onArrival":"Subir com luz do dia e pegar transição para noite. Ir ao Sky Edge e áreas externas.","insight":"Shibuya Sky é um mirante aberto no topo do Shibuya Scramble Square. O valor do horário é a transição dia→noite: céu, luzes da cidade e travessia de Shibuya vistas de cima.","photo":"Sky Edge, escadas rolantes externas e vista da travessia de Shibuya.","decision":"Sair por volta de 16:50 para seguir ao PARCO.","ifLate":"Se atrasar antes do ingresso, cortar qualquer loja e ir direto ao prédio.","cat":"photo"},{"time":"17:05 - 18:45","title":"Shibuya PARCO 6F","type":"Cultura pop / Nintendo / Pokémon / compras adolescentes","maps":"Shibuya PARCO, 15-1 Udagawacho, Shibuya City, Tokyo 150-0042","logistics":"Caminhada de 10-15 min a partir do Shibuya Sky. Tempo protegido: mínimo 1h30; ideal 2h se a família estiver curtindo.","onArrival":"Focar no 6F: Nintendo Tokyo, Pokémon Center Shibuya e cultura pop.","insight":"É a âncora de cultura pop do dia sem precisar ir a Akihabara; ótimo para adolescente.","buy":"Itens Nintendo/Pokémon, lembranças oficiais, produtos de games/anime.","decision":"Ficar pelo menos 1h30 se estiver rendendo. Sair por volta de 18:45 para Crossing/Hachiko e jantar.","ifLate":"Se atrasar, ainda proteger o 6F por pelo menos 60-75 min e cortar MAGNET/Donki/split secundário.","cat":"shop","notes":["Bloco protegido para Nintendo Tokyo, Pokémon Center Shibuya e cultura pop. Não reduzir abaixo de 1h30 salvo atraso real no Shibuya Sky."]},{"time":"Opcional se sobrar tempo (30-40 min)","title":"💄 SPLIT: elas -> Matsumoto Kiyoshi + Loft/PLAZA + Hands","type":"Cosméticos / drogaria (compra de verdade) / opcional controlado","maps":"Matsumoto Kiyoshi Shibuya","logistics":"No mesmo quarteirão de Shibuya, perto da estação e do Disk Union.","onArrival":"Comprar com tax-free; é onde se faz a compra de volume (mais barato que loja de turista).","insight":"Matsumoto Kiyoshi é drogaria japonesa de compra real: preço local, tax-free e grande variedade de skincare/maquiagem. Usar a lista para não cair no buraco negro de prateleiras.","decision":"Só fazer se não ameaçar PARCO, Crossing/Hachiko e jantar. Se o relógio apertar, cortar sem culpa; compras/garimpo continuam em outros dias.","ifLate":"Se já passou de 18:45 ou o PARCO rendeu bem, cortar este split e seguir para Crossing/Hachiko.","eat":"","buy":"LUÍSA (15): Canmake Marshmallow Powder + Mermaid Skin Gel UV (~¥770), Cezanne base/blush, Kate paletas, Heroine Make rímel à prova d'água, lip tints rom&nd/Peripera (Loft/PLAZA), Biore UV Aqua Rich. Tendência 'kira kira' (glitter de pálpebra). | LUCIANA (49): Anessa Perfect UV (~¥2.500), Hada Labo Gokujyun lotion (~¥800), Senka Perfect Whip (~¥500), Melano CC, Shiseido; SK-II Essence sai ~40% mais barato no andar de beleza das lojas de departamento.","photo":"","notes":["Opcional curto, só se PARCO/Crossing/jantar estiverem sob controle. Não é compra obrigatória neste dia.","Se entrar, foco em itens de lista: cosméticos, skincare, Loft/PLAZA/Hands; sem maratona."],"cat":"shop","transportGuide":{"summary":"Deslocamento do bloco; confirmar rota ao vivo e seguir a saída correta do destino.","method":"Transporte público/táxi","difficulty":"média","luggageRisk":"médio","route":"Matsumoto Kiyoshi Shibuya","stepByStep":["Abrir o destino exato no Google Maps/Japan Travel antes de sair.","Escolher rota com menos baldeações se a família estiver cansada.","Seguir placas da linha/saída indicada, não apenas o nome geral da estação.","Ao sair na rua, conferir a direção antes de caminhar.","Se a rota ficar confusa, parar e recalcular; não continuar andando no impulso."],"stationSigns":["Exit / 出口","JR Lines","Subway","Taxi"],"correctExit":"","finalWalk":"","traps":"Risco típico: sair pela saída errada ou escolher rota rápida demais com muita baldeação.","planB":"Táxi curto se houver atraso, chuva, compras ou cansaço.","confidence":"média","sourceNote":"Guia genérico para deslocamentos menos críticos.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Opcional se sobrar tempo (30-40 min)","title":"💿 SPLIT: voce -> Disk Union Shibuya (+ Tower Records / HMV Record Shop Shibuya)","type":"Loja de discos / vinil rock-metal / opcional controlado","maps":"Disk Union Shibuya, 30-7 Udagawa-cho, Shibuya City, Tokyo","logistics":"Em Udagawa-cho, mesmo quarteirão do MEGA Donki e do Shibuya109/PARCO — elas compram por perto enquanto você garimpa.","onArrival":"Subir os 5 andares por gênero; garimpar a seção rock/metal por KISS (vinil japonês, OBI strips, edições raras).","insight":"Aperitivo de vinil: Disk Union Shibuya para um primeiro garimpo rápido de KISS/rock. Tower Records e HMV Record Shop Shibuya ficam próximos, mas o garimpo sério é no dia 08/12 em Shinjuku; aqui não se sacrifica PARCO/Crossing/jantar.","decision":"Só fazer se não ameaçar PARCO, Crossing/Hachiko e jantar. Se o relógio apertar, cortar sem culpa; compras/garimpo continuam em outros dias.","ifLate":"Se já passou de 18:45 ou o PARCO rendeu bem, cortar este split e seguir para Crossing/Hachiko.","eat":"","buy":"Vinil KISS e rock/metal; conferir seção de usados japoneses e edições com OBI.","photo":"","notes":["Opcional curto: aperitivo de vinil/KISS em Shibuya. O garimpo principal fica no cluster Disk Union Shinjuku em 08/12.","Procurar KISS e キッス; conferir OBI apenas se aparecer algo bom sem consumir o jantar."],"cat":"shop","transportGuide":{"summary":"Deslocamento do bloco; confirmar rota ao vivo e seguir a saída correta do destino.","method":"Transporte público/táxi","difficulty":"média","luggageRisk":"médio","route":"Disk Union Shibuya, 30-7 Udagawa-cho, Shibuya City, Tokyo","stepByStep":["Abrir o destino exato no Google Maps/Japan Travel antes de sair.","Escolher rota com menos baldeações se a família estiver cansada.","Seguir placas da linha/saída indicada, não apenas o nome geral da estação.","Ao sair na rua, conferir a direção antes de caminhar.","Se a rota ficar confusa, parar e recalcular; não continuar andando no impulso."],"stationSigns":["Exit / 出口","JR Lines","Subway","Taxi"],"correctExit":"","finalWalk":"","traps":"Risco típico: sair pela saída errada ou escolher rota rápida demais com muita baldeação.","planB":"Táxi curto se houver atraso, chuva, compras ou cansaço.","confidence":"média","sourceNote":"Guia genérico para deslocamentos menos críticos.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"18:50 - 19:25","title":"Shibuya Crossing + Hachiko (reagrupar)","type":"Cartão-postal urbano / fotos / mirante do cruzamento","maps":"Shibuya Crossing and Hachiko Statue, Shibuya City, Tokyo, Japan","logistics":"Caminhada curta descendo do PARCO para Hachiko/Crossing e depois MAGNET.","onArrival":"Atravessar o cruzamento em nível da rua, ver Hachiko e fazer fotos. MAGNET/MAG8 só entra se estiver fácil, sem fila e sem ameaçar jantar.","insight":"Foto no nível da rua do cruzamento mais famoso do mundo + estátua do Hachiko. MAGNET é opcional cortável porque o Shibuya Sky já entregou o mirante forte do dia.","photo":"Cruzamento em nível da rua e vista elevada do MAGNET.","decision":"Sair para jantar por volta de 19:25-19:35.","ifLate":"Se PARCO atrasar, manter Crossing/Hachiko em nível da rua e cortar MAGNET.","cat":"photo","notes":["MAGNET/MAG8 fica cortável. Só subir se não houver fila e se não ameaçar o jantar; caso contrário, Crossing em nível da rua + Hachiko resolve."]},{"time":"20:00 - 21:15","title":"Jantar reservado - Yakiniku ZENIBA Shibuya","type":"Jantar / yakiniku de wagyu / reserva recomendada","maps":"Yakiniku ZENIBA Shibuya, GEMS Jingumae 10F, 6-19-17 Jingumae, Shibuya-ku, Tokyo 150-0001, Japan","logistics":"Caminhada curta a partir de Shibuya Crossing/PARCO. O restaurante fica no GEMS Jingumae 10F, perto da saída B1 de Shibuya. Usar o nome+endereço exato no Maps para evitar abrir opções genéricas.","onArrival":"Subir ao 10F do GEMS Jingumae e confirmar reserva no nome do grupo. Não procurar Gyu-Kaku/Yakiniku Like salvo se o ZENIBA ficar inviável.","insight":"ZENIBA é o jantar de yakiniku relevante da família neste dia: wagyu/yakiniku em Shibuya, dentro da rota do fim do dia, sem precisar voltar a Shinjuku antes de jantar.","eat":"Wagyu/yakiniku; pedir cortes variados e controlar o tempo para não virar jantar longo demais. A versão premium principal de carne continua protegida em Osaka.","decision":"Jantar no ZENIBA se houver reserva/mesa. Encerrar em 60-75 min e voltar ao hotel.","ifLate":"Se o grupo estiver destruído ou o ZENIBA ficar inviável, aí sim voltar a Shinjuku e usar Gyu-Kaku/Yakiniku Like/restaurante simples perto do hotel.","cat":"food","notes":["Endereço para mapa: GEMS Jingumae 10F, 6-19-17 Jingumae, Shibuya-ku, Tokyo 150-0001. Telefone: 03-3486-1029. Reservar/confirmar antes da viagem."]}],"transportBriefing":"Primeiro dia urbano: Shinjuku South/New South Gate é a âncora; Harajuku pelo lado Meiji Jingu; Shibuya Sky/PARCO por caminhada controlada."},{"day":7,"date":"04/12/2026","weekday":"Sexta","anchor":"Asakusa + Solamachi + Ameyoko gastronômico","city":"Tóquio","color":"#f97316","base":"Tóquio - Shinjuku","logic":"Tóquio tradicional em Asakusa, compra útil de facas/Loft em Solamachi e almoço de mercado em Ameyoko. O dia funciona se Asakusa for cedo, Solamachi for controlado e Ameyoko for feito com fome.","attention":"Chegar na Nakamise antes das lojas abrirem ou almoçar pesado antes de Ameyoko.","goldenRule":"Templo primeiro, Nakamise depois de 10:00; Solamachi sem almoço pesado; Ameyoko com fome.","expected":"Sair com Senso-ji bem aproveitado, snacks de Asakusa provados, facas/itens úteis vistos e Ameyoko funcionando como almoço real de mercado.","before":["Café no hotel, mas sem exagerar: Nakamise e Ameyoko terão comida.","Levar passaportes se houver compras tax-free em farmácias/lojas.","Mochila com espaço para snacks, cosméticos e itens pequenos.","Ir preparado para multidão em Asakusa e Ameyoko."],"meals":"Café no hotel. Snacks leves em Nakamise/Asakusa. Solamachi só café/sobremesa. Almoço principal distribuído em Ameyoko. Jantar leve em Shinjuku/hotel.","summary":"04/12: Senso-ji cedo | Nakamise depois de 10h | Solamachi sem almoço pesado | Ameyoko é a refeição principal | Jantar leve","activities":[{"time":"07:45 - 08:30","title":"Hotel -> Kaminarimon / Asakusa","type":"Deslocamento urbano / entrada em Tóquio antiga","maps":"JR Kyushu Hotel Blossom Shinjuku to Kaminarimon Gate, 2 Chome-3-1 Asakusa, Taito City, Tokyo","logistics":"Trem/metrô via Shinjuku/Asakusa ou táxi se priorizar conforto. Tempo real: 40-55 min.","onArrival":"Chegar cedo para fotos no Kaminarimon antes do pico.","insight":"Senso-ji é um templo budista (diferente de santuário xintoísta como Meiji Jingu) e é o templo mais antigo/famoso de Tóquio. Kaminarimon é o portão com a grande lanterna vermelha.","decision":"Estar no Kaminarimon por volta de 08:30.","ifLate":"Se sair tarde, manter Senso-ji e cortar Ura-Asakusa/Hoppy.","cat":"transfer","notes":["Não-óbvio útil: o incenso perto do templo faz parte do ritual popular; observar e seguir o fluxo, sem bloquear quem está rezando."],"mode":"subway","transportGuide":{"summary":"Shinjuku → Asakusa por metrô com 1 transferência; mirar Kaminarimon, não “Asakusa” genérico sem saída.","method":"Metrô/JR + Tokyo Metro","difficulty":"média","luggageRisk":"baixo","route":"Shinjuku → Ginza/Kanda/Ueno conforme Maps → Asakusa/Kaminarimon","stepByStep":["No hotel, caminhe até a estação indicada pelo Maps ao vivo: JR Shinjuku/Tokyo Metro Shinjuku.","Escolha uma rota com no máximo 1 transferência e menor caminhada; preferir Tokyo Metro/JR em vez de zigue-zague com muitas linhas.","Ao chegar em Asakusa, procure placas para Kaminarimon / Senso-ji.","Se estiver na Tokyo Metro Ginza Line, mirar saída 1/Kaminarimon quando disponível.","Ao sair na rua, use Maps apenas para a caminhada final até a lanterna vermelha do Kaminarimon."],"stationSigns":["Tokyo Metro","Ginza Line","Asakusa","Kaminarimon","Senso-ji","Exit 1"],"correctExit":"Asakusa: saída Kaminarimon/Senso-ji; se o Maps indicar outra saída, conferir antes de subir.","finalWalk":"5–10 min até Kaminarimon/Senso-ji.","traps":"Asakusa tem estações/linhas diferentes; “Asakusa Station” pode deixar você em lados diferentes. O alvo real é Kaminarimon.","planB":"Se a rota de metrô vier com muitas baldeações, usar táxi curto/rota alternativa do Maps; cortar Ura-Asakusa antes de sacrificar Senso-ji.","confidence":"média","sourceNote":"Rota exata depende do Maps no dia; sinais/saída-alvo são estáveis.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"08:30 - 09:45","title":"Kaminarimon + Senso-ji","type":"Templo budista / cartão-postal histórico","maps":"Senso-ji, 2 Chome-3-1 Asakusa, Taito City, Tokyo 111-0032","logistics":"Entrar pelo Kaminarimon e seguir direto ao templo, sem parar nas lojas fechadas.","onArrival":"Fotos da lanterna vermelha, pátio, pagode, incenso e templo principal.","insight":"Senso-ji é o templo budista mais antigo/famoso de Tóquio; vibrante, vermelho, popular e cheio de incenso.","photo":"Lanterna do Kaminarimon, pagode e pátio do Senso-ji.","decision":"Terminar visita principal até 09:45.","ifLate":"Se estiver lotado, fazer fotos rápidas e seguir para Nakamise sem tentar cada canto.","cat":"cultural"},{"time":"10:00 - 10:55","title":"Nakamise-dori + snacks de Asakusa","type":"Rua tradicional / snacks / lembranças","maps":"Nakamise-dori Street, Asakusa, Taito City, Tokyo","logistics":"Voltar pelo corredor de lojas quando estiverem abrindo.","onArrival":"Provar snacks leves e comprar lembranças pequenas sem transformar em almoço.","insight":"Nakamise é a rua comercial histórica que leva ao templo; funciona melhor depois das 10h, quando as lojas abrem. Comer pouco aqui é intencional: Ameyoko será o almoço principal.","eat":"Ningyo-yaki (bolinho recheado), melon pan se couber, Tokyo Curry Pan Asakusa Kaminarimon como snack planejado. Não transformar em almoço.","buy":"Lembranças pequenas, doces, hashis/itens leves.","photo":"Rua com lojas e templo ao fundo.","decision":"Sair da área principal até 10:55-11:05.","ifLate":"Se as lojas estiverem lotadas, escolher 1 snack e seguir.","notes":["Asakusa e snacks: Senso-ji primeiro; Nakamise só depois de 10h. Snacks: ningyo-yaki, melon pan e Tokyo Curry Pan Asakusa Kaminarimon como lanche planejado, sem virar almoço pesado.","🛒 Don Quijote Asakusa fica a 1 min da estação — encaixe rápido para snacks/lembranças no fim do bloco de Asakusa.","Snack-alvo: Tokyo Curry Pan (Kaminarimon).","Don Quijote Asakusa fica proximo para snacks/cosmetico rapido."],"cat":"food"},{"time":"11:05 - 11:25","title":"Ura-Asakusa / Hoppy Street","type":"Ruas locais / atmosfera / microparada","maps":"Kannonura, Asakusa, Taito City / Hoppy Street, Asakusa, Tokyo","logistics":"Caminhada curta atrás/ao redor do eixo principal.","onArrival":"Sentir ruas menos turísticas e fazer foto rápida da Hoppy Street, sem parar para refeição.","insight":"Ura-Asakusa/Kannonura mostra uma Asakusa mais local, de ruas menores e bares. Hoppy Street é atmosférica, mas aqui entra só como microparada visual.","photo":"Fachadas de bares/ruas menores.","decision":"Sair até 11:25.","ifLate":"Cortar totalmente se Asakusa/Nakamise tomou tempo.","cat":"activity"},{"time":"11:25 - 12:40","title":"Asakusa -> Tokyo Solamachi / Skytree","type":"Shopping / compras indoor / facas / papelaria","maps":"Tokyo Solamachi, 1 Chome-1-2 Oshiage, Sumida City, Tokyo 131-0045","logistics":"Trem curto, táxi curto ou caminhada longa se animados. Tempo: 20-30 min.","onArrival":"Entrar no Solamachi para Tower Knives Tokyo, Loft e pausa indoor. Não fazer almoço pesado.","insight":"Solamachi é shopping útil, não atração principal: Tower Knives, Loft, pausa coberta e vista da Skytree por fora. O risco é virar almoço/loja longa antes de Ameyoko.","eat":"Café/sobremesa leve se precisar, não almoço grande.","buy":"Tower Knives: santoku/gyuto/petty, protetor de lâmina, hashis. Loft: papelaria e utilidades.","photo":"Skytree por fora se estiver no fluxo.","decision":"Sair para Ameyoko por volta de 12:40. Solamachi é útil, mas não pode atrasar o almoço de mercado.","ifLate":"Se atrasar, priorizar Tower Knives e cortar Loft/Skytree Observatory.","notes":["Compras por loja: Tower Knives Solamachi: santoku/gyuto/petty, hashis e protetor de lâmina. Loft Solamachi: papelaria, utilidades e presentes. Ameyoko/farmácias: skincare, cosméticos, colírios, snacks e lembranças populares.","Jantar leve: Como Ameyoko é o bloco gastronômico principal, jantar deve ser leve perto do hotel: ramen simples, CoCo Ichibanya, konbini ou opção curta em Shinjuku.","Regra de mercado: Ameyoko deve ser usado com fome; se virar apenas corredor comercial depois de almoço pesado, o dia perde sentido.","🔪 FACA DE CHURRASCO — Tower Knives Tokyo (dentro do Solamachi/Skytree): equipe fala inglês, faz tax-free e pode gravar nome. Modelo ideal p/ churrasco/brisket: SUJIHIKI 270mm (fatiador longo e fino, corte limpo). Alternativa versátil: GYUTO 240mm. Aço inox VG-10/SG2 (fácil manutenção). Levar despachada na volta — faca não vai na mão."],"cat":"shop","transportGuide":{"summary":"Deslocamento do bloco; confirmar rota ao vivo e seguir a saída correta do destino.","method":"Transporte público/táxi","difficulty":"média","luggageRisk":"médio","route":"Tokyo Solamachi, 1 Chome-1-2 Oshiage, Sumida City, Tokyo 131-0045","stepByStep":["Abrir o destino exato no Google Maps/Japan Travel antes de sair.","Escolher rota com menos baldeações se a família estiver cansada.","Seguir placas da linha/saída indicada, não apenas o nome geral da estação.","Ao sair na rua, conferir a direção antes de caminhar.","Se a rota ficar confusa, parar e recalcular; não continuar andando no impulso."],"stationSigns":["Exit / 出口","JR Lines","Subway","Taxi"],"correctExit":"","finalWalk":"","traps":"Risco típico: sair pela saída errada ou escolher rota rápida demais com muita baldeação.","planB":"Táxi curto se houver atraso, chuva, compras ou cansaço.","confidence":"média","sourceNote":"Guia genérico para deslocamentos menos críticos.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"12:40 - 13:15","title":"Solamachi -> Ameyoko / Ueno","type":"Deslocamento para mercado gastronômico","maps":"Tokyo Solamachi to Ameyoko Shopping District, Ueno, Taito City, Tokyo","logistics":"Metrô/trem via Oshiage/Asakusa/Ueno ou táxi se cansados. Tempo: 30-40 min.","onArrival":"Chegar em Ameyoko com fome e com objetivo de comer de rua.","insight":"A transição define o sucesso do almoço: Ameyoko não deve virar corredor pós-almoço pesado. Chegar com fome é parte do plano.","decision":"Chegar em Ameyoko por volta de 13:15, ainda com fome suficiente para tratar o mercado como almoço real.","ifLate":"Se passar de 14:00, reduzir compras e focar comida + farmácia.","cat":"transfer","notes":["💄 Reposição de cosméticos: Matsumoto Kiyoshi no Ameyoko (drogaria barata, tax-free).","💈 RODRIGO — skincare/anti-queda: procurar drogaria com BALCÃO de farmácia (símbolo 薬). Minoxidil 5% é a maior concentração no Japão e é Classe 1 (precisa falar com farmacêutico). Alvo: RiUP X5 Plus NEO ou RiUP X5 Charge (60ml, masculino). Limpeza/skincare: Senka Perfect Whip (~¥500), Hada Labo Gokujyun lotion (~¥800), Melano CC, Bioré UV. Shampoo anti-queda Scalp-D (Angfa)."],"mode":"subway","transportGuide":{"summary":"Oshiage/Solamachi → Ueno/Okachimachi; mirar Ameyoko, que fica entre Ueno e Okachimachi.","method":"Metrô/trem","difficulty":"média","luggageRisk":"baixo","route":"Tokyo Solamachi/Oshiage → Ueno/Okachimachi → Ameyoko","stepByStep":["Saia do Solamachi seguindo placas para Oshiage / Tokyo Skytree Station.","Use o Maps para escolher a melhor linha até Ueno ou Okachimachi.","Ao chegar, mire JR Ueno Shinobazu Exit ou JR Okachimachi North Exit, conforme a rota.","Na rua, siga para o eixo Ameyoko entre Ueno e Okachimachi.","Entrar no mercado já com a lógica de comida/farmácia, não de shopping organizado."],"stationSigns":["Oshiage","Tokyo Skytree","Ueno","Okachimachi","Shinobazu Exit","Ameyoko"],"correctExit":"Ueno Shinobazu Exit ou Okachimachi North Exit, conforme rota.","finalWalk":"5–10 min até o miolo de Ameyoko.","traps":"Sair em Ueno pelo lado errado pode jogar vocês longe do mercado; o alvo é Ameyoko/Okachimachi.","planB":"Táxi curto se Solamachi cansar ou se houver compras/facas.","confidence":"média","sourceNote":"Guia por alvo de estação; a linha exata deve ser confirmada no Maps.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"13:15 - 16:15","title":"Ameyoko + Ueno","type":"Mercado popular / street food / farmácias / compras baratas","maps":"Ameyoko Shopping District, Ueno, Taito City, Tokyo","logistics":"Circular pelo eixo Ueno/Okachimachi.","onArrival":"Comer em formato de mercado, entrar em farmácias/cosméticos e comprar snacks populares.","insight":"Ameyoko nasceu como mercado popular pós-guerra e hoje é caótico, barato e ótimo para comida de rua. Não espere shopping organizado: é rua, placa, multidão, barraca e oportunidade.","eat":"Seafood casual, takoyaki (bolinho de polvo), karaage (frango frito japonês), doces, frutas no palito e snacks.","buy":"Farmácias, cosméticos, snacks, lembranças populares, Donki/farmácia se aparecer.","photo":"Letreiros, barracas e movimento do mercado.","decision":"Sair para hotel por volta de 16:30.","ifLate":"Se estiver muito cheio, escolher comida + farmácia e sair; não tentar cada corredor.","cat":"food","notes":["Farmácia: se for comprar RiUP/minoxidil, procurar balcão com farmacêutico (薬). Classe 1 exige orientação; levar o nome do produto no celular ajuda."]},{"time":"16:15 - Noite","title":"Hotel / descanso / jantar leve","type":"Recuperação / jantar flexível","maps":"Ameyoko to JR Kyushu Hotel Blossom Shinjuku / Shinjuku restaurants near hotel","logistics":"JR Yamanote ou táxi se cansados/com compras. Tempo: 35-50 min.","onArrival":"Banho e pausa real. Jantar simples perto do hotel se houver fome.","insight":"Depois de Ameyoko, o jantar deve ser leve; o dia já teve bloco gastronômico. Forçar restaurante famoso à noite só aumenta cansaço.","eat":"Ramen, konbini, refeição simples perto do hotel.","decision":"Dormir em horário razoável.","ifLate":"Se Ameyoko cansar, voltar direto e jantar no quarto/konbini.","cat":"food"}],"transportBriefing":"Asakusa/Solamachi/Ameyoko: rotas de metrô variam; o importante é mirar Kaminarimon, Oshiage/Solamachi e Ueno/Okachimachi-Ameyoko."},{"day":8,"date":"05/12/2026","weekday":"Sábado","anchor":"Tsukiji + Ginza + Onitsuka + Nemuro Hanamaru","city":"Tóquio","color":"#f97316","base":"Tóquio - JR Kyushu Hotel Blossom Shinjuku","logic":"Comida de rua em Tsukiji de manhã, compras em Ginza com prioridade real para Onitsuka e fechamento no Nemuro Hanamaru. MUJI entra como loja útil no fluxo, com tempo controlado, não como âncora do dia.","attention":"Sábado em Tsukiji e Nemuro: multidão, filas e perda de tempo em lojas grandes.","goldenRule":"Comer cedo em Tsukiji, não fazer almoço pesado em Ginza, proteger Onitsuka e retirar senha do Nemuro por volta de 17:30. MUJI é útil, mas deve ser encurtada/cortada se ameaçar o jantar ou a energia do grupo.","expected":"Sair do dia com Tsukiji bem aproveitado, Onitsuka resolvida se houver modelo/tamanho, compras de Ginza sob controle e jantar de kaiten sushi executado sem fila física longa.","before":["Café da manhã leve no hotel. Tsukiji será brunch/street food; não sair estufado.","Levar passaportes físicos se houver intenção de tax-free em Ginza, Onitsuka, UNIQLO/MUJI ou lojas de departamento.","Power banks carregados; dia longo de mapa, fotos e lojas.","Mochila com espaço para compras pequenas. Se comprar muito, considerar táxi no retorno.","Definir até a manhã qual unidade do Nemuro será usada: Ginza/Tokyu Plaza é mais lógica pelo fluxo; KITTE Marunouchi é alternativa se quiserem esperar em Tokyo Station/KITTE."],"meals":"Café: leve no hotel. Brunch/almoço: Tsukiji Outer Market em pé; Sushizanmai Honten é opção sentada se a família cansar da multidão. Jantar: Nemuro Hanamaru com retirada de senha/ticket por volta de 17:30 e espera inteligente.","summary":"05/12","activities":[{"time":"08:00 - 08:40","title":"Hotel -> Tsukiji Outer Market","type":"Deslocamento / início do dia gastronômico","maps":"JR Kyushu Hotel Blossom Shinjuku, 2-6-2 Yoyogi, Shibuya City, Tokyo 151-0053 -> Tsukiji Outer Market, 4 Chome Tsukiji, Chuo City, Tokyo 104-0045","logistics":"Opção padrão: metrô/trem conforme Google Maps ao vivo, mirando Tsukiji Station, Higashi-Ginza ou Tsukijishijo. Opção conforto: táxi se quiser simplificar a manhã. Tempo real: 35-50 min.","onArrival":"Sair sem pressa excessiva, mas mirando chegar antes do pico de sábado. No trajeto, já alinhar com a família: Tsukiji é para comer em pé e circular, não para restaurante longo.","decision":"Se às 08:20 ainda não saíram do hotel, manter Tsukiji mesmo assim, mas cortar Namiyoke Inari depois.","ifLate":"Se o deslocamento passar de 50 min, entrar direto no mercado e escolher 2-3 comidas boas, sem tentar cobrir tudo.","notes":["Compras por loja: UNIQLO Ginza: básicos, UT, Heattech/Airism e roupas de viagem. MUJI Ginza: organizadores, necessaires, papelaria, travel goods, snacks e eventual mala extra — útil, mas não prioridade acima de Onitsuka/Nemuro. Onitsuka Tiger: Mexico 66/Mexico 66 SD e numeração.","Department stores: Ginza Mitsukoshi/Matsuya/beauty floors só entram se sobrar tempo; não competir com Onitsuka, a senha do Nemuro ou a energia do grupo. MUJI também deve ser encurtada se o relógio apertar.","Tsukiji: Sushizanmai Honten é alternativa sentada de conforto dentro de Tsukiji; usar só se a família precisar sentar/ar condicionado, sem transformar em almoço de 2h.","Dica prática: Tsukiji é melhor em formato de várias mordidas. Evitar comprar tudo no primeiro corredor; observar fila, cheiro, giro do produto e escolher 3-5 paradas boas."],"cat":"transfer","mode":"subway","transportGuide":{"summary":"Shinjuku → Tsukiji/Higashi-Ginza; chegar pelo lado do mercado externo, não Toyosu.","method":"Metrô","difficulty":"média","luggageRisk":"baixo","route":"Shinjuku → Ginza/Higashi-Ginza/Tsukiji → Tsukiji Outer Market","stepByStep":["Do hotel, caminhe para JR/Tokyo Metro Shinjuku conforme rota ao vivo.","Use rota com 1 transferência para Tsukiji Station ou Higashi-Ginza.","Ao chegar, siga placas para Tsukiji Outer Market / Tsukiji Hongwanji / Tsukiji.","Na superfície, abrir Maps para o ponto “Tsukiji Outer Market”.","Não confundir com Toyosu Market: hoje é Tsukiji Outer Market."],"stationSigns":["Tokyo Metro","Hibiya Line","Tsukiji","Higashi-Ginza","Tsukiji Outer Market","築地"],"correctExit":"Tsukiji/Higashi-Ginza: saída mais próxima de Tsukiji Outer Market.","finalWalk":"5–12 min de caminhada final.","traps":"Tsukiji Market interno antigo não existe mais; o alvo é o mercado externo. Não ir para Toyosu por engano.","planB":"Táxi direto se acordarem tarde ou se quiserem simplificar sábado de manhã.","confidence":"média","sourceNote":"Rota de metrô depende do Maps; alvo/armadilha são estáveis.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"08:40 - 11:00","title":"Tsukiji Outer Market","type":"Mercado gastronômico / street food / compras alimentares e utensílios","maps":"Tsukiji Outer Market, 4 Chome Tsukiji, Chuo City, Tokyo 104-0045","logistics":"Chegando, caminhar pelo miolo do mercado. Manter ritmo de degustação: parar onde a fila for razoável, comer, seguir. Não procurar uma refeição sentada longa como plano principal.","onArrival":"Ação imediata: começar com um eixo simples - tamagoyaki/snack leve, depois frutos do mar/seafood, depois doce ou café. Evitar parar em toda barraca com fila turística.","insight":"Tsukiji perdeu o mercado interno de atacado para Toyosu, mas o mercado externo segue como um dos grandes polos de comida tradicional de Tóquio, com lojas de comida, utensílios, chá, dashi e restaurantes. É o dia certo para provar várias coisas pequenas.","eat":"Tamagoyaki; vieira ou frutos do mar grelhados; espetinho de wagyu se aparecer com fila aceitável; sushi/sashimi em porção pequena; morango/daifuku/doce japonês; café se precisarem de pausa.","buy":"Chá verde, dashi, shoyu premium, snacks japoneses, utensílios pequenos. Não comprar faca aqui se a rota principal de facas já estiver em outro dia; se comprar, lembrar que faca vai na mala despachada.","photo":"Fotos de comida, placas do mercado, barracas grelhando frutos do mar e ruas cheias de Tsukiji. Cuidado com áreas estreitas e comida muito quente.","decision":"Começar a encerrar até 10:50 para não perder o restante do dia em Ginza.","ifLate":"Se o sábado estiver insuportável, fazer 2 comidas-alvo e sair. Se a família precisar sentar, ir para Sushizanmai Honten como opção sentada, sem transformar em almoço de 2h.","cat":"food"},{"time":"Opção durante Tsukiji","title":"Sushizanmai Honten","type":"Restaurante de sushi sentado / plano de conforto dentro de Tsukiji","maps":"Sushizanmai Honten, 4-11-9 Tsukiji, Chuo-ku, Tokyo 104-0045","logistics":"Usar apenas se a família precisar sentar, banheiro, ar condicionado ou pausa. Fica no próprio eixo de Tsukiji.","onArrival":"Entrar como solução objetiva, pedir sushi/sashimi/kaisen simples e sair. Não usar se Tsukiji estiver rendendo bem em formato street food.","insight":"É uma alternativa de alta rotatividade para transformar o bloco de mercado em refeição sentada sem sair da região.","eat":"Nigiri variado, atum, salmão, vieira/hotate, miso soup. Pedir o suficiente para alimentar, não para virar degustação longa.","decision":"Se entrar, limitar a 45-60 min.","ifLate":"Se a espera estiver grande, abortar e voltar para street food; Ginza e Nemuro ainda precisam ser protegidos.","notes":["Nemuro: Nemuro Hanamaru é jantar definido com operação de senha por volta de 17:30. Esperar em KITTE/Tokyu Plaza/Tokyo Station, não em fila física longa."],"cat":"food"},{"time":"11:00 - 11:15","title":"Namiyoke Inari Shrine","type":"Santuário pequeno / microparada cultural de Tsukiji","maps":"Namiyoke Inari Shrine, 6-20-37 Tsukiji, Chuo-ku, Tokyo 104-0045","logistics":"Caminhada curta a partir do mercado, se estiver no fluxo e sem atraso.","onArrival":"Parada rápida para foto e respiro depois do mercado. Não é visita longa.","insight":"O santuário é associado à proteção de Tsukiji e ao ambiente histórico dos comerciantes do antigo mercado. Serve como pausa visual/cultural curta.","photo":"Foto da entrada e dos elementos tradicionais. Não gastar tempo procurando ângulos perfeitos.","decision":"Sair até 11:15.","ifLate":"Se Tsukiji já passou de 11:00, cortar Namiyoke e ir direto para Ginza.","cat":"cultural"},{"time":"11:15 - 11:40","title":"Tsukiji -> Ginza / Ginza Mitsukoshi","type":"Deslocamento curto / transição para compras","maps":"Tsukiji Outer Market -> Ginza Mitsukoshi, 4-6-16 Ginza, Chuo-ku, Tokyo 104-8212","logistics":"Opção padrão: caminhada de 15-25 min se estiverem bem. Opção conforto: táxi curto, especialmente se já houver compras ou cansaço.","onArrival":"Chegar em Ginza e usar Ginza Mitsukoshi como ponto de referência central. Banheiro, organização rápida e decisão do bloco de compras.","decision":"Estar em Ginza por volta de 11:40-11:50.","ifLate":"Se chegarem em Ginza depois de 12:15, cortar pausa/café e ir direto para as prioridades de compras: UNIQLO/Onitsuka; MUJI só se couber.","cat":"transfer","mode":"walk","transportGuide":{"summary":"Tsukiji → Ginza a pé ou táxi curto; caminhada é viável se sem cansaço/compras.","method":"Caminhada","difficulty":"baixa","luggageRisk":"baixo","route":"Tsukiji Outer Market → Ginza Mitsukoshi/Chuo-dori","stepByStep":["Abrir o destino exato no Maps antes de sair.","Caminhar pelo lado mais simples, sem atravessar estação por dentro se houver rota externa clara.","Conferir a direção a cada mudança de rua grande.","Se o Maps mandar por corredor interno confuso, preferir rota de rua ou táxi curto."],"stationSigns":["Exit / 出口","Street level / 地上","Pedestrian deck / 歩行者デッキ"],"correctExit":"Ginza/Mitsukoshi side","finalWalk":"15–25 min a pé.","traps":"Não abrir lojas aleatórias no caminho; Ginza já tem agenda de compras.","planB":"Táxi curto se sábado estiver cheio, chovendo ou com sacolas.","confidence":"alta","sourceNote":"Guia de caminhada curto; usar Maps ao vivo para semáforos e obras locais.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"11:45 - 13:30","title":"UNIQLO Ginza (flagship 12 andares) + UT/GU","type":"Compras / flagship de roupas japonesas e básicos","maps":"UNIQLO Ginza, Ginza Komatsu East Wing 1F-12F, 6-9-5 Ginza, Chuo-ku, Tokyo 104-0061","logistics":"Caminhar de Mitsukoshi/Matsuya até a Uniqlo. Loja grande: entrar com lista, não “dar só uma olhada”.","onArrival":"Ação imediata: separar prioridades por pessoa. Um adulto pode ir em básicos/Heattech/Airism; adolescente pode ver UT/camisetas; combinar ponto de encontro dentro da loja.","insight":"UNIQLO Ginza e o flagship global (12 andares) — para quem ama Uniqlo, merece ~2h. Edicoes/colecoes que nao chegam ao Brasil. GU/UT no mesmo predio (mais jovem/barato) para a Luisa.","buy":"Heattech para frio, Airism se fizer sentido, camisetas UT, meias, roupas de viagem, peças simples para adolescente. Se a compra for grande, avaliar tax-free e passaporte.","decision":"Começar caixa/fechamento até 13:20-13:30; sair no máximo perto de 13:40.","ifLate":"Se a loja estiver lotada, limitar a 45 min e focar apenas em itens da lista. Se alguém quiser garimpar muito, dividir grupo e marcar encontro na saída.","cat":"shop"},{"time":"13:30 - 14:10","title":"MUJI Ginza (rapido — travel goods/papelaria)","type":"Loja útil no fluxo / organizadores / papelaria / travel goods","maps":"MUJI Ginza, 3-3-5 Ginza, Chuo-ku, Tokyo 104-0061","logistics":"Caminhar da UNIQLO até MUJI se estiver no fluxo. Entrar com lista curta e tempo controlado; não tratar como parada protegida acima de Onitsuka/Nemuro.","onArrival":"Ir direto nas categorias úteis: organizadores de mala, necessaires, papelaria, travel goods, snacks e eventual mala extra. Evitar explorar andares sem objetivo.","insight":"MUJI Ginza é boa para itens de viagem e organização, mas não é âncora do dia. O valor é resolver compras úteis rapidamente, não passar horas na flagship.","eat":"Snacks MUJI para hotel/trem: doces, chás, biscoitos e itens leves. Não transformar em refeição.","buy":"Organizadores de mala, necessaires, embalagens, cadernos/canetas, snacks, travel goods, cabos/bolsas simples, possível mala extra se fizer sentido.","photo":"Fachada/loja flagship; não precisa gastar tempo em foto se estiverem comprando.","decision":"Sair com folga para Onitsuka e Nemuro; se estiver ameaçando o relógio, encurtar sem culpa.","ifLate":"Se ainda estiverem no MUJI às 15:00-15:15, encerrar compra. Onitsuka, Nemuro e retorno com energia valem mais que garimpar MUJI.","cat":"shop","notes":["[REDUZIDO] de 1h30 -> 40min: MUJI nao e prioridade acima de Onitsuka. Foco em organizadores/papelaria/travel goods."]},{"time":"14:10 - 15:30","title":"Onitsuka Tiger Ginza + compras finais de Ginza","type":"Compras obrigatórias / tênis japonês / Mexico 66","maps":"Onitsuka Tiger Ginza Yellow Concept Store, 5-6-2 Ginza, Chuo-ku, Tokyo 104-0061. Alternativas próximas se necessário: Ginza Mitsukoshi, 4-6-16 Ginza; Matsuya Ginza, 3-6-1 Ginza.","logistics":"Ir primeiro à Onitsuka. Só depois, se sobrar tempo, department stores/skincare. Não inverter se o tênis for prioridade.","onArrival":"Ação imediata: pedir tamanhos do Mexico 66/Mexico 66 SD e provar rápido. Comprar se encontrar numeração/modelo bom; não deixar para outro dia sem necessidade.","insight":"Onitsuka Tiger é marca japonesa clássica; o Mexico 66 é o modelo mais icônico. Aqui a decisão é objetiva: achou modelo/tamanho/preço bom, compra; não deixar para outro dia sem motivo.","buy":"Mexico 66, Mexico 66 SD, meias e eventuais acessórios. Conferir tamanho japonês/US/EU antes de pagar. Passaporte para tax-free se aplicável.","photo":"Fachada amarela/conceitual se estiver no fluxo; foco principal é comprar o tênis.","decision":"Sair da Onitsuka/lojas até 16:45. Às 17:00 o foco vira Nemuro.","ifLate":"Se Onitsuka atrasar, cortar skincare/department stores. Não sacrificar retirada de senha do Nemuro.","cat":"shop","notes":["👜 BOLSAS DE LUXO USADAS (oportunidade pontual, ~30-40min se houver energia): Komehyo Ginza ou Brand Off Ginza — peças autenticadas (Chanel/LV/Hermès) bem mais baratas que no Brasil. NÃO é prioridade; só se o tempo do Nemuro permitir.","🛒 Don Quijote Ginza (Ginza Nine Bldg) para fechar compras/lembranças do dia."]},{"time":"15:30 - 16:30","title":"Depachika (Mitsukoshi/Matsuya) — SK-II + 👜 bolsas usadas (opcional)","type":"Compras de beleza / oportunidade","maps":"Ginza Mitsukoshi / Matsuya Ginza; Komehyo/Brand Off Ginza nas proximidades","logistics":"Descer ao depachika (subsolo) para beleza; balcoes de marca no terreo. Komehyo/Brand Off a poucos minutos a pe.","onArrival":"Comecar pela perfumaria/beleza do depachika.","insight":"No depachika, SK-II Facial Treatment Essence costuma sair bem melhor que fora do Japão. Bolsas de luxo usadas (Komehyo/Brand Off) só se sobrar pique. Incluir um café/snack rápido aqui ajuda a não chegar destruído no Nemuro.","decision":"Priorizar SK-II/beleza; bolsas sao oportunidade leve, nao obrigacao.","ifLate":"Se atrasar, cortar bolsas e seguir para a senha do Nemuro.","cat":"shop","notes":["Sabado a tarde a Chuo-dori vira calcadao (Hokousha Tengoku) — bom para foto e caminhar sem carro."],"eat":"Café/snack rápido se necessário antes da espera do Nemuro; não transformar em refeição longa."},{"time":"16:45 - 17:25","title":"Decisão Nemuro + deslocamento curto","type":"Logística de jantar / escolha da unidade de kaiten sushi","maps":"Opção A - Nemuro Hanamaru Ginza: Tokyu Plaza Ginza 10F, 5-2-1 Ginza, Chuo-ku, Tokyo 104-0061. Opção B - Nemuro Hanamaru KITTE Marunouchi: JP Tower KITTE 5F, 2-7-2 Marunouchi, Chiyoda-ku, Tokyo 100-0005.","logistics":"Se vocês estiverem em Ginza e quiserem menor deslocamento, usar Ginza/Tokyu Plaza. Se preferirem esperar em ambiente de Tokyo Station/KITTE ou a fila de Ginza parecer ruim, ir para KITTE Marunouchi.","onArrival":"Ação imediata: um adulto vai retirar senha/ticket. O restante espera em área confortável. Não ficar parado em fila física se houver sistema de chamada/senha.","insight":"Nemuro Hanamaru é kaiten sushi (sushi de esteira/pedidos rápidos) de Hokkaido. O segredo não é chegar faminto às 19h: é retirar senha cedo e esperar de forma produtiva.","decision":"Senha/ticket idealmente retirado por volta de 17:30.","ifLate":"Se ainda estiverem em compras às 17:30, parar compras e ir ao Nemuro. Comprar depois é menos importante que resolver a fila do jantar.","cat":"transfer","mode":"subway","transportGuide":{"summary":"Escolher unidade do Nemuro: Ginza/Tokyu Plaza se já estiverem em Ginza; KITTE se preferirem Tokyo Station/Marunouchi.","method":"Caminhada/trem curto","difficulty":"baixa","luggageRisk":"baixo","route":"Ginza → Tokyu Plaza Ginza OU Ginza/Tokyo → KITTE Marunouchi","stepByStep":["Às 16:45–17:00, parar compras e decidir a unidade.","Se usar Ginza: ir para Tokyu Plaza Ginza 10F e retirar senha.","Se usar KITTE: seguir para Tokyo Station/Marunouchi, entrar no KITTE/JP Tower 5F e retirar senha.","Um adulto retira senha enquanto o resto espera em área confortável.","Acompanhar a chamada e não se afastar demais."],"stationSigns":["Tokyu Plaza Ginza","KITTE","JP Tower","Tokyo Station Marunouchi","Restaurant floor"],"correctExit":"Tokyu Plaza 10F ou KITTE 5F.","finalWalk":"Dentro do prédio.","traps":"O erro é continuar comprando até 18h e chegar faminto sem senha.","planB":"Se a espera ficar absurda, escolher restaurante no próprio prédio e manter Nemuro para outro encaixe apenas se fizer sentido.","confidence":"alta","sourceNote":"Guia operacional baseado na posição dos prédios/unidades no roteiro.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"17:30 - chamada da senha","title":"Espera inteligente do Nemuro","type":"Logística / espera produtiva em shopping/estação","maps":"Se Ginza: Tokyu Plaza Ginza, 5-2-1 Ginza. Se KITTE: KITTE Marunouchi / Tokyo Station, 2-7-2 Marunouchi.","logistics":"Depois de retirar senha, acompanhar a previsão e usar a espera perto da unidade. Não atravessar a cidade nem perder a chamada.","onArrival":"Ação imediata: definir ponto de retorno e horário de checagem. Usar banheiro, ver lojas próximas, descansar, checar compras e bateria.","insight":"A espera deixa de ser problema se for transformada em pausa. O erro seria ficar 90-120 min em pé na frente do restaurante.","buy":"Ginza/Tokyu Plaza: lojas do shopping e arredores. KITTE/Tokyo Station: lojas de estação, snacks, presentes e observação da arquitetura/terraço se estiver fácil.","decision":"Voltar para perto da entrada quando a senha estiver se aproximando ou quando faltar cerca de 15-20 números/chamadas.","ifLate":"Se a previsão de espera empurrar o jantar para tarde demais, reavaliar com calma: manter Nemuro se ainda for civilizado; se ficar inviável, usar restaurante no próprio prédio e tentar Nemuro em outro encaixe.","cat":"transfer","mode":"stay","transportGuide":{"summary":"Deslocamento do bloco; confirmar rota ao vivo e seguir a saída correta do destino.","method":"stay","difficulty":"média","luggageRisk":"médio","route":"Se Ginza: Tokyu Plaza Ginza, 5-2-1 Ginza. Se KITTE: KITTE Marunouchi / Tokyo Station, 2-7-2 Marunouchi.","stepByStep":["Abrir o destino exato no Google Maps/Japan Travel antes de sair.","Escolher rota com menos baldeações se a família estiver cansada.","Seguir placas da linha/saída indicada, não apenas o nome geral da estação.","Ao sair na rua, conferir a direção antes de caminhar.","Se a rota ficar confusa, parar e recalcular; não continuar andando no impulso."],"stationSigns":["Exit / 出口","JR Lines","Subway","Taxi"],"correctExit":"","finalWalk":"","traps":"Risco típico: sair pela saída errada ou escolher rota rápida demais com muita baldeação.","planB":"Táxi curto se houver atraso, chuva, compras ou cansaço.","confidence":"média","sourceNote":"Guia genérico para deslocamentos menos críticos.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"19:00 - 21:00","title":"Jantar - Nemuro Hanamaru","type":"Restaurante / kaiten sushi / jantar principal do dia","maps":"Nemuro Hanamaru Ginza: Tokyu Plaza Ginza 10F, 5-2-1 Ginza, Chuo-ku, Tokyo 104-0061; ou Nemuro Hanamaru KITTE Marunouchi: JP Tower KITTE 5F, 2-7-2 Marunouchi, Chiyoda-ku, Tokyo 100-0005","logistics":"Entrar quando chamado. Manter refeição objetiva: pedir pelo menu/esteira, comer bem, mas sem transformar em jantar de 2h30.","onArrival":"Ação imediata: sentar, pedir bebidas/miso soup, escolher peças de sushi de Hokkaido e favoritos da família. Evitar pedir demais de uma vez; ir ajustando.","insight":"Nemuro Hanamaru é uma das experiências de kaiten sushi planejadas do roteiro. Kaiten sushi significa pratos circulando em esteira e/ou pedidos por tablet/menu; é informal, rápido e ótimo para provar variedades.","eat":"Hotate/vieira, salmão, atum, toro se o preço fizer sentido, camarão, caranguejo, engawa se disponível, miso soup e especiais de Hokkaido. Para adolescente: alternar peças conhecidas com 1-2 novidades.","photo":"Pratos de sushi na esteira/menu e ambiente. Não atrapalhar o fluxo do restaurante.","decision":"Encerrar entre 20:30 e 21:00 se possível. O dia seguinte tem teamLab/Odaiba/Akihabara.","ifLate":"Se sentarem muito tarde, fazer pedido mais objetivo e voltar de táxi/trem sem inventar outra parada.","cat":"food"},{"time":"21:00 - 21:45","title":"Retorno ao hotel em Shinjuku","type":"Deslocamento final / encerramento do dia","maps":"Destino: JR Kyushu Hotel Blossom Shinjuku, 2-6-2 Yoyogi, Shibuya City, Tokyo 151-0053","logistics":"Se estiverem com muitas compras ou cansados, táxi é aceitável. De trem, usar Google Maps ao vivo a partir de Ginza/Tokyo Station até Shinjuku e caminhar ao hotel.","onArrival":"Ação imediata: voltar, organizar compras por categoria, carregar power banks e separar itens do dia 06/12.","decision":"Sem nova loja grande depois do jantar.","ifLate":"Se passarem das 21:30 ainda fora, voltar direto ao hotel. Não emendar Donki ou farmácia.","cat":"transfer","mode":"walk","transportGuide":{"summary":"Ginza/Tokyo Station → Shinjuku; com compras, táxi é aceitável.","method":"Metrô/JR ou táxi","difficulty":"média","luggageRisk":"médio","route":"Ginza/Tokyo/Marunouchi → Shinjuku South/New South Gate → hotel","stepByStep":["Se estiverem leves: usar Tokyo Metro Marunouchi Line ou JR conforme Maps até Shinjuku.","Ao chegar em Shinjuku, seguir placas para South Exit / New South Gate / Busta Shinjuku.","Não sair por East Exit/Kabukicho se o destino é o hotel.","Da South/New South, caminhar 3–5 min até o hotel.","Se houver muitas compras ou cansaço: táxi direto para o hotel."],"stationSigns":["Shinjuku","South Exit","New South Gate","Busta Shinjuku","Koshu Kaido"],"correctExit":"Shinjuku South Exit/New South Gate.","finalWalk":"3–5 min da saída sul/terminal ao hotel.","traps":"East Exit/Kabukicho aumenta caminhada e confusão à noite.","planB":"Táxi direto de Ginza/Tokyo Station se compras/cansaço.","confidence":"alta","sourceNote":"Base: acesso oficial do hotel e mapa JR East Shinjuku.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}],"transportBriefing":"Tsukiji/Ginza/Nemuro: sábado exige disciplina; usar táxi curto se compras/filas consumirem energia."},{"day":9,"date":"06/12/2026","weekday":"Domingo","anchor":"teamLab + Akihabara + Roast Beef Ohno","city":"Tóquio","color":"#f97316","base":"Tóquio - Shinjuku","logic":"Experiência digital no teamLab e tarde forte em Akihabara, agora sem DiverCity/Odaiba como plano principal. O almoço protegido é Roast Beef Ohno Akihabara; a tarde ganha fôlego real para Super Potato, game centers e lojas geek. O jantar muda o tom para americano/NY café-bistro no Sarabeth’s Lumine Shinjuku, na rota da South Exit/hotel.","attention":"DiverCity/Odaiba só deve entrar se perto da viagem houver substituto Gundam confirmado. Sem Gundam, o desvio sacrifica Akihabara e não compensa.","goldenRule":"Roast Beef Ohno é almoço protegido. Cortar DiverCity no plano principal e chegar cedo a Akihabara para aproveitar o domingo/Chuo Dori, Super Potato e 1-2 game centers com calma.","expected":"Fazer teamLab, almoçar no Roast Beef Ohno, aproveitar Akihabara com tempo real e fechar com jantar americano confortável em Shinjuku sem cruzar Kabukicho.","before":["Comprar/confirmar ingresso do teamLab e horário.","Usar roupa confortável; teamLab pode envolver água/espelhos.","Power bank carregado para fotos, mapas e Akihabara.","Alinhar que Roast Beef Ohno é almoço protegido e Super Potato/game centers são prioridade em Akihabara.","DiverCity/Odaiba fica fora do plano principal; só reavaliar perto da viagem se houver nova atração Gundam confirmada no local."],"meals":"Café no hotel. Almoço protegido: Roast Beef Ohno Akihabara. Alternativo forte de almoço: Tonkatsu Marugo, se a fila do Ohno estiver inviável. Jantar aprovado: Sarabeth’s Lumine Shinjuku; alternativa prática: Shake Shack Shinjuku Southern Terrace.","summary":"06/12: teamLab com horário | Sem DiverCity no plano principal | Roast Beef Ohno almoço protegido | Akihabara com calma no domingo | Sarabeth’s Shinjuku no jantar","activities":[{"time":"08:30 - 09:30","title":"Hotel -> teamLab Planets Toyosu","type":"Deslocamento urbano / atração com horário","maps":"teamLab Planets TOKYO, 6 Chome-1-16 Toyosu, Koto City, Tokyo","logistics":"Trem/metrô até Toyosu/Shin-Toyosu + caminhada. Tempo: 45-60 min.","onArrival":"Chegar com margem, guardar itens e seguir regras de entrada.","insight":"teamLab Planets é arte imersiva física: luz, água, espelhos e movimento. Não é museu tradicional; o valor está em entrar no ambiente e tirar fotos sem travar o fluxo.","decision":"Entrar no horário e evitar paradas antes.","ifLate":"Se sair tarde, ir direto de táxi/rota mais rápida e não parar para café externo.","cat":"transfer","notes":["teamLab: usar roupa confortável. Como há áreas com espelho/água, evitar saia/roupa que complique a experiência e seguir instruções de retirada de sapatos/itens."],"mode":"subway","transportGuide":{"summary":"Shinjuku → Toyosu/Shin-Toyosu; mirar teamLab Planets, não Toyosu Market.","method":"Metrô + caminhada/Yurikamome","difficulty":"média","luggageRisk":"baixo","route":"Shinjuku → Tokyo Metro Yurakucho Line/Toyosu → Shin-Toyosu/teamLab","stepByStep":["Saia do hotel para a estação indicada pelo Maps; buscar rota para Toyosu ou Shin-Toyosu.","Priorizar rota que chegue a Toyosu Station ou Shin-Toyosu Station com poucas baldeações.","Se chegar em Toyosu: seguir placas para Yurikamome/Shin-Toyosu ou caminhar 10–15 min até teamLab.","Se usar Yurikamome: descer em Shin-Toyosu e caminhar poucos minutos.","Chegar com margem do horário marcado."],"stationSigns":["Toyosu","Shin-Toyosu","Yurikamome","teamLab Planets","豊洲","新豊洲"],"correctExit":"Shin-Toyosu/teamLab side.","finalWalk":"5–15 min conforme estação final.","traps":"Toyosu, Toyosu Market e teamLab não são o mesmo ponto; não caminhar para o mercado por engano.","planB":"Táxi se o horário do ingresso apertar.","confidence":"média","sourceNote":"Acesso ao teamLab deve ser rechecado no Maps; estação-alvo é estável.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"09:30 - 12:00","title":"teamLab Planets Toyosu","type":"Experiência imersiva digital / arte / fotos","maps":"teamLab Planets TOKYO, 6 Chome-1-16 Toyosu, Koto City, Tokyo 135-0061","logistics":"Percurso interno a pé pelas instalações.","onArrival":"Fazer salas de água, luzes, espelhos e jardins com calma, seguindo orientação do local.","insight":"É uma experiência física e visual única, boa para todos e diferente de museu tradicional.","photo":"Salas de água/espelhos e instalações de luz, respeitando regras.","decision":"Sair por volta de 12:00 e seguir direto para Akihabara. DiverCity/Odaiba não é mais plano principal sem novo Gundam confirmado.","ifLate":"Se entrar/sair tarde, manter o almoço protegido no Roast Beef Ohno e cortar qualquer desvio intermediário.","cat":"photo","notes":["DiverCity/Odaiba: fora do plano principal. Só reavaliar perto da viagem se houver substituto Gundam confirmado no local; sem isso, o ganho de tempo vai para Akihabara."]},{"time":"12:00 - 13:00","title":"teamLab -> Akihabara","type":"Deslocamento crítico / ir direto para Akihabara","maps":"teamLab Planets TOKYO to Akihabara Station","logistics":"Trem/metrô conforme Google Maps ao vivo. Tempo real: 45-60 min considerando saída do teamLab, estação, conexão e chegada a Akihabara.","onArrival":"Ir direto para a região do Roast Beef Ohno/Chuo Dori. Não fazer desvio por Odaiba/DiverCity se não houver nova atração Gundam confirmada.","insight":"Cortar Odaiba muda o dia: em vez de gastar tempo na baía, vocês chegam mais cedo ao miolo de Akihabara, que é justamente melhor no domingo.","decision":"Chegar a Akihabara perto de 13:00 para almoçar sem destruir a tarde.","ifLate":"Se passar de 13:15, ainda manter Roast Beef Ohno; reduzir lojas secundárias depois.","cat":"transfer","mode":"train","transportGuide":{"summary":"Toyosu/teamLab → Akihabara direto; cortar Odaiba e ganhar tarde real em Akihabara.","method":"Metrô/JR","difficulty":"média","luggageRisk":"baixo","route":"Toyosu/Shin-Toyosu → Yurakucho/Hibiya/Tokyo conforme Maps → Akihabara","stepByStep":["Ao sair do teamLab, ir direto para Toyosu/Shin-Toyosu Station.","Usar Maps para rota com menor caminhada até Akihabara Station.","Rota típica: Toyosu/Yurakucho Line até Yurakucho, depois JR Yamanote/Keihin-Tohoku até Akihabara; mas seguir Maps ao vivo.","Em Akihabara, sair pelo lado Electric Town/Chuo Dori se o primeiro objetivo for Super Potato/game centers, ou pelo lado indicado para Roast Beef Ohno.","Ir direto ao almoço protegido."],"stationSigns":["Toyosu","Yurakucho Line","JR Yamanote Line","Akihabara","Electric Town Exit","Chuo Dori"],"correctExit":"Akihabara: Electric Town/Chuo Dori ou saída indicada pelo Maps para Roast Beef Ohno.","finalWalk":"5–12 min dentro de Akihabara conforme saída.","traps":"Não reabrir DiverCity/Odaiba no automático; isso quebra a lógica aprovada do dia.","planB":"Se saírem famintos e o deslocamento pesar, táxi teamLab → Akihabara é plano de conforto.","confidence":"média","sourceNote":"Rota específica depende do Maps; alvo de saída em Akihabara é operacional.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"13:00 - 14:15","title":"Almoço protegido - Roast Beef Ohno Akihabara","type":"Almoço-alvo / roast beef don / carne visual em Akihabara","maps":"Roast Beef Ohno Akihabara, 1-2-3 Sotokanda, Chiyoda City, Tokyo","logistics":"Chegar e avaliar fila. O restaurante não aceita reserva segundo Tabelog; se a fila estiver normal, manter. Se estiver inviável, usar alternativo forte planejado.","onArrival":"Pedir o roast beef don/torre de roast beef, com gema/molho; comer sem transformar em refeição longa demais.","insight":"Roast Beef Ohno é um alvo protegido do dia por combinar com Akihabara e oferecer uma experiência visual/prática de carne, não uma refeição genérica.","eat":"Roast beef don de wagyu/kuroge, gema, molho e acompanhamentos.","decision":"Terminar por volta de 14:15 para ganhar a melhor janela de Akihabara no domingo.","ifLate":"Se a fila estiver absurda, alternativo principal: Tonkatsu Marugo. Contingência secundária: Niku no Mansei, por ser familiar/aberto/na região. Não trocar por sushi fraco.","notes":["Roast Beef Ohno é protegido: não rebaixar para “se der”.","Alternativo de almoço na aba Restaurantes foi ajustado para Tonkatsu Marugo, que é forte e aberto domingo; Niku no Mansei fica só como contingência secundária em nota."],"cat":"food"},{"time":"14:15 - 17:00","title":"Akihabara domingo - Chuo Dori + Super Potato + game centers","type":"Cultura pop / retrogames / arcades / rua principal","maps":"Super Potato Akihabara / Chuo Dori / GiGO Akihabara / Taito Station Akihabara / namco Akihabara","logistics":"Caminhar pelo eixo principal de Akihabara. Domingo é a melhor chance de pegar Chuo Dori com clima de pedestrian paradise quando estiver ativo.","onArrival":"Começar por Chuo Dori/Super Potato e escolher 1-2 game centers, não todos.","insight":"Com o corte de DiverCity, Akihabara deixa de ser correria e vira bloco principal de cultura pop/games do dia.","buy":"Games, cartuchos, itens retrô, produtos geek, eletrônicos e lembranças.","photo":"Chuo Dori, fachadas, arcades, Super Potato.","decision":"Preservar Super Potato e pelo menos 1 game center; cortar lojas secundárias se o tempo apertar.","ifLate":"Se o almoço atrasar, ir direto ao Super Potato e escolher só 1 arcade.","notes":["Escolher 1-2 entre GiGO, Taito Station e namco; não tentar todos.","Yodobashi/Mandarake entram depois se a energia e o relógio permitirem."],"cat":"shop"},{"time":"17:00 - 18:30","title":"Lojas finais de Akihabara / Yodobashi / Mandarake se couber","type":"Compras geek / eletrônicos / usados / ajuste fino","maps":"Yodobashi Camera Multimedia Akiba / Mandarake Complex Akihabara / Don Quijote Akihabara","logistics":"Escolher conforme interesse real e energia. Não abrir uma loja gigante se já estiverem cansados.","onArrival":"Fazer compras finais de Akihabara com foco: eletrônicos, games, usados ou Donki se ainda faltar algo.","insight":"Este bloco existe porque Akihabara ganhou tempo real. Ainda assim, é melhor sair querendo voltar do que sair destruído antes do jantar.","buy":"Eletrônicos, figures, anime vintage, produtos geek, cortador de unha com lupa se ainda não tiver comprado.","decision":"Começar deslocamento para Shinjuku por volta de 18:30.","ifLate":"Se o grupo cansar, sair antes para Shinjuku e jantar com calma.","cat":"shop"},{"time":"18:30 - 19:20","title":"Akihabara -> Shinjuku South Exit / Lumine","type":"Deslocamento para jantar na rota do hotel","maps":"Akihabara Station to Shinjuku Station South Exit / Lumine Shinjuku","logistics":"JR Yamanote/Chuo/Sobu conforme Maps. Mirar Shinjuku South Exit/Lumine, não Kabukicho. Tempo real: 35-50 min.","onArrival":"Sair pelo lado correto para o Lumine/Shinjuku South Exit e ir ao Sarabeth’s sem passar pelo hotel primeiro.","insight":"Sarabeth’s foi escolhido justamente por estar na rota da South Exit/hotel, evitando atravessar Shinjuku para Kabukicho no fim do dia.","decision":"Chegar ao Sarabeth’s por volta de 19:20-19:30.","ifLate":"Se passar de 20:30 ou último pedido apertar, usar Shake Shack Southern Terrace.","cat":"transfer","mode":"train","transportGuide":{"summary":"Akihabara → Shinjuku pela JR; sair pelo lado South Exit/Lumine, não Kabukicho.","method":"JR train","difficulty":"média","luggageRisk":"baixo","route":"JR Akihabara → JR Shinjuku → Lumine/South Exit","stepByStep":["Entre na JR Akihabara Station.","Use a rota mais simples indicada pelo Maps; geralmente JR Chuo-Sobu Line direto para Shinjuku ou combinação JR via Kanda/Tokyo.","Ao chegar em Shinjuku, siga placas para South Exit / Lumine / New South Gate.","Não sair por East Exit/Kabukicho: o jantar é Lumine/South Exit.","Ir ao Sarabeth’s no Lumine antes de voltar ao hotel."],"stationSigns":["JR Lines","Chuo-Sobu Line","Shinjuku","South Exit","Lumine","New South Gate"],"correctExit":"Shinjuku South Exit/Lumine 2.","finalWalk":"Sarabeth’s fica na área da South Exit/Lumine; hotel a 3–5 min depois.","traps":"East Exit/Kabukicho é um desvio desnecessário para esse jantar.","planB":"Se estiverem com muitas sacolas: táxi Akihabara → Lumine/Shinjuku South ou direto hotel + Shake Shack/Sarabeth’s conforme horário.","confidence":"alta","sourceNote":"Base: mapas JR de Shinjuku e localização oficial Sarabeth’s/Lumine.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"19:30 - 20:45","title":"Jantar - Sarabeth’s Lumine Shinjuku","type":"Jantar americano / NY café-bistro / mudança de tom","maps":"Sarabeth’s Lumine Shinjuku, LUMINE2 2F, 3-38-2 Shinjuku, Shinjuku-ku, Tokyo","logistics":"Fica no Lumine 2, na área da South Exit de Shinjuku, praticamente no caminho do hotel. Último pedido 21:00 segundo site oficial; não chegar em cima da hora.","onArrival":"Jantar confortável, com comida americana/NY café-bistro, sem precisar cruzar para Kabukicho.","insight":"Depois de vários dias de comida japonesa e um dia intenso de Akihabara, Sarabeth’s muda o tom com uma opção americana confortável e logística perfeita para a base em Shinjuku.","eat":"Eggs Benedict, french toast, burger/sandwich/salad conforme fome; se quiser algo mais rápido e burger direto, usar Shake Shack como alternativa.","decision":"Encerrar e caminhar de volta ao hotel.","ifLate":"Se Sarabeth’s estiver cheio ou último pedido apertar, Shake Shack Shinjuku Southern Terrace é o plano B aprovado na mesma região.","cat":"food"},{"time":"20:45 - 21:05","title":"Sarabeth’s / South Exit -> JR Kyushu Hotel Blossom Shinjuku","type":"Retorno curto / descanso","maps":"Lumine Shinjuku to JR Kyushu Hotel Blossom Shinjuku","logistics":"Caminhada curta pela região da South Exit/Busta Shinjuku. Táxi só se estiverem exaustos ou com muitas compras.","onArrival":"Banho, organizar compras e preparar o dia Fuji.","insight":"O jantar foi escolhido para terminar perto do hotel; não há motivo para emendar Kabukicho ou nova loja longa.","decision":"Dormir em horário razoável para o Fuji no dia seguinte.","ifLate":"Se passarem das 21:30 fora, voltar direto ao hotel.","cat":"transfer","mode":"walk","transportGuide":{"summary":"Lumine/South Exit → JR Kyushu Hotel Blossom Shinjuku; caminhada curta.","method":"Caminhada","difficulty":"baixa","luggageRisk":"baixo","route":"Lumine Shinjuku/South Exit → JR Kyushu Hotel Blossom Shinjuku","stepByStep":["Abrir o destino exato no Maps antes de sair.","Caminhar pelo lado mais simples, sem atravessar estação por dentro se houver rota externa clara.","Conferir a direção a cada mudança de rua grande.","Se o Maps mandar por corredor interno confuso, preferir rota de rua ou táxi curto."],"stationSigns":["Exit / 出口","Street level / 地上","Pedestrian deck / 歩行者デッキ"],"correctExit":"South Exit / New South Gate / Koshu Kaido","finalWalk":"3–8 min conforme ponto exato do Lumine.","traps":"Não atravessar para Kabukicho; o hotel fica no lado sul/Yoyogi.","planB":"Táxi só se estiverem exaustos ou com muitas compras.","confidence":"alta","sourceNote":"Guia de caminhada curto; usar Maps ao vivo para semáforos e obras locais.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}],"transportBriefing":"teamLab→Akihabara→Shinjuku: sem Odaiba no plano principal; transporte direto para proteger Akihabara e jantar na South Exit."},{"day":10,"date":"07/12/2026","weekday":"Segunda","anchor":"Excursão Monte Fuji / Kawaguchiko","city":"Tóquio","color":"#f97316","base":"Tóquio - Shinjuku","logic":"Bate-volta/excursão de Fuji com flexibilidade climática: tentar vista boa, comer hoto regional e explorar Kawaguchiko/Oishi/Chureito/Oshino conforme clima, sem outlet e sem voltar tarde. O motorista/tour deve ajustar a sequência ao clima real.","attention":"Clima fechado, deslocamento longo ou insistir demais em vista do Fuji.","goldenRule":"Motorista/tour manda no ritmo; se Fuji fechar, reduzir busca de vista, proteger almoço regional e retorno a Tóquio.","expected":"Voltar a Shinjuku sem exaustão, com Fuji aproveitado de manhã/início da tarde e Hoto Fudo como almoço regional.","before":["Café cedo e eficiente.","Confirmar motorista/tour e primeiro ponto do Fuji.","Levar casaco, água, power bank, dinheiro/cartão, roupas térmicas e heat packs se estiver frio.","Sem expectativa de compras grandes: Gotemba Premium Outlets foi removido deste dia.","Levar lista de Uniqlo/Donki de Shinjuku para a noite livre apenas se houver energia depois do retorno."],"meals":"Almoço-alvo: Hoto Fudo Kawaguchiko (hoto/noodle regional). Jantar-alvo: Ichiran Shinjuku; emergência: CoCo/konbini.","summary":"07/12: Excursão Monte Fuji/Kawaguchiko | manhã cedo e decisiva | sem outlet | Hoto Fudo como almoço regional | noite livre só se houver energia","activities":[{"time":"07:30 - 10:00","title":"Hotel -> região Fuji/Kawaguchiko","type":"Deslocamento longo / tour privado recomendado","maps":"JR Kyushu Hotel Blossom Shinjuku to Lake Kawaguchiko / Mt Fuji","logistics":"Carro com motorista/tour. Tempo: 2h-2h30 até Kawaguchiko/Oishi/Chureito conforme rota.","onArrival":"Sair cedo e decidir o primeiro ponto com o motorista conforme clima.","insight":"O Fuji é sensível a clima; insistir demais num dia fechado pode desperdiçar o dia.","decision":"Chegar à região do Fuji até 10:00-10:30.","ifLate":"Se sair tarde, reduzir pontos cênicos e priorizar 1 vista + almoço.","cat":"transfer","mode":"car","transportGuide":{"summary":"Tour privado/carro Shinjuku → região Fuji/Kawaguchiko.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"JR Kyushu Hotel Blossom Shinjuku → Kawaguchiko/Oishi Park/Chureito conforme guia","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se atrasar saída, reduzir pontos cênicos; não correr para “compensar”.","confidence":"alta","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"10:00 - 11:45","title":"Ponto cênico do Fuji conforme clima","type":"Vista / fotos / cartão-postal natural","maps":"Oishi Park Lake Kawaguchiko / Chureito Pagoda / Oshino Hakkai","logistics":"Motorista/tour escolhe melhor ponto do dia.","onArrival":"Fazer fotos, observar clima e não insistir em múltiplos pontos se o Fuji estiver escondido.","insight":"O Fuji pode estar totalmente visível, parcialmente coberto ou invisível no mesmo dia. A melhor decisão é aceitar o clima e não desperdiçar horas caçando vista impossível.","photo":"Fuji com lago/parque/pagode se o clima permitir.","decision":"Seguir para almoço por volta de 11:45-12:00.","ifLate":"Se Fuji estiver fechado, encurtar a busca de vista, escolher um ponto regional interessante e seguir para almoço sem frustração.","cat":"photo","notes":["Dica local: vista do Fuji não é garantida; se o céu fechar, transformar o dia em passeio de região + almoço regional, sem frustração, sem frustração."]},{"time":"12:00 - 13:00","title":"Almoço - Hoto Fudo Kawaguchiko","type":"Restaurante / noodle regional / comida típica de Yamanashi","maps":"Hoto Fudo Kawaguchiko Station, 707 Kawaguchi, Fujikawaguchiko, Yamanashi / buscar Hoto Fudo Kawaguchiko","logistics":"Carro/tour até a unidade mais conveniente.","onArrival":"Comer hoto, macarrão largo típico da região do Fuji/Yamanashi.","insight":"Hoto é o prato regional de Yamanashi/Fuji: noodle largo em caldo de missô com vegetais, geralmente mais rústico e reconfortante que ramen. É a refeição mais coerente para este dia.","eat":"Hoto em caldo de missô com vegetais; pedir porções suficientes, sem almoço de 2h. É comida de panela, quente e boa para dia frio.","photo":"Panela/prato de hoto e ambiente regional.","decision":"Sair até 13:00-13:15.","ifLate":"Se a rota não passar por Kawaguchiko ou a fila estiver ruim, usar opção rápida na região de Kawaguchiko/estação/café local/konbini indicado pelo motorista.","notes":["Almoço regional: Hoto Fudo Kawaguchiko é almoço-alvo de noodle regional/hoto. Alternativa só entra se o tour atrasar, a rota não passar por Kawaguchiko ou a fila inviabilizar."],"cat":"food"},{"time":"13:00 - 15:30","title":"Mais pontos cenicos / Lago Kawaguchi","type":"Paisagem / fotos","maps":"Lago Kawaguchi (Oishi Park / Oshino Hakkai / Arakurayama-Chureito conforme clima)","logistics":"Guia/van ajusta a ordem conforme o clima e a janela de visibilidade do Fuji.","onArrival":"Aproveitar a melhor janela de ceu limpo para fotos do Fuji.","insight":"[CORTE] Outlet removido (sua decisao). O dia vira Fuji puro. Como o sol se poe ~16:30 em dezembro, a janela util e manha + comeco da tarde.","eat":"Lanche/café local ou konbini apenas se o almoço regional falhar ou se precisar de lanche.","buy":"Sem compras grandes neste dia; Gotemba Premium Outlets foi removido.","photo":"Fuji com lago/parque/pagode se o clima ajudar.","decision":"Priorizar os miradouros com Fuji visivel; tardes nubladas pedem foco em lago/vila.","ifLate":"Se nevar/fechar tempo, encurtar e voltar mais cedo a Toquio.","notes":["Frio de verdade (perto de 0C, neve possivel): Heattech + casaco + heat packs."],"cat":"photo"},{"time":"15:30 - 18:00","title":"Kawaguchiko -> Shinjuku","type":"Retorno longo / recuperação","maps":"Lago Kawaguchi to Shinjuku, Tokyo","logistics":"Carro/tour. Tempo: 2h-2h30, sujeito a trânsito.","onArrival":"Descansar no carro e decidir jantar conforme energia.","insight":"Voltar tarde demais compromete a sequência da viagem; por isso o horário de saída é duro.","decision":"Chegar a Shinjuku e ir direto ao jantar/hotel.","ifLate":"Se retorno passar muito das 20h, jantar perto do hotel ou konbini.","cat":"transfer","mode":"car","transportGuide":{"summary":"Retorno Fuji/Kawaguchiko → Shinjuku por carro/tour.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Kawaguchiko/Fuji area → JR Kyushu Hotel Blossom Shinjuku","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se o trânsito empurrar chegada tarde, jantar simples no hotel/konbini.","confidence":"alta","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"20:00 - 21:00","title":"Noite livre: 🛒 Uniqlo Shinjuku + Donki (ou jantar Ichiran)","type":"Ramen famoso / jantar operacional pós-bate-volta","maps":"Ichiran Shinjuku Central East Exit / Ichiran Shinjuku Kabukicho, Tokyo","logistics":"Caminhada/táxi curto a partir do hotel/Shinjuku conforme cansaço.","onArrival":"Comer ramen famoso, rápido e previsível, sem reserva difícil.","insight":"Como cortamos o outlet e o dia escurece cedo, voces voltam a Toquio no fim da tarde com a NOITE LIVRE. Encaixe perfeito para a Uniqlo/Donki de Shinjuku com calma — a 'novidade intensa' que a familia nao escapa.","eat":"Ramen tonkotsu personalizado; ajustar picância e firmeza do noodle.","decision":"Encerrar em cerca de 45-60 min e voltar ao hotel.","ifLate":"Se estiverem destruídos ou houver fila chata, trocar por CoCo Ichibanya/konbini perto do hotel.","notes":["Uniqlo Shinjuku e Don Quijote ficam a poucos minutos do hotel. Jantar: Ichiran ou algo leve."],"cat":"food"}]},{"day":11,"date":"08/12/2026","weekday":"Terça","anchor":"Compras Tóquio + KISS/vinil + mudança Disney","city":"Tokyo Disney","color":"#f43f5e","base":"Tóquio -> Maihama / Toy Story Hotel","logic":"Fechar Tóquio urbana sem desorganizar a mudança para Disney: enviar malas grandes direto de Shinjuku para o Hotel Granvia Kyoto, fazer garimpo KISS/vinil protegido, Gyukatsu só com fila aceitável e chegar a Maihama apenas com mala pequena/bolsa ponte.","attention":"Fila no almoço ou compras sem foco atrasarem a mudança para Toy Story.","goldenRule":"Malas grandes Shinjuku -> Hotel Granvia Kyoto antes de sair para o dia. Disney só com mala pequena. Disk Union/KISS é prioridade; se fila do Gyukatsu passar de 30-40 min, cortar; jantar deve ser no Ikspiari.","expected":"Terminar compras específicas de Tóquio e dormir já posicionado para os dias Disney, sem carregar mala grande para Maihama/Toy Story.","before":["Malas grandes prontas desde a noite anterior para envio direto ao Hotel Granvia Kyoto.","Separar mala pequena/bolsa ponte Disney + Kyoto com roupas de 08, 09, 10 e 11/12, pijama, remédios, necessaire, carregadores, documentos e uma troca reserva.","Enviar malas grandes do JR Kyushu Hotel Blossom Shinjuku para Hotel Granvia Kyoto, com entrega desejada em 11/12.","Lista KISS/vinil no celular: procurar KISS e キッス.","Power bank e mochila leve; compras podem pesar."],"meals":"Almoço-alvo: Gyukatsu Motomura Shinjuku, só se fila aceitável. Jantar definido: Ikspiari, alvo Tonkatsu Wako, antes de dormir no Toy Story.","summary":"08/12: Enviar malas grandes Shinjuku→Hotel Granvia Kyoto | Disney só com mala pequena | Disk Union/KISS protegido | Gyukatsu só com fila aceitável | Chegar a Maihama sem atraso | Jantar no Ikspiari","activities":[{"time":"09:00 - 09:30","title":"Check-out / enviar malas grandes para Hotel Granvia Kyoto","type":"Logística / mudança de base","maps":"JR Kyushu Hotel Blossom Shinjuku, 2-6-2 Yoyogi, Shibuya City, Tokyo","logistics":"Check-out e envio das malas grandes pelo hotel/Yamato/Ta-Q-Bin para o Hotel Granvia Kyoto, com entrega desejada em 11/12. Ficar apenas com mala pequena/bolsa ponte para Disney e chegada a Kyoto.","onArrival":"No balcão, confirmar destinatário, data de entrega e nome da reserva do Hotel Granvia Kyoto. Etiquetar malas grandes e guardar comprovante/foto do recibo.","insight":"Este é o ajuste logístico principal: a família vai para Disney leve, sem levar mala grande a Maihama e sem depender de envio pelo Toy Story Hotel depois do parque.","decision":"Malas grandes despachadas para Kyoto até 09:30. Se o hotel não conseguir enviar, acionar plano B antes de sair para compras.","ifLate":"Se o envio atrasar, cortar compras secundárias e manter Disk Union + ida leve para Maihama.","notes":["Plano A: malas grandes JR Kyushu Shinjuku -> Hotel Granvia Kyoto em 08/12, entrega desejada em 11/12.","Plano B: se o hotel não aceitar envio, contratar serviço externo/transfer ou levar malas grandes de táxi/van para Toy Story, mas isso é pior. Não atravessar Tokyo Station/Keiyo Line com mala grande no dia 11/12.","Guardar comprovante do envio e foto da etiqueta."],"cat":"transfer","mode":"stay","transportGuide":{"summary":"Despacho de malas grandes Shinjuku → Hotel Granvia Kyoto antes de ir para Disney.","method":"Ta-Q-Bin/Yamato via hotel","difficulty":"alta","luggageRisk":"alto","route":"JR Kyushu Hotel Blossom Shinjuku front desk → Hotel Granvia Kyoto","stepByStep":["Na noite anterior, separar mala grande Kyoto/Osaka e mala pequena Disney.","No check-out, pedir luggage delivery / Ta-Q-Bin / Yamato to Hotel Granvia Kyoto.","Mostrar nome do hotel, endereço e data desejada de entrega: 11/12.","Confirmar nome da reserva no destinatário e telefone do hotel se solicitado.","Fotografar etiqueta e recibo.","Sair para o dia só com mala pequena/bolsa ponte."],"stationSigns":["Luggage delivery","Takkyubin","Ta-Q-Bin","Yamato","宅急便"],"correctExit":"Balcão do hotel.","finalWalk":"Sem caminhada; resolver no front desk.","traps":"Não mandar documentos, remédios, carregadores, power banks ou roupa essencial na mala enviada.","planB":"Se o hotel não aceitar, contratar serviço externo/transfer; não levar mala grande para Maihama/Tokyo Station.","confidence":"alta","sourceNote":"Guia de operação logística aprovado no roteiro; confirmar cutoff e prazo no hotel.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"09:30 - 11:30","title":"💿 Cluster Disk Union Shinjuku (matriz + ROCK/🤘 Heavy Metal Museum + Union Record)","type":"Compras específicas / vinil / rock / garimpo KISS","maps":"disk union Shinjuku ROCK / disk union Heavy Metal Museum, Shinjuku, Tokyo","logistics":"Caminhada/trem curto conforme unidade.","onArrival":"Priorizar disk union Shinjuku Rock/Heavy Metal; procurar KISS e キッス, OBI e edições japonesas.","insight":"Nao e UMA loja: o polo Shinjuku reune a matriz (8 andares), as lojas por genero — incluindo o Disk Union Heavy Metal Museum (MELHOR endereco p/ KISS em Toquio) — e a Union Record (vinil). Tudo numa caminhada curta, colado ao hotel.","buy":"Vinil japonês, CDs, OBI strips, hard rock/metal, merch usado.","photo":"Fachadas/achados, sem perder tempo demais documentando.","decision":"Encerrar busca principal até 12:30.","ifLate":"Se o garimpo render muito, cortar lojas familiares paralelas; não cortar deslocamento para Disney.","notes":["Reduzido de 3h -> 2h ('vinil nao e meu Deus do ceu'): as lojas estao a poucos passos entre si.","Procurar キッス e conferir OBI strip. Overflow so se sobrar pique: HMV / Book-Off / Nakano."],"cat":"shop"},{"time":"Em paralelo","title":"Compras família no eixo escolhido","type":"Compras / beleza / Nintendo/Pokémon se faltar","maps":"Don Quijote Shinjuku/Shibuya / Matsumoto Kiyoshi / Loft / Shibuya PARCO se no fluxo","logistics":"Dividir interesses se fizer sentido e combinar ponto de reencontro.","onArrival":"Esposa/filha podem fazer beleza, snacks e lojas pop enquanto Rodrigo garimpa vinil.","insight":"Separar interesses evita que todos fiquem presos em loja de vinil por horas.","buy":"Cosméticos, skincare, snacks, itens Nintendo/Pokémon se faltaram no dia 03.","decision":"Reencontrar para almoço ou antes de buscar malas.","ifLate":"Se divisão complicar, manter todos no eixo Shinjuku e reduzir escopo.","notes":["Compras família: Donki/farmácias/Loft/PARCO podem funcionar em paralelo se não criarem deslocamento extra. Comprar cosméticos, skincare, snacks e itens Nintendo/Pokémon faltantes.","As 1h economizadas do vinil vao para as compras delas no mesmo horario/eixo (Lumine/NEWoMan, Uniqlo, Donki).","Seijo Ishii (mercado gourmet) para lembrancas comestiveis de qualidade."],"cat":"shop"},{"time":"12:30 - 13:30","title":"Almoço - Gyukatsu Motomura Shinjuku","type":"Almoço-alvo / gyukatsu na pedra quente","maps":"Gyukatsu Motomura Shinjuku, Tokyo / buscar Gyukatsu Motomura Shinjuku","logistics":"Caminhada curta/trem conforme loja.","onArrival":"Comer gyukatsu interativo se a fila estiver aceitável.","insight":"Gyukatsu é carne bovina empanada e servida malpassada para finalizar na pedra quente. É experiência divertida, mas fila longa neste dia custa caro porque há mudança para Maihama.","eat":"Gyukatsu set; grelhar pedaços na pedra quente ao ponto desejado. Se a fila passar de 30-40 min, abortar sem culpa.","decision":"Terminar até 13:30-13:45.","ifLate":"Se a fila passar de 30-40 min, abortar e escolher refeição rápida para proteger Disney.","cat":"food"},{"time":"14:00 - 15:30","title":"Voltar ao hotel / pegar mala pequena / ir para Maihama","type":"Deslocamento crítico / mudança para Disney","maps":"JR Kyushu Hotel Blossom Shinjuku to Tokyo Disney Resort Toy Story Hotel","logistics":"Pegar apenas mala pequena/bolsa ponte e seguir para Toy Story Hotel via JR/Tokyo Station/Maihama + Disney Resort Line ou táxi parcial se cansados. Tempo porta a porta: 60-80 min a partir da saída do hotel.","onArrival":"Não inventar compras no meio do deslocamento.","insight":"Chegar a Maihama sem mala grande é o ganho logístico do dia. Tokyo Station/Maihama com compras e mala pequena é controlável; com malas grandes seria ruim.","decision":"Estar em movimento para Maihama até 15:30-16:00.","ifLate":"Se houver muitas compras ou cansaço, considerar táxi parcial para simplificar.","cat":"transfer","mode":"train","transportGuide":{"summary":"Shinjuku → Maihama/Toy Story com mala pequena; rota JR via Tokyo Station/Keiyo Line + Disney Resort Line.","method":"JR + Disney Resort Line","difficulty":"alta","luggageRisk":"médio","route":"JR Shinjuku → Tokyo Station → JR Keiyo/Musashino Line → Maihama → Resort Gateway → Bayside/Toy Story","stepByStep":["Volte ao JR Kyushu, pegue apenas mala pequena/bolsa ponte.","Entre em JR Shinjuku pela South/New South Gate.","Siga para JR Chuo Line/linha indicada pelo Maps até Tokyo Station.","Em Tokyo Station, siga placas para Keiyo Line / Musashino Line; aceite a caminhada longa até a plataforma.","Pegue trem para Maihama.","Em Maihama, saia pela South Exit; após o ticket gate, vire à esquerda para Resort Gateway Station do Disney Resort Line.","Pegue o monorail até Bayside Station e caminhe ao Toy Story Hotel."],"stationSigns":["JR Lines","Chuo Line","Tokyo Station","Keiyo Line","Musashino Line","Maihama","South Exit","Resort Gateway Station","Disney Resort Line","Bayside Station"],"correctExit":"Maihama South Exit → Resort Gateway; Bayside Station para Toy Story.","finalWalk":"5–10 min a pé de Bayside/Toy Story conforme rota.","traps":"Tokyo Station/Keiyo Line é longa; só fazer com mala pequena. Não levar mala grande.","planB":"Se houver muitas compras/cansaço: táxi parcial Shinjuku → Toy Story ou Shinjuku → Tokyo Station.","confidence":"alta","sourceNote":"Fontes-base: TDR Disney Resort Line e mapas JR East/Tokyo Station.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Fim da tarde/noite","title":"Toy Story Hotel + Ikspiari / Tonkatsu Wako","type":"Check-in Disney / jantar obrigatório operacional","maps":"Tokyo Disney Resort Toy Story Hotel / Ikspiari / Tonkatsu Wako Ikspiari","logistics":"Check-in, deixar malas e seguir para Ikspiari.","onArrival":"Jantar antes de dormir; não contar com room service/conveniência do hotel como solução garantida.","insight":"Ikspiari é o complexo comercial/restaurantes de Maihama. É a solução logística para jantar antes dos dias Disney; evita começar parque com fome/desorganização.","eat":"Tonkatsu Wako Ikspiari ou restaurante confortável do complexo.","photo":"Fotos rápidas no Toy Story Hotel se houver energia.","decision":"Voltar ao Toy Story cedo e preparar mochila Disney.","ifLate":"Se check-in atrasar, jantar em Ikspiari mesmo assim de forma objetiva.","cat":"transfer","mode":"stay","transportGuide":{"summary":"Toy Story Hotel → Ikspiari via Disney Resort Line/Maihama; jantar simples de posicionamento.","method":"Disney Resort Line / caminhada","difficulty":"baixa","luggageRisk":"baixo","route":"Toy Story Hotel/Bayside Station → Resort Gateway/Maihama → Ikspiari","stepByStep":["Do Toy Story, caminhe até Bayside Station.","Pegue Disney Resort Line até Resort Gateway Station/Maihama.","Siga placas para Ikspiari.","Jantar e voltar pelo mesmo caminho para Bayside/Toy Story.","Não abrir compras longas: amanhã é Disneyland premium."],"stationSigns":["Bayside Station","Disney Resort Line","Resort Gateway Station","Maihama","Ikspiari"],"correctExit":"Resort Gateway/Maihama → Ikspiari.","finalWalk":"5–10 min conforme ponto de entrada.","traps":"Ikspiari é apoio logístico, não passeio principal.","planB":"Se estiverem cansados, jantar perto/loja de conveniência do resort conforme disponibilidade.","confidence":"alta","sourceNote":"Base: TDR Disney Resort Line.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}],"transportBriefing":"Mudança para Disney: malas grandes já enviadas para Kyoto; Shinjuku→Maihama/Toy Story só com mala pequena."},{"day":12,"date":"09/12/2026","weekday":"Quarta","anchor":"Tokyo Disneyland premium","city":"Tokyo Disney","color":"#f43f5e","base":"Maihama - Toy Story Hotel","logic":"Tokyo Disneyland com o pacote VIP 'Enjoy Unlimited Rides on Eligible Attractions! — 2DAYS': acesso ilimitado às atrações elegíveis/com priority lane do Disneyland, sem pré-agendamento de rides. Como fila deixa de ser o problema principal, o foco é repetir favoritas, encaixar paradas/fotos/comida sem sacrificar o benefício.","attention":"O pacote Unlimited não inclui assento reservado para paradas/shows. No modelo informado, Day 1 não tem Happy Entry; chegar no horário do portão. Benefícios e atrações podem sofrer fechamento sazonal: validar no app em dezembro/2026.","goldenRule":"Usar o Unlimited para repetir atrações elegíveis e não transformar a manhã em loja/restaurante. Paradas e shows entram com tempo controlado, pois não têm assento reservado pelo pacote.","expected":"Andar/repetir as atrações elegíveis do Disneyland sem fila, usar vouchers sem perder tempo nobre e assistir pelo menos uma parada/show com posição realista.","before":["Café rápido; não atrasar entrada.","Apps, ingressos, Vacation Package/benefícios confirmados.","Power bank e capa/casaco conforme clima.","Lista curta de lojas/snacks; não deixar compras dominarem a manhã."],"meals":"Almoço e jantar dentro do parque/Ikspiari ainda operacionais: escolher counter service ou reserva leve. Não marcar refeição longa no horário nobre.","summary":"Disneyland em modo VIP relaxado: andar ilimitado sem fila, repetir favoritos, e priorizar paradas (diurna e noturna), shows e comida temática. Mobile Order para refeições.","activities":[{"time":"Manhã cedo","title":"Toy Story Hotel -> Tokyo Disneyland","type":"Deslocamento Disney / entrada no parque","maps":"Tokyo Disney Resort Toy Story Hotel to Tokyo Disneyland","logistics":"Caminhar até Bayside Station, Disney Resort Line até Tokyo Disneyland Station e entrada. Tempo: 25-40 min com margem.","onArrival":"Entrar com tudo pronto, validar app/benefícios e ir para primeiras prioridades.","insight":"Mesmo com benefício premium, chegar organizado reduz fricção e melhora o uso do dia.","decision":"Estar no parque cedo e pronto para rodar atrações.","ifLate":"Se atrasar, cortar fotos/lojas iniciais e ir direto às atrações elegíveis.","notes":["Refeições Disney: no pacote informado há opção de pré-comprar almoço/jantar, mas isso pode custar mais e prender horário. Para este roteiro, preferir counter service, Mobile Order ou reserva leve se não reduzir o uso do Unlimited.","Compras Disney: Compras em blocos de 20-30 min; não deixar tudo para o fechamento nem trocar manhã premium por lojas. Original goods/vouchers devem ser usados com calma, mas sem virar missão de loja.","Pacote VIP informado: 1 beverage ticket por pessoa, voucher de snack do pacote Unlimited (churros OU popcorn, conforme escolha/regra do pacote) e 1 original goods por pessoa. Conferir no app/vouchers no dia."],"cat":"transfer","mode":"train","transportGuide":{"summary":"Toy Story → Tokyo Disneyland via Disney Resort Line; sem pressa de rota, mas com entrada organizada.","method":"Disney Resort Line","difficulty":"baixa","luggageRisk":"baixo","route":"Toy Story/Bayside Station → Tokyo Disneyland Station","stepByStep":["Caminhe do Toy Story Hotel até Bayside Station.","Pegue Disney Resort Line no sentido do circuito do resort.","Desça em Tokyo Disneyland Station.","Siga placas para Park Entrance / Tokyo Disneyland.","Antes do portão, deixar app/ingressos/vouchers prontos."],"stationSigns":["Bayside Station","Disney Resort Line","Tokyo Disneyland Station","Park Entrance"],"correctExit":"Tokyo Disneyland Station.","finalWalk":"5–10 min até entrada/segurança.","traps":"Não perder tempo indo a Maihama/Ikspiari se o objetivo é entrar no parque.","planB":"Táxi interno não compensa; usar monorail.","confidence":"alta","sourceNote":"Fonte-base: site oficial Disney Resort Line.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Manhã","title":"Tokyo Disneyland - primeiras prioridades","type":"Parque Disney clássico / castelo / rides premium","maps":"Tokyo Disneyland, Maihama, Urayasu, Chiba","logistics":"Usar o app/benefício conforme regras do pacote 2026.","onArrival":"Priorizar atrações elegíveis de maior demanda antes de lojas e restaurante.","insight":"No Unlimited de Disneyland, conforme pacote informado, entram: Enchanted Tale of Beauty and the Beast, Splash Mountain, The Happy Ride with Baymax, Big Thunder Mountain, Haunted Mansion, Monsters, Inc. Ride & Go Seek!, Pooh’s Hunny Hunt e Star Tours. O benefício é ilimitado nessas atrações, não no parque inteiro.","photo":"Castelo e World Bazaar em blocos curtos.","decision":"Não gastar a manhã em lojas. Começar por Beauty and the Beast/Baymax/Pooh e repetir conforme vontade do grupo.","ifLate":"Se o parque estiver cheio, focar nas atrações cobertas e reduzir extras.","cat":"cultural","notes":["Como não precisa agendar, ataque o que normalmente tem fila gigante primeiro e deixe os menores para os intervalos."]},{"time":"12:00 - 13:00","title":"Almoço no Tokyo Disneyland","type":"Refeição operacional de parque","maps":"Tokyo Disneyland restaurants","logistics":"Escolher counter service ou reserva simples já mapeada no app.","onArrival":"Comer de forma eficiente e voltar para atrações.","insight":"Almoço de parque precisa repor energia, não virar evento de 2h. Usar Mobile Order/counter service se estiverem no fluxo; restaurante com espera longa reduz valor do Unlimited.","eat":"Counter service/lanche quente ou restaurante de baixa fricção.","decision":"Limitar a cerca de 1h.","ifLate":"Se filas de comida estiverem ruins, usar snack forte e compensar depois.","cat":"food","notes":["Usar Mobile Order pelo app para não perder tempo nobre na fila de comida. Aproveitar o voucher de bebida + pipoca/churros + brinde do pacote."]},{"time":"Tarde","title":"Atrações, paradas e fotos controladas","type":"Rides / experiência clássica / fotos","maps":"Tokyo Disneyland attractions / World Bazaar","logistics":"Organizar pelo app e pelo pacote.","onArrival":"Priorizar Beauty and the Beast, Pooh, Baymax, Monsters Inc. e elegíveis 2026 conforme confirmação.","insight":"Aqui mora o valor do dia VIP: não correr atrás de fila e sim repetir favoritas, posicionar-se para parada sem exagero e usar o parque com calma.","buy":"Compras Disney em blocos de 20-30 min, não no fechamento.","photo":"Castelo da Cinderela; pipocas sazonais (sabores como curry, soy-sauce butter, caramelo) com baldes colecionáveis.","decision":"Reservar bloco curto para lojas antes de fechar energia.","ifLate":"Se um show exigir espera longa demais, cortar show secundário e manter rides premium/elegíveis. O pacote não dá assento reservado para paradas/shows.","cat":"photo","notes":["Não-óbvio: chegar ~40 min antes para boa posição de parada; ver a parada DIURNA e a NOTURNA (experiências diferentes). Truque: quando o último carro passa, correr para os brinquedos enquanto a multidão fica presa atrás das cordas."]},{"time":"Noite","title":"Encerramento Disneyland -> Toy Story Hotel","type":"Retorno / descanso","maps":"Tokyo Disneyland to Tokyo Disney Resort Toy Story Hotel","logistics":"Disney Resort Line + caminhada. Tempo: 25-40 min.","onArrival":"Voltar ao hotel, carregar eletrônicos e preparar dia DisneySea.","insight":"Dia 10 é o mais importante Disney; não terminar exausto desnecessariamente.","eat":"Jantar no parque ou Ikspiari, sem restaurante longo no tempo premium.","decision":"Dormir com mochila do dia seguinte pronta.","ifLate":"Se saída do parque for tarde, jantar simples/konbini/Ikspiari e dormir.","notes":["Vacation Package: Tratar o benefício premium/unlimited como acesso/repetição nas atrações elegíveis do plano, não como acesso ilimitado a todo o parque. Validar lista 2026 perto da viagem.","Prioridade de rides: Beauty and the Beast, Baymax, Pooh, Monsters Inc. e demais elegíveis conforme pacote 2026. Rides cobertos pelo Unlimited ganham de show secundário ou loja longa."],"cat":"transfer","mode":"train","transportGuide":{"summary":"Tokyo Disneyland → Toy Story via Disney Resort Line; voltar sem compras finais gigantes.","method":"Disney Resort Line","difficulty":"baixa","luggageRisk":"médio","route":"Tokyo Disneyland Station → Bayside Station → Toy Story Hotel","stepByStep":["Ao sair do parque, siga placas para Tokyo Disneyland Station.","Pegue Disney Resort Line até Bayside Station.","Caminhe ao Toy Story Hotel.","Se estiverem com compras, manter todos juntos e não parar em Ikspiari sem necessidade."],"stationSigns":["Tokyo Disneyland Station","Disney Resort Line","Bayside Station","Official hotels"],"correctExit":"Bayside Station.","finalWalk":"5–10 min até Toy Story.","traps":"Final de parque tem multidão; não separar grupo com sacolas.","planB":"Se o monorail estiver muito cheio, aguardar próximo; táxi interno raramente compensa.","confidence":"alta","sourceNote":"Fonte-base: TDR Disney Resort Line.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}]},{"day":13,"date":"10/12/2026","weekday":"Quinta","anchor":"Tokyo DisneySea premium","city":"Tokyo Disney","color":"#f43f5e","base":"Maihama - Toy Story Hotel","logic":"DisneySea premium com o pacote VIP Unlimited: acesso ilimitado às atrações elegíveis/com priority lane do DisneySea, incluindo as principais de Fantasy Springs conforme o pacote informado. O foco é repetir as joias do parque e não desperdiçar tempo premium com loja/restaurante longo.","attention":"O pacote Unlimited não inclui assento reservado para shows/paradas. Happy Entry no Day 2 só é fornecido se o hotel incluído for MiraCosta ou Fantasy Springs; Toy Story Hotel não deve ser tratado como garantia de Happy Entry para DisneySea. Validar fechamentos em dezembro/2026.","goldenRule":"Repetir as joias à vontade (Frozen, Soaring, Journey, Peter Pan/Rapunzel/Toy Story conforme operação) e reservar a noite para Believe! se estiver acontecendo, lembrando que não há assento reservado pelo pacote.","expected":"Usar o dia mais valioso da Disney para Fantasy Springs e grandes atrações do DisneySea, comprar itens exclusivos importantes hoje e não deixar pendências críticas para o dia curto 11/12.","before":["Café rápido; sair cedo.","App/benefícios DisneySea confirmados.","Lista de compras DisneySea/Duffy/Fantasy Springs curta e objetiva.","Malas grandes já foram enviadas de Shinjuku para o Hotel Granvia Kyoto no dia 08/12; hoje só controlar mala pequena/bolsa ponte."],"meals":"Almoço e jantar dentro do DisneySea/Ikspiari ainda operacionais. Preferir refeição eficiente. Comprar itens importantes hoje; 11/12 será curto.","summary":"DisneySea VIP Unlimited: Frozen, Soaring, Journey e Toy Story Mania sem fila nas atrações elegíveis do pacote. Compras importantes hoje, mas sem gastar tempo premium. Malas grandes já seguiram para Kyoto; só organizar bolsa ponte para 11/12.","activities":[{"time":"Manhã cedo","title":"Toy Story Hotel -> Tokyo DisneySea","type":"Deslocamento Disney / entrada no parque","maps":"Tokyo Disney Resort Toy Story Hotel to Tokyo DisneySea","logistics":"Caminhada até Bayside Station + Disney Resort Line até Tokyo DisneySea Station. Tempo: 25-40 min.","onArrival":"Entrar cedo e validar app/benefícios/passes.","insight":"DisneySea é o parque mais único do roteiro; organização inicial é crítica.","decision":"Estar dentro do parque e orientado cedo.","ifLate":"Se atrasar, cortar fotos iniciais e ir direto às prioridades.","notes":["DisneySea premium: pelo pacote informado, o Unlimited de DisneySea inclui 20,000 Leagues, Frozen Journey, Indiana Jones, Journey, Magic Lamp Theater, Nemo, Peter Pan, Raging Spirits, Rapunzel, Soaring, Tower of Terror, Toy Story Mania e Turtle Talk, sujeito a operação/fechamentos.","Compras DisneySea: Comprar itens importantes hoje: Duffy, Fantasy Springs e exclusivos do DisneySea. Dia 11 é curto e não serve para garimpo.","Refeições DisneySea: restaurante bonito só se não reduzir uso premium. Caso contrário, counter service/snack forte. O foco do dia é repetir/cobrir o que o pacote permite.","Benefícios do pacote informado: bebida por pessoa, snack/voucher do Unlimited e original goods por pessoa; usar sem deixar voucher virar a prioridade do dia."],"cat":"transfer","mode":"train","transportGuide":{"summary":"Toy Story → DisneySea via Disney Resort Line; descer na estação própria do parque.","method":"Disney Resort Line","difficulty":"baixa","luggageRisk":"baixo","route":"Toy Story/Bayside Station → Tokyo DisneySea Station","stepByStep":["Caminhe do Toy Story Hotel até Bayside Station.","Pegue Disney Resort Line.","Desça em Tokyo DisneySea Station.","Siga placas para Park Entrance / Tokyo DisneySea.","Abrir app antes da catraca."],"stationSigns":["Bayside Station","Disney Resort Line","Tokyo DisneySea Station","Park Entrance"],"correctExit":"Tokyo DisneySea Station.","finalWalk":"5–10 min até entrada/segurança.","traps":"Não confundir DisneySea Station com Maihama/Resort Gateway.","planB":"Usar monorail; táxi não melhora dentro do resort.","confidence":"alta","sourceNote":"Fonte-base: TDR Disney Resort Line.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Manhã","title":"DisneySea - Fantasy Springs e prioridades","type":"Parque temático único / Fantasy Springs / rides premium","maps":"Tokyo DisneySea, Maihama, Urayasu, Chiba","logistics":"Usar regras do Vacation Package/benefícios conforme 2026.","onArrival":"Priorizar Fantasy Springs e atrações elegíveis de maior fila.","insight":"Com Unlimited, as principais atrações elegíveis de Fantasy Springs e DisneySea saem sem a lógica normal de fila/prebooking. Começar por Frozen e Soaring faz sentido por serem joias do parque e experiências mais desejadas, não por medo de fila.","photo":"Fantasy Springs, Mediterranean Harbor e áreas temáticas.","decision":"Não gastar a manhã em lojas.","ifLate":"Se uma área estiver travada, seguir app/benefício e ajustar sequência.","cat":"activity","notes":["Ordem sugerida: Soaring/Frozen logo cedo, depois Journey to the Center of the Earth (joia da coroa) e Toy Story Mania; repetir as preferidas nos intervalos."]},{"time":"12:00 - 13:00","title":"Almoço no DisneySea","type":"Refeição operacional de parque","maps":"Tokyo DisneySea restaurants","logistics":"Escolher restaurante/counter service de baixa fricção.","onArrival":"Comer sem destruir o horário premium.","insight":"DisneySea tem restaurantes cenográficos, mas neste dia o foco é usar o benefício. Refeição eficiente preserva energia para repetir atrações.","eat":"Spicy Smoked Chicken Leg ou refeição de baixa fricção se estiver no fluxo. Horizon Bay pode ser útil se houver Mobile Order/assento, mas não deve virar espera longa.","decision":"Limitar a cerca de 1h.","ifLate":"Se fila de comida estiver ruim, snack forte e retornar para rides.","cat":"food","notes":["Magellan's tem uma SALA SECRETA escondida — perguntar ao reservar. Mickey/Minnie ice pops entre os brinquedos."]},{"time":"Tarde/noite","title":"DisneySea completo + compras importantes","type":"Rides / cenografia / compras DisneySea","maps":"Tokyo DisneySea shops / Fantasy Springs / Mediterranean Harbor","logistics":"Circular por áreas únicas e lojas com lista.","onArrival":"Repetir atrações cobertas, fazer fotos e comprar itens que não podem ficar para 11/12.","insight":"O dia 11 é curto e logístico, então compras importantes de DisneySea devem acontecer hoje. Duffy/Fantasy Springs/itens exclusivos não devem ficar para a pressa do Shinkansen.","buy":"Duffy, Fantasy Springs, itens DisneySea exclusivos.","photo":"Porto Mediterrâneo, vulcão, áreas de Fantasy Springs.","decision":"Não deixar compras críticas para o dia 11.","ifLate":"Se estiver cansado, priorizar compras realmente únicas e cortar garimpo.","notes":["Bagagem: À noite, validar/envio de malas grandes para Kyoto. O dia 11 deve ser feito com mochila leve; não descobrir alternativa na manhã seguinte.","🌃 Believe! Sea of Dreams: espetáculo noturno no porto (~20:30, 30 min) — imperdível mesmo focando em rides. Fogos Sky Full of Colors em seguida. Pegar posição ~40 min antes na Mediterranean Harbour."],"cat":"shop"},{"time":"Noite","title":"Preparar check-out + bolsa ponte Disney -> Kyoto","type":"Logística crítica / envio de malas","maps":"Tokyo Disney Resort Toy Story Hotel / Yamato Transport Ta-Q-Bin","logistics":"Ao voltar ao hotel, deixar pronta a mala pequena/bolsa ponte para o dia 11/12: documentos, remédios, roupa, carregadores, power banks, itens do trem e compras pequenas da Disney.","onArrival":"Separar o que vai para o parque no dia 11 e o que fica na bolsa para o Shinkansen. Não contar com reorganização demorada de manhã.","insight":"As malas grandes já foram enviadas de Shinjuku para Kyoto. A missão agora é não transformar a mala pequena em mala grande e manter o dia 11 leve.","buy":"Separar compras Disney pequenas na bolsa; compras volumosas devem ser minimizadas para não atrapalhar Keiyo Line/Tokyo Station.","decision":"Bolsa ponte pronta antes de dormir.","ifLate":"Se voltarem tarde do parque, fazer o mínimo: documentos, remédios, carregadores, roupas e itens do trem separados.","cat":"transfer","mode":"stay","transportGuide":{"summary":"Deslocamento a pé curto; usar Maps para final e evitar atravessar estação por dentro sem necessidade.","method":"Caminhada","difficulty":"baixa","luggageRisk":"baixo","route":"Tokyo Disney Resort Toy Story Hotel / Yamato Transport Ta-Q-Bin","stepByStep":["Abrir o destino exato no Maps antes de sair.","Caminhar pelo lado mais simples, sem atravessar estação por dentro se houver rota externa clara.","Conferir a direção a cada mudança de rua grande.","Se o Maps mandar por corredor interno confuso, preferir rota de rua ou táxi curto."],"stationSigns":["Exit / 出口","Street level / 地上","Pedestrian deck / 歩行者デッキ"],"correctExit":"","finalWalk":"","traps":"Se o Maps mandar por galeria/estação confusa, preferir rua ou táxi curto.","planB":"Se voltarem tarde do parque, fazer o mínimo: documentos, remédios, carregadores, roupas e itens do trem separados.","confidence":"alta","sourceNote":"Guia de caminhada curto; usar Maps ao vivo para semáforos e obras locais.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}]},{"day":14,"date":"11/12/2026","weekday":"Sexta","anchor":"2º DisneySea curto + Shinkansen para Kyoto","city":"Tokyo Disney","color":"#f43f5e","base":"Maihama -> Kyoto / Hotel Granvia Kyoto","logic":"Hoje é DisneySea curto SEM VIP e com Shinkansen para Kyoto depois. A estratégia não é 'maximizar parque': é repetir 1-2 favoritos/pendências, fazer compras finais pequenas e sair a tempo. Sem benefício Unlimited, filas e passes do app voltam a contar.","attention":"Sem VIP/Unlimited neste dia e sem Happy Entry garantido pelo Toy Story Hotel. Para Fantasy Springs/atrações concorridas, usar o app conforme regra vigente em dezembro/2026: standby, Premier Access ou passes disponíveis — não assumir acesso livre.","goldenRule":"Atacar 1-2 favoritos cedo e proteger o horário do Shinkansen. Não arriscar Tokyo Station/Keiyo Line por mais uma fila ou compra.","expected":"Sair do DisneySea com mochila leve, chegar à Tokyo Station com margem, comprar ekiben se couber e chegar ao Hotel Granvia Kyoto sem perrengue.","before":["Check-out e malas grandes já enviadas de Shinjuku para o Hotel Granvia Kyoto em 08/12.","Mochila/mala pequena com documentos, remédios, power bank e itens do trem.","Reserva de shinkansen confirmada.","Não comprar itens volumosos no parque hoje."],"meals":"Almoço/snack objetivo no DisneySea. Jantar definido: Ekibenya Matsuri/ekiben no Shinkansen; Katsukura Kyoto Station se chegarem com fome e em horário confortável.","summary":"DisneySea curto como visitante normal: usar app e passes disponíveis conforme regra vigente, repetir 1-2 favoritos/pendências e sair no horário protegido para o Shinkansen. Ekibenya Matsuri funciona como jantar do trem, não almoço.","activities":[{"time":"Manhã","title":"Check-out + Toy Story -> DisneySea","type":"Logística + parque curto","maps":"Toy Story Hotel to Tokyo DisneySea","logistics":"Check-out, mochila leve e Disney Resort Line. Tempo: 25-40 min.","onArrival":"Entrar no DisneySea para repetir favoritos e pendências sem compromisso de fechar o parque.","insight":"Este é um dia híbrido; parque e trem têm que conviver.","decision":"Entrar já com plano de saída definido.","ifLate":"Se check-out atrasar, reduzir tempo de parque, não mexer no Shinkansen.","notes":["Saída do parque: Começar saída do DisneySea entre 15:30 e 16:30. O dia não é para fechar parque; Kyoto e shinkansen mandam.","Keiyo Line: Maihama/Tokyo Station/Shinkansen apenas com mochila leve. A plataforma da Keiyo Line é distante/profunda e vira perrengue com mala grande.","Ekiben e Shinkansen: Se houver 20-30 min, comprar no Ekibenya Matsuri. Se apertar, comprar bento/snack perto da plataforma. Ao reservar classe comum 3+2, tentar assento E para chance de Fuji; confirmar layout, Green Car pode variar."],"cat":"transfer","mode":"train","transportGuide":{"summary":"Toy Story → DisneySea via Disney Resort Line; descer na estação própria do parque.","method":"Disney Resort Line","difficulty":"baixa","luggageRisk":"baixo","route":"Toy Story/Bayside Station → Tokyo DisneySea Station","stepByStep":["Caminhe do Toy Story Hotel até Bayside Station.","Pegue Disney Resort Line.","Desça em Tokyo DisneySea Station.","Siga placas para Park Entrance / Tokyo DisneySea.","Abrir app antes da catraca."],"stationSigns":["Bayside Station","Disney Resort Line","Tokyo DisneySea Station","Park Entrance"],"correctExit":"Tokyo DisneySea Station.","finalWalk":"5–10 min até entrada/segurança.","traps":"Não confundir DisneySea Station com Maihama/Resort Gateway.","planB":"Usar monorail; táxi não melhora dentro do resort.","confidence":"alta","sourceNote":"Fonte-base: TDR Disney Resort Line.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Manhã - 15:30","title":"DisneySea curto","type":"Parque / repetição / pendências / compras finais objetivas","maps":"Tokyo DisneySea, Maihama, Urayasu, Chiba","logistics":"Circular com mochila leve.","onArrival":"Repetir favoritos, fazer 1-2 pendências e compras finais pequenas.","insight":"Como hoje as filas contam, a prioridade é o que ficou faltando ontem e cabe sem risco. Usar o app para Premier Access/standby/passes disponíveis; não assumir Standby Pass ou Single Rider como garantidos.","eat":"Almoço/counter service/snack objetivo.","buy":"Só itens pequenos/finais com lista.","decision":"Começar saída entre 15:30 e 16:30. Se estiverem em atração/loja nesse horário, encerrar e sair; Kyoto manda no dia.","ifLate":"Se filas estiverem ruins, fazer 1 joia + 1 foto + compra pequena e seguir. Não arriscar o Shinkansen.","cat":"shop","notes":["Se as filas estiverem ruins, fazer 1 joia + 1 foto e seguir — o trem para Kyoto é inegociável. Não usar referência de Beauty and the Beast neste dia, pois essa atração é do Disneyland, não do DisneySea."]},{"time":"15:30 - 17:30","title":"DisneySea -> Tokyo Station","type":"Deslocamento crítico / Keiyo Line longa","maps":"Tokyo DisneySea to Tokyo Station","logistics":"Disney Resort Line + JR Keiyo Line até Tokyo Station + caminhada interna longa até shinkansen. Tempo: 90-120 min com mochila leve.","onArrival":"Seguir direto, sem compras longas no caminho.","insight":"A plataforma da Keiyo Line fica distante/profunda; com malas grandes seria perrengue. Com mochila leve é controlável.","decision":"Chegar à área do shinkansen com margem.","ifLate":"Se o relógio apertar, cortar Ekibenya Matsuri e comprar bento/snack perto da plataforma.","cat":"transfer","mode":"shinkansen","transportGuide":{"summary":"DisneySea → Tokyo Station com mochila leve: Disney Resort Line + JR Maihama + Keiyo Line; depois caminhada longa até Shinkansen.","method":"Disney Resort Line + JR Keiyo Line","difficulty":"alta","luggageRisk":"médio","route":"Tokyo DisneySea → Resort Gateway/Maihama → JR Keiyo Line → Tokyo Station","stepByStep":["Saia do DisneySea com margem dura.","Siga para Tokyo DisneySea Station e pegue Disney Resort Line até Resort Gateway Station/Maihama.","Na JR Maihama, entre na JR Keiyo Line/Musashino Line para Tokyo Station.","Em Tokyo Station, siga placas para Tokaido/Sanyo Shinkansen; a caminhada desde a Keiyo Line é longa.","Não parar para lojas antes de localizar a área do Shinkansen.","Comprar ekiben só depois de estar com margem real."],"stationSigns":["Tokyo DisneySea Station","Disney Resort Line","Resort Gateway Station","Maihama","JR Keiyo Line","Tokyo Station","Tokaido/Sanyo Shinkansen"],"correctExit":"Tokyo Station: seguir para Tokaido/Sanyo Shinkansen gates/Yaesu side.","finalWalk":"Keiyo Line → Shinkansen pode levar 15–25 min andando dentro da estação.","traps":"A plataforma da Keiyo Line em Tokyo Station é distante/profunda; com mala grande é perrengue. Só mochila/mala pequena.","planB":"Se atrasar, cortar Ekibenya Matsuri e comprar bento perto da plataforma; não arriscar shinkansen.","confidence":"alta","sourceNote":"Base: mapas JR East Tokyo Station/Keiyo Line e TDR Resort Line.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Tokyo Station","title":"Ekibenya Matsuri + Shinkansen","type":"Jantar de trem / deslocamento intermunicipal","maps":"Ekibenya Matsuri Tokyo Station / Tokyo Station to Kyoto Station","logistics":"Comprar ekiben se houver 20-30 min de margem; embarcar no Tokaido Shinkansen. Tempo Tokyo->Kyoto: 2h10-2h30.","onArrival":"Comprar bento/ekiben e seguir para a plataforma.","insight":"Ekiben (bento de estação/trem) transforma o jantar em solução logística japonesa, sem restaurante sentado antes do trem.","eat":"Ekiben/bento conforme preferência; se apertar, comprar onigiri, sanduíche ou snack perto da plataforma. Nunca arriscar perder shinkansen por comida.","photo":"Ekiben e, se possível, assento E para chance de Fuji no sentido Tokyo->Kyoto.","decision":"Nunca arriscar perder o shinkansen por comida/loja.","ifLate":"Se chegar sem margem, comprar algo simples e embarcar.","notes":["Kyoto noite: Katsukura Kyoto Station é solução quente se chegarem com fome e antes do último pedido. Nada de jantar longe em Kyoto."],"cat":"transfer","mode":"shinkansen","transportGuide":{"summary":"Tokyo Station → Kyoto pelo Tokaido Shinkansen; ekiben só com margem.","method":"Tokaido Shinkansen","difficulty":"alta","luggageRisk":"médio","route":"Tokyo Station Tokaido/Sanyo Shinkansen → Kyoto Station","stepByStep":["Ao chegar em Tokyo Station, primeiro localize Tokaido/Sanyo Shinkansen gates.","Se houver 20–30 min reais, ir ao Ekibenya Matsuri/área de bentos.","Comprar ekiben/bebida e seguir imediatamente para a plataforma.","Conferir trem, carro e assento no bilhete/SmartEX.","Se reservado assento comum 3+2 e quiser Fuji, tentar lado E na ida Tokyo→Kyoto, confirmando layout.","Ao chegar em Kyoto, seguir placas para Central Exit / Hotel Granvia / Kyoto Station Building."],"stationSigns":["Tokaido/Sanyo Shinkansen","Yaesu","Shinkansen gates","Ekibenya Matsuri","Kyoto","Central Exit","Hotel Granvia"],"correctExit":"Tokyo: Tokaido/Sanyo Shinkansen gates. Kyoto: Central Exit/Hotel Granvia.","finalWalk":"Hotel Granvia fica integrado à Kyoto Station; evitar táxi desnecessário.","traps":"Não perder shinkansen por ekiben. Mala oversized (>160 cm soma) exigiria reserva específica; neste roteiro as grandes já foram enviadas.","planB":"Se chegar sem margem, comprar algo simples perto da plataforma ou no trem.","confidence":"alta","sourceNote":"Base: JR Central regras de bagagem e Hotel Granvia Kyoto integrado à estação.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Noite","title":"Kyoto Station -> Hotel Granvia Kyoto","type":"Chegada / hotel integrado à estação","maps":"Hotel Granvia Kyoto, Kyoto Station, Kyoto","logistics":"Caminhada interna/estação. Tempo: 5-15 min.","onArrival":"Check-in, banho e dormir. Se ainda houver fome, Katsukura Kyoto Station/Porta é solução quente próxima.","insight":"Hotel integrado à Kyoto Station reduz muito o risco da noite de chegada. Katsukura só entra se houver fome e horário confortável; nada de jantar longe em Kyoto.","eat":"Katsukura Kyoto Station apenas se chegaram com fome e antes do último pedido.","decision":"Nada de jantar longe em Kyoto nesta noite.","ifLate":"Se chegarem tarde, comer o que houver na estação/konbini e dormir.","cat":"transfer","mode":"walk","transportGuide":{"summary":"Kyoto Station → Hotel Granvia: hotel integrado à estação.","method":"Caminhada","difficulty":"baixa","luggageRisk":"baixo","route":"Kyoto Station Central Exit / Station Building → Hotel Granvia Kyoto","stepByStep":["Abrir o destino exato no Maps antes de sair.","Caminhar pelo lado mais simples, sem atravessar estação por dentro se houver rota externa clara.","Conferir a direção a cada mudança de rua grande.","Se o Maps mandar por corredor interno confuso, preferir rota de rua ou táxi curto."],"stationSigns":["Exit / 出口","Street level / 地上","Pedestrian deck / 歩行者デッキ"],"correctExit":"Central Exit / Hotel Granvia / Kyoto Station Building","finalWalk":"1–10 min dentro do complexo.","traps":"Não chamar táxi: o hotel faz parte do prédio/complexo da estação.","planB":"Pedir ajuda a staff da estação/hotel se sair por lado errado.","confidence":"alta","sourceNote":"Guia de caminhada curto; usar Maps ao vivo para semáforos e obras locais.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}],"transportBriefing":"DisneySea curto→Tokyo Station→Shinkansen: dia crítico de estações; Keiyo Line só com mochila/mala pequena e saída do parque no horário."},{"day":15,"date":"12/12/2026","weekday":"Sábado","anchor":"Kyoto contemplativa + Nishiki + Nijo + Gion/Pontocho","city":"Kyoto","color":"#7c3aed","base":"Kyoto - Hotel Granvia Kyoto","logic":"Começar Kyoto com cultura e comida sem madrugar demais: Ginkaku-ji, Philosopher’s Path curto, Nishiki como almoço real, Nijo se a janela permitir e noite atmosférica em Gion/Pontocho.","attention":"Noite se alongar demais procurando restaurante ou Chao Chao competir com Onodera/Gion.","goldenRule":"Nishiki é almoço real; à noite Chao Chao entra sem remover Gion/Pontocho/Onodera.","expected":"Ter primeiro dia de Kyoto equilibrado: templo/jardim, mercado gastronômico, história e noite tradicional, sem gastar energia escolhendo restaurante perfeito.","before":["Café no hotel sem pressa excessiva.","Casaco e sapato confortável para caminhadas leves.","Power bank carregado para mapas/fotos à noite.","Evitar começar tarde demais: Nishiki e Nijo têm janelas práticas."],"meals":"Almoço definido: Nishiki Market. Jantar/ noite: Chao Chao Gyoza Kyoto como compromisso leve + Kaiten Sushi Ginza Onodera Kyoto como alvo real se fila/senha permitir.","summary":"12/12: Ginkaku-ji + Philosopher’s Path curto | Nishiki é almoço | Nijo se couber na janela | Noite Gion/Pontocho | Chao Chao e Onodera convivem","activities":[{"time":"09:10 - 10:00","title":"Hotel Granvia -> Ginkaku-ji","type":"Deslocamento / início contemplativo","maps":"Hotel Granvia Kyoto to Ginkaku-ji, 2 Ginkakujicho, Sakyo Ward, Kyoto","logistics":"Táxi recomendado para ganhar tempo; transporte público é mais lento. Tempo: 35-50 min de táxi.","onArrival":"Sair do hotel rumo ao templo de forma direta.","insight":"Ginkaku-ji, o Pavilhão Prateado, é mais contemplativo que chamativo. O valor está no jardim seco, no musgo, no caminho e na atmosfera zen, não em impacto visual como o Kinkaku-ji.","decision":"Chegar perto de 10:00.","ifLate":"Se sair tarde, manter Ginkaku-ji e encurtar Philosopher’s Path.","cat":"transfer","mode":"taxi","transportGuide":{"summary":"Hotel Granvia → Ginkaku-ji; táxi recomendado para poupar tempo/pernas.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Hotel Granvia Kyoto → Ginkaku-ji","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se trânsito/saída atrasar, encurtar Philosopher’s Path, não Nishiki.","confidence":"alta","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"10:00 - 11:00","title":"Ginkaku-ji","type":"Templo/jardim contemplativo","maps":"Ginkaku-ji, 2 Ginkakujicho, Sakyo Ward, Kyoto 606-8402","logistics":"Caminhada interna pelo jardim e circuito do templo.","onArrival":"Visitar jardim, areia, mirantes internos e área principal com calma.","insight":"O Pavilhão Prateado é mais contemplativo que chamativo; o valor está no jardim e na atmosfera zen.","photo":"Jardim, caminho elevado e pavilhão.","decision":"Sair até 11:00.","ifLate":"Se atrasar, fazer circuito principal sem alongar fotos.","cat":"cultural"},{"time":"11:00 - 11:45","title":"Philosopher’s Path curto","type":"Caminhada cênica / canal / Kyoto calma","maps":"Philosopher’s Path, Sakyo Ward, Kyoto","logistics":"Caminhada a partir de Ginkaku-ji.","onArrival":"Fazer apenas trecho bonito, sem tentar percorrer tudo.","insight":"O Caminho do Filósofo é uma caminhada ao lado de canal, famosa pela atmosfera calma. Fora da época de cerejeiras, o objetivo é fazer um trecho bonito, não caminhar tudo.","photo":"Canal, árvores e ruas tranquilas.","decision":"Sair para Nishiki até 11:45.","ifLate":"Se frio/cansaço, encurtar e chamar táxi.","notes":["Nishiki: Nishiki Market é almoço real de Kyoto: chás, doces, temperos, tamagoyaki, espetinhos e snacks. Não tratar como corredor rápido.","Compras locais: Nishiki: chás, snacks e temperos. Gion/Pontocho: fotos e atmosfera, não compras longas."],"cat":"activity"},{"time":"11:45 - 12:30","title":"Philosopher’s Path -> Nishiki Market","type":"Deslocamento para almoço","maps":"Philosopher’s Path to Nishiki Market, Nakagyo Ward, Kyoto","logistics":"Táxi recomendado. Tempo: 25-40 min.","onArrival":"Ir direto para Nishiki com fome.","insight":"Nishiki é a “cozinha de Kyoto”: mercado de ingredientes, chás, doces, conservas e snacks locais. Deve ser almoço real de mercado, não corredor rápido.","decision":"Chegar por volta de 12:30.","ifLate":"Se chegar depois de 13:00, reduzir compras no mercado e focar comida.","cat":"transfer","eat":"Tamagoyaki (omelete japonês), espetinhos, doces, chá, snacks japoneses, tofu/itens locais e frutos do mar conforme interesse.","mode":"taxi","transportGuide":{"summary":"Philosopher’s Path/Ginkaku-ji area → Nishiki Market; táxi recomendado.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Philosopher’s Path/Ginkaku-ji → Nishiki Market","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se o táxi demorar, usar ônibus/metrô conforme Maps, mas reduzir Nijo se necessário.","confidence":"alta","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"12:30 - 14:00","title":"Nishiki Market","type":"Mercado gastronômico / almoço / compras alimentares","maps":"Nishiki Market, Nakagyo Ward, Kyoto","logistics":"Caminhar pelo mercado em sentido definido, provando itens sem travar.","onArrival":"Almoçar em formato de mercado: snacks, chás, doces, espetinhos, omelete e compras alimentares leves.","insight":"Nishiki é a “cozinha de Kyoto”; o valor está em provar pequenos itens locais.","eat":"Tamagoyaki, espetinhos, doces, chá, snacks japoneses, frutos do mar conforme interesse.","buy":"Chás, temperos, snacks, doces, itens alimentares leves.","photo":"Corredor do mercado e barracas.","decision":"Sair até 14:00 para Nijo.","ifLate":"Se Nishiki agradar muito, ainda assim sair a tempo; Nijo tem janela de visita.","cat":"food"},{"time":"14:00 - 16:00","title":"Nishiki -> Nijo Castle","type":"Castelo histórico / arquitetura / patrimônio","maps":"Nijo Castle, 541 Nijojocho, Nakagyo Ward, Kyoto","logistics":"Táxi curto ou metrô via Karasuma/Oike. Tempo: 15-35 min.","onArrival":"Visitar palácio/jardins conforme horário, sem transformar em visita longa demais.","insight":"Nijo muda o tipo de experiência: deixa de ser templo e vira história política/arquitetura do Japão, ligado ao poder dos shoguns Tokugawa.","photo":"Portões, jardins e exterior do castelo.","decision":"Sair por volta de 16:00 para hotel.","ifLate":"Se o dia atrasar muito, fazer visita externa/curta ou cortar Nijo.","cat":"cultural","notes":["OPERACIONAL: Sabado -> Ninomaru Palace ABERTO (fecha as tercas em dezembro). Ultima entrada 16:00 — entrar ate ~14:30."],"transportGuide":{"summary":"Deslocamento do bloco; confirmar rota ao vivo e seguir a saída correta do destino.","method":"Transporte público/táxi","difficulty":"média","luggageRisk":"médio","route":"Nijo Castle, 541 Nijojocho, Nakagyo Ward, Kyoto","stepByStep":["Abrir o destino exato no Google Maps/Japan Travel antes de sair.","Escolher rota com menos baldeações se a família estiver cansada.","Seguir placas da linha/saída indicada, não apenas o nome geral da estação.","Ao sair na rua, conferir a direção antes de caminhar.","Se a rota ficar confusa, parar e recalcular; não continuar andando no impulso."],"stationSigns":["Exit / 出口","JR Lines","Subway","Taxi"],"correctExit":"","finalWalk":"","traps":"Risco típico: sair pela saída errada ou escolher rota rápida demais com muita baldeação.","planB":"Táxi curto se houver atraso, chuva, compras ou cansaço.","confidence":"média","sourceNote":"Guia genérico para deslocamentos menos críticos.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"16:15 - 17:45","title":"Hotel / banho / descanso","type":"Pausa estratégica / preparação para noite","maps":"Hotel Granvia Kyoto, Kyoto Station","logistics":"Táxi/metrô de Nijo ao hotel.","onArrival":"Banho, descanso, carregar celular e sair leve para Gion.","insight":"A pausa protege a noite em Gion/Pontocho; sem ela a família pode quebrar.","decision":"Sair para Yasaka por volta de 18:00-18:15.","ifLate":"Se todos estiverem cansados, encurtar Gion e manter apenas Chao Chao/Pontocho.","notes":["Chao Chao + Onodera: Chao Chao Gyoza é compromisso leve no eixo Gion/Pontocho/Kawaramachi. Kaiten Sushi Ginza Onodera Kyoto permanece alvo real de sushi se fila/senha permitir.","Noite sem perda de tempo: Não gastar 40 min procurando restaurante perfeito em Pontocho. Se Onodera inviável, Chao Chao vira jantar leve e Pontocho segue visual."],"cat":"logistic","mode":"stay"},{"time":"18:30 - 20:10","title":"Yasaka Shrine + Hanamikoji + Gion Shirakawa/Tatsumi Bridge","type":"Noite cênica / Kyoto tradicional / fotos","maps":"Yasaka Shrine, 625 Gionmachi Kitagawa, Higashiyama Ward, Kyoto / Hanamikoji Street / Tatsumi Bridge","logistics":"Táxi do hotel a Yasaka; depois caminhada por Gion.","onArrival":"Ver lanternas de Yasaka, caminhar pela Hanamikoji e chegar ao canal/ponte Tatsumi.","insight":"Gion/Hanamikoji é área tradicional associada a casas de chá, maiko e geiko. A experiência é atmosfera; não perseguir, bloquear ou fotografar pessoas de forma invasiva.","photo":"Lanternas de Yasaka, Hanamikoji, Tatsumi Bridge.","decision":"Seguir para Chao Chao/Onodera por volta de 20:10.","ifLate":"Se sair tarde do hotel, cortar algum trecho, mas manter pelo menos Yasaka + Pontocho/Chao Chao.","cat":"cultural","notes":["Etiqueta em Gion: se vir maiko/geiko, não correr atrás, não tocar, não bloquear passagem e respeitar placas de proibição de fotos em ruas privadas."]},{"time":"20:25 - 21:40","title":"Chao Chao Gyoza + Onodera/Pontocho","type":"Gyoza compromisso + sushi alvo + passeio noturno","maps":"ChaoChao Sanjo Kiyamachi / ChaoChao Shijo Kawaramachi / Kaiten Sushi Ginza Onodera Kyoto / Pontocho Alley","logistics":"Caminhada no eixo Gion/Pontocho/Kawaramachi; não criar deslocamento extra.","onArrival":"Provar Chao Chao como porção leve/entrada; se Onodera estiver viável, seguir como sushi-alvo. Se não, Chao Chao vira jantar leve.","insight":"A regra é convivência: Chao Chao foi aprovado como compromisso de gyoza, mas não deve apagar Onodera nem a caminhada de Pontocho. Pontocho é atmosfera e jantar leve, não caça a restaurante perfeito.","eat":"Chao Chao: gyoza (pastelzinho japonês grelhado). Onodera: kaiten sushi premium se fila/senha permitir.","photo":"Pontocho Alley e lanternas, sem gastar 40 min procurando restaurante perfeito.","decision":"Encerrar por volta de 21:40 e voltar de táxi.","ifLate":"Se Onodera estiver inviável, não insistir; usar Chao Chao e Pontocho visual.","cat":"food"}]},{"day":16,"date":"13/12/2026","weekday":"Domingo","anchor":"Fushimi Inari + Kiyomizu + Higashiyama","city":"Kyoto","color":"#7c3aed","base":"Kyoto - Hotel Granvia Kyoto","logic":"Dia mais 'Kyoto de filme': Fushimi Inari cedo para torii vermelhos, Kiyomizu-dera e descida por Sannenzaka/Ninenzaka/Higashiyama. À noite, logística de malas para Osaka manda.","attention":"Café demorado ou caminhada longa demais cansarem antes de Higashiyama.","goldenRule":"Fushimi cedo, Kiyomizu e descida por ruas históricas; noite flexível e envio de malas para Osaka.","expected":"Fazer torii, templo clássico e ruas históricas com energia, e terminar o dia com malas para Osaka resolvidas.","before":["Café cedo ou konbini/onigiri.","Usar calçado confortável: há subida e ruas inclinadas.","Levar pouca coisa; dia de fotos e caminhada.","Confirmar no Hotel Granvia, já no check-in de 11/12, o cutoff do Ta-Q-Bin/Yamato para envio ao Cross Hotel Osaka.","Se o cutoff for cedo, enviar malas para Osaka na manhã de 13/12 antes de sair; se o hotel garantir envio à noite, resolver no retorno sem deixar para madrugada."],"meals":"Almoço semi-definido em Sannenzaka/Ninenzaka/Higashiyama com snacks/refeição leve. Jantar casual aberto em Kyoto. Malas para Osaka devem ser enviadas à noite.","summary":"13/12: Fushimi cedo | Kiyomizu e ruas históricas | Almoço leve em Higashiyama | Noite flexível | Enviar malas para Osaka é obrigatório","activities":[{"time":"07:00 - 07:30","title":"Hotel Granvia -> Fushimi Inari","type":"Deslocamento curto / início cedo","maps":"Hotel Granvia Kyoto to Fushimi Inari Taisha, 68 Fukakusa Yabunouchicho, Fushimi Ward, Kyoto","logistics":"JR Nara Line de Kyoto Station até Inari Station + caminhada curta. Tempo: 20-30 min porta a porta.","onArrival":"Ir cedo para evitar o pior da multidão nos torii.","insight":"Fushimi Inari fica muito fácil a partir de Kyoto Station, então vale proteger a manhã.","decision":"Chegar por volta de 07:30.","ifLate":"Se sair tarde, ainda manter Fushimi, mas reduzir subida.","notes":["Corte correto: Se o dia cansar, cortar parte de Ishibe-koji/café e proteger retorno ao hotel + envio de malas."],"cat":"transfer","mode":"train","transportGuide":{"summary":"Kyoto Station → Inari pela JR Nara Line; a estação fica na frente de Fushimi Inari.","method":"JR Nara Line","difficulty":"baixa","luggageRisk":"baixo","route":"Kyoto Station → JR Nara Line → Inari Station → Fushimi Inari Taisha","stepByStep":["No Hotel Granvia, entre na área da Kyoto Station.","Siga placas para JR Nara Line.","Pegue trem local para Inari/Nara; confirme que para em Inari.","Desça em Inari Station.","Ao sair, Fushimi Inari fica praticamente em frente; seguir o fluxo até o torii."],"stationSigns":["JR Nara Line","Inari","Nara","Fushimi Inari Taisha","稲荷"],"correctExit":"Inari Station.","finalWalk":"1–3 min até a entrada do santuário.","traps":"Não pegar rapid/serviço que não pare em Inari; confirmar no painel/Maps.","planB":"Táxi é possível, mas trem é mais rápido/simples a partir de Kyoto Station.","confidence":"alta","sourceNote":"Base: localização JR Kyoto/Inari/Fushimi Inari.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"07:30 - 09:15","title":"Fushimi Inari Taisha","type":"Santuário / torii vermelhos / caminhada cênica","maps":"Fushimi Inari Taisha, 68 Fukakusa Yabunouchicho, Fushimi Ward, Kyoto 612-0882","logistics":"Caminhar pelos túneis de torii e subir até onde o grupo estiver confortável.","onArrival":"Subir o suficiente para sair da multidão inicial e tirar boas fotos; não precisa ir ao topo.","insight":"Fushimi Inari é um santuário xintoísta dedicado a Inari, associado a arroz/prosperidade e às raposas mensageiras. Os milhares de torii vermelhos são o cartão-postal; subir só até sair da multidão já resolve.","photo":"Túneis de torii; fotos melhores acima da entrada lotada.","decision":"Descer/começar saída por volta de 09:15.","ifLate":"Se cansar, descer antes de Yotsutsuji; não transformar em trilha exaustiva.","cat":"cultural","notes":["Não precisa ir ao topo. O melhor custo-benefício é subir o suficiente para fotos melhores e voltar antes de virar trilha cansativa."]},{"time":"09:15 - 10:00","title":"Fushimi Inari -> Kiyomizu-dera","type":"Deslocamento para Higashiyama","maps":"Fushimi Inari Taisha to Kiyomizu-dera, 1-294 Kiyomizu, Higashiyama Ward, Kyoto","logistics":"JR/Keihan + táxi/caminhada final ou táxi direto para ganhar tempo. Tempo: 35-50 min.","onArrival":"Ir direto para o templo, evitando zigue-zague.","insight":"Kiyomizu-dera é um templo budista clássico de Kyoto, famoso pelo terraço de madeira e pela vista. A subida é parte da experiência, mas também cansa.","decision":"Chegar por volta de 10:00.","ifLate":"Se o transporte público estiver lento, usar táxi.","cat":"transfer","mode":"train","transportGuide":{"summary":"Fushimi Inari → Kiyomizu: táxi é o plano conforto; Keihan + táxi/caminhada é plano trem.","method":"Táxi ou Keihan Railway","difficulty":"média","luggageRisk":"baixo","route":"Fushimi Inari → Kiyomizu-dera / Gojozaka / Kiyomizu-michi","stepByStep":["Se quiser poupar caminhada: chamar táxi direto para Kiyomizu-dera/Gojozaka.","Plano trem: caminhar até Keihan Fushimi-Inari Station.","Pegar Keihan sentido Demachiyanagi/Sanjo e descer em Kiyomizu-Gojo.","De Kiyomizu-Gojo, usar táxi curto ou caminhar/subir até Kiyomizu conforme energia.","Evitar se perder em becos antes do templo; mirar primeiro o templo, depois descer Sannenzaka/Ninenzaka."],"stationSigns":["Keihan Railway","Fushimi-Inari","Kiyomizu-Gojo","Kiyomizu-dera","Gojozaka","Kiyomizu-michi"],"correctExit":"Kiyomizu-Gojo ou desembarque de táxi em Gojozaka/Kiyomizu-michi.","finalWalk":"Subida final pode ser cansativa; táxi reduz perna, mas não elimina toda a caminhada.","traps":"Caminhar tudo desde a estação pode cansar antes do bloco histórico.","planB":"Táxi direto se houver cansaço/frio/atraso.","confidence":"média","sourceNote":"Rota depende de energia e trânsito; plano estável por estação/área-alvo.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"10:00 - 11:30","title":"Kiyomizu-dera","type":"Templo clássico / vista / cartão-postal","maps":"Kiyomizu-dera, 1-294 Kiyomizu, Higashiyama Ward, Kyoto 605-0862","logistics":"Caminhada com subida final.","onArrival":"Visitar terraço principal, áreas de foto e saída para ruas históricas.","insight":"É um dos templos mais famosos de Kyoto, com vista ampla e estrutura de madeira icônica.","photo":"Terraço do templo e vista de Kyoto.","decision":"Sair para Sannenzaka/Ninenzaka até 11:30.","ifLate":"Se lotado, fazer circuito principal sem alongar.","cat":"cultural"},{"time":"11:45 - 13:30","title":"Sannenzaka / Ninenzaka","type":"Ruas antigas / snacks / compras / almoço leve","maps":"Sannenzaka / Ninenzaka, Higashiyama Ward, Kyoto","logistics":"Descer caminhando a partir de Kiyomizu.","onArrival":"Almoçar em formato leve/snacks, ver lojas de cerâmica/hashis/doces e tirar fotos.","insight":"Sannenzaka/Ninenzaka são ladeiras históricas preservadas, cheias de lojas, doces e cerâmica. Lindas, mas lotam; o objetivo é descer com calma e escolher poucas paradas.","eat":"Doces, chá, snacks locais, refeição leve se aparecer boa opção.","buy":"Cerâmica, hashis, doces, lembranças pequenas.","photo":"Casas tradicionais e ruas inclinadas.","decision":"Seguir para Yasaka Pagoda até 13:30.","ifLate":"Se lotar demais, escolher 1 snack e seguir pela rota visual.","notes":["Compras de Higashiyama: Sannenzaka/Ninenzaka: cerâmica, hashis, doces, chá e lembranças pequenas. Evitar itens volumosos, pois haverá envio/arrumação de malas."],"cat":"food"},{"time":"13:30 - 15:30","title":"Yasaka Pagoda + Nene-no-michi + Ishibe-koji","type":"Cenário histórico / fotos / caminhada","maps":"Hokan-ji Temple / Yasaka Pagoda / Nene-no-michi / Ishibe-koji Lane","logistics":"Caminhada pelas ruas de Higashiyama.","onArrival":"Fazer fotos da pagoda, caminhar por ruas preservadas e becos tradicionais.","insight":"Yasaka Pagoda/Hokan-ji e as ruas ao redor entregam a imagem mais cinematográfica de Kyoto. Foto boa não exige entrar em tudo; exige controlar multidão e cansaço.","photo":"Yasaka Pagoda, Nene-no-michi e Ishibe-koji.","decision":"Por volta de 15:30 decidir café/hotel.","ifLate":"Se cansar, cortar Ishibe-koji e voltar ao hotel.","cat":"cultural"},{"time":"15:30 - Noite","title":"Hotel / jantar casual / envio de malas para Osaka","type":"Recuperação + logística crítica","maps":"Hotel Granvia Kyoto / Yamato Transport Ta-Q-Bin","logistics":"Voltar de táxi ou transporte conforme cansaço.","onArrival":"Banho, descanso, jantar casual e envio/organização das malas grandes para Osaka.","insight":"Enviar malas para Osaka é o que permite executar Arashiyama/Kinkaku-ji no dia 14 com mãos livres. O cutoff deve ser confirmado no check-in do Granvia, não descoberto tarde demais.","eat":"Jantar casual perto do hotel/Kawaramachi: Tenkaippin, Gyoza no Ohsho, Sushiro/Kura ou similar se desejarem.","decision":"Malas para Osaka resolvidas antes de dormir; se o cutoff for cedo, elas já devem ter sido enviadas de manhã.","ifLate":"Se não der para enviar, definir plano equivalente imediatamente; não levar malas grandes no dia 14.","notes":["Jantar casual Kyoto: Se houver energia, opções operacionais: Tenkaippin para ramen kotteri, Gyoza no Ohsho, Sushiro/Kura ou Ganko. Escolher por proximidade/fila; não transformar em noite longa.","Bagagem Kyoto -> Osaka: enviar malas grandes para o Cross Hotel Osaka via Ta-Q-Bin/Yamato conforme cutoff confirmado. Dia 14 só funciona com mochilas pequenas."],"cat":"transfer","mode":"stay","transportGuide":{"summary":"Deslocamento por táxi/transfer; usar destino exato e preservar margem.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Hotel Granvia Kyoto / Yamato Transport Ta-Q-Bin","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se não der para enviar, definir plano equivalente imediatamente; não levar malas grandes no dia 14.","confidence":"média","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}],"transportBriefing":"Fushimi/Kiyomizu: JR Nara Line resolve Fushimi; depois táxi ou Keihan+taxi para poupar subida até Kiyomizu."},{"day":17,"date":"14/12/2026","weekday":"Segunda","anchor":"Arashiyama + Kinkaku-ji + ida para Osaka","city":"Kyoto","color":"#7c3aed","base":"Kyoto -> Osaka / Cross Hotel Osaka","logic":"Encerrar Kyoto com Arashiyama, Kinkaku-ji e chegada segura a Osaka. O dia só funciona com mochila leve e uso inteligente de táxi para proteger tempo, energia e deslocamento.","attention":"Carregar malas grandes, alongar Arashiyama demais ou atrasar a chegada a Osaka.","goldenRule":"Dia só funciona com mochilas leves. Táxi é ferramenta, não luxo, para proteger Kinkaku-ji/Osaka.","expected":"Fazer bambuzal, ponte Togetsukyo, vista das encostas, Kinkaku-ji e chegar a Osaka com energia para jantar Tsurutontan.","before":["Confirmar que malas grandes foram enviadas para o Cross Hotel Osaka.","Levar apenas mochila pequena: documentos, remédios, power bank, água.","Check-out rápido no Hotel Granvia.","Não comprar itens volumosos em Arashiyama."],"meals":"Almoço simples em Arashiyama/Saga sem fila longa. Jantar-alvo definido: Tsurutontan Soemoncho em Osaka após check-in.","summary":"14/12: Mochila leve obrigatória | Bamboo + Togetsukyo | Rickshaw só se couber | Táxi para Kinkaku-ji | Chegar a Osaka sem inventar | Tsurutontan fecha o dia","activities":[{"time":"08:10 - 09:00","title":"Hotel Granvia -> Arashiyama Bamboo Grove","type":"Deslocamento Kyoto / início cênico","maps":"Hotel Granvia Kyoto to Arashiyama Bamboo Forest, Ukyo Ward, Kyoto","logistics":"JR Sagano Line de Kyoto Station até Saga-Arashiyama + caminhada. Tempo: 35-50 min.","onArrival":"Sair só com mochila leve e ir direto ao bambuzal.","insight":"É o bambuzal mais famoso de Kyoto; vale pela sensação visual, mas não deve consumir o dia inteiro. A foto perfeita é menos importante que preservar Kinkaku-ji e Osaka.","decision":"Chegar ao Bamboo Grove por volta de 09:00.","ifLate":"Se sair tarde, cortar rickshaw/Saga-Toriimoto antes de cortar Kinkaku-ji.","notes":["Malas: Confirmar antes de sair que malas grandes foram enviadas para Osaka. Não levar malas a Arashiyama, Kinkaku-ji ou transporte urbano de Kyoto."],"cat":"transfer","mode":"train","transportGuide":{"summary":"Kyoto Station → Saga-Arashiyama pela JR Sagano Line; depois caminhar ao Bamboo Grove.","method":"JR Sagano/San-in Line","difficulty":"média","luggageRisk":"baixo","route":"Kyoto Station → JR Sagano Line → Saga-Arashiyama → Bamboo Grove","stepByStep":["No Hotel Granvia, entre na Kyoto Station.","Siga placas para JR Sagano Line / San-in Line.","Pegue trem para Saga-Arashiyama.","Desça em Saga-Arashiyama Station.","Siga Maps/placas para Bamboo Grove; caminhar 10–15 min.","Não comprar itens volumosos: dia termina em Osaka."],"stationSigns":["JR Sagano Line","San-in Line","Saga-Arashiyama","Bamboo Grove","嵯峨嵐山"],"correctExit":"Saga-Arashiyama Station.","finalWalk":"10–15 min até o bambuzal.","traps":"Arashiyama tem vários pontos; ir primeiro ao Bamboo Grove/Togetsukyo conforme roteiro, sem zigue-zague.","planB":"Táxi de Kyoto se o grupo estiver cansado, mas trem costuma ser mais previsível.","confidence":"alta","sourceNote":"Base: conexão Kyoto Station–Saga-Arashiyama.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"09:00 - 09:40","title":"Arashiyama Bamboo Grove","type":"Bambuzal / cenário / foto","maps":"Arashiyama Bamboo Forest, Ukyo Ward, Kyoto","logistics":"Caminhada curta pelo caminho principal.","onArrival":"Fazer fotos e caminhar sem buscar perfeição se estiver cheio.","insight":"É o bambuzal mais famoso de Kyoto; vale pela sensação visual, mas não deve consumir o dia inteiro.","photo":"Caminho dos bambus; fotos melhores se caminhar um pouco além da entrada.","decision":"Sair em direção à Togetsukyo até 09:40.","ifLate":"Se lotado, fazer travessia curta e seguir para a ponte.","notes":["Deslocamento crítico: Táxi Arashiyama/Saga -> Kinkaku-ji é recomendado para proteger o dia. Ônibus pode consumir tempo demais."],"cat":"photo"},{"time":"09:55 - 10:25","title":"Togetsukyo Bridge + vista das encostas","type":"Ponte / rio / cenário de Arashiyama","maps":"Togetsukyo Bridge, Arashiyama, Kyoto","logistics":"Caminhada de 15-20 min do Bamboo Grove.","onArrival":"Fotos da ponte, rio e montanhas; observar hillside maple view se ainda houver cor de outono.","insight":"Togetsukyo é o cartão-postal de Arashiyama: ponte, rio e montanhas. A vista das encostas de maple a partir da ponte/margens é a pausa visual principal do bloco.","photo":"Ponte, rio e montanhas ao fundo.","decision":"Decidir rickshaw até 10:25.","ifLate":"Se o relógio apertar, cortar rickshaw e seguir para Saga/lunch/Kinkaku-ji.","cat":"photo"},{"time":"10:30 - 11:15","title":"Rickshaw Arashiyama ou avanço para Saga-Toriimoto","type":"Opcional forte / poupar caminhada / contexto local","maps":"Arashiyama rickshaw meeting point / Saga-Toriimoto Preserved Street","logistics":"Reservar/contratar rickshaw se disponível; aceitar 30-45 min.","onArrival":"Usar rickshaw para poupar pernas e dar contexto; se não encaixar, seguir sem culpa.","insight":"Saga-Toriimoto dá uma Kyoto mais calma/cinematográfica, com rua preservada. O almoço, porém, precisa ser operacional: bonito não pode virar fila longa.","photo":"Rua/ponte no rickshaw se permitido.","decision":"Se não estiver começando até 10:45, cortar.","ifLate":"Cortar rickshaw primeiro. Kinkaku-ji e ida para Osaka são mais importantes.","cat":"activity"},{"time":"11:30 - 13:15","title":"Saga-Toriimoto + almoço simples","type":"Rua preservada / almoço operacional","maps":"Saga-Toriimoto Preserved Street, Ukyo Ward, Kyoto / Arashiyama restaurants","logistics":"Táxi curto/rickshaw/caminhada conforme energia.","onArrival":"Ver rua preservada e almoçar sem fila longa em Arashiyama/Saga.","insight":"Saga-Toriimoto dá a sensação mais calma/cinematográfica de Kyoto, mas almoço precisa ser objetivo.","eat":"Almoço simples em Arashiyama/Saga; se quiser soba/tofu, só com fila curta.","photo":"Casas preservadas e ruas de Okusaga.","decision":"Sair para Kinkaku-ji por volta de 13:15.","ifLate":"Se ainda não almoçou às 12:45, pegar snack/konbini/lanche rápido e ir para Kinkaku-ji.","notes":["Almoço Arashiyama: Manter almoço simples e sem fila longa. Se ainda não comeram às 12:45, pegar snack/lanche rápido e seguir para Kinkaku-ji."],"cat":"food"},{"time":"13:15 - 14:15","title":"Arashiyama/Saga -> Kinkaku-ji","type":"Deslocamento crítico / táxi recomendado","maps":"Saga-Toriimoto to Kinkaku-ji, 1 Kinkakujicho, Kita Ward, Kyoto","logistics":"Táxi recomendado. Tempo: 30-45 min.","onArrival":"Ir direto para o templo dourado.","insight":"Kinkaku-ji, o Pavilhão Dourado, é um dos cartões-postais máximos de Kyoto. A visita é relativamente objetiva: circuito, foto do reflexo no lago e saída.","decision":"Chegar perto de 14:15.","ifLate":"Se passar de 14:30, fazer visita mais curta em Kinkaku-ji.","cat":"transfer","mode":"taxi","transportGuide":{"summary":"Arashiyama/Saga → Kinkaku-ji; táxi recomendado para proteger o dia.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Arashiyama/Saga-Toriimoto → Kinkaku-ji","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se não houver táxi rápido, cortar rickshaw/Saga-Toriimoto; não cortar Kinkaku-ji automaticamente.","confidence":"alta","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"14:15 - 15:30","title":"Kinkaku-ji","type":"Templo dourado / cartão-postal de Kyoto","maps":"Kinkaku-ji, 1 Kinkakujicho, Kita Ward, Kyoto 603-8361","logistics":"Circuito interno de visita.","onArrival":"Fazer o circuito, fotos do pavilhão e saída sem alongar loja.","insight":"É um dos cartões-postais máximos de Kyoto; impacto visual forte e visita relativamente objetiva.","photo":"Pavilhão refletido no lago.","decision":"Sair até 15:30 para Kyoto Station.","ifLate":"Se chegar tarde, fazer circuito rápido e cortar loja/pausa.","cat":"cultural"},{"time":"15:30 - 17:30","title":"Kinkaku-ji -> Kyoto Station -> Osaka / Cross Hotel","type":"Deslocamento intermunicipal / mudança de base","maps":"Kinkaku-ji to Kyoto Station / Kyoto Station to Cross Hotel Osaka, 2-5-15 Shinsaibashisuji, Chuo Ward, Osaka","logistics":"Táxi até Kyoto Station; trem JR/shinkansen curto até Shin-Osaka + metrô/táxi para Namba/Cross Hotel. Tempo total: 60-90 min a partir de Kyoto Station.","onArrival":"Viajar leve e fazer check-in no Cross Hotel.","insight":"A meta é chegar a Osaka sem exaustão; Osaka completa é dia 15.","decision":"Chegar ao Cross Hotel no fim da tarde/início da noite.","ifLate":"Se atrasar, ir direto ao hotel e jantar sem passeio extra.","cat":"transfer","mode":"shinkansen","transportGuide":{"summary":"Kinkaku-ji → Kyoto Station de táxi; Kyoto → Osaka/Namba com trem; seguir para Cross Hotel.","method":"Táxi + trem/shinkansen + metrô/táxi curto","difficulty":"alta","luggageRisk":"baixo","route":"Kinkaku-ji → Kyoto Station → Shin-Osaka/Osaka → Namba → Cross Hotel Osaka","stepByStep":["Saindo de Kinkaku-ji, usar táxi até Kyoto Station para evitar ônibus demorado.","Em Kyoto Station, escolher rota com menor fricção até Namba: shinkansen para Shin-Osaka + Osaka Metro Midosuji Line até Namba, ou JR Special Rapid/Metro conforme Maps.","Se usar shinkansen: seguir placas Tokaido Shinkansen para Shin-Osaka.","Em Shin-Osaka, seguir placas para Osaka Metro Midosuji Line sentido Namba/Tennoji.","Descer em Namba e seguir placas para Dotonbori/Midosuji/Exit 14-15 conforme Maps.","Caminhar 5–10 min ou pegar táxi curto ao Cross Hotel."],"stationSigns":["Taxi","Kyoto Station","Tokaido Shinkansen","Shin-Osaka","Osaka Metro Midosuji Line","Namba","Dotonbori","Cross Hotel"],"correctExit":"Namba: saída para Dotonbori/Midosuji/Cross Hotel conforme Maps.","finalWalk":"5–10 min de Namba ao Cross Hotel; táxi curto se cansados.","traps":"Ônibus Kyoto/Kinkaku → estação pode consumir tempo. Em Osaka, Namba é complexo; mirar Cross Hotel/Dotonbori.","planB":"Se chegarem cansados em Shin-Osaka, táxi direto para Cross Hotel pode valer.","confidence":"média","sourceNote":"Rota exata Kyoto→Namba deve ser confirmada no Maps; diretriz usa linhas/estações estáveis.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Noite","title":"Jantar Tsurutontan Soemoncho","type":"Jantar-alvo / udon-noodle confortável","maps":"Tsurutontan Soemoncho, 3-17 Soemoncho, Chuo Ward, Osaka","logistics":"Caminhada/táxi curto do Cross Hotel conforme cansaço.","onArrival":"Jantar udon/noodle confortável, sem virar maratona gastronômica antes do dia 15.","insight":"Tsurutontan é perfeito para chegada em Osaka: udon (noodle grosso japonês) em tigelas grandes, confortável, prático e sem competir com o jantar premium do dia seguinte.","eat":"Udon em tigela grande; escolher opção com caldo/carne/tempura conforme fome. Ideal para recuperar depois de deslocamento.","decision":"Voltar cedo ao hotel.","ifLate":"Se fila estiver ruim ou todos cansados, jantar simples em Namba/Dotonbori perto do hotel.","notes":["Jantar Osaka: Tsurutontan Soemoncho é jantar-alvo de udon/noodle após check-in: confortável, prático e sem competir com o jantar premium do dia 15."],"cat":"food"}],"transportBriefing":"Kyoto→Arashiyama→Kinkaku→Osaka: operar leve; táxi é ferramenta para proteger Kinkaku e chegada a Osaka."},{"day":18,"date":"15/12/2026","weekday":"Terça","anchor":"Osaka: Dotonbori, Nipponbashi, pinball e Wagyu","city":"Osaka","color":"#f59e0b","base":"Osaka - Cross Hotel Osaka","logic":"Grande dia urbano/gastronômico de Osaka: Dotonbori, takoyaki/akashiyaki, kaiten sushi, Nipponbashi/Den Den Town, pinball, neon e Wagyu/yakiniku premium controlado.","attention":"Tentar fazer todas as lojas/comidas sem controle e cansar antes do jantar principal.","goldenRule":"Dotonbori/Namba é a base; snacks não substituem o jantar premium. Matsusakagyu ou Dotonbori Mitsuru são protegidos.","expected":"Ter o grande dia de Osaka sem perder controle: snacks e lojas com limite, pinball protegido e jantar premium sem duplicar carnes caras.","before":["Café sem exagerar; haverá snacks e sushi.","Passaportes para tax-free se comprar em Donki/lojas.","Lista KISS/colecionáveis para Mandarake/Surugaya.","Reserva/estratégia do Matsusakagyu Yakiniku M ou Dotonbori Mitsuru."],"meals":"Almoço-alvo: Daiki Suisan Dotonbori. Snack must: Takoya Dotonbori Kukuru/Konamon Museum com takoyaki + akashiyaki. Jantar: Matsusakagyu Yakiniku M; Dotonbori Mitsuru é substituto premium protegido.","summary":"15/12: Dotonbori + takoyaki/akashiyaki | Daiki Suisan almoço | Nipponbashi garimpo | Silver Ball Planet protegido | Wagyu/yakiniku premium à noite","activities":[{"time":"09:30 - 10:30","title":"Cross Hotel -> Dotonbori / Glico","type":"Caminhada / reconhecimento / cartão-postal","maps":"Cross Hotel Osaka to Dotonbori / Dotonbori Glico Sign","logistics":"Caminhada de 5-10 min.","onArrival":"Primeira volta para localizar canal, Glico e restaurantes.","insight":"A vantagem do Cross Hotel é estar praticamente dentro do eixo Dotonbori/Namba. De manhã, reconhecer a área ajuda a entender onde voltar à noite para o Glico/neon.","photo":"Glico Sign se estiver tranquilo pela manhã.","decision":"Seguir para takoyaki/akashiyaki até 10:30.","ifLate":"Se saírem tarde, reduzir reconhecimento e ir direto ao snack/lunch.","notes":["Comidas protegidas: Takoya Kukuru/Konamon Museum: takoyaki e akashiyaki com dashi; Daiki Suisan: kaiten sushi alvo; Matsusakagyu Yakiniku M: jantar premium controlado.","Snacks Osaka: 551 Horai e Rikuro Ojisan podem entrar como lanche/sobremesa em Namba se estiverem no fluxo, sem competir com jantar premium. Chibo só como alternativa se almoço/jantar planejado falhar."],"cat":"photo","transportGuide":{"summary":"Deslocamento a pé curto; usar Maps para final e evitar atravessar estação por dentro sem necessidade.","method":"Caminhada","difficulty":"baixa","luggageRisk":"baixo","route":"Cross Hotel Osaka to Dotonbori / Dotonbori Glico Sign","stepByStep":["Abrir o destino exato no Maps antes de sair.","Caminhar pelo lado mais simples, sem atravessar estação por dentro se houver rota externa clara.","Conferir a direção a cada mudança de rua grande.","Se o Maps mandar por corredor interno confuso, preferir rota de rua ou táxi curto."],"stationSigns":["Exit / 出口","Street level / 地上","Pedestrian deck / 歩行者デッキ"],"correctExit":"","finalWalk":"","traps":"Se o Maps mandar por galeria/estação confusa, preferir rua ou táxi curto.","planB":"Se saírem tarde, reduzir reconhecimento e ir direto ao snack/lunch.","confidence":"alta","sourceNote":"Guia de caminhada curto; usar Maps ao vivo para semáforos e obras locais.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"10:30 - 11:30","title":"Takoya Dotonbori Kukuru / Konamon Museum","type":"Snack must / takoyaki + akashiyaki","maps":"Takoya Dotonbori Kukuru / Dotonbori Konamon Museum, Dotonbori, Osaka","logistics":"Caminhada curta em Dotonbori.","onArrival":"Provar takoyaki e akashiyaki, sem transformar em almoço pesado.","insight":"Takoyaki é o clássico de Osaka: bolinho de massa com polvo, servido muito quente. Akashiyaki é mais macio/ovado e costuma ser mergulhado em dashi; combina com o gosto por ovo da filha.","eat":"Takoyaki e akashiyaki com caldo dashi. Comer com cuidado: normalmente chega queimando por dentro.","photo":"Prato e fachada, cuidado para não queimar a boca.","decision":"Sair até 11:30.","ifLate":"Se fila enorme, marcar para voltar mais tarde e seguir para Shinsaibashi/Daiki.","notes":["Substituto forte: Dotonbori Mitsuru é substituto premium equivalente/protegido se Matsusakagyu não for reservado, ficar caro demais, cheio ou inviável. Não é downgrade nem plano B fraco."],"cat":"food"},{"time":"11:30 - 12:30","title":"Shinsaibashi-suji","type":"Rua/galeria de compras / moda / snacks","maps":"Shinsaibashi-suji Shopping Street, Osaka","logistics":"Caminhada a partir de Dotonbori.","onArrival":"Caminhar pela galeria, entrar em poucas lojas e guardar energia.","insight":"Shinsaibashi-suji é uma galeria longa de compras; parece simples, mas engole tempo. Usar como passagem útil, não como maratona antes do almoço/Nipponbashi.","buy":"Moda, cosméticos, lojas rápidas; Donki fica para se houver energia.","decision":"Voltar/seguir para almoço até 12:30.","ifLate":"Se comprar demais, cortar lojas de tarde e proteger Nipponbashi/pinball.","notes":["Compras por loja: Mandarake Grand Chaos e Surugaya Osaka Nihonbashi: KISS/キッス, merch, CDs/vinil/colecionáveis, games e figures. Donki Dotonbori: snacks, cosméticos e cortador de unha com lente/lupa."],"cat":"shop"},{"time":"12:30 - 13:30","title":"Almoço - Daiki Suisan Dotonbori","type":"Kaiten sushi / almoço alvo de Osaka","maps":"Daiki Suisan Kaiten Sushi Dotonbori, Osaka","logistics":"Caminhada curta no eixo Dotonbori/Namba.","onArrival":"Fazer almoço de sushi de esteira com tempo controlado.","insight":"Daiki Suisan é o kaiten sushi de Osaka escolhido: informal, divertido e prático. O objetivo é almoçar bem sem gastar o espaço mental do jantar premium.","eat":"Nigiri variados, atum, salmão, enguia, pratos de esteira/menu.","decision":"Limitar a cerca de 60 min.","ifLate":"Se fila inviável, trocar por refeição rápida em Namba e manter jantar premium.","cat":"food"},{"time":"13:30 - 16:30","title":"Nipponbashi / Den Den Town + Mandarake + Surugaya","type":"Cultura pop / colecionáveis usados / KISS / games","maps":"Den Den Town Osaka / Mandarake Grand Chaos, 4-12-6 Nipponbashi / Surugaya Osaka Nihonbashi Main Store, 4-11-3 Nipponbashi","logistics":"Caminhada ou táxi curto de Dotonbori/Namba.","onArrival":"Garimpar colecionáveis, games, figures e possíveis itens KISS/rock. Enquanto isso, elas podem fazer Shinsaibashi/Americamura/Donki se o split estiver funcionando.","insight":"Split inteligente: Den Den Town (a Akihabara de Osaka) e Shinsaibashi-suji ficam a ~10 min. Voce garimpa KISS/キッス, vinil, games e figures (Mandarake Grand Chaos, Surugaya); elas fazem o arcadao de compras + Americamura + Donki + bolsas usadas. Reagrupar para o pinball/jantar.","buy":"KISS/キッス, CDs/vinil/merch, figures, games, usados.","photo":"Fachadas e achados interessantes.","decision":"Sair para pinball por volta de 16:30 e reagrupar antes do The Silver Ball Planet.","ifLate":"Se Mandarake render muito, cortar Surugaya ou Americamura; não cortar pinball.","cat":"shop","notes":["Rebalanceamento: no original Shinsaibashi tinha 1h e os games ~4h. O split da tempo de verdade para as compras delas."]},{"time":"16:30 - 17:30","title":"The Silver Ball Planet","type":"Pinball / fliperama / must do Rodrigo","maps":"The Silver Ball Planet, Osaka","logistics":"Caminhada/táxi curto conforme ponto de saída de Nipponbashi.","onArrival":"Jogar pinball e fotografar máquinas.","insight":"The Silver Ball Planet é a parada principal de pinball do roteiro. Ela merece proteção real, mas com limite para não atrasar Hozenji/jantar.","photo":"Máquinas de pinball e placares.","decision":"Encerrar por volta de 17:30.","ifLate":"Se o dia atrasar, manter ao menos 30 min de pinball e cortar Americamura.","cat":"activity","notes":["OPERACIONAL: terca o Silver Ball Planet fecha 20h (sex/sab vai ate 23h). A janela 16:30-17:30 esta ok. Tem maquinas de KISS/Stones/AC-DC."]},{"time":"17:30 - 19:40","title":"Americamura / Donki / Dotonbori neon / Hozenji","type":"Compras jovens + fotos noturnas + viela tradicional","maps":"Amerikamura Osaka / Don Quijote Dotonbori / Dotonbori Glico Sign / Hozenji Yokocho","logistics":"Caminhada em Namba/Dotonbori.","onArrival":"Fazer compras finais leves se houver energia, fotos do Glico à noite e Hozenji Yokocho antes do jantar.","insight":"Esse bloco mistura Osaka moderna/neon e a viela tradicional de Hozenji. Hozenji Yokocho é curta e atmosférica; perfeita antes do jantar, sem virar passeio longo.","buy":"Donki: snacks, cosméticos, cortador de unha com lente/lupa, lembranças.","photo":"Glico à noite, canal e Hozenji Yokocho.","decision":"Estar pronto para jantar por volta de 20:00.","ifLate":"Se cansar, cortar Americamura/Donki e manter Glico + Hozenji + jantar.","cat":"shop"},{"time":"20:20 - 22:00","title":"Matsusakagyu Yakiniku M Hozenji Yokocho","type":"Jantar premium controlado / Wagyu-yakiniku","maps":"Matsusakagyu Yakiniku M Hozenji Yokocho / Dotonbori Mitsuru, Osaka","logistics":"Caminhada curta no eixo Hozenji/Dotonbori.","onArrival":"Fazer a experiência premium/controlada de Wagyu em formato yakiniku.","insight":"É a segunda experiência de yakiniku do roteiro, agora premium. Wagyu/Matsusaka pede controle: melhor uma experiência boa e medida do que somar carnes caras por impulso.","eat":"Matsusaka beef em curso/porção controlada. Se não der, Dotonbori Mitsuru A5/Kuroge Wagyu. Não somar dois jantares caros de carne.","decision":"Encerrar e voltar ao hotel a pé.","ifLate":"Se Matsusakagyu não tiver reserva/estiver inviável, usar Dotonbori Mitsuru. Não somar dois jantares caros de carne.","cat":"food","notes":["RESERVAR. Se inviavel/cheio: Dotonbori Mitsuru (A5) e substituto equivalente, nao plano B fraco.","VERIFICADO: existe na Hozenji Yokocho (Namba 1-1-19), sem dia fixo de fechamento (ok p/ terça); reserva online recomendada."]},{"time":"À noite / flex","title":"🛒 Donki Dotonbori + cosméticos + bolsas (passada)","type":"Compras Osaka (Donki, drogaria, usados)","maps":"Don Quijote Dotonbori, Osaka","logistics":"O Donki da roda-gigante fica na rota de Dotonbori; drogarias e lojas de usados ficam em Shinsaibashi-suji, que vocês já percorrem.","onArrival":"Donki (6 andares) para cosméticos/snacks/lembranças; drogaria para reposição; passada breve em loja de bolsas usadas se houver tempo.","insight":"Donki Dotonbori é ótimo para fechar cosméticos/snacks/lembranças, mas depois de 22h e com 6 andares vira buraco negro. Entrar com lista e tempo máximo.","decision":"Não separar o grupo: bolsas só como passada conjunta breve. Fechar cosméticos de Osaka aqui.","ifLate":"","eat":"","buy":"Cosméticos (reposição Luísa/Luciana), snacks, lembranças, cortador de unha com lente/lupa no Donki. Bolsas usadas (Komehyo/Brand Off/2nd Street em Shinsaibashi) só se sobrar tempo.","photo":"","notes":["Osaka é um dos melhores lugares do Japão para bolsas de luxo usadas (cluster em Shinsaibashi-suji), mas mantemos como oportunidade leve, sem virar prioridade.","Donki Dotonbori: o da roda-gigante na fachada; ir após 22h evita multidão."],"cat":"shop"}]},{"day":19,"date":"16/12/2026","weekday":"Quarta","anchor":"Universal Studios Japan - VIP 5 hours","city":"Osaka","color":"#f59e0b","base":"Osaka - Cross Hotel Osaka","logic":"Executar Universal Studios Japan com VIP 5h como eixo do dia: chegar organizado, usar o tour para Super Nintendo World/Donkey Kong/grandes filas e deixar compras/snacks para depois do melhor do VIP.","attention":"Chegar tarde, gastar energia antes do VIP ou marcar jantar longe após parque.","goldenRule":"Com o VIP, o guia administra os timed-entry (inclusive Super Nintendo World). Garantir a Power-Up Band ANTES de entrar na Nintendo World — sem ela não há interação com os blocos/desafios.","expected":"Maximizar USJ sem complicar a noite: Power-Up Band antes de Nintendo World, tour seguido com disciplina e jantar simples no CityWalk/hotel.","before":["Café rápido.","Ingressos/horário/ponto de encontro do VIP 5h confirmados.","Power bank e capa/agasalho conforme clima.","Não carregar compras volumosas."],"meals":"Almoço dentro do USJ ainda operacional; escolher conforme localização/horário do VIP. Jantar aberto no CityWalk ou retorno ao hotel, sem deslocamento longe.","summary":"USJ com VIP 5h: Super Nintendo World + Donkey Kong + Mario Kart garantidos pelo guia. Power-Up Band antes de entrar, snacks (Minion bao, turkey leg), foto em Hogwarts/Black Lake, jantar no CityWalk.","activities":[{"time":"07:30 - 08:30","title":"Cross Hotel -> Universal Studios Japan","type":"Deslocamento para parque","maps":"Cross Hotel Osaka to Universal Studios Japan, 2-1-33 Sakurajima, Konohana Ward, Osaka","logistics":"Metrô/JR via Namba/Osaka-Nishikujo/Universal City ou táxi + JR conforme Maps. Tempo: 45-60 min.","onArrival":"Chegar cedo para entrada, fotos e orientação.","insight":"USJ é sensível a horário; o VIP não substitui a necessidade de entrar organizado. O parque fica em Osaka, não em Tóquio: deslocamento e ponto de encontro mandam.","decision":"Estar na entrada por volta de 08:30.","ifLate":"Se sair tarde, ir direto ao ponto de prioridade/ponto de encontro; cortar fotos iniciais.","notes":["Almoço USJ: Almoço deve se encaixar no roteiro do VIP. Park Side Grille ou opção rápida só se não comprometer o tour; em caso de conflito, comer snack/refeição operacional.","Compras USJ: Compras Nintendo/Donkey Kong/USJ em bloco controlado no pós-VIP. Não marcar jantar longe depois do parque."],"cat":"transfer","mode":"train","transportGuide":{"summary":"Namba/Cross Hotel → USJ via Osaka-Namba/Nishikujo/Universal-City.","method":"Hanshin/JR ou metrô/JR","difficulty":"média","luggageRisk":"baixo","route":"Cross Hotel → Osaka-Namba/Namba → Nishikujo → JR Yumesaki Line → Universal-City Station","stepByStep":["Do Cross Hotel, caminhe para Osaka-Namba/Namba conforme Maps.","Priorizar rota simples para Nishikujo: Hanshin Namba Line costuma ser prática a partir de Osaka-Namba; alternativa via Umeda/Osaka Station.","Em Nishikujo, siga placas para JR Yumesaki Line / Sakurajima Line / Universal-City.","Desça em Universal-City Station.","Siga o fluxo/placas para Universal Studios Japan; caminhe pelo CityWalk até a entrada."],"stationSigns":["Osaka-Namba","Hanshin Namba Line","Nishikujo","JR Yumesaki Line","Sakurajima Line","Universal-City Station","Universal Studios Japan"],"correctExit":"Universal-City Station.","finalWalk":"5–10 min até a entrada pelo CityWalk.","traps":"Não descer em Sakurajima por engano; a estação do parque é Universal-City.","planB":"Táxi até USJ se o horário VIP estiver em risco.","confidence":"alta","sourceNote":"Base: JR West/USJ indicam Universal-City Station como acesso ferroviário.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"08:30 - 10:00","title":"Entrada USJ / orientação","type":"Parque temático / fotos iniciais / mapeamento","maps":"Universal Studios Japan, 2-1-33 Sakurajima, Konohana Ward, Osaka","logistics":"Entrada, segurança e caminhada interna.","onArrival":"Entrar, entender mapa, fotos rápidas e lojas iniciais sem dispersar.","insight":"O objetivo é sentir o parque antes do VIP, mas sem gastar energia demais.","photo":"Globo/entrada, ruas iniciais.","decision":"Estar pronto para atrações/áreas antes do VIP.","ifLate":"Cortar fotos/lojas e ir direto à programação principal.","notes":["VIP 5h: O VIP 5h é o eixo do dia. Usar para Super Nintendo World, Donkey Kong, Mario Kart e grandes filas conforme regras do pacote. Não dispersar em lojas durante o melhor do tour."],"cat":"photo"},{"time":"Manhã / horário reservado","title":"USJ VIP 5h","type":"Tour VIP / fura-fila / Super Nintendo World","maps":"USJ VIP tour meeting point / Universal Studios Japan","logistics":"Seguir horário e ponto de encontro oficiais do tour.","onArrival":"Usar o tour para Super Nintendo World, Donkey Kong, Mario Kart e grandes filas conforme regras do pacote.","insight":"O VIP 5h é o eixo do dia. O guia ajuda a administrar Super Nintendo World, Donkey Kong/Mario Kart e grandes filas conforme regras do pacote; a família deve seguir o fluxo, não dispersar.","eat":"Não perder tempo nobre comendo: café/lanche antes de entrar, snacks no almoço se necessário e jantar de verdade no Universal CityWalk ou perto do hotel.","buy":"Comprar itens Nintendo/USJ em bloco controlado, não durante o melhor do VIP.","decision":"Seguir o guia e não dispersar.","ifLate":"Se o parque estiver lotado, obedecer ao plano do guia e reduzir extras fora do VIP.","cat":"activity","photo":"Castelo de Hogwarts refletido no Black Lake (área mais fotografada). Mundo do Mario para fotos coloridas.","notes":["Comprar a Power-Up Band antes de entrar na Nintendo World — é o que ativa blocos/desafios interativos e transforma a área em experiência, não só foto.","Para fãs: Hollywood Dream – Backdrop (versão de costas) é citado como o melhor brinquedo. Filas afinam após 18h e a iluminação noturna fica linda — reandar favoritos no fim."]},{"time":"Pós-VIP","title":"Compras, snacks e áreas finais","type":"Parque / compras / encerramento","maps":"Universal Studios Japan shops / Universal CityWalk Osaka","logistics":"Após o tour, escolher atrações/lojas/snacks restantes conforme energia.","onArrival":"Comprar itens oficiais, fotos e snacks sem marcar jantar longe.","insight":"Depois do VIP, o melhor é completar atmosfera, snacks e compras oficiais, não começar nova maratona. Compras Nintendo/Donkey Kong entram aqui, em bloco controlado.","eat":"Snacks USJ ou jantar no CityWalk na saída.","buy":"Nintendo, Donkey Kong, merch USJ, lembranças.","decision":"Sair quando energia cair; não precisa fechar parque se estiverem exaustos.","ifLate":"Se todos cansarem, ir direto ao CityWalk/hotel.","notes":["Jantar: CityWalk ou perto do hotel. Depois de parque, conforto vence restaurante famoso."],"cat":"food"},{"time":"Noite","title":"CityWalk -> Cross Hotel Osaka","type":"Jantar simples + retorno","maps":"Universal CityWalk Osaka to Cross Hotel Osaka","logistics":"JR/metro ou táxi se exaustos. Tempo: 45-70 min.","onArrival":"Jantar simples e voltar ao hotel.","insight":"Evitar deslocamento gastronômico longe depois de parque é regra de conforto. CityWalk existe justamente para resolver jantar sem atravessar Osaka.","eat":"CityWalk ou opção perto do hotel, sem reserva difícil.","decision":"Voltar e descansar.","ifLate":"Se sair tarde, comer algo rápido no CityWalk ou perto do hotel.","cat":"transfer","mode":"subway","transportGuide":{"summary":"USJ/CityWalk → Cross Hotel: voltar por Universal-City/Nishikujo/Namba; táxi se exaustos.","method":"JR + Hanshin/Metro ou táxi","difficulty":"média","luggageRisk":"médio","route":"Universal-City Station → Nishikujo → Osaka-Namba/Namba → Cross Hotel Osaka","stepByStep":["Do CityWalk, volte para Universal-City Station.","Pegue JR Yumesaki/Sakurajima Line até Nishikujo.","Em Nishikujo, transfer para Hanshin Namba Line até Osaka-Namba ou rota indicada pelo Maps para Namba.","De Namba/Osaka-Namba, caminhar ao Cross Hotel ou pegar táxi curto.","Se houver muitas compras/cansaço pós-USJ, considerar táxi/ride direto."],"stationSigns":["Universal-City Station","JR Yumesaki Line","Nishikujo","Hanshin Namba Line","Osaka-Namba","Namba","Dotonbori"],"correctExit":"Osaka-Namba/Namba lado Dotonbori/Cross Hotel.","finalWalk":"5–10 min finais.","traps":"Pós-parque com multidão; manter grupo junto e não abrir compras longas no CityWalk se todos estiverem cansados.","planB":"Táxi direto do USJ/CityWalk ao Cross Hotel se exaustos.","confidence":"alta","sourceNote":"Base: acesso ferroviário USJ por Universal-City Station.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}],"transportBriefing":"USJ: mirar Universal-City Station; rota Namba/Nishikujo/JR Yumesaki é a estrutura principal."},{"day":20,"date":"17/12/2026","weekday":"Quinta","anchor":"Osaka final + Shinsekai + voo para Dubai","city":"Osaka → Dubai","color":"#0ea5e9","base":"Osaka -> Dubai","logic":"Fechar o Japão com comida local e margem de aeroporto: Kuromon objetivo, Osaka Castle só se couber, Shinsekai/kushikatsu sem fila suicida e hotel/banho/malas protegidos.","attention":"Tentar Kuromon + Chitose + kushikatsu + castelo longos demais antes do voo.","goldenRule":"Aeroporto manda no dia; nada de fila suicida. Kushikatsu Daruma é alvo, mas logística vence.","expected":"Encerrar Osaka com um último bloco gastronômico sem arriscar voo, malas, banho ou chegada ao KIX.","before":["Separar roupa de voo e documentos.","Tentar late checkout se possível.","Mala organizada antes de sair.","Definir horário duro de volta ao hotel para banho/malas."],"meals":"Brunch/almoço cedo: Kuromon Sanpei se fila aceitável. Chitose é opcional forte se couber sem fila. Kushikatsu Daruma é alvo nominal preferencial para o must de kushikatsu como snack/almoço tardio curto, não jantar. Jantar: aeroporto/lounge/voo.","summary":"17/12: Kuromon Sanpei cedo | Osaka Castle é cortável | Chitose só sem fila | Kushikatsu Daruma é snack/must curto, mas aeroporto manda | Banho/malas protegidos | Jantar é KIX/lounge/voo","activities":[{"time":"08:30 - 09:15","title":"Check-out / malas no Cross Hotel","type":"Logística de voo / preparação","maps":"Cross Hotel Osaka, 2-5-15 Shinsaibashisuji, Chuo Ward, Osaka","logistics":"Organizar malas e deixar no hotel se possível.","onArrival":"Separar documentos, compras, roupa de voo e itens de mão.","insight":"O dia só funciona se as malas estiverem prontas antes do passeio.","decision":"Sair para Kuromon até 09:15.","ifLate":"Se malas atrasarem, cortar Osaka Castle primeiro.","notes":["Kuromon: Kuromon Sanpei é brunch/almoço cedo se fila aceitável. Como já houve Tsukiji/Nishiki/Ameyoko, Kuromon deve ser objetivo, não mercado longo."],"cat":"transfer","mode":"stay","transportGuide":{"summary":"Deslocamento do bloco; confirmar rota ao vivo e seguir a saída correta do destino.","method":"stay","difficulty":"média","luggageRisk":"médio","route":"Cross Hotel Osaka, 2-5-15 Shinsaibashisuji, Chuo Ward, Osaka","stepByStep":["Abrir o destino exato no Google Maps/Japan Travel antes de sair.","Escolher rota com menos baldeações se a família estiver cansada.","Seguir placas da linha/saída indicada, não apenas o nome geral da estação.","Ao sair na rua, conferir a direção antes de caminhar.","Se a rota ficar confusa, parar e recalcular; não continuar andando no impulso."],"stationSigns":["Exit / 出口","JR Lines","Subway","Taxi"],"correctExit":"","finalWalk":"","traps":"Risco típico: sair pela saída errada ou escolher rota rápida demais com muita baldeação.","planB":"Táxi curto se houver atraso, chuva, compras ou cansaço.","confidence":"média","sourceNote":"Guia genérico para deslocamentos menos críticos.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"09:15 - 10:30","title":"Kuromon Market + Kuromon Sanpei","type":"Mercado gastronômico / sushi-sashimi / brunch cedo","maps":"Kuromon Ichiba Market / Kuromon Sanpei, Nipponbashi, Osaka","logistics":"Caminhada/táxi curto do Cross Hotel. Tempo: 10-20 min.","onArrival":"Visita objetiva ao mercado; comer no Kuromon Sanpei se fila aceitável.","insight":"Kuromon é interessante, mas já houve Tsukiji/Nishiki/Ameyoko. Aqui o foco é objetivo: Kuromon Sanpei se fila aceitável, comer bem e seguir.","eat":"Sushi/sashimi/frutos do mar, especialmente atum, em mesas compartilhadas se operacional.","photo":"Balcões de peixe/mercado.","decision":"Sair até 10:30.","ifLate":"Se Kuromon Sanpei estiver lotado, comer algo rápido ou cortar; aeroporto manda.","cat":"food"},{"time":"10:30 - 12:45","title":"Osaka Castle externo","type":"Castelo / parque / foto cartão-postal","maps":"Osaka Castle, 1-1 Osakajo, Chuo Ward, Osaka","logistics":"Metrô/táxi de Kuromon. Tempo: 35-50 min incluindo caminhada no parque.","onArrival":"Fazer fotos externas e parque; não entrar no museu se o dia apertar.","insight":"O castelo entrega o cartão-postal histórico de Osaka sem precisar entrar no museu. Em dia de voo, foto externa vale mais que visita longa.","photo":"Castelo por fora e parque.","decision":"Sair por volta de 12:45.","ifLate":"Primeiro corte do dia: se atrasar, pular Osaka Castle e ir para Shinsekai/Chitose ou hotel.","notes":["Chitose: Okonomiyaki Chitose é opcional forte/must se couber; entrar só com fila aceitável. Pedir Takasuga-yaki ou alternativas Pork Mix/modan-yaki."],"cat":"cultural"},{"time":"13:15 - 14:15","title":"Okonomiyaki Chitose se couber","type":"Opcional forte / okonomiyaki local","maps":"Okonomiyaki Chitose, Taishi, Nishinari Ward, Osaka","logistics":"Táxi/metrô até região Dobutsuen-mae/Shin-Imamiya.","onArrival":"Entrar apenas se fila aceitável.","insight":"Okonomiyaki é uma panqueca salgada japonesa, muito associada a Osaka. Chitose é opcional forte, mas dia de voo não permite fila longa.","eat":"Takasuga-yaki; alternativas: Pork Mix ou modan-yaki (okonomiyaki com noodles). Entrar só com fila aceitável.","decision":"Limitar a cerca de 60 min.","ifLate":"Se fila grande, cortar Chitose e priorizar Shinsekai/kushikatsu curto ou voltar ao hotel.","notes":["Kushikatsu: Kushikatsu Daruma Shinsekai é alvo nominal preferencial para cumprir o must de kushikatsu. Trocar por casa local sem fila se Daruma ameaçar banho, malas ou aeroporto.","Alternativa de okonomiyaki: Mizuno (premiado, Dotonbori), se a fila ajudar."],"cat":"food"},{"time":"14:15 - 15:30","title":"Shinsekai + Janjan Yokocho + Kushikatsu Daruma","type":"Bairro retro / snack must / kushikatsu","maps":"Shinsekai / Tsutenkaku Tower / Janjan Yokocho / Kushikatsu Daruma Shinsekai","logistics":"Caminhada curta a partir de Chitose ou táxi/metrô.","onArrival":"Fotos de Tsutenkaku/Shinsekai e provar kushikatsu. Daruma é alvo nominal se fila permitir.","insight":"Shinsekai/Janjan Yokocho tem atmosfera retrô-popular de Osaka. Kushikatsu é espetinho empanado e frito; Daruma é clássico, mas aeroporto manda.","eat":"Kushikatsu variado. Regra cultural: em casas com molho compartilhado, não mergulhar duas vezes; hoje muitas usam molhos individuais, mas a lógica de etiqueta continua.","photo":"Tsutenkaku, letreiros retro, Janjan Yokocho.","decision":"Sair para hotel até 15:30.","ifLate":"Se a fila do Daruma ameaçar o retorno, trocar por loja local rápida ou cortar.","cat":"food"},{"time":"15:45 - 17:15","title":"Hotel / banho / malas","type":"Pausa crítica / preparação para aeroporto","maps":"Cross Hotel Osaka","logistics":"Retorno de táxi/metrô.","onArrival":"Banho, fechar malas, conferir documentos e compras.","insight":"Este é o bloco mais importante do dia: protege voo, documentos, compras e sanidade. Qualquer atração restante perde para banho/malas.","decision":"Sair para KIX com margem.","ifLate":"Se o dia apertar, cortar qualquer passeio restante e voltar ao hotel.","notes":["Aeroporto: Osaka Castle é o primeiro corte se atrasar. O bloco hotel/banho/malas é mais importante que qualquer atração restante."],"cat":"transfer","mode":"stay","transportGuide":{"summary":"Deslocamento por táxi/transfer; usar destino exato e preservar margem.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Cross Hotel Osaka","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se o dia apertar, cortar qualquer passeio restante e voltar ao hotel.","confidence":"média","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"17:15 - Noite","title":"Cross Hotel -> Kansai Airport KIX","type":"Deslocamento para aeroporto / voo Osaka -> Dubai","maps":"Cross Hotel Osaka to Kansai International Airport KIX","logistics":"Plano A: transfer/van/táxi grande do Cross Hotel Osaka para KIX, especialmente se houver muitas compras/malas. Plano B: Nankai Namba -> Kansai Airport por Rapi:t/airport express se malas estiverem controladas. Tempo porta a porta: 75-100 min.","onArrival":"Chegar com margem, check-in, segurança, lounge e embarque.","insight":"KIX é o fechamento do Japão; com malas e compras, simplicidade vence. Transfer/van é preferencial para evitar escadas, plataformas e reorganização em estação.","eat":"Jantar operacional no aeroporto/lounge/voo.","decision":"Chegar cerca de 3h antes do voo.","ifLate":"Se o transporte público estiver complexo com malas, usar táxi/transfer sem discutir.","cat":"transfer","mode":"taxi","transportGuide":{"summary":"Plano A: transfer/van/táxi grande Cross Hotel → KIX; Plano B: Nankai Namba → Kansai Airport.","method":"Transfer/van ou Nankai Railway","difficulty":"média","luggageRisk":"alto","route":"Cross Hotel → KIX direto OU Cross Hotel → Nankai Namba → Kansai Airport Station","stepByStep":["Plano A aprovado: transfer/van/táxi grande direto do Cross Hotel para KIX, principalmente com malas e compras.","Plano B: ir para Nankai Namba Station; seguir placas para Nankai Railway / Airport Express / Rapi:t.","Comprar bilhete se usar Rapi:t/limited express; conferir destino Kansai Airport.","Descer em Kansai Airport Station e seguir placas para o terminal/companhia aérea.","Chegar com cerca de 3h de margem para voo internacional."],"stationSigns":["Nankai Namba","Nankai Railway","Rapi:t","Airport Express","Kansai Airport","KIX","International Departures"],"correctExit":"Kansai Airport Station / terminal da companhia aérea.","finalWalk":"Dentro do aeroporto, seguir terminal/companhia.","traps":"Com muitas malas, estação + trem pode virar desgaste no último dia. Transfer é conforto logístico, não luxo.","planB":"Se trânsito estiver ruim e o trem for claramente mais seguro, usar Nankai; se malas forem demais, transfer vence.","confidence":"alta","sourceNote":"Base: rota Nankai Namba–Kansai Airport e plano aprovado do roteiro.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}],"transportBriefing":"Osaka→KIX: com malas/compras, transfer/van é plano A; Nankai Namba fica como plano B."},{"day":21,"date":"18/12/2026","weekday":"Sexta","anchor":"Dubai descanso + Dubai Mall","city":"Dubai","color":"#0ea5e9","base":"Dubai - Sofitel Dubai Downtown","logic":"Recuperar do voo Osaka → Dubai e só depois iniciar compras finais. Dubai Mall entra com lista por categoria e controle de peso/espaço das malas.","attention":"Tentar fazer Dubai Mall forte sem dormir após voo de madrugada.","goldenRule":"Sono/banho primeiro; compras só depois de recuperar.","expected":"Voltar ao ritmo em Dubai, descansar de verdade e comprar apenas com lista, já considerando tudo que veio do Japão.","before":["Chegada provavelmente muito cedo: priorizar banho e sono.","Confirmar quarto/early check-in.","Separar compras do Japão e espaço de mala antes de novas compras.","Não sair para shopping sem descanso mínimo."],"meals":"Café operacional em voo/hotel. Almoço e jantar abertos no hotel/Dubai Mall conforme energia.","summary":"18/12: Descanso primeiro | Dubai Mall depois | Compras com lista | Sem maratona se o voo cansou","activities":[{"time":"Madrugada/manhã","title":"DXB -> Sofitel Dubai Downtown","type":"Chegada / hotel / recuperação","maps":"Dubai International Airport DXB to Sofitel Dubai Downtown","logistics":"Táxi/transfer. Tempo: 20-40 min.","onArrival":"Ir direto ao hotel, banho e sono.","insight":"Depois do Japão + voo, o descanso evita que o retorno a Dubai vire desgaste. Conferir espaço/peso antes de abrir novas compras é tão importante quanto ir ao shopping.","decision":"Só sair para shopping depois de recuperar.","ifLate":"Se quarto não estiver pronto, deixar malas e fazer pausa leve/café sem agenda pesada.","notes":["Compras Dubai Mall: Usar Dubai Mall com lista por loja/categoria: Fashion Avenue, beleza/perfumaria, eletrônicos e itens faltantes. Não abrir maratona sem descanso do voo.","Malas: Antes de novas compras, conferir espaço/peso após Japão. Separar itens frágeis e compras japonesas.","DSF: Se o Dubai Shopping Festival estiver ativo, ficar atento a ofertas de lojas do Dubai Mall, mas sem sacrificar descanso."],"cat":"transfer","mode":"taxi","transportGuide":{"summary":"DXB → Sofitel Dubai Downtown; pós-voo, sem transporte público.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Dubai International Airport DXB → Sofitel Dubai Downtown","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se o quarto não estiver pronto, deixar malas e fazer pausa curta no hotel/Dubai Mall.","confidence":"alta","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Tarde/noite","title":"Dubai Mall forte, mas controlado","type":"Shopping / compras finais / jantar","maps":"Dubai Mall, Downtown Dubai","logistics":"Caminhada/conexão ou táxi curto do Sofitel.","onArrival":"Compras finais em Dubai com lista por categoria.","insight":"Dubai Mall é ótimo para fechar marcas internacionais, mas sem lista vira armadilha de tempo e peso de mala. Fashion Avenue, beleza e eletrônicos devem ter prioridade definida.","eat":"Almoço/jantar no shopping conforme energia.","buy":"Fashion Avenue, beleza, eletrônicos e itens faltantes. Se o Dubai Shopping Festival estiver ativo, olhar ofertas reais, mas sem comprar por impulso.","photo":"Burj/Fountain se houver energia.","decision":"Voltar ao hotel antes de exaustão total.","ifLate":"Se estiverem cansados, cortar fotos e focar jantar + compras essenciais.","cat":"food"}]},{"day":22,"date":"19/12/2026","weekday":"Sábado","anchor":"Mall of the Emirates + compras finais","city":"Dubai","color":"#0ea5e9","base":"Dubai - Sofitel Dubai Downtown","logic":"Fechar compras, organizar malas e preparar retorno ao Brasil. Mall of the Emirates complementa Dubai Mall, mas a prioridade real é voltar cedo para peso/mala/documentos.","attention":"Comprar até tarde e deixar malas para madrugada.","goldenRule":"Compras com lista; malas e peso ainda no fim da tarde/noite.","expected":"Terminar compras sem comprometer mala, sono e retorno.","before":["Revisar espaço e peso de malas.","Lista final de compras por categoria.","Documentos e roupa de voo separados.","Não deixar organização para madrugada."],"meals":"Café no hotel. Almoço aberto no Mall of the Emirates. Jantar final leve, perto do hotel ou no shopping.","summary":"19/12: MOE com lista | Voltar cedo para malas | Jantar leve | Nada de madrugada arrumando mala","activities":[{"time":"Manhã/tarde","title":"Sofitel -> Mall of the Emirates","type":"Deslocamento / segundo grande shopping","maps":"Sofitel Dubai Downtown to Mall of the Emirates","logistics":"Táxi/metro conforme conveniência. Tempo: 25-45 min.","onArrival":"Ir com lista de lojas e limite de tempo.","insight":"Último dia completo precisa equilibrar compras e malas. Se a compra render demais, corta jantar longe; não corta organização.","decision":"Chegar e priorizar lojas-alvo.","ifLate":"Se sair tarde, reduzir shopping a compras finais essenciais.","notes":["Mall of the Emirates: Usar MOE para compras finais de marcas, beleza, roupas e itens pendentes. Comprar com lista e horário de volta ao hotel definido.","Malas: Voltar com tempo para pesar malas, redistribuir compras e separar roupa/documentos de voo. Nada de arrumar mala de madrugada.","No MOE tem o Ski Dubai — parada rapida/divertida para a Luisa (foto na neve)."],"cat":"transfer","mode":"subway","transportGuide":{"summary":"Sofitel → Mall of the Emirates: táxi é o padrão de conforto; metrô só se quiser economizar e estiver sem compras.","method":"Táxi ou Dubai Metro","difficulty":"baixa","luggageRisk":"médio","route":"Sofitel Dubai Downtown → Mall of the Emirates","stepByStep":["Plano conforto: chamar táxi/app direto para Mall of the Emirates.","Plano metrô: caminhar até a estação mais próxima, seguir sentido Jebel Ali/UAE Exchange conforme operação e descer em Mall of the Emirates.","Dentro do MOE, marcar um ponto de reencontro e horário de volta.","Na volta, táxi se houver compras/malas."],"stationSigns":["Dubai Metro","Mall of the Emirates","Taxi"],"correctExit":"Mall of the Emirates station/entrance","finalWalk":"A estação conecta ao shopping, mas ainda há caminhada interna.","traps":"O risco é somar muito shopping + metrô + compras; com sacolas, táxi vence.","planB":"Táxi direto de ida/volta.","confidence":"média","sourceNote":"Guia operacional Dubai; validar linha/terminologia do metrô perto da viagem.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Manhã/tarde","title":"Mall of the Emirates","type":"Shopping / compras finais / almoço","maps":"Mall of the Emirates, Al Barsha, Dubai","logistics":"Circular por lojas-alvo, sem garimpo infinito.","onArrival":"Fechar compras e almoçar no próprio shopping.","insight":"Último dia completo precisa equilibrar compras e malas.","eat":"Almoço no shopping, sem refeição muito longa.","buy":"Marcas, beleza, roupas, itens finais.","decision":"Voltar ao hotel com tempo para malas.","ifLate":"Se compras renderem demais, cortar jantar longe e voltar ao hotel.","notes":["Jantar: Jantar final leve perto do hotel ou no shopping. Se compras atrasarem, mala vem antes do jantar especial."],"cat":"food"},{"time":"Tarde/noite","title":"Hotel / malas / jantar leve","type":"Logística de retorno / fechamento","maps":"Sofitel Dubai Downtown","logistics":"Voltar de táxi/metro.","onArrival":"Organizar malas, pesar compras, separar roupa de voo e documentos.","insight":"Este bloco evita correria no dia 20. Pesar malas, redistribuir compras e separar roupa/documentos de voo valem mais que qualquer restaurante final.","eat":"Jantar leve perto do hotel ou no shopping se ainda estiverem lá.","decision":"Malas prontas antes de dormir.","ifLate":"Se chegar tarde, prioridade absoluta é mala, não jantar especial.","cat":"transfer","mode":"stay","transportGuide":{"summary":"Deslocamento por táxi/transfer; usar destino exato e preservar margem.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Sofitel Dubai Downtown","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se chegar tarde, prioridade absoluta é mala, não jantar especial.","confidence":"média","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}]},{"day":23,"date":"20/12/2026","weekday":"Domingo","anchor":"Dubai -> Brasil","city":"Voo","color":"#64748b","base":"Voo / retorno","logic":"Retornar ao Brasil com margem de aeroporto, malas fechadas e documentos acessíveis. Último dia é só execução: check-out, DXB, segurança, lounge/voo.","attention":"Atrasar check-out ou reorganizar mala no balcão.","goldenRule":"Passaportes, malas e aeroporto com folga.","expected":"Encerrar a viagem sem estresse logístico, sem reorganizar mala no balcão e sem trocar portão por duty free.","before":["Passaportes e cartões na mão.","Malas fechadas e pesadas.","Power banks na mala de mão.","Recibos/tax-free/compras organizados."],"meals":"Café operacional no hotel/aeroporto/lounge. Almoço/jantar em voo/chegada conforme horário.","summary":"20/12: Check-out com calma | DXB com 3h | Duty free só se sobrar tempo | Retorno ao Brasil","activities":[{"time":"05:00 - 05:20","title":"Check-out Sofitel","type":"Logística de retorno","maps":"Sofitel Dubai Downtown","logistics":"Check-out com tempo e conferência final.","onArrival":"Conferir documentos, compras, eletrônicos e itens de mão.","insight":"O último risco é descobrir algo faltando na hora de sair. Conferir passaportes, cartões, compras frágeis, power banks e itens de mão antes de chamar o transfer.","decision":"Sair para DXB com margem.","ifLate":"Se houver atraso no checkout, pedir ajuda do hotel para táxi/transfer imediato.","cat":"transfer","mode":"stay","transportGuide":{"summary":"Deslocamento do bloco; confirmar rota ao vivo e seguir a saída correta do destino.","method":"stay","difficulty":"média","luggageRisk":"médio","route":"Sofitel Dubai Downtown","stepByStep":["Abrir o destino exato no Google Maps/Japan Travel antes de sair.","Escolher rota com menos baldeações se a família estiver cansada.","Seguir placas da linha/saída indicada, não apenas o nome geral da estação.","Ao sair na rua, conferir a direção antes de caminhar.","Se a rota ficar confusa, parar e recalcular; não continuar andando no impulso."],"stationSigns":["Exit / 出口","JR Lines","Subway","Taxi"],"correctExit":"","finalWalk":"","traps":"Risco típico: sair pela saída errada ou escolher rota rápida demais com muita baldeação.","planB":"Táxi curto se houver atraso, chuva, compras ou cansaço.","confidence":"média","sourceNote":"Guia genérico para deslocamentos menos críticos.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"title":"Hotel -> Dubai International Airport DXB","type":"Deslocamento para aeroporto","maps":"Sofitel Dubai Downtown to Dubai International Airport DXB","logistics":"Táxi/transfer. Tempo: 20-40 min.","onArrival":"Chegar com antecedência, check-in e segurança.","insight":"DXB é grande; margem evita correr com malas e família. Duty free só existe depois do básico resolvido.","decision":"Estar no aeroporto cerca de 3h antes do voo DXB -> GRU.","ifLate":"Se estiver apertado, ir direto para check-in/segurança antes de compras/duty free.","cat":"transfer","mode":"taxi","time":"05:20 - 06:00","transportGuide":{"summary":"Sofitel → DXB no retorno: táxi/transfer, sem metrô com malas.","method":"Táxi/transfer","difficulty":"baixa","luggageRisk":"baixo","route":"Sofitel Dubai Downtown → Dubai International Airport DXB","stepByStep":["Abrir o destino exato no Google Maps.","Mostrar ao motorista o nome/endereço em japonês/inglês quando disponível.","Conferir se o carro está indo para o destino correto antes de relaxar.","Pagar por cartão/app se disponível; manter dinheiro para contingência."],"stationSigns":["Taxi stand / タクシー","Destination / 行き先"],"correctExit":"","finalWalk":"","traps":"O risco é usar endereço genérico ou filial errada; sempre conferir nome completo e bairro.","planB":"Se atrasar, cortar duty free e ir direto para check-in/segurança.","confidence":"alta","sourceNote":"Guia operacional; táxi/transfer evita troca de linha e é preferido quando há malas, chuva, compras ou cansaço.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}},{"time":"Aeroporto DXB","title":"Embarque para GRU","type":"Aeroporto / voo internacional","maps":"Dubai International Airport DXB","logistics":"Check-in, segurança, lounge e embarque.","onArrival":"Não reorganizar malas no balcão; apenas ajustes pequenos se necessário.","insight":"Fechamento da viagem deve ser simples e previsível: check-in, segurança, lounge/voo. Não reorganizar malas no balcão, apenas ajustes pequenos se necessário.","eat":"Lounge/voo.","buy":"Duty free apenas se houver tempo após check-in e segurança.","decision":"Embarcar com margem.","ifLate":"Cortar duty free e priorizar portão.","cat":"transfer","mode":"flight","transportGuide":{"summary":"Fluxo de aeroporto/voo: documentos na mão, malas e segurança sem abrir passeio paralelo.","method":"Aeroporto/voo","difficulty":"média","luggageRisk":"médio","route":"Dubai International Airport DXB","stepByStep":["Manter passaportes, reservas e cartões acessíveis.","Seguir placas de Arrivals/Immigration/Baggage Claim ou Departures/Check-in conforme o caso.","Resolver imigração/segurança antes de compras/comida.","Após malas/segurança, só então pensar em lanche, banheiro ou duty free."],"stationSigns":["Arrivals","Immigration","Baggage Claim","Departures","Check-in","Security"],"correctExit":"","finalWalk":"","traps":"O risco é dispersar documentos ou parar para compras antes do fluxo crítico.","planB":"Se algo atrasar, cortar compras/refeições e proteger voo/transfer.","confidence":"alta","sourceNote":"Guia padrão de aeroporto.","liveCheck":"Confirmar no Google Maps/Japan Travel no dia para plataforma, horário real e eventual obra; usar este guia para direção, saída e armadilhas estáveis."}}]}];
+const DEFAULT_STORES = [{"city":"Dubai","items":["Dubai Mall (Fashion Avenue)","Mall of the Emirates","Loja Ferrari World","Duty Free DXB"]},{"city":"Tóquio","items":["Takeshita Street (Harajuku)","Omotesando / Cat Street (Beams, United Arrows, Atmos, ABC-MART)","Shibuya PARCO 6F (Nintendo Tokyo, Pokémon Center)","Nakamise-dori (Asakusa)","Tower Knives Solamachi","Loft Solamachi","Ameyoko (farmácias/cosméticos)","UNIQLO Ginza","MUJI Ginza (útil, mas cortável se ameaçar Onitsuka/Nemuro)","Onitsuka Tiger Ginza","Ginza Mitsukoshi / Matsuya","Don Quijote (Donki)","DiverCity Odaiba","Super Potato (Akihabara)","Mandarake / game centers (Akihabara)","Disk Union Shinjuku (vinil/KISS)","Cluster Disk Union Shinjuku (matriz + Heavy Metal Museum + Union Record) — vinil/KISS","Disk Union Shibuya / Tower Records Shibuya / HMV Record Shop Shibuya","Tokyu Hands + Loft (variedades/travel goods)","Seijo Ishii (mercado gourmet — lembrancas comestiveis)","[opcional] Mandarake Nakano Broadway"]},{"city":"Tokyo Disney","items":["Tokyo Disneyland (lojas)","Tokyo DisneySea (lojas)","Ikspiari","Usar vouchers do pacote sem sacrificar rides premium"]},{"city":"Kyoto","items":["Nishiki Market","Sannenzaka / Ninenzaka"]},{"city":"Osaka","items":["Shinsaibashi-suji","Nipponbashi / Den Den Town","Mandarake Grand Chaos","Surugaya Nihonbashi","Donki Dotonbori","Americamura","USJ (Nintendo/Donkey Kong)"]},{"city":"Outros","items":["Outros (especificar)"]}];
+const DEFAULT_MUSTDO = [{"day":2,"items":["Burj Khalifa por fora + Dubai Fountain (skyline noturno)"]},{"day":3,"items":["Ferrari World Abu Dhabi (montanhas-russas + simuladores)"]},{"day":6,"items":["Meiji Jingu (santuário na floresta)","Takeshita Street (cultura jovem de Harajuku)","⭐ Shibuya Sky no sunset (mirante)","⭐ Shibuya PARCO 6F protegido (Nintendo Tokyo + Pokémon Center) — mínimo 1h30, ideal 2h","Shibuya Crossing + Hachiko","🛍️ @cosme TOKYO + Matsumoto Kiyoshi (cosméticos — âncora no fluxo)","💿 Disk Union Shibuya (opcional rápido; garimpo forte fica no dia 08/12 em Shinjuku)","🛒 MEGA Donki Shibuya (opcional/cortável se ameaçar PARCO ou jantar)"]},{"day":7,"items":["Senso-ji + Kaminarimon (templo mais antigo de Tóquio)","Tower Knives Solamachi (facas japonesas)","Ameyoko (mercado de rua)","🔪 Tower Knives Solamachi (Sujihiki 270mm)","🛒 Don Quijote Asakusa"]},{"day":8,"items":["Tsukiji Outer Market (street food)","MUJI Ginza (loja útil no fluxo, tempo controlado)","Onitsuka Tiger — Mexico 66","Nemuro Hanamaru (kaiten sushi de Hokkaido)","🛒 Don Quijote Ginza","👜 Bolsas usadas: Komehyo/Brand Off Ginza (opcional)"]},{"day":9,"items":["⭐ teamLab Planets (arte imersiva)","Gundam Unicorn em Odaiba","Super Potato + game centers (Akihabara)","🛒 Don Quijote Akihabara"]},{"day":10,"items":["⭐ Monte Fuji / Kawaguchiko — excursão cênica sem Gotemba Premium Outlets"]},{"day":11,"items":["Disk Union — vinil/KISS"]},{"day":12,"items":["⭐ Tokyo Disneyland (Vacation Package premium)"]},{"day":13,"items":["⭐ Tokyo DisneySea — o melhor do mundo","Fantasy Springs (se elegível)"]},{"day":15,"items":["Ginkaku-ji + Caminho do Filósofo","Nishiki Market","Gion / Pontocho (bairro das geishas)"]},{"day":16,"items":["⭐ Fushimi Inari (torii vermelhos — chegar antes das 8h)","Kiyomizu-dera","Sannenzaka / Ninenzaka"]},{"day":17,"items":["⭐ Arashiyama Bamboo Grove","⭐ Kinkaku-ji (Templo Dourado)"]},{"day":18,"items":["Dotonbori + Glico Sign (neon à noite)","Den Den Town (KISS/games)","⭐ The Silver Ball Planet (pinball — Rodrigo!)","⭐ Jantar Wagyu Matsusakagyu","🛒 Don Quijote Dotonbori (6 andares)","👜 Bolsas usadas: Shinsaibashi-suji (passada breve)"]},{"day":19,"items":["⭐ USJ VIP 5h — Super Nintendo World + Mario Kart + Donkey Kong"]},{"day":20,"items":["Kuromon Market","Osaka Castle (externo)","Kushikatsu em Shinsekai + Tsutenkaku"]},{"day":21,"items":["Dubai Mall — compras finais (Fashion Avenue)"]},{"day":22,"items":["Mall of the Emirates — compras finais"]}];
+const DEFAULT_TIPS = [{"cat":"🎫 Ingressos para reservar JÁ","items":["Shibuya Sky: reservar horário de sunset com semanas de antecedência","teamLab Planets: comprar online antes da viagem (esgota)","Tokyo Disneyland + DisneySea: Vacation Package / benefícios premium 2026","USJ VIP 5h: confirmar horário e ponto de encontro oficial","Ferrari World: comprar online para evitar fila","Tour privado Monte Fuji (07/12): confirmar antecipado","Tokyo Disney Vacation Package: para Unlimited, lembrar que são atrações elegíveis/priority lanes; não inclui assento reservado para shows/paradas.","Vacation Package abre cerca de 5 meses antes, 3PM JST; pagar integralmente na reserva."]},{"cat":"🍽️ Restaurantes de risco (reservar/estratégia)","items":["Nemuro Hanamaru: sistema de senha ~17:30","Kaiten Sushi Ginza Onodera Kyoto: reservar","Matsusakagyu Yakiniku M: RESERVAR com semanas — Dotonbori Mitsuru é backup premium","Tsurutontan Soemoncho, Kuromon Sanpei, Okonomiyaki Chitose, Kushikatsu Daruma: risco de fila","Chegar 15-30min antes da abertura nos populares","Disney: refeição pré-paga no pacote pode custar mais e prender horário; só escolher se fizer sentido real para o dia."]},{"cat":"📱 Conectividade & Apps","items":["eSIM: ativar ainda em Narita, não deixar para o primeiro dia","Suica/Pasmo: cartão de transporte — recarregar em Narita/Shinjuku","Google Maps offline: baixar mapas de Tóquio, Kyoto, Osaka e Dubai","Google Translate offline (japonês) + função câmera para menus","Apps úteis: Google Maps (transporte), Japan Travel, currency converter"]},{"cat":"🚆 Transporte no Japão","items":["Narita -> Shinjuku em 02/12: Airport Limousine Bus até Busta Shinjuku é o padrão; transfer privado se horário/cansaço pesarem; Narita Express é plano C.","Shinkansen 11/12: assento E (janela, lado Fuji 3+2) + margem para ekiben","Ekibenya Matsuri (Tokyo Station): comprar ekiben como jantar do Shinkansen, não almoço","Shinjuku Station é labiríntica: evitar atravessar com malas grandes; usar South Exit/New South Gate/Busta quando necessário","IC card funciona em metrô, trem, ônibus e konbini","Táxi/transfer vale a pena quando cansados, com muitas compras ou em deslocamentos críticos","Abrir “🚆 Guia de transporte” nos cards de deslocamento: ele mostra linha/saída/placas/armadilhas.","Em Shinjuku, para o JR Kyushu Hotel Blossom Shinjuku, mirar South Exit / New South Gate / Busta Shinjuku; evitar East Exit/Kabukicho com malas.","Tokyo Station + Keiyo Line é a maior armadilha do roteiro: fazer só com mochila/mala pequena e margem real antes do Shinkansen.","Em Kyoto, usar táxi sem culpa em Ginkaku/Kiyomizu/Arashiyama→Kinkaku; transporte “barato” pode custar tempo e perna."]},{"cat":"🧳 Bagagem & Logística","items":["02/12: levar malas grandes com vocês de Narita para o JR Kyushu Hotel Blossom Shinjuku; padrão Airport Limousine Bus até Busta Shinjuku.","08/12 manhã: enviar malas grandes do JR Kyushu Hotel Blossom Shinjuku diretamente para o Hotel Granvia Kyoto, com entrega desejada em 11/12.","08/12 a 11/12: Disney apenas com mala pequena/bolsa ponte; não levar malas grandes para Toy Story/Maihama.","11/12: DisneySea curto -> Tokyo Station -> Shinkansen para Kyoto só com mochila/mala pequena.","Kyoto -> Osaka: confirmar cutoff no Hotel Granvia; enviar malas grandes para o Cross Hotel Osaka na manhã/noite de 13/12 conforme garantia do hotel.","Dia 14/12 (Arashiyama -> Osaka): operar só com mochila pequena.","17/12 Osaka -> KIX: transfer/van/táxi grande é preferencial se houver muitas compras/malas; Rapi:t vira plano B.","Power banks SEMPRE na mala de mão, nunca despachados/enviados.","Mala extra: MUJI Ginza pode resolver se faltar espaço, mas só se couber no fluxo de Ginza sem atrapalhar Onitsuka/Nemuro."]},{"cat":"🛍️ Compras & Tax-Free","items":["Passaporte FÍSICO obrigatório para tax-free (compras > ¥5.000)","Tax-free: produtos de consumo são lacrados — abrir só fora do Japão","Lojas fecham ~20-21h — não deixar compras críticas para o fim do dia","Donki (Don Quijote): aberto até tarde, ótimo para snacks/cosméticos/lembranças","Regra anti-armadilha: entrar em loja com lista, não 'só olhar'","Conferir tamanho de tênis (Onitsuka): JP/US/EU diferem","⚠️ A partir de 01/nov/2026 o tax-free muda de 'isento na compra' para 'reembolso na saída do país' — guardar TODAS as notas para o aeroporto","MUJI: boa para organizadores/papelaria/travel goods, mas não é prioridade acima de Onitsuka, Nemuro, deslocamentos ou energia do grupo."]},{"cat":"💴 Dinheiro & Pagamentos","items":["Japão ainda usa muito dinheiro — levar ienes em espécie","7-Eleven tem caixas que aceitam cartão internacional","Konbini (7-Eleven, FamilyMart, Lawson) aceitam cartão e IC card","Dubai: cartão aceito em quase tudo; AED para gorjetas/táxi","Avisar o banco sobre viagem para evitar bloqueio de cartão"]},{"cat":"🗾 Etiqueta no Japão","items":["Não comer andando na rua (ok em mercados/áreas designadas)","Silêncio em trens — não falar ao telefone","Tirar sapatos em templos, ryokans e alguns restaurantes","Não dar gorjeta — pode ofender","Lixeiras são raras: carregar o lixo até achar uma","Fila organizada para tudo — respeitar"]},{"cat":"🌡️ Clima de Dezembro","items":["Japão: frio (5-12°C). Levar Heattech, casaco, cachecol","Tóquio/Kyoto/Osaka secos e ensolarados, mas frios de manhã/noite","Dubai: ameno e agradável (20-28°C), leve para o dia, casaco leve à noite","Calçado confortável — muitos quilômetros caminhando por dia","Guarda-chuva compacto na mochila (Japão chove pontual)"]},{"cat":"🏨 Hotéis","items":["Confirmar camas reais para 3 pessoas em todos os hotéis","Confirmar café da manhã e política de guarda/envio de malas","17/12: sem hotel em Osaka — é voo noturno KIX→Dubai","18/12: chegada cedo em Dubai — validar early check-in","Late check-out: pedir sempre que possível em dias de transição"]},{"cat":"🛂 Documentos & Saúde","items":["Passaporte válido por 6+ meses","Seguro viagem ativo para os 3","Remédios pessoais + receita na mala de mão","Visit Japan Web: preencher imigração/alfândega antecipado","Cópias digitais de passaporte, reservas e seguro"]},{"cat":"📸 Momentos imperdíveis de foto","items":["Shibuya Sky no sunset (melhor mirante)","Fushimi Inari nos túneis de torii (antes das 8h, sem gente)","Kinkaku-ji dourado refletido no lago","Arashiyama bamboo no início da manhã","Glico Sign de Dotonbori à noite","Burj Khalifa + fontes em Dubai"]},{"cat":"💈 Skincare & anti-queda (Rodrigo)","items":["Minoxidil 5% (RiUP X5 Plus NEO / RiUP X5 Charge): maior concentração do Japão; é OTC Classe 1 — falar com farmacêutico em drogaria com balcão 薬","Limpeza: Senka Perfect Whip (~¥500), Hada Labo Gokujyun lotion (~¥800), Bioré men's","Tratamento: Melano CC (vitamina C), Bioré UV Aqua Rich (protetor diário)","Couro cabeludo: shampoo/tônico Scalp-D (Angfa)","Onde: Matsumoto Kiyoshi grande ou Donki flagship (conferir balcão de farmácia 薬)"]},{"cat":"🔪 Faca de churrasco","items":["Tipo ideal p/ churrasco/brisket: SUJIHIKI 270mm (fatiador longo e fino, corte limpo)","Alternativa versátil: GYUTO 240mm (chef, corta carne e do dia a dia)","Aço inox VG-10 ou SG2 — fácil manutenção","Onde: Tower Knives Tokyo (Solamachi/Skytree, Dia 7) — inglês, tax-free, gravação de nome","Levar SEMPRE na mala despachada (faca não vai na bagagem de mão)"]},{"cat":"👜 Bolsas de luxo usadas","items":["Mercado enorme e confiável no Japão (peças autenticadas Chanel/LV/Hermès, bem mais baratas)","Redes: Komehyo, Brand Off, Daikokuya, RAGTAG, 2nd Street","Oportunidades no roteiro: Ginza (Dia 8) e Shinsaibashi-suji em Osaka (Dia 18)","Não é prioridade — entrar só 30-40min se houver tempo, sem separar o grupo"]},{"cat":"💄 Cosméticos (Luísa & Luciana)","items":["Luísa (15): Canmake Marshmallow Powder + Mermaid Skin Gel UV, Cezanne, Kate, Heroine Make, lip tints rom&nd/Peripera, Biore UV Aqua Rich","Luciana (49): Anessa Perfect UV, Hada Labo Gokujyun lotion, Senka Perfect Whip, Melano CC, Shiseido; SK-II Essence ~40% mais barato em loja de departamento","Onde comprar: @cosme TOKYO (Harajuku, por ranking) + Matsumoto Kiyoshi (drogaria, tax-free) + Loft/PLAZA (K-beauty)","Âncora longa no Dia 6 (Harajuku/Shibuya); reposição no Dia 7 (Ameyoko) e Osaka (Dia 18)"]},{"cat":"✅ Verificacoes operacionais (2026)","items":["Tax-free: a partir de 01/nov/2026 e reembolso na SAIDA do pais. Passaporte fisico + guardar TODAS as notas.","Silver Ball Planet (Osaka): ter 11h-20h / sex-sab 11h-23h. Dia 18 (terca) fecha 20h.","Nijo Castle (Kyoto): patio 8:45-17:00 (ult. entrada 16:00). Ninomaru Palace fecha tercas em dezembro — Dia 15 (sab) aberto.","Fuji/Kawaguchiko (dez): melhor visibilidade do ano; manha cedo (antes das 9-10h) e decisiva; sol se poe ~16:30.","Faca japonesa (Tower Knives): sempre DESPACHADA. Power banks sempre na mala de mao.","Cortador de unha com lente/lupa: disponivel em qualquer Donki (mapeado p/ Donki Dotonbori, mas da p/ adiantar).","Tabelog conferido: Yakiniku ZENIBA Shibuya ~3,46 (jantar Dia 6, reserva online).","Matsusakagyu Yakiniku M (Hozenji Yokocho): sem dia fixo de fechamento; reservar (Dia 18).","Onodera Kyoto movido p/ alternativa de JANTAR (Dia 15); almoço-alt = Honke Owariya (soba centro)."]},{"cat":"🧭 Icones por modal (campo 'mode')","items":["Cada deslocamento agora tem o campo 'mode': walk/train/subway/taxi/car/bus/shinkansen/flight/stay.","Sugestao de mapeamento de icone: walk=🚶 train=🚆 subway=🚇 taxi=🚕 car=🚐 bus=🚌 shinkansen=🚄 flight=✈️.","O titulo ja traz o emoji do modal para diferenciacao imediata, mesmo sem alterar o app.","Restaurantes: Kanda Matsuya FECHA domingo (Dia 9 trocado p/ Roast Beef Ohno). Verificar/reservar Matsusakagyu, Nemuro (senha) e Onodera."]}];
+const DEFAULT_MEALS = [{"day":1,"lunchNote":"Refeição logística (voo/aeroporto/hotel) — sem restaurante marcado.","dinnerNote":"Refeição logística (voo/aeroporto/hotel) — sem restaurante marcado."},{"day":2,"lunch":{"chosen":{"name":"Eataly Dubai Mall","cuisine":"Italiano","area":"Dubai Mall","score":4,"maps":"Eataly Dubai Mall","dishes":"Pasta fresca, pizza napoletana, antepastos","verified":false,"stype":"ta","src":"ia","cardSummary":"Italiano confortável no Dubai Mall; resolver refeição com menu em inglês.","mustOrder":"Pasta fresca do dia ou pizza napoletana; compartilhar antipasti se fome média.","tripDayHours":"Domingo no Dubai Mall: confirmar no app/site do mall; costuma operar em horário amplo.","arrivalAlert":"Menu em inglês; não precisa guia japonês.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Opção fácil/segura para primeiro dia leve em Dubai.","arrival":"Pedir mesa e decidir entre pasta/pizza.","orderMust":"Fresh pasta of the day / Neapolitan pizza / antipasti.","menuWords":[{"jp":"Fresh pasta","romaji":"fresh pasta","en":"Fresh pasta","pt":"massa fresca","confidence":"alta","whatItIs":"Em termos simples: massa fresca."},{"jp":"Neapolitan pizza","romaji":"Neapolitan pizza","en":"Neapolitan pizza","pt":"pizza napolitana","confidence":"alta","whatItIs":"Em termos simples: pizza napolitana."},{"jp":"Antipasti","romaji":"antipasti","en":"Antipasti","pt":"entradas italianas","confidence":"alta","whatItIs":"Em termos simples: entradas italianas."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila grande: Social House ou outro restaurante do Dubai Mall.","avoid":"Não gastar 2h no primeiro dia.","openingForTripDay":"Domingo no Dubai Mall: confirmar no app/site do mall; costuma operar em horário amplo.","sourceNote":"Menu em inglês no local; validar horário no Dubai Mall perto da viagem."}},"alt":{"name":"Social House","cuisine":"Internacional","area":"Dubai Mall (vista fontes)","score":4,"maps":"Social House Dubai Mall","dishes":"Menu variado com vista do Dubai Fountain","verified":false,"stype":"ta","cardSummary":"Opção definida no roteiro para resolver a refeição no contexto do dia.","mustOrder":"Menu variado com vista do Dubai Fountain","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Opção definida no roteiro para resolver a refeição no contexto do dia.","arrival":"Confirmar entrada/fila, pedir mesa para 3 e usar menu em inglês/fotos se disponível.","orderMust":"Menu variado com vista do Dubai Fountain","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Guia curatorial baseado no tipo de restaurante; pendente de validação fina fonte por fonte se não marcado como alta."}}},"dinner":{"chosen":{"name":"Time Out Market Dubai","cuisine":"Food hall","area":"Souk Al Bahar","score":null,"maps":"Time Out Market Dubai Souk Al Bahar","dishes":"Vários chefs num só lugar, vista Burj/Fountain","verified":false,"src":"ia","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}},"alt":{"name":"The Cheesecake Factory","cuisine":"Americano","area":"Dubai Mall","score":4.1,"maps":"The Cheesecake Factory Dubai Mall","dishes":"Porções grandes, sobremesas — fácil em família","verified":false,"stype":"ta","cardSummary":"Pausa ocidental/americana planejada para mudar o tom depois de dias japoneses.","mustOrder":"Comece pelos Avocado Egg Rolls e feche com uma fatia da Original Cheesecake; porções enormes, dividir.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Pausa ocidental/americana planejada para mudar o tom depois de dias japoneses.","arrival":"Checar fila e último pedido. Se estiver cheio, usar alternativa na mesma rota.","orderMust":"Comece pelos Avocado Egg Rolls e feche com uma fatia da Original Cheesecake; porções enormes, dividir.","menuWords":[{"jp":"エッグベネディクト","romaji":"eggu benedikuto","pt":"eggs benedict","en":"Controlled translation pending","whatItIs":"Ovos poché com molho hollandaise; brunch americano clássico."},{"jp":"フレンチトースト","romaji":"furenchi toosuto","pt":"french toast","en":"Controlled translation pending","whatItIs":"Fatias de pão doces e macias; assinatura de brunch/café."},{"jp":"ハンバーガー","romaji":"hanbaagaa","pt":"hambúrguer","en":"Controlled translation pending","whatItIs":"Em termos simples: hambúrguer."},{"jp":"サンドウィッチ","romaji":"sandowicchi","pt":"sanduíche","en":"Controlled translation pending","whatItIs":"Em termos simples: sanduíche."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Cardápio em inglês no local; foco no prato que justifica a visita."}}}},{"day":3,"lunch":{"chosen":{"name":"Mamma Rossella (Ferrari World)","cuisine":"Italiano / parque","area":"Ferrari World Abu Dhabi","score":4.0,"maps":"Mamma Rossella Ferrari World Abu Dhabi","dishes":"Pizza, massa e almoço rápido dentro do Ferrari World; usar se a fila não atrapalhar atrações.","verified":false,"stype":"ta","src":"roteiro","cardSummary":"Opção definida no roteiro para resolver a refeição no contexto do dia.","mustOrder":"Pizza e massa italianas; almoço operacional eficiente dentro do parque.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Opção definida no roteiro para resolver a refeição no contexto do dia.","arrival":"Confirmar entrada/fila, pedir mesa para 3 e usar menu em inglês/fotos se disponível.","orderMust":"Pizza e massa italianas; almoço operacional eficiente dentro do parque.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Cardápio em inglês no local; foco no prato que justifica a visita."}},"alt":{"name":"Yas Mall / refeição rápida de apoio","cuisine":"Variado / apoio em Yas Island","area":"Yas Island / Yas Mall","score":null,"maps":"Yas Mall Abu Dhabi","dishes":"Usar apenas se Mamma Rossella estiver cheio ou se a logística do parque pedir refeição mais rápida; sem nota de restaurante específico.","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}}},"dinnerNote":"Jantar simples perto do Sofitel Dubai Downtown (recuperar para o voo do dia seguinte).","lunchNote":"Almoço deve ser dentro do Ferrari World/Yas Mall, sem fila longa. Mamma Rossella é alvo; Yas Mall/refeição rápida é plano de apoio."},{"day":4,"lunchNote":"Almoço leve no hotel/Dubai Mall se couber.","dinnerNote":"Refeição logística (voo/aeroporto/hotel) — sem restaurante marcado."},{"day":5,"lunchNote":"Refeição logística (voo/aeroporto/hotel) — sem restaurante marcado.","dinner":{"chosen":{"name":"Ichiran Shinjuku","cuisine":"Ramen tonkotsu","area":"Shinjuku","score":3.5,"maps":"Ichiran Shinjuku","dishes":"Ramen individual em cabine — reconfortante na chegada","verified":false,"stype":"tabelog","src":"ia","cardSummary":"Refeição japonesa direta e forte em sabor; boa para noite sem reserva longa.","mustOrder":"Ramen tonkotsu marcando suas preferências no papel: caldo médio (futsuu), alho, picância 1–2 e firmeza do macarrão; kaedama se sobrar fome.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Refeição japonesa direta e forte em sabor; boa para noite sem reserva longa.","arrival":"Pode haver máquina/papel de pedido. Siga o fluxo, pague/entregue ficha se aplicável.","orderMust":"Ramen tonkotsu marcando suas preferências no papel: caldo médio (futsuu), alho, picância 1–2 e firmeza do macarrão; kaedama se sobrar fome.","menuWords":[{"jp":"ラーメン","romaji":"raamen","pt":"lámen tonkotsu (caldo de porco)","en":"Controlled translation pending","whatItIs":"Em termos simples: lámen tonkotsu (caldo de porco)."},{"jp":"替え玉","romaji":"kaedama","pt":"porção extra de macarrão (pedida no fim)","en":"Controlled translation pending","whatItIs":"Em termos simples: porção extra de macarrão (pedida no fim)."},{"jp":"秘伝のたれ","romaji":"hiden no tare","pt":"molho secreto que define a picância","en":"Controlled translation pending","whatItIs":"Em termos simples: molho secreto que define a picância."},{"jp":"半熟塩ゆで卵","romaji":"hanjuku tamago","pt":"ovo cozido mole, ótimo extra","en":"Controlled translation pending","whatItIs":"Em termos simples: ovo cozido mole, ótimo extra."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Validado por pesquisa web (jun/2026): prato-assinatura confirmado em múltiplas fontes."}},"alt":{"name":"CoCo Ichibanya / Konbini","cuisine":"Curry / conveniência","area":"Shinjuku (perto do hotel)","score":null,"maps":"CoCo Ichibanya Shinjuku","dishes":"Curry japonês ou jantar leve de konbini","verified":false,"rtype":"logistico","src":"roteiro","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}}}},{"day":6,"lunch":{"chosen":{"name":"Tonkatsu Maisen Aoyama","cuisine":"Tonkatsu","area":"Omotesando","score":3.44,"maps":"Tonkatsu Maisen Aoyama Honten, 4-8-5 Jingumae, Shibuya-ku, Tokyo 150-0001, Japan","dishes":"Kurobuta Tonkatsu Set — porco premium","verified":true,"stype":"tabelog","src":"roteiro","cardSummary":"Clássico de tonkatsu em Aoyama; pedir item de marca/qualidade, não 'qualquer tonkatsu'.","mustOrder":"黒豚ロースかつ膳 / Kurobuta loin pork cutlet set como escolha segura; se disponível e fizer sentido, 『甘い誘惑』特ロースかつ膳 é o upgrade da casa.","tripDayHours":"Quinta 11:00–22:00, L.O. 21:00; aberto fim de semana/feriados, sujeito a alteração.","arrivalAlert":"Se fila >30 min, usar Harajuku Gyozaro para não perder Shibuya Sky/PARCO.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Tonkatsu clássico em região perfeita entre Harajuku/Omotesando; experiência japonesa familiar e fácil de entender.","arrival":"Chegar, pedir mesa para 3 e procurar no menu a seção de 黒豚 ou 甘い誘惑. Rosu = lombo/suculento; hire = filé/magro.","orderMust":"Prioridade: 黒豚ロースかつ膳. Upgrade: 『甘い誘惑』特ロースかつ膳, se não estiver esgotado.","menuWords":[{"jp":"黒豚ロースかつ膳","romaji":"kurobuta rosu katsu zen","en":"Kurobuta loin pork cutlet set","pt":"set de tonkatsu de lombo de porco preto Kurobuta","menuNote":"Menu oficial/Tabelog listam 黒豚ロースかつ膳.","confidence":"alta","whatItIs":"Set de tonkatsu de lombo Kurobuta; mais suculento e gorduroso."},{"jp":"黒豚ヒレかつ膳","romaji":"kurobuta hire katsu zen","en":"Kurobuta fillet pork cutlet set","pt":"set de filé de porco Kurobuta, mais magro","confidence":"alta","whatItIs":"Set de filé Kurobuta; mais magro e macio."},{"jp":"『甘い誘惑』特ロースかつ膳","romaji":"Amai Yūwaku toku rosu katsu zen","en":"‘Sweet Temptation’ special loin pork cutlet set","pt":"tonkatsu especial de lombo da marca própria Maisen, quantidade limitada","menuNote":"Se disponível, é a escolha mais exclusiva da casa.","confidence":"alta","whatItIs":"Tonkatsu especial de lombo da marca própria Maisen; item mais “assunto” da casa."},{"jp":"ロース","romaji":"rosu","en":"loin","pt":"lombo, mais suculento/gorduroso","confidence":"alta","whatItIs":"Lombo; mais gordura/suculência."},{"jp":"ヒレ","romaji":"hire","en":"fillet/tenderloin","pt":"filé, mais magro","confidence":"alta","whatItIs":"Filé; mais magro."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila >30 min: abortar Maisen e usar Harajuku Gyozaro; Shibuya Sky manda no dia.","avoid":"Não gastar 1h30 em almoço. Não pedir curry/katsu-don se o objetivo é tonkatsu clássico.","openingForTripDay":"Quinta 11:00–22:00, L.O. 21:00; aberto fim de semana/feriados, sujeito a alteração.","sourceNote":"Site oficial Maisen Aoyama informa horário 11:00–22:00/L.O.21:00; Tabelog/Gurunavi listam 黒豚ロースかつ膳 e 『甘い誘惑』."}},"alt":{"name":"Harajuku Gyozaro","cuisine":"Gyoza","area":"Harajuku","score":3.49,"maps":"Harajuku Gyozaro, 6-2-4 Jingumae, Shibuya-ku, Tokyo 150-0001, Japan","dishes":"Yaki/sui gyoza, arroz, pepino — fila rápida e barata","verified":false,"stype":"tabelog","cardSummary":"Alternativa rápida e popular de gyoza em Harajuku se Maisen atrasar.","mustOrder":"焼餃子 / Yaki gyoza / Pan-fried dumplings + 水餃子 se quiser comparar; pedir pepino com missô/alho se estiver no menu.","tripDayHours":"Quinta almoço/jantar: confirmar perto da viagem; costuma operar com fila e giro rápido.","arrivalAlert":"Entrar só se a fila estiver compatível. É alternativa de eficiência, não jantar longo.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Resolve almoço rápido no eixo Harajuku/Omotesando sem desviar do dia.","arrival":"Fila comum. Pedir porções de gyoza grelhada e cozida para compartilhar; pagamento rápido.","orderMust":"焼餃子 para todos; 水餃子 se quiser testar textura diferente. Complementar com arroz/pepino se necessário.","menuWords":[{"jp":"焼餃子","romaji":"yaki gyōza","en":"Pan-fried gyoza","pt":"gyoza grelhado/frito na chapa","confidence":"alta","whatItIs":"Gyoza grelhado/frito na chapa; versão padrão mais segura."},{"jp":"水餃子","romaji":"sui gyōza","en":"Boiled gyoza","pt":"gyoza cozido em água/caldo","confidence":"alta","whatItIs":"Gyoza cozido; menos crocante, mais macio."},{"jp":"きゅうり","romaji":"kyūri","en":"Cucumber","pt":"pepino, geralmente snack com molho","confidence":"alta","whatItIs":"Em termos simples: pepino, geralmente snack com molho."},{"jp":"ライス","romaji":"raisu","en":"Rice","pt":"arroz","confidence":"alta","whatItIs":"Em termos simples: arroz."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila também estiver ruim, comer snack/konbini e proteger Shibuya Sky.","avoid":"Não transformar alternativa rápida em refeição demorada.","openingForTripDay":"Quinta almoço/jantar: confirmar perto da viagem; costuma operar com fila e giro rápido.","sourceNote":"Curadoria operacional com base em menu típico/filial; confirmar horário fino perto da viagem."}}},"dinner":{"chosen":{"name":"Yakiniku ZENIBA Shibuya","cuisine":"Yakiniku (wagyu)","area":"Shibuya / GEMS Jingumae 10F","score":3.46,"maps":"Yakiniku ZENIBA Shibuya, GEMS Jingumae 10F, 6-19-17 Jingumae, Shibuya-ku, Tokyo 150-0001, Japan","dishes":"Wagyu/yakiniku; lava-plate/yogan-yaki; reservar e usar nome+endereço exato no Maps.","verified":true,"stype":"tabelog","src":"web","cardSummary":"Yakiniku/wagyu em Shibuya, jantar familiar relevante, com item apontável no menu: 溶岩焼き盛り合わせ.","mustOrder":"溶岩焼き盛り合わせ / Yogan-yaki moriawase / Lava-grilled assorted meats — pedir 8種盛り合わせ para variedade; 5種盛り合わせ se quiser controlar preço/fome. Completar com 牛タン e 上カルビ se necessário.","tripDayHours":"Quinta 17:00–23:00, último pedido típico 22:30; confirmar perto da viagem/reserva.","arrivalAlert":"Subir ao GEMS Jingumae 10F. Se tiver reserva, dizer nome. O item-chave não é 'yogan-yaki' solto: procure 溶岩焼き盛り合わせ.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Primeira experiência de yakiniku/wagyu da viagem em Shibuya, dentro da rota do dia, sem voltar para Shinjuku antes de jantar.","arrival":"Entrar no GEMS Jingumae, subir ao 10F, confirmar reserva. Pedir o combinado de carnes da seção 溶岩焼肉; grelhar rapidamente na pedra/placa de lava e alternar sal/molho.","orderMust":"Pedir 溶岩焼き盛り合わせ: 8種盛り合わせ se o grupo quiser variedade; 5種盛り合わせ se quiser controlar gasto. Complementos bons: 特選厚切り上牛タン, ネギ塩牛タン, 上カルビ, サーロイン焼きすき.","menuWords":[{"jp":"溶岩焼き盛り合わせ","romaji":"yogan-yaki moriawase","en":"Lava-grilled assorted meats","pt":"combinado de carnes para grelhar na pedra/placa de lava","menuNote":"No menu aparece em 5種盛り合わせ/8種盛り合わせ; normalmente pedido mínimo de 2 porções.","confidence":"alta","whatItIs":"Sortido de carnes para grelhar na placa de lava; peça central do ZENIBA."},{"jp":"8種盛り合わせ","romaji":"hasshu moriawase","en":"8-kind assortment","pt":"combinado de 8 tipos/cortes","menuNote":"Escolha mais variada para 3 pessoas se o preço fizer sentido.","confidence":"alta","whatItIs":"Seleção de 8 cortes; melhor para provar variedade de carnes."},{"jp":"5種盛り合わせ","romaji":"goshu moriawase","en":"5-kind assortment","pt":"combinado de 5 tipos/cortes","menuNote":"Versão mais controlada.","confidence":"alta","whatItIs":"Seleção de 5 cortes; melhor para controlar preço/fome."},{"jp":"特選厚切り上牛タン","romaji":"tokusen atsugiri jō-gyūtan","en":"Special thick-cut premium beef tongue","pt":"língua bovina premium em corte grosso","confidence":"alta","whatItIs":"Língua bovina premium em corte grosso; textura firme e sabor marcante."},{"jp":"ネギ塩牛タン","romaji":"negi-shio gyūtan","en":"Beef tongue with green onion and salt","pt":"língua bovina com cebolinha e sal","confidence":"alta","whatItIs":"Língua bovina com cebolinha e sal; clássico de yakiniku para começar."},{"jp":"上カルビ","romaji":"jō-karubi","en":"Premium short rib","pt":"costela/short rib superior e mais marmorizada","confidence":"alta","whatItIs":"Short rib superior; mais marmorizado e mais caro que o karubi comum."},{"jp":"サーロイン焼きすき","romaji":"sāroin yaki-suki","en":"Grilled sirloin sukiyaki-style","pt":"sirloin grelhado estilo sukiyaki, geralmente com ovo/molho","confidence":"alta","whatItIs":"Sirloin grelhado estilo sukiyaki; costuma ser passado em ovo/molho, mais rico."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se o ZENIBA ficar inviável, aí sim voltar ao plano B já aprovado em Shinjuku. Não trocar por yakiniku aleatório em Shibuya sem validar.","avoid":"Não pedir só 'wagyu' genericamente; o prato apontável é 溶岩焼き盛り合わせ. Controlar itens caros extras.","openingForTripDay":"Quinta 17:00–23:00, último pedido típico 22:30; confirmar perto da viagem/reserva.","sourceNote":"HotPepper/Gurunavi listam a seção 溶岩焼肉 e o item 溶岩焼き盛り合わせ com 5種/8種; Tabelog confirma filial Shibuya/GEMS Jingumae e nota."}},"alt":{"name":"Gyu-Kaku Shinjuku / Yakiniku Like Shinjuku","cuisine":"Yakiniku casual","area":"Shinjuku (perto do hotel)","score":3.05,"maps":"Gyu-Kaku Shinjuku, Tokyo OR Yakiniku Like Shinjuku, Tokyo","dishes":"Somente se o ZENIBA ficar inviável ou o grupo decidir voltar ao hotel antes do jantar.","verified":false,"stype":"tabelog","cardSummary":"Experiência de carne na grelha de mesa; o valor está em comparar cortes e controlar a quantidade.","mustOrder":"Curso/plateau de cortes variados; priorizar wagyu/karubi/harami/rosu.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Experiência de carne na grelha de mesa; o valor está em comparar cortes e controlar a quantidade.","arrival":"Confirmar reserva se houver. Na mesa, grelhar poucos pedaços por vez; não lotar a grelha.","orderMust":"Curso/plateau de cortes variados; priorizar wagyu/karubi/harami/rosu.","menuWords":[{"jp":"和牛","romaji":"wagyu","pt":"carne japonesa marmorizada","en":"Controlled translation pending","whatItIs":"Carne japonesa marmorizada; pedir em porção controlada."},{"jp":"カルビ","romaji":"karubi","pt":"costela/corte mais gorduroso","en":"Controlled translation pending","whatItIs":"Short rib/costela bovina; corte marmorizado, suculento e clássico de yakiniku."},{"jp":"ハラミ","romaji":"harami","pt":"diafragma/fraldinha","en":"Controlled translation pending","whatItIs":"Fraldinha/diafragma; sabor de carne mais pronunciado."},{"jp":"ロース","romaji":"roosu","pt":"corte mais magro","en":"Controlled translation pending","whatItIs":"Lombo; mais gordura/suculência."},{"jp":"タン","romaji":"tan","pt":"língua","en":"Controlled translation pending","whatItIs":"Em termos simples: língua."},{"jp":"タレ","romaji":"tare","pt":"molho","en":"Controlled translation pending","whatItIs":"Em termos simples: molho."},{"jp":"塩","romaji":"shio","pt":"sal","en":"Controlled translation pending","whatItIs":"Em termos simples: sal."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Guia curatorial baseado no tipo de restaurante; pendente de validação fina fonte por fonte se não marcado como alta."}}}},{"day":7,"lunch":{"chosen":{"name":"Ameyoko (street food)","cuisine":"Mercado","area":"Ueno","score":null,"maps":"Ameyoko Shopping District, Ueno, Taito City, Tokyo","dishes":"Seafood casual, takoyaki, karaage, frutas no palito","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Ameyoko como almoço popular: Niku no Ōyama é a parada mais segura/local; completar com karaage/seafood se couber.","mustOrder":"肉の大山: やみつきメンチ ou 特製メンチ; se quiser upgrade, 匠の和牛メンチ.","tripDayHours":"Sexta 13:15–16:15; Ameyoko funciona bem à tarde. Niku no Ōyama costuma operar dia todo/noite; confirmar no dia.","arrivalAlert":"Comer em pé/rápido. Não transformar em restaurante longo.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"É mercado popular real de Ueno: comida barata, movimento local e compras de farmácia/cosméticos.","arrival":"Entrar pelo eixo Ueno/Okachimachi, ir primeiro a Niku no Ōyama se estiver no fluxo, depois farmácias/snacks.","orderMust":"Pedir やみつきメンチ/特製メンチ no balcão; depois decidir se quer karaage ou kaisen-don.","menuWords":[{"jp":"やみつきメンチ","romaji":"yamitsuki menchi","en":"Addictive minced meat cutlet","pt":"menchi-katsu barato/famoso","confidence":"alta","whatItIs":"Croquete/bolinho frito de carne moída; snack popular, barato e crocante."},{"jp":"特製メンチ","romaji":"tokusei menchi","en":"Special minced meat cutlet","pt":"menchi especial","confidence":"alta","whatItIs":"Em termos simples: menchi especial."},{"jp":"匠の和牛メンチ","romaji":"takumi no wagyū menchi","en":"Artisan Wagyu minced cutlet","pt":"menchi premium de wagyu","confidence":"alta","whatItIs":"Versão premium de menchi-katsu com wagyu; vale dividir para comparar."},{"jp":"からあげ","romaji":"karaage","en":"Japanese fried chicken","pt":"frango frito japonês","confidence":"alta","whatItIs":"Frango frito japonês, geralmente suculento e temperado; seguro para família."},{"jp":"海鮮丼","romaji":"kaisen-don","en":"Seafood rice bowl","pt":"bowl de frutos do mar","confidence":"alta","whatItIs":"Bowl de arroz coberto com frutos do mar crus; só vale se peixe/preço parecerem bons."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila >15–20 min em qualquer snack: trocar. Ameyoko tem muita opção e o valor está no giro.","avoid":"Evitar seafood barato demais sem giro/geladeira; não comprar item de farmácia sem comparar preço básico.","openingForTripDay":"Sexta 13:15–16:15; Ameyoko funciona bem à tarde. Niku no Ōyama costuma operar dia todo/noite; confirmar no dia.","sourceNote":"Tabelog/JapanTravel/Gotokyo para Ameyoko e Niku no Ōyama; Chicken Man confirmado em Tabelog.","marketTargets":[{"where":"Niku no Ōyama / 肉の大山","jp":"やみつきメンチ","romaji":"yamitsuki menchi","en":"Addictive minced meat cutlet","pt":"menchi-katsu crocante de carne moída","order":"Comprar no balcão externo/standing bar. Uma unidade por pessoa para snack.","why":"Clássico amado em Ueno/Ameyoko; barato, local, com alta rotatividade.","sourceNote":"Tabelog e guias locais destacam Niku no Ooyama/menchi; Tabelog mostra reviews recentes e itens 特製メンチ/やみつきメンチ.","confidence":"alta","whatItIs":"Croquete/bolinho frito de carne moída; snack popular, barato e crocante."},{"where":"Niku no Ōyama / 肉の大山","jp":"匠の和牛メンチ","romaji":"takumi no wagyū menchi","en":"Artisan Wagyu minced cutlet","pt":"menchi premium de wagyu","order":"Pedir 1 para dividir se quiser comparar com o barato.","why":"Upgrade interessante, mas não obrigatório.","sourceNote":"Tabelog cita 匠の和牛メンチ em review recente.","confidence":"média","whatItIs":"Versão premium de menchi-katsu com wagyu; vale dividir para comparar."},{"where":"Chicken Man Ameyoko","jp":"からあげ","romaji":"karaage","en":"Japanese fried chicken","pt":"frango frito japonês","order":"Usar só se estiver fresco/saindo na hora.","why":"Seguro para adolescente/família; não é a comida mais única do roteiro.","sourceNote":"Tabelog lista Chicken Man Ameyoko aberto diariamente 10:00–20:00.","confidence":"média","whatItIs":"Frango frito japonês, geralmente suculento e temperado; seguro para família."},{"where":"Minatoya / mercado geral","jp":"海鮮丼","romaji":"kaisen-don","en":"Seafood rice bowl","pt":"bowl de arroz com frutos do mar crus","order":"Só se quiser seafood casual e a fila/preço estiverem bons.","why":"Pode ser bom, mas não deve competir com Nemuro/Tsukiji.","sourceNote":"Curadoria local de Ameyoko; validar no dia.","confidence":"média","whatItIs":"Bowl de arroz coberto com frutos do mar crus; só vale se peixe/preço parecerem bons."}],"marketExplanation":"A lista abaixo não é “comer tudo”: são alvos apontáveis. Escolha 3–5 itens com bom giro, sem cair em fila turística longa."}},"alt":{"name":"Izuei Honten","cuisine":"Unagi (enguia)","area":"Ueno","score":3.55,"maps":"Izuei Honten Ueno","dishes":"Casa histórica de unagi (enguia grelhada) perto do parque Ueno","verified":false,"stype":"tabelog","cardSummary":"Opção definida no roteiro para resolver a refeição no contexto do dia.","mustOrder":"うな重 (unaju) — enguia grelhada estilo Kanto sobre arroz em caixa de laca; escolher a grade (竹 take / 松 matsu). Casa histórica de unagi em Ueno.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Opção definida no roteiro para resolver a refeição no contexto do dia.","arrival":"Confirmar entrada/fila, pedir mesa para 3 e usar menu em inglês/fotos se disponível.","orderMust":"うな重 (unaju) — enguia grelhada estilo Kanto sobre arroz em caixa de laca; escolher a grade (竹 take / 松 matsu). Casa histórica de unagi em Ueno.","menuWords":[{"jp":"うな重","romaji":"unajuu","pt":"enguia grelhada sobre arroz, em caixa de laca","en":"Controlled translation pending","whatItIs":"Em termos simples: enguia grelhada sobre arroz, em caixa de laca."},{"jp":"肝吸い","romaji":"kimosui","pt":"sopa clara com fígado de enguia","en":"Controlled translation pending","whatItIs":"Em termos simples: sopa clara com fígado de enguia."},{"jp":"う巻き","romaji":"umaki","pt":"omelete enrolado com enguia","en":"Controlled translation pending","whatItIs":"Em termos simples: omelete enrolado com enguia."},{"jp":"松 / 竹 / 梅","romaji":"matsu / take / ume","pt":"grades de porção: maior → menor","en":"Controlled translation pending","whatItIs":"Em termos simples: grades de porção: maior → menor."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Prato-assinatura amplamente reconhecido; confirmar o nome exato no cardápio do dia."}}},"dinner":{"chosen":{"name":"Fuunji","cuisine":"Tsukemen/Ramen","area":"Shinjuku","score":3.58,"maps":"Fuunji Shinjuku","dishes":"Tsukemen com caldo de peixe/galinha — um dos melhores de Tóquio","verified":false,"stype":"tabelog","src":"ia","cardSummary":"Tsukemen famoso de Shinjuku; pedir o special dipping noodles, não ramen genérico.","mustOrder":"特製つけめん / Tokusei Tsukemen / Special dipping noodles — caldo denso de frango+peixe; pedir tamanho normal se já comeu bastante.","tripDayHours":"Sexta/noite em Shinjuku: confirmar no dia; fila comum, ideal chegar fora do pico.","arrivalAlert":"Máquina de tickets; escolher つけめん/特製つけめん. Se fila longa e grupo cansado, cortar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Entrega a experiência de tsukemen sem deslocamento longo, mas só vale se a fila estiver civilizada.","arrival":"Entrar na fila, comprar ticket na máquina, entregar ao staff. Macarrão vem separado do caldo: mergulhar porções aos poucos.","orderMust":"特製つけめん. Se aparecer opção 大盛り無料, só escolher grande se a fome justificar.","menuWords":[{"jp":"特製つけめん","romaji":"tokusei tsukemen","en":"Special dipping noodles","pt":"tsukemen especial com toppings extras","confidence":"alta","whatItIs":"Tsukemen especial com toppings extras; noodles vêm separados para mergulhar no caldo."},{"jp":"つけめん","romaji":"tsukemen","en":"Dipping noodles","pt":"macarrão separado para mergulhar no caldo","confidence":"alta","whatItIs":"Noodles frios/mornos servidos separados, para mergulhar em caldo concentrado."},{"jp":"ラーメン","romaji":"rāmen","en":"Ramen","pt":"ramen tradicional em caldo; aqui não é a melhor escolha","confidence":"alta","whatItIs":"Em termos simples: ramen tradicional em caldo; aqui não é a melhor escolha."},{"jp":"大盛り","romaji":"ōmori","en":"Large portion","pt":"porção grande","confidence":"alta","whatItIs":"Porção grande; em algumas casas pode ser grátis ou pouco mais cara."},{"jp":"魚粉","romaji":"gyofun","en":"Fish powder","pt":"pó de peixe que reforça o caldo","confidence":"alta","whatItIs":"Pó de peixe seco; reforça o sabor umami do caldo."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila >35 min depois de dia longo: trocar por jantar leve perto do hotel.","avoid":"Não pedir ramen comum por engano; o motivo da visita é tsukemen.","openingForTripDay":"Sexta/noite em Shinjuku: confirmar no dia; fila comum, ideal chegar fora do pico.","sourceNote":"Fontes especializadas de ramen e avaliações de viajantes destacam o Special Dipping Noodles/Tokusei Tsukemen; confirmação fina de horário no dia."}},"alt":{"name":"Tendon Tenya / Konbini","cuisine":"Tempura / leve","area":"Shinjuku","score":null,"maps":"Tenya Shinjuku","dishes":"Tendon rápido ou jantar leve perto do hotel","verified":false,"rtype":"logistico","src":"roteiro","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}}},"dinnerNote":"Jantar leve em Shinjuku/hotel após Ameyoko. Fuunji só entra se houver energia e fila aceitável; se estiverem cansados, usar Tenya/konbini/CoCo sem culpa."},{"day":8,"lunch":{"chosen":{"name":"Tsukiji Outer Market","cuisine":"Mercado/Sushi","area":"Tsukiji","score":null,"maps":"Tsukiji Outer Market, 4 Chome Tsukiji, Chuo City, Tokyo","dishes":"Tamagoyaki, vieira grelhada, sushi em pé, daifuku","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Mercado externo de Tsukiji como brunch: comer 3–5 itens certeiros, não sair comprando tudo no primeiro corredor.","mustOrder":"Prioridade: tamagoyaki em Yamachō/Marutake, gyūdon do Kitsuneya se quiser algo local, vieira grelhada e doce final.","tripDayHours":"Sábado de manhã; muitas lojas abrem cedo e fecham perto do início da tarde. Evitar chegar tarde.","arrivalAlert":"Não é para sushi sentado longo. Escolher fila com giro alto. Kitsuneya: 牛丼 é mais seguro; ホルモン丼 é miúdo.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Tsukiji funciona melhor como caça gastronômica curta de itens específicos, com mistura de tradição e mercado turístico.","arrival":"Entrar com lista: 1 tamagoyaki, 1 item salgado quente, 1 seafood, 1 doce. Observar fila/giro antes de comprar.","orderMust":"Apontar pelos nomes: 玉子焼き, 牛丼, ほたて焼き, いちご大福. Se quiser Kitsuneya mais ousado: ホルモン丼.","menuWords":[{"jp":"玉子焼き","romaji":"tamagoyaki","en":"Japanese rolled omelet","pt":"omelete japonesa doce/enrolada","confidence":"alta","whatItIs":"Omelete japonesa levemente doce, cortada em bloco/espeto; snack seguro para começar o mercado."},{"jp":"焼きたて玉子焼","romaji":"yakitate tamagoyaki","en":"Freshly grilled tamagoyaki","pt":"tamagoyaki feito na hora","confidence":"alta","whatItIs":"Tamagoyaki feito na hora; mais gostoso quente, macio e levemente adocicado."},{"jp":"牛丼","romaji":"gyūdon","en":"Beef bowl","pt":"bowl de carne bovina com arroz","confidence":"alta","whatItIs":"Tigela de arroz com carne bovina e cebola; refeição simples, local e mais substancial."},{"jp":"ホルモン丼","romaji":"horumon-don","en":"Offal stew rice bowl","pt":"bowl de miúdos/intestino cozidos","confidence":"alta","whatItIs":"Tigela com miúdos/intestino bovino cozidos; sabor forte e textura mais “corajosa”."},{"jp":"ほたて焼き","romaji":"hotate-yaki","en":"Grilled scallop","pt":"vieira grelhada","confidence":"alta","whatItIs":"Vieira grelhada na concha; boa se estiver sendo feita na hora."},{"jp":"いちご大福","romaji":"ichigo daifuku","en":"Strawberry daifuku","pt":"mochi com morango","confidence":"alta","whatItIs":"Mochi recheado com morango e pasta doce; sobremesa fácil e fotogênica."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila >20–25 min para uma barraca: seguir para outro item. Exceção: Kitsuneya só se vocês quiserem muito e a fila andar.","avoid":"Evitar ouriço/seafood caro sem preço claro; evitar miúdos se ninguém estiver com vontade real.","openingForTripDay":"Sábado de manhã; muitas lojas abrem cedo e fecham perto do início da tarde. Evitar chegar tarde.","sourceNote":"Tabelog e páginas oficiais/locais para Yamacho, Marutake, Kitsuneya; demais itens são curadoria de mercado com giro/risco.","marketTargets":[{"where":"Tsukiji Yamachō / Tsukiji Yamacho","jp":"玉子焼き","romaji":"tamagoyaki","en":"Japanese rolled omelet","pt":"omelete japonesa doce em espeto/pedaço","order":"Peça 玉子焼き/串玉 ou a versão de balcão; ótimo primeiro snack.","why":"Clássico local, fácil para família e aparece claramente no balcão/menu.","sourceNote":"Tabelog lista Tsukiji Yamacho como especialista em tamagoyaki desde 1949.","confidence":"alta","whatItIs":"Omelete japonesa levemente doce, cortada em bloco/espeto; snack seguro para começar o mercado."},{"where":"Marutake Honten","jp":"焼きたて玉子焼","romaji":"yakitate tamagoyaki","en":"Freshly grilled tamagoyaki","pt":"tamagoyaki recém-grelhado","order":"Pedir porção quente para comer andando; se quiser souvenir, comprar pacote à parte.","why":"Outro clássico de tamagoyaki do mercado; bom se Yamacho estiver lotado.","sourceNote":"Site oficial Tsukiji/Marutake indicam loja e horário 4:00–14:30, fechamentos variáveis.","confidence":"alta","whatItIs":"Tamagoyaki feito na hora; mais gostoso quente, macio e levemente adocicado."},{"where":"Kitsuneya","jp":"牛丼","romaji":"gyūdon","en":"Beef bowl","pt":"bowl de arroz com carne e cebola em caldo/miso","order":"Para vocês, pedir 牛丼 primeiro; ホルモン丼 só se quiser miúdos.","why":"Muito local e elogiado; foge do sushi óbvio, mas miúdos podem ser gosto duvidoso.","sourceNote":"Tabelog/Bon Appétit destacam gyudon/horumon-don; fechado quartas/domingos; vocês vão sábado, ok.","caution":"ホルモン丼 leva miúdos/intestino; pode não agradar.","confidence":"média","whatItIs":"Tigela de arroz com carne bovina e cebola; refeição simples, local e mais substancial."},{"where":"Tsukiji Outer Market geral","jp":"ほたて焼き","romaji":"hotate-yaki","en":"Grilled scallop","pt":"vieira grelhada","order":"Escolher barraca com giro alto e produto sendo grelhado na hora.","why":"Seguro e gostoso para família; mais turístico, mas funciona.","sourceNote":"Curadoria de mercado; confirmar fila e giro na hora.","confidence":"média","whatItIs":"Vieira grelhada na concha; boa se estiver sendo feita na hora."},{"where":"Tsukiji Outer Market geral","jp":"いちご大福","romaji":"ichigo daifuku","en":"Strawberry daifuku","pt":"mochi recheado com morango","order":"Usar como doce final, não antes dos salgados.","why":"Doce fotogênico e fácil; pode ser hype, mas agrada.","sourceNote":"Curadoria de mercado; escolher loja com produção/rotatividade visível.","confidence":"média","whatItIs":"Mochi recheado com morango e pasta doce; sobremesa fácil e fotogênica."}],"marketExplanation":"A lista abaixo não é “comer tudo”: são alvos apontáveis. Escolha 3–5 itens com bom giro, sem cair em fila turística longa."}},"alt":{"name":"Sushizanmai Honten","cuisine":"Sushi","area":"Tsukiji","score":3.47,"maps":"Sushi Zanmai Honten Tsukiji","dishes":"Opção sentada com atum premium se cansar da multidão","verified":false,"stype":"tabelog","cardSummary":"Sushi/seafood planejado para cumprir a experiência japonesa sem depender de improviso.","mustOrder":"Especialista em atum: peça o 本まぐろ (atum-azul) e 中とろ/大とろ; ou おまかせ握り para o chef escolher. Funciona como opção sentada de conforto, aberto direto.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Sushi/seafood planejado para cumprir a experiência japonesa sem depender de improviso.","arrival":"Procure sistema de senha/fila ou tablet. Em kaiten, pegue pratos da esteira e use menu/tablet/papel para itens específicos.","orderMust":"Especialista em atum: peça o 本まぐろ (atum-azul) e 中とろ/大とろ; ou おまかせ握り para o chef escolher. Funciona como opção sentada de conforto, aberto direto.","menuWords":[{"jp":"中とろ","romaji":"chuutoro","pt":"barriga média de atum (equilíbrio gordura/carne)","en":"Controlled translation pending","whatItIs":"Parte gordurosa do atum; mais macia e cara."},{"jp":"大とろ","romaji":"ootoro","pt":"barriga mais gorda, derrete na boca","en":"Controlled translation pending","whatItIs":"Parte gordurosa do atum; mais macia e cara."},{"jp":"おまかせ","romaji":"omakase","pt":"seleção do chef","en":"Controlled translation pending","whatItIs":"Seleção do chef; bom se confiar na casa e não quiser escolher peça por peça."},{"jp":"握り","romaji":"nigiri","pt":"sushi prensado à mão","en":"Controlled translation pending","whatItIs":"Sushi moldado à mão; peixe sobre arroz."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Prato-assinatura amplamente reconhecido; confirmar o nome exato no cardápio do dia."}}},"dinner":{"chosen":{"name":"Nemuro Hanamaru Ginza","cuisine":"Kaiten sushi","area":"Ginza (Tokyu Plaza)","score":3.45,"maps":"Nemuro Hanamaru Ginza, Tokyu Plaza Ginza, 5-2-1 Ginza, Tokyo","dishes":"Hotate, salmão, atum, toro, caranguejo — senha ~17:30","verified":true,"stype":"tabelog","src":"roteiro","cardSummary":"Kaiten sushi de Hokkaido; retirar senha cedo e focar em peças de Hokkaido/peixes bons.","mustOrder":"Procure hotate, engawa, ikura, toro/atum e especiais de Hokkaido. Pedir pelo tablet/menu; não pegar prato velho só por estar passando.","tripDayHours":"Sábado 11:00–23:00, L.O. 22:00 típico da unidade Ginza; retirar senha por volta de 17:30.","arrivalAlert":"Sistema de senha/ticket; não ficar em fila física longa. Voltar quando a chamada se aproximar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Experiência de kaiten sushi planejada em Ginza, com boa relação diversão/qualidade.","arrival":"Retirar senha, acompanhar chamada e esperar em Tokyu Plaza/KITTE. Ao sentar, pedir peças específicas pelo menu/tablet.","orderMust":"Começar com hotate, maguro/toro, ikura e especiais do dia; alternar peixe conhecido com 1–2 novidades.","menuWords":[{"jp":"ほたて","romaji":"hotate","en":"Scallop","pt":"vieira","confidence":"alta","whatItIs":"Vieira; peça nobre de sushi/seafood, adocicada e macia."},{"jp":"えんがわ","romaji":"engawa","en":"Flounder fin/engawa","pt":"parte da nadadeira do linguado, textura especial","confidence":"alta","whatItIs":"Parte da nadadeira do linguado; textura firme e levemente gordurosa."},{"jp":"いくら","romaji":"ikura","en":"Salmon roe","pt":"ovas de salmão","confidence":"alta","whatItIs":"Ovas de salmão; salgadas, estouram na boca."},{"jp":"中トロ","romaji":"chū-toro","en":"Medium fatty tuna","pt":"atum gordo médio","confidence":"alta","whatItIs":"Atum médio gordo; equilíbrio entre sabor e gordura."},{"jp":"炙り","romaji":"aburi","en":"Seared","pt":"maçaricado","confidence":"alta","whatItIs":"Maçaricado; superfície tostada, sabor mais intenso."},{"jp":"本日のおすすめ","romaji":"honjitsu no osusume","en":"Today’s recommendation","pt":"recomendação do dia","confidence":"alta","whatItIs":"Recomendação do dia; útil quando quiser algo fresco/da casa."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a espera empurrar o jantar muito tarde, trocar por alternativa no próprio prédio; não perder a noite inteira.","avoid":"Não sentar e pegar qualquer prato da esteira; os melhores itens vêm por pedido/tablet.","openingForTripDay":"Sábado 11:00–23:00, L.O. 22:00 típico da unidade Ginza; retirar senha por volta de 17:30.","sourceNote":"Tabelog/listagens da unidade Ginza + curadoria de sushi/kaiten; itens são termos reais de cardápio japonês."}},"alt":{"name":"Tachigui Nemuro Hanamaru (em pé)","cuisine":"Stand sushi","area":"Ginza","score":3.4,"maps":"Tachigui Zushi Nemuro Hanamaru Ginza","dishes":"Mesma marca em pé — gira mais rápido se a fila apertar","verified":false,"stype":"tabelog","cardSummary":"Alternativa em pé/rápida do universo Nemuro: usar se a versão sentada estiver impossível.","mustOrder":"Nigiri de Hokkaido/peixes do dia; hotate, ikura, maguro/toro se disponíveis.","tripDayHours":"Sábado/noite: confirmar na unidade; alternativa de alta rotatividade.","arrivalAlert":"É em pé/mais rápido; não é jantar longo confortável.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Mantém o objetivo sushi sem esperar demais.","arrival":"Pedir direto no balcão/menu; comer e liberar espaço.","orderMust":"Hotate, ikura, maguro/toro e recomendações do dia.","menuWords":[{"jp":"立喰い","romaji":"tachigui","en":"Standing sushi","pt":"sushi em pé","confidence":"alta","whatItIs":"Em termos simples: sushi em pé."},{"jp":"握り","romaji":"nigiri","en":"Nigiri","pt":"sushi moldado à mão","confidence":"alta","whatItIs":"Sushi moldado à mão; peixe sobre arroz."},{"jp":"おすすめ","romaji":"osusume","en":"Recommendation","pt":"recomendação","confidence":"alta","whatItIs":"Em termos simples: recomendação."},{"jp":"ほたて","romaji":"hotate","en":"Scallop","pt":"vieira","confidence":"alta","whatItIs":"Vieira; peça nobre de sushi/seafood, adocicada e macia."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se também estiver cheio, escolher restaurante alternativo no prédio.","avoid":"Não usar se o grupo quiser sentar e descansar.","openingForTripDay":"Sábado/noite: confirmar na unidade; alternativa de alta rotatividade.","sourceNote":"Curadoria operacional; confirmar horário e formato perto da viagem."}}}},{"day":9,"lunch":{"chosen":{"name":"Roast Beef Ohno Akihabara","cuisine":"Roast beef don / yoshoku","area":"Akihabara","score":3.49,"maps":"Roast Beef Ohno Akihabara, 1-2-3 Sotokanda, Chiyoda City, Tokyo","dishes":"Roast beef don de wagyu/kuroge, gema, molho e acompanhamentos","verified":true,"stype":"tabelog","src":"roteiro","cardSummary":"Almoço protegido de Akihabara: bowl/torre de roast beef A4+ visual e gostoso.","mustOrder":"ローストビーフ丼 / Roast Beef Don / Roast beef rice bowl — escolher versão de 黒毛和牛 se disponível; manter ovo/molho da casa.","tripDayHours":"Domingo 11:00–22:00, L.O. 21:00 no Tabelog; sem reserva.","arrivalAlert":"Não aceita reserva. Chegar e avaliar fila; se normal, esperar. Não trocar por sushi fraco.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"É a experiência de carne casual/visual protegida do dia de Akihabara.","arrival":"Entrar na fila, pedir o roast beef bowl principal. O prato vem como bowl alto com carne fatiada; misturar molho/ovo aos poucos.","orderMust":"ローストビーフ丼, idealmente 黒毛和牛のローストビーフ丼 se aparecer no menu.","menuWords":[{"jp":"ローストビーフ丼","romaji":"rōsuto bīfu don","en":"Roast beef rice bowl","pt":"bowl de arroz com roast beef","confidence":"alta","whatItIs":"Bowl de arroz coberto com roast beef fatiado; prato visual e assinatura do Ohno."},{"jp":"黒毛和牛","romaji":"kuroge wagyū","en":"Japanese Black Wagyu","pt":"wagyu japonês preto","confidence":"alta","whatItIs":"Wagyu japonês preto; indica carne de melhor qualidade/marmorização."},{"jp":"卵黄","romaji":"ran'ō","en":"Egg yolk","pt":"gema de ovo","confidence":"alta","whatItIs":"Gema de ovo; mistura no bowl/carne para deixar mais cremoso."},{"jp":"ソース","romaji":"sōsu","en":"Sauce","pt":"molho da casa","confidence":"alta","whatItIs":"Em termos simples: molho da casa."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila inviável: Tonkatsu Marugo; contingência secundária Niku no Mansei. Não substituir por kaiten sushi mal avaliado.","avoid":"Não rebaixar para flexível; esse almoço é protegido.","openingForTripDay":"Domingo 11:00–22:00, L.O. 21:00 no Tabelog; sem reserva.","sourceNote":"Tabelog lista Roast Beef Ohno Akihabara como donburi/yoshoku, sem reservas e domingo até 22:00/L.O.21:00; página destaca uso de Kuroge Wagyu A4+."}},"alt":{"name":"Tonkatsu Marugo","cuisine":"Tonkatsu","area":"Akihabara","score":3.74,"maps":"Tonkatsu Marugo, Akihabara, Tokyo","dishes":"Rosu katsu / hire katsu set; alternativa forte se a fila do Ohno estiver inviável","verified":true,"stype":"tabelog","src":"web","cardSummary":"Alternativo forte de almoço em Akihabara se o Ohno ficar inviável; tonkatsu sério, não plano fraco.","mustOrder":"特ロースかつ定食 / toku rosu katsu teishoku se disponível; se preferir magro, ヒレかつ定食.","tripDayHours":"Domingo almoço/jantar: confirmar perto da viagem; loja tradicional com fila possível.","arrivalAlert":"Só usar se Ohno estiver inviável. Pode ter espera; não deixar matar Akihabara.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Plano B forte e coerente com Akihabara, com reputação local de tonkatsu.","arrival":"Fila tradicional. Pedir set/teishoku para vir com arroz, missô/repolho.","orderMust":"特ロースかつ定食 ou ロースかつ定食. Para Luísa/Luciana, ヒレかつ定食 se quiser corte mais magro.","menuWords":[{"jp":"特ロースかつ定食","romaji":"toku rosu katsu teishoku","en":"Special loin cutlet set meal","pt":"set especial de tonkatsu de lombo","confidence":"alta","whatItIs":"Set de tonkatsu de lombo; escolha mais suculenta."},{"jp":"ロースかつ定食","romaji":"rosu katsu teishoku","en":"Loin cutlet set meal","pt":"set de tonkatsu de lombo","confidence":"alta","whatItIs":"Set de tonkatsu de lombo; escolha mais suculenta."},{"jp":"ヒレかつ定食","romaji":"hire katsu teishoku","en":"Fillet cutlet set meal","pt":"set de tonkatsu de filé","confidence":"alta","whatItIs":"Set de tonkatsu de filé; mais magro."},{"jp":"定食","romaji":"teishoku","en":"Set meal","pt":"combinado com arroz/missô/acompanhamentos","confidence":"alta","whatItIs":"Refeição completa com arroz, sopa e acompanhamentos."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se Marugo também tiver fila pesada, usar Niku no Mansei/solução rápida; não insistir em segundo almoço demorado.","avoid":"Não tentar fazer Ohno + Marugo; é substituto, não extra.","openingForTripDay":"Domingo almoço/jantar: confirmar perto da viagem; loja tradicional com fila possível.","sourceNote":"Tabelog lista Marugo como tonkatsu forte em Akihabara; validar funcionamento perto da viagem."}}},"lunchNote":"Roast Beef Ohno é almoço protegido. Se a fila estiver absurda ou houver problema operacional, usar Tonkatsu Marugo como alternativa forte na região. Se Marugo também estiver inviável, contingência secundária familiar: Niku no Mansei Honten/Kanda, por ser aberto domingo e ficar no eixo Akihabara/Kanda. Não usar sushi fraco só por proximidade.","dinner":{"chosen":{"name":"Sarabeth’s Lumine Shinjuku","cuisine":"Americano / NY café-bistro","area":"Shinjuku South Exit / Lumine 2","score":4.1,"maps":"Sarabeth’s Lumine Shinjuku, Lumine 2, Shinjuku","dishes":"Eggs Benedict, french toast, burger/sandwich/salad; jantar americano confortável na rota do hotel","verified":true,"stype":"ta","src":"web","cardSummary":"Jantar americano/NY café-bistro na rota da South Exit; confortável e sem desvio para Kabukicho.","mustOrder":"BKT Sandwich, Macaroni & Cheese, Classic Eggs Benedict ou French Toast; escolher conforme fome.","tripDayHours":"Domingo 09:00–22:00, L.O. 21:00; 1 min da South Exit.","arrivalAlert":"Chegar antes de 20:30 para não ficar em cima do último pedido. Se lotado/fechado, Shake Shack.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Muda o tom depois de vários dias japoneses e fica no caminho Akihabara → Shinjuku South Exit → hotel.","arrival":"Entrar no Lumine 2, 2F. Pedir menu em inglês se necessário; escolher algo americano confortável.","orderMust":"Para jantar: BKTサンドウィッチ ou マカロニ＆チーズ; se quiser o clássico Sarabeth’s, Classic Eggs Benedict/French Toast.","menuWords":[{"jp":"BKTサンドウィッチ","romaji":"BKT sandoicchi","en":"BKT Sandwich","pt":"sanduíche BKT da casa","confidence":"alta","whatItIs":"Sanduíche da casa; opção salgada mais “jantar leve” que brunch doce."},{"jp":"マカロニ＆チーズ","romaji":"makaroni ando chīzu","en":"Macaroni & Cheese","pt":"macarrão com queijo","confidence":"alta","whatItIs":"Macarrão com queijo; comfort food americana."},{"jp":"エッグベネディクト","romaji":"eggu benedikuto","en":"Eggs Benedict","pt":"eggs benedict","confidence":"alta","whatItIs":"Ovos poché com molho hollandaise; brunch americano clássico."},{"jp":"フレンチトースト","romaji":"furenchi tōsuto","en":"French Toast","pt":"french toast","confidence":"alta","whatItIs":"Fatias de pão doces e macias; assinatura de brunch/café."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se Sarabeth’s estiver cheio ou L.O. apertado, Shake Shack Southern Terrace é o plano B aprovado.","avoid":"Não ir para Kabukicho atrás de burger; o objetivo é terminar perto do hotel.","openingForTripDay":"Domingo 09:00–22:00, L.O. 21:00; 1 min da South Exit.","sourceNote":"Site oficial Sarabeth’s Lumine Shinjuku: 9:00–22:00/L.O.21:00, acesso 1 min da South Exit; menu oficial cita BKT Sandwich, Mac & Cheese e clássicos."}},"alt":{"name":"Shake Shack Shinjuku Southern Terrace","cuisine":"Burger americano","area":"Shinjuku Southern Terrace / perto do hotel","score":4.0,"maps":"Shake Shack Shinjuku Southern Terrace, 2-2-1 Yoyogi, Shibuya City, Tokyo","dishes":"ShackBurger, fries, chicken, hot dog, frozen custard; alternativa prática se Sarabeth’s estiver cheio ou tarde","verified":true,"stype":"ta","src":"web","cardSummary":"Plano B prático de burger na Southern Terrace, perto do hotel.","mustOrder":"ShackBurger ou SmokeShack; pedir fries/custard se quiser comfort food americano.","tripDayHours":"Domingo/noite: confirmar horário no site oficial/unidade antes da viagem.","arrivalAlert":"Plano B logístico, não experiência única japonesa.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Alternativa fácil, rápida e colada à rota South Exit/hotel.","arrival":"Pedir no balcão/QR se houver; escolher burger clássico e voltar ao hotel.","orderMust":"ShackBurger; SmokeShack se quiser bacon/pimenta; fries para compartilhar.","menuWords":[{"jp":"ShackBurger","romaji":"ShackBurger","en":"ShackBurger","pt":"burger clássico da rede","confidence":"alta","whatItIs":"Burger clássico do Shake Shack; escolha segura."},{"jp":"SmokeShack","romaji":"SmokeShack","en":"SmokeShack","pt":"burger com bacon e pimenta/cherry peppers","confidence":"alta","whatItIs":"Burger com bacon e pimenta; mais forte/picante."},{"jp":"フライ","romaji":"furai","en":"Fries","pt":"batata frita","confidence":"alta","whatItIs":"Em termos simples: batata frita."},{"jp":"カスタード","romaji":"kasutādo","en":"Frozen custard","pt":"sorvete/custard da casa","confidence":"alta","whatItIs":"Frozen custard; sobremesa gelada cremosa da rede."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila grande, escolher qualquer jantar simples perto do hotel.","avoid":"Não trocar por deslocamento longo.","openingForTripDay":"Domingo/noite: confirmar horário no site oficial/unidade antes da viagem.","sourceNote":"Site oficial Shake Shack Japão/TripAdvisor confirmam unidade Shinjuku Southern Terrace; cardápio é padrão em inglês/japonês."}}},"dinnerNote":"Sarabeth’s é o jantar aprovado por estar na rota Shinjuku South Exit/hotel e mudar o tom para americano/NY café-bistro. Shake Shack Southern Terrace é o plano B aprovado na mesma região, mais simples e rápido."},{"day":10,"lunch":{"chosen":{"name":"Hoto Fudo Kawaguchiko","cuisine":"Hoto (regional)","area":"Lago Kawaguchi / Fuji","score":3.5,"maps":"Hoto Fudo Kawaguchiko","dishes":"Hoto — macarrão grosso em caldo de missô com abóbora","verified":false,"stype":"tabelog","src":"roteiro","cardSummary":"Almoço regional do Fuji: hoto, não ramen.","mustOrder":"不動ほうとう / Fudō Hōtō / Fudo’s hoto noodle soup — prato regional em panela, caldo de miso, abóbora e legumes.","tripDayHours":"Segunda 11:00–19:00 típico nas unidades Kawaguchiko; confirmar unidade com motorista.","arrivalAlert":"Escolher unidade conveniente da rota. Se fila/rota ruim, usar alternativa rápida indicada pelo motorista.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"É a comida regional certa para Kawaguchiko/Yamanashi, quente e coerente com dezembro.","arrival":"Entrar, pedir 不動ほうとう. Vem em panela grande/quente; deixar esfriar antes de comer.","orderMust":"不動ほうとう. Pedir 2–3 porções conforme fome; é grande e pesado.","menuWords":[{"jp":"不動ほうとう","romaji":"Fudō hōtō","en":"Fudo’s hoto noodle soup","pt":"hoto da casa, macarrão largo em caldo de miso","confidence":"alta","whatItIs":"Prato regional do Fuji/Yamanashi: massa larga em caldo de missô com legumes."},{"jp":"ほうとう","romaji":"hōtō","en":"Hoto noodle soup","pt":"noodle regional largo de Yamanashi","confidence":"alta","whatItIs":"Noodle regional largo em caldo de missô; mais rústico que ramen."},{"jp":"味噌","romaji":"miso","en":"Miso","pt":"pasta/caldo de soja fermentada","confidence":"alta","whatItIs":"Pasta/caldo fermentado de soja; base salgada/umami."},{"jp":"かぼちゃ","romaji":"kabocha","en":"Pumpkin/squash","pt":"abóbora japonesa","confidence":"alta","whatItIs":"Abóbora japonesa; ingrediente clássico do hoto."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila/rota ruim: restaurante regional alternativo ou konbini/café local; não perder janela do Fuji.","avoid":"Não pedir achando que é ramen; é prato de panela regional e pesado.","openingForTripDay":"Segunda 11:00–19:00 típico nas unidades Kawaguchiko; confirmar unidade com motorista.","sourceNote":"Site oficial Hoto Fudo é centrado em ほうとう; Retty/Tabelog listam unidades Kawaguchiko com horário base 11:00–19:00."}},"alt":{"name":"Opção rápida na região de Kawaguchiko","cuisine":"Casual / café / konbini / regional simples","area":"Kawaguchiko","score":null,"maps":"Kawaguchiko, Fujikawaguchiko, Yamanashi","dishes":"Café local, restaurante simples, estação ou konbini em Kawaguchiko se a rota atrasar ou a fila do Hoto Fudo inviabilizar; sem nota de restaurante.","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}}},"dinner":{"chosen":{"name":"Ichiran Shinjuku","cuisine":"Ramen","area":"Shinjuku (retorno)","score":3.5,"maps":"Ichiran Shinjuku","dishes":"Ramen reconfortante na volta do Fuji","verified":false,"stype":"tabelog","src":"roteiro","cardSummary":"Refeição japonesa direta e forte em sabor; boa para noite sem reserva longa.","mustOrder":"No Ichiran: tonkotsu com preferências no papel. No Fuunji: tokusei tsukemen se quiser a assinatura.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Refeição japonesa direta e forte em sabor; boa para noite sem reserva longa.","arrival":"Pode haver máquina/papel de pedido. Siga o fluxo, pague/entregue ficha se aplicável.","orderMust":"No Ichiran: tonkotsu com preferências no papel. No Fuunji: tokusei tsukemen se quiser a assinatura.","menuWords":[{"jp":"ラーメン","romaji":"raamen","pt":"lámen","en":"Controlled translation pending","whatItIs":"Em termos simples: lámen."},{"jp":"つけ麺","romaji":"tsukemen","pt":"noodle servido separado para mergulhar no caldo","en":"Controlled translation pending","whatItIs":"Noodles servidos separados para mergulhar em caldo concentrado."},{"jp":"豚骨","romaji":"tonkotsu","pt":"caldo de porco","en":"Controlled translation pending","whatItIs":"Em termos simples: caldo de porco."},{"jp":"辛さ","romaji":"karasa","pt":"nível de picância","en":"Controlled translation pending","whatItIs":"Em termos simples: nível de picância."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Guia curatorial baseado no tipo de restaurante; pendente de validação fina fonte por fonte se não marcado como alta."}},"alt":{"name":"CoCo Ichibanya / Konbini","cuisine":"Curry / leve","area":"Shinjuku","score":null,"maps":"CoCo Ichibanya Shinjuku","dishes":"Emergência leve perto do hotel","verified":false,"rtype":"logistico","src":"roteiro","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}}},"dinnerNote":"Jantar Ichiran Shinjuku é alvo flexível se houver energia após Fuji. Se o retorno atrasar/cansar, CoCo Ichibanya ou konbini perto do hotel vencem."},{"day":11,"lunch":{"chosen":{"name":"Gyukatsu Motomura Shinjuku","cuisine":"Gyukatsu","area":"Shinjuku","score":3.55,"maps":"Gyukatsu Motomura Shinjuku","dishes":"Bife empanado grelhado na pedra quente — só com fila aceitável","verified":false,"stype":"tabelog","src":"roteiro","cardSummary":"Experiência de gyukatsu na pedra quente antes da Disney; entrar só se fila aceitável.","mustOrder":"牛かつ定食 かつ1枚（130g） / Gyukatsu set meal 130g — finalizar cada fatia na pedra.","tripDayHours":"Terça almoço: unidades de Shinjuku costumam operar desde 11:00; confirmar filial escolhida.","arrivalAlert":"Fila >30–40 min: cortar. Mudança para Disney é mais importante.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Experiência divertida e interativa: carne bovina empanada mal passada que você termina na pedra.","arrival":"Comprar/entrar, sentar, não se assustar com o centro vermelho: é para grelhar na pedra quente.","orderMust":"牛かつ定食 かつ1枚（130g） para controle; 1.5枚/195g se fome maior.","menuWords":[{"jp":"牛かつ定食 かつ1枚（130g）","romaji":"gyūkatsu teishoku katsu ichi-mai 130g","en":"Beef cutlet set meal, one cutlet (130g)","pt":"set de gyukatsu 130g","confidence":"alta","whatItIs":"Set de gyukatsu 130g; carne empanada servida malpassada para selar na pedra."},{"jp":"かつ1.5枚（195g）","romaji":"katsu ichi-ten-go mai 195g","en":"1.5 cutlets (195g)","pt":"porção 195g","confidence":"alta","whatItIs":"Em termos simples: porção 195g."},{"jp":"麦飯","romaji":"mugi-meshi","en":"Barley rice","pt":"arroz com cevada","confidence":"alta","whatItIs":"Arroz com cevada; acompanhamento típico do gyukatsu."},{"jp":"とろろ","romaji":"tororo","en":"Grated yam","pt":"inhame/yam ralado","confidence":"alta","whatItIs":"Inhame/yam ralado; textura viscosa, para misturar no arroz."},{"jp":"岩塩","romaji":"gan'en","en":"Rock salt","pt":"sal de rocha","confidence":"alta","whatItIs":"Sal de rocha; use pouco na carne para sentir o sabor."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila >30–40 min: abortar sem culpa e comer rápido; não atrasar Toy Story.","avoid":"Não pedir esperando bife pronto; é interativo e mal passado por padrão.","openingForTripDay":"Terça almoço: unidades de Shinjuku costumam operar desde 11:00; confirmar filial escolhida.","sourceNote":"Site oficial Gyukatsu Motomura/Tabelog listam 牛かつ定食 130g/195g/260g e serviço com pedra quente."}},"alt":{"name":"Tsunahachi Shinjuku","cuisine":"Tempura","area":"Shinjuku","score":3.5,"maps":"Tsunahachi Shinjuku Honten","dishes":"Tempura tradicional","verified":false,"stype":"ta","cardSummary":"Opção definida no roteiro para resolver a refeição no contexto do dia.","mustOrder":"上天ぷら定食 (jou tempura teishoku) — tempura frita na hora no balcão (camarão, peixe e legumes). Casa de Shinjuku desde 1923.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Opção definida no roteiro para resolver a refeição no contexto do dia.","arrival":"Confirmar entrada/fila, pedir mesa para 3 e usar menu em inglês/fotos se disponível.","orderMust":"上天ぷら定食 (jou tempura teishoku) — tempura frita na hora no balcão (camarão, peixe e legumes). Casa de Shinjuku desde 1923.","menuWords":[{"jp":"天ぷら","romaji":"tempura","pt":"frito leve japonês","en":"Controlled translation pending","whatItIs":"Em termos simples: frito leve japonês."},{"jp":"海老天","romaji":"ebi ten","pt":"camarão em tempura","en":"Controlled translation pending","whatItIs":"Em termos simples: camarão em tempura."},{"jp":"天丼","romaji":"tendon","pt":"tempura sobre arroz (versão tigela)","en":"Controlled translation pending","whatItIs":"Em termos simples: tempura sobre arroz (versão tigela)."},{"jp":"定食","romaji":"teishoku","pt":"refeição completa com arroz e missô","en":"Controlled translation pending","whatItIs":"Refeição completa com arroz, sopa e acompanhamentos."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Prato-assinatura amplamente reconhecido; confirmar o nome exato no cardápio do dia."}}},"dinner":{"chosen":{"name":"Tonkatsu Wako Ikspiari","cuisine":"Tonkatsu / shopping","area":"Maihama / Ikspiari","score":3.3,"maps":"Tonkatsu Wako Ikspiari","dishes":"Tonkatsu confortável e previsível no Ikspiari antes de dormir no Toy Story Hotel.","verified":false,"stype":"tabelog","src":"roteiro","cardSummary":"Experiência de tonkatsu: porco empanado em panko, crocante, com arroz, repolho e molho.","mustOrder":"ロースかつ定食 (roosu katsu teishoku) — costela empanada confiável; ou ヒレ (filé, mais magro). Set com repolho e arroz, prático antes da Disney.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Experiência de tonkatsu: porco empanado em panko, crocante, com arroz, repolho e molho.","arrival":"Entrar, pedir mesa para 3, escolher o set. Refil de repolho/arroz pode existir; observar o fluxo.","orderMust":"ロースかつ定食 (roosu katsu teishoku) — costela empanada confiável; ou ヒレ (filé, mais magro). Set com repolho e arroz, prático antes da Disney.","menuWords":[{"jp":"ロースかつ","romaji":"roosu katsu","pt":"costela de porco empanada","en":"Controlled translation pending","whatItIs":"Lombo; mais gordura/suculência."},{"jp":"ヒレかつ","romaji":"hire katsu","pt":"filé empanado, mais magro","en":"Controlled translation pending","whatItIs":"Filé; mais magro."},{"jp":"定食","romaji":"teishoku","pt":"set com arroz, repolho e missô","en":"Controlled translation pending","whatItIs":"Refeição completa com arroz, sopa e acompanhamentos."},{"jp":"豚汁","romaji":"tonjiru","pt":"sopa de missô com porco","en":"Controlled translation pending","whatItIs":"Em termos simples: sopa de missô com porco."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Prato-assinatura amplamente reconhecido; confirmar o nome exato no cardápio do dia."}},"alt":{"name":"Rainforest Cafe Ikspiari","cuisine":"Temático","area":"Ikspiari","score":4,"maps":"Rainforest Cafe Ikspiari","dishes":"Ambiente temático divertido para a família","verified":false,"stype":"ta","cardSummary":"Opção definida no roteiro para resolver a refeição no contexto do dia.","mustOrder":"Ambiente temático divertido para a família","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Opção definida no roteiro para resolver a refeição no contexto do dia.","arrival":"Confirmar entrada/fila, pedir mesa para 3 e usar menu em inglês/fotos se disponível.","orderMust":"Ambiente temático divertido para a família","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Guia curatorial baseado no tipo de restaurante; pendente de validação fina fonte por fonte se não marcado como alta."}}},"lunchNote":"Almoço em Shinjuku antes da mudança para Maihama. Gyukatsu Motomura só com fila aceitável; se passar de 30–40 min, trocar por opção rápida para proteger Toy Story/Disney.","dinnerNote":"Jantar deve ficar no Ikspiari/Maihama. Não buscar restaurante longe depois da mudança para Disney."},{"day":12,"lunchNote":"Disneyland: refeição logística/counter service ou reserva leve. Não prender o horário nobre do Vacation Package Unlimited.","dinnerNote":"Disneyland/Ikspiari: jantar eficiente; restaurante longo só se não reduzir uso do Unlimited."},{"day":13,"lunchNote":"DisneySea premium: refeição eficiente/counter service/snack forte. Restaurante bonito só se não roubar tempo do Unlimited.","dinnerNote":"DisneySea/Ikspiari: jantar dentro do fluxo; compras DisneySea importantes hoje, não no dia 11 curto."},{"day":14,"lunch":{"chosen":{"name":"Tokyo DisneySea curto — almoço/snack objetivo","cuisine":"Parque / counter service / snack forte","area":"Tokyo DisneySea","score":null,"maps":"Tokyo DisneySea restaurants","dishes":"Counter service, snack forte ou refeição rápida sem fila longa; sem nota de restaurante e sem arriscar o Shinkansen.","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}},"alt":{"name":"Konbini/snack antes do trem","cuisine":"Conveniência / snack","area":"Maihama/Tokyo Station","score":null,"maps":"Maihama Station / Tokyo Station","dishes":"Onigiri, sanduíche, snack ou bebida se o parque atrasar; sem nota de restaurante.","verified":false,"rtype":"logistico","src":"roteiro","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}}},"dinner":{"chosen":{"name":"Ekiben — Ekibenya Matsuri","cuisine":"Bento de trem","area":"Tokyo Station","score":null,"maps":"Ekibenya Matsuri Tokyo Station","dishes":"Comprar ekiben na estação e comer no Shinkansen Tokyo → Kyoto; tratar como logística de refeição, sem nota de restaurante.","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}},"alt":{"name":"Katsukura Kyoto Station","cuisine":"Tonkatsu","area":"Kyoto Station (The Cube)","score":3.55,"maps":"Katsukura Kyoto Station","dishes":"Solução quente ao chegar com fome e em horário confortável","verified":false,"stype":"tabelog","cardSummary":"Experiência de tonkatsu: porco empanado em panko, crocante, com arroz, repolho e molho.","mustOrder":"ロースかつ膳 (roosu katsu zen) — tonkatsu premium; moa o gergelim no pilão e misture ao molho. Repolho/arroz/missô com refil livre.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Experiência de tonkatsu: porco empanado em panko, crocante, com arroz, repolho e molho.","arrival":"Entrar, pedir mesa para 3, escolher o set. Refil de repolho/arroz pode existir; observar o fluxo.","orderMust":"ロースかつ膳 (roosu katsu zen) — tonkatsu premium; moa o gergelim no pilão e misture ao molho. Repolho/arroz/missô com refil livre.","menuWords":[{"jp":"ロースかつ","romaji":"roosu katsu","pt":"costela empanada","en":"Controlled translation pending","whatItIs":"Lombo; mais gordura/suculência."},{"jp":"ヒレかつ","romaji":"hire katsu","pt":"filé empanado","en":"Controlled translation pending","whatItIs":"Filé; mais magro."},{"jp":"胡麻","romaji":"goma","pt":"gergelim para moer no pilão","en":"Controlled translation pending","whatItIs":"Em termos simples: gergelim para moer no pilão."},{"jp":"おかわり自由","romaji":"okawari jiyuu","pt":"refil livre de arroz/repolho","en":"Controlled translation pending","whatItIs":"Em termos simples: refil livre de arroz/repolho."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Prato-assinatura amplamente reconhecido; confirmar o nome exato no cardápio do dia."}}},"dinnerNote":"Ekibenya Matsuri é jantar logístico do Shinkansen, não almoço. Só comprar se houver 20–30 min de margem; se apertar, comprar snack simples perto da plataforma."},{"day":15,"lunch":{"chosen":{"name":"Nishiki Market","cuisine":"Mercado","area":"Centro de Kyoto","score":null,"maps":"Nishiki Market, Nakagyo Ward, Kyoto","dishes":"Pickles, tofu, tamagoyaki, doces — comer petiscando","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Nishiki é almoço de mercado em Kyoto: dashi/tamagoyaki, tsukemono, tofu, dango e matcha, sem caçar prato esquisito.","mustOrder":"Procurar だし巻き玉子, 京漬物, 豆腐ドーナツ, 焼き団子 e 抹茶スイーツ.","tripDayHours":"Sábado 12:30–14:00; muitas lojas fecham no fim da tarde, almoço é a janela certa.","arrivalAlert":"Comer em pequenas porções. Não bloquear lojas nem comer parado na frente de banca apertada.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Mercado de Kyoto para ingredientes e snacks locais; melhor como degustação controlada.","arrival":"Entrar com lógica: 1 item salgado/dashi, 1 conserva/produto local, 1 doce, 1 compra alimentar.","orderMust":"Apontar pelos nomes: だし巻き玉子, 京漬物, 豆腐ドーナツ, 焼き団子, 抹茶.","menuWords":[{"jp":"だし巻き玉子","romaji":"dashimaki tamago","en":"Dashi rolled omelet","pt":"omelete japonesa com dashi","confidence":"alta","whatItIs":"Omelete japonesa enrolada com caldo dashi; mais salgada/umami que o tamagoyaki doce."},{"jp":"京漬物","romaji":"kyō-tsukemono","en":"Kyoto pickles","pt":"conservas/picles de Kyoto","confidence":"alta","whatItIs":"Conservas/picles de Kyoto; ótimo para provar um sabor local, mas pode ser ácido/salgado."},{"jp":"豆腐ドーナツ","romaji":"tōfu dōnatsu","en":"Tofu doughnut","pt":"rosquinha de tofu","confidence":"alta","whatItIs":"Rosquinha de tofu; doce leve, macio e fácil de gostar."},{"jp":"焼き団子","romaji":"yaki dango","en":"Grilled rice dumpling","pt":"bolinho de arroz grelhado","confidence":"alta","whatItIs":"Bolinho de arroz grelhado, geralmente com molho doce-salgado; textura mastigável."},{"jp":"抹茶スイーツ","romaji":"matcha sweets","en":"Matcha sweets","pt":"doces de matcha","confidence":"alta","whatItIs":"Doce de chá verde matcha; pode ser bolo, sorvete, mochi ou parfait."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila >20 min: trocar por outra banca. O objetivo é variedade, não uma fila.","avoid":"Evitar itens extremamente estranhos/arriscados só por curiosidade; manter equilíbrio família.","openingForTripDay":"Sábado 12:30–14:00; muitas lojas fecham no fim da tarde, almoço é a janela certa.","sourceNote":"Curadoria de mercado Kyoto/Nishiki com foco em itens locais reconhecíveis; sem trocar locais do roteiro.","marketTargets":[{"where":"Nishiki Market geral","jp":"だし巻き玉子","romaji":"dashimaki tamago","en":"Dashi rolled omelet","pt":"omelete japonesa com caldo dashi","order":"Procurar loja com tamagoyaki/dashimaki quente e fila de locais.","why":"Kyoto é forte em dashi; mais interessante que doce genérico.","sourceNote":"Curadoria de mercado; validar loja na hora.","confidence":"média","whatItIs":"Omelete japonesa enrolada com caldo dashi; mais salgada/umami que o tamagoyaki doce."},{"where":"Nishiki Market geral","jp":"京漬物","romaji":"kyō-tsukemono","en":"Kyoto pickles","pt":"conservas/picles tradicionais de Kyoto","order":"Provar pequenas amostras e comprar pacote se agradar.","why":"Produto local de Kyoto; bom para entender o mercado.","sourceNote":"Curadoria de mercado; muitas lojas especializadas.","confidence":"média","whatItIs":"Conservas/picles de Kyoto; ótimo para provar um sabor local, mas pode ser ácido/salgado."},{"where":"Nishiki Market geral","jp":"豆腐ドーナツ","romaji":"tōfu dōnatsu","en":"Tofu doughnut","pt":"rosquinha de tofu","order":"Bom doce leve se aparecer fresco.","why":"Agrada família e é bem Kyoto.","sourceNote":"Curadoria comum de Nishiki; confirmar produção fresca.","confidence":"média","whatItIs":"Rosquinha de tofu; doce leve, macio e fácil de gostar."},{"where":"Nishiki Market geral","jp":"焼き団子","romaji":"yaki dango","en":"Grilled rice dumpling","pt":"bolinho de arroz grelhado","order":"Pedir com molho shoyu doce se quiser doce/salgado.","why":"Snack tradicional simples.","sourceNote":"Curadoria de mercado.","confidence":"média","whatItIs":"Bolinho de arroz grelhado, geralmente com molho doce-salgado; textura mastigável."},{"where":"Nishiki Market geral","jp":"抹茶スイーツ","romaji":"matcha sweets","en":"Matcha sweets","pt":"doces de matcha","order":"Escolher um doce de matcha de loja com fila/giro.","why":"Bom para Luísa/Luciana; fácil de gostar.","sourceNote":"Curadoria de mercado.","confidence":"média","whatItIs":"Doce de chá verde matcha; pode ser bolo, sorvete, mochi ou parfait."}],"marketExplanation":"A lista abaixo não é “comer tudo”: são alvos apontáveis. Escolha 3–5 itens com bom giro, sem cair em fila turística longa."}},"alt":{"name":"Honke Owariya (soba histórica)","cuisine":"Soba","area":"Centro de Kyoto","score":3.4,"maps":"Honke Owariya Kyoto","dishes":"Soba tradicional (casa de ~550 anos), perto de Nishiki","verified":false,"stype":"tabelog","cardSummary":"Soba histórica de Kyoto; alternativa sentada se quiser almoço clássico em vez de mercado.","mustOrder":"宝来そば / Hourai Soba — 5 camadas de soba fria com acompanhamentos; alternativa: にしんそば.","tripDayHours":"Sábado almoço: confirmar horário/espera; casa histórica pode ter fila.","arrivalAlert":"Só usar se trocar Nishiki por refeição sentada; não somar com mercado longo.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Casa histórica de soba em Kyoto, boa para experiência tradicional.","arrival":"Pedir Hourai Soba se quiser o prato mais reconhecível; Nishin Soba se quiser quente/tradicional.","orderMust":"宝来そば; no frio, にしんそば também é coerente.","menuWords":[{"jp":"宝来そば","romaji":"hōrai soba","en":"Hourai soba","pt":"soba fria em camadas com acompanhamentos","confidence":"alta","whatItIs":"Soba fria em camadas com acompanhamentos; assinatura da Owariya."},{"jp":"にしんそば","romaji":"nishin soba","en":"Herring soba","pt":"soba quente com arenque doce/cozido","confidence":"alta","whatItIs":"Soba quente com arenque doce/cozido; sabor tradicional de Kyoto."},{"jp":"ざるそば","romaji":"zaru soba","en":"Cold soba","pt":"soba fria simples","confidence":"alta","whatItIs":"Soba fria simples; leve e tradicional."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila >30 min: voltar ao plano Nishiki/mercado.","avoid":"Não tentar fazer Nishiki completo + Owariya completo se o tempo apertar.","openingForTripDay":"Sábado almoço: confirmar horário/espera; casa histórica pode ter fila.","sourceNote":"Curadoria e reconhecimento histórico; confirmar horário de operação perto da viagem."}}},"dinner":{"chosen":{"name":"Chao Chao Gyoza","cuisine":"Gyoza","area":"Pontocho","score":3.45,"maps":"Chao Chao Gyoza Kyoto Pontocho","dishes":"Gyoza variado — compromisso leve e animado em Pontocho","verified":false,"stype":"tabelog","src":"roteiro","cardSummary":"Compromisso leve de gyoza no eixo Kawaramachi/Pontocho; bom, mas sem transformar em fila/hype.","mustOrder":"チャオチャオ餃子 / Chao Chao gyoza + プリプリ海老餃子 / shrimp gyoza.","tripDayHours":"Sábado 14:00–23:00, L.O. 22:30 na unidade Shijo/Kawaramachi segundo Tabelog.","arrivalAlert":"Se estiver overhype/fila longa, não insistir; Onodera/Pontocho seguem.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Cumpre gyoza no roteiro sem desviar da noite de Kyoto.","arrival":"Pedir porções para compartilhar, não jantar longo pesado. Gyoza vem rápido; comer quente.","orderMust":"チャオチャオ餃子 1–2 porções e プリプリ海老餃子 para variar.","menuWords":[{"jp":"チャオチャオ餃子","romaji":"Chao Chao gyōza","en":"Chao Chao pork gyoza","pt":"gyoza clássico da casa","confidence":"alta","whatItIs":"Gyoza clássico da Chao Chao; peça principal para provar a casa."},{"jp":"プリプリ海老餃子","romaji":"puripuri ebi gyōza","en":"Plump shrimp gyoza","pt":"gyoza de camarão","confidence":"alta","whatItIs":"Gyoza de camarão; mais leve e elástico."},{"jp":"羽付き餃子","romaji":"hane-tsuki gyōza","en":"Winged/crispy-skirt gyoza","pt":"gyoza com crosta crocante","confidence":"alta","whatItIs":"Gyoza com “asa” crocante de massa; textura mais interessante."},{"jp":"生ビール","romaji":"nama bīru","en":"Draft beer","pt":"chope/cerveja de pressão","confidence":"alta","whatItIs":"Em termos simples: chope/cerveja de pressão."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila >20–25 min: cortar; não é restaurante para sacrificar Gion/Onodera.","avoid":"Não cair em hype se estiver lotado; é compromisso leve, não jantar sagrado.","openingForTripDay":"Sábado 14:00–23:00, L.O. 22:30 na unidade Shijo/Kawaramachi segundo Tabelog.","sourceNote":"Site/TripAdvisor listam Chao Chao gyoza e shrimp gyoza; Tabelog confirma horário de sábado/domingo."}},"alt":{"name":"Kaiten Sushi Ginza Onodera Kyoto","cuisine":"Sushi","area":"Gion/Kawaramachi","score":3.5,"maps":"Ginza Onodera Kyoto","dishes":"Sushi de alto nível (se senha/fila permitir)","verified":false,"stype":"tabelog","cardSummary":"Kaiten sushi mais premium em Kyoto; foco em nigiri de qualidade, não rolls aleatórios.","mustOrder":"Pedir nigiri/Edomae: 本まぐろ, 中トロ, ほたて, うに, 穴子 se disponíveis; usar tablet/menu.","tripDayHours":"Sábado 11:30–22:30, L.O. food 22:00; pode parar de emitir senha se lotar.","arrivalAlert":"Pode exigir número/senha; não chegar em cima do último pedido.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Alvo real de sushi em Kyoto, melhor que sushi aleatório de estação.","arrival":"Retirar senha se houver. Sentar e pedir peças específicas pelo tablet/menu; observar preço das cores/pratos.","orderMust":"Começar por maguro/toro/hotate; 1 peça de uni se preço estiver razoável; anago para contraste cozido.","menuWords":[{"jp":"本まぐろ","romaji":"hon-maguro","en":"Bluefin tuna","pt":"atum bluefin","confidence":"alta","whatItIs":"Atum bluefin; melhor/mais nobre que atum genérico."},{"jp":"中トロ","romaji":"chū-toro","en":"Medium fatty tuna","pt":"atum médio gordo","confidence":"alta","whatItIs":"Atum médio gordo; equilíbrio entre sabor e gordura."},{"jp":"ほたて","romaji":"hotate","en":"Scallop","pt":"vieira","confidence":"alta","whatItIs":"Vieira; peça nobre de sushi/seafood, adocicada e macia."},{"jp":"うに","romaji":"uni","en":"Sea urchin","pt":"ouriço-do-mar","confidence":"alta","whatItIs":"Ouriço-do-mar; cremoso, intenso, pode dividir opiniões."},{"jp":"穴子","romaji":"anago","en":"Sea eel","pt":"enguia-do-mar cozida","confidence":"alta","whatItIs":"Enguia-do-mar cozida; mais macia/doce que unagi."},{"jp":"江戸前","romaji":"edomae","en":"Edomae-style","pt":"estilo tradicional de sushi com preparo/tempero","confidence":"alta","whatItIs":"Estilo Edomae; sushi tradicional, muitas vezes com preparo/tempero do chef."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se senha/fila empurrar muito tarde, Chao Chao vira jantar leve e Onodera cai sem culpa.","avoid":"Não lotar de rolls/itens ocidentais; o valor está no nigiri.","openingForTripDay":"Sábado 11:30–22:30, L.O. food 22:00; pode parar de emitir senha se lotar.","sourceNote":"Tabelog confirma unidade Kyoto, 11:30–22:30/L.O.22:00; Onodera é braço kaiten de grupo Edomae."}}},"dinnerNote":"Chao Chao é compromisso leve de gyoza no eixo Gion/Pontocho/Kawaramachi. Kaiten Sushi Ginza Onodera Kyoto não é plano B fraco: é alvo real de sushi se senha/fila permitir. Podem conviver como entrada + sushi ou Chao Chao virar jantar leve."},{"day":16,"lunch":{"chosen":{"name":"Sannenzaka / Higashiyama","cuisine":"Snacks/leve","area":"Higashiyama","score":null,"maps":"Sannenzaka Kyoto","dishes":"Refeição leve e snacks nas ladeiras históricas","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}},"alt":{"name":"Omen Kodaiji","cuisine":"Udon","area":"Higashiyama","score":3.52,"maps":"Omen Kodaiji Kyoto","dishes":"Udon artesanal com legumes — clássico bem avaliado de Kyoto","verified":false,"stype":"tabelog","cardSummary":"⚠️ Atenção: Omen Kodaiji aparece como fechado/relocado em fontes. Não tratar como alternativa segura sem nova validação.","mustOrder":"Se mantiver Omen, usar outra unidade validada; prato-base: おめん / Omen udon com legumes e dashi.","tripDayHours":"PENDÊNCIA: unidade Kodaiji precisa ser revalidada; Tabelog/Inside Kyoto indicam fechado/relocado.","arrivalAlert":"Não usar esta alternativa sem validar unidade exata.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"A ideia de udon/legumes é boa, mas a filial Kodaiji está problemática.","arrival":"Só entrar se a filial estiver confirmada no Maps/site oficial perto da viagem.","orderMust":"おめん / Omen udon, se a unidade existir/estiver aberta.","menuWords":[{"jp":"おめん","romaji":"omen","en":"Omen udon","pt":"udon da casa com vegetais e caldo","confidence":"alta","whatItIs":"Macarrão grosso de trigo; prato confortável e fácil de comer."},{"jp":"うどん","romaji":"udon","en":"Udon noodles","pt":"macarrão grosso de trigo","confidence":"alta","whatItIs":"Macarrão grosso de trigo; textura macia/elástica."},{"jp":"薬味","romaji":"yakumi","en":"Condiments","pt":"condimentos/acompanhamentos","confidence":"alta","whatItIs":"Em termos simples: condimentos/acompanhamentos."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a unidade não existir/estiver confusa, usar outro almoço em Higashiyama; não procurar na rua.","avoid":"Não manter no roteiro como alternativa confiável sem corrigir a unidade.","openingForTripDay":"PENDÊNCIA: unidade Kodaiji precisa ser revalidada; Tabelog/Inside Kyoto indicam fechado/relocado.","sourceNote":"Tabelog/Inside Kyoto mostram Omen Kodaiji como fechado/relocado; pendência crítica."}}},"dinnerNote":"Jantar casual em Kyoto. Confirmar cutoff do Ta-Q-Bin/Yamato no Hotel Granvia; se o corte for cedo, malas para Osaka devem ter sido enviadas antes. Não deixar bagagem virar problema do dia 14.","dinner":{"chosen":{"name":"Tenkaippin Kyoto","cuisine":"Ramen kotteri","area":"Kyoto","score":3.3,"maps":"Tenkaippin Kyoto","dishes":"Ramen de caldo grosso (kotteri)","verified":false,"stype":"ta","cardSummary":"Ramen kotteri de Kyoto: caldo espesso/cremoso de frango, bem específico.","mustOrder":"こってり / Kotteri — ramen de caldo super espesso; se quiser leve, あっさり.","tripDayHours":"Domingo/noite em Kyoto: confirmar unidade/hora; rede costuma funcionar à noite.","arrivalAlert":"Kotteri é pesado. Só usar se o grupo quiser ramen denso.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Experiência de ramen de Kyoto, diferente de Ichiran.","arrival":"Pedir na máquina/menu: こってり. Adicionar karaage/gyoza só se houver fome.","orderMust":"こってりラーメン; set com 唐揚げ/餃子 se quiser complementar.","menuWords":[{"jp":"こってり","romaji":"kotteri","en":"Rich/thick broth","pt":"caldo grosso/cremoso","confidence":"alta","whatItIs":"Em termos simples: caldo grosso/cremoso."},{"jp":"あっさり","romaji":"assari","en":"Light broth","pt":"caldo leve","confidence":"alta","whatItIs":"Em termos simples: caldo leve."},{"jp":"唐揚げ","romaji":"karaage","en":"Japanese fried chicken","pt":"frango frito japonês","confidence":"alta","whatItIs":"Frango frito japonês; opção segura para família."},{"jp":"餃子","romaji":"gyōza","en":"Gyoza dumplings","pt":"guioza","confidence":"alta","whatItIs":"Pastelzinho japonês recheado, geralmente grelhado; ótimo para dividir."},{"jp":"ラーメン","romaji":"rāmen","en":"Ramen","pt":"ramen","confidence":"alta","whatItIs":"Em termos simples: ramen."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/energia ruim, usar Gyoza no Ohsho/konbini perto do hotel.","avoid":"Não pedir kotteri se estiver enjoado/cansado de comida pesada.","openingForTripDay":"Domingo/noite em Kyoto: confirmar unidade/hora; rede costuma funcionar à noite.","sourceNote":"Tenkaippin é conhecido pelo estilo こってり; confirmar unidade e horário perto da viagem."}},"alt":{"name":"Gyoza no Ohsho","cuisine":"Gyoza/chinês casual","area":"Kyoto","score":3.2,"maps":"Gyoza no Ohsho Kyoto","dishes":"Gyoza, arroz frito — rápido e barato","verified":false,"stype":"ta","cardSummary":"Alternativa casual japonesa-chinesa de rede; segura e rápida.","mustOrder":"餃子 / gyoza + 炒飯 / fried rice ou 天津飯 se quiser comfort food.","tripDayHours":"Domingo/noite: confirmar unidade próxima.","arrivalAlert":"É solução prática, não restaurante especial.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Resolve jantar casual sem fila/pesquisa.","arrival":"Pedir gyoza e arroz/ramen simples por tablet/menu com fotos se houver.","orderMust":"餃子 e 炒飯; adicionar 唐揚げ se quiser.","menuWords":[{"jp":"餃子","romaji":"gyōza","en":"Gyoza dumplings","pt":"guioza","confidence":"alta","whatItIs":"Pastelzinho japonês recheado, geralmente grelhado; ótimo para dividir."},{"jp":"炒飯","romaji":"chāhan","en":"Fried rice","pt":"arroz frito","confidence":"alta","whatItIs":"Em termos simples: arroz frito."},{"jp":"天津飯","romaji":"tenshinhan","en":"Crab omelet over rice","pt":"omelete sobre arroz com molho","confidence":"alta","whatItIs":"Em termos simples: omelete sobre arroz com molho."},{"jp":"唐揚げ","romaji":"karaage","en":"Japanese fried chicken","pt":"frango frito","confidence":"alta","whatItIs":"Frango frito japonês; opção segura para família."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se unidade lotada, escolher konbini/restaurante perto do hotel.","avoid":"Não desviar longe por Ohsho; usar só o que estiver perto.","openingForTripDay":"Domingo/noite: confirmar unidade próxima.","sourceNote":"Curadoria operacional de rede; confirmar filial."}}}},{"day":17,"lunch":{"chosen":{"name":"Arashiyama (Saga simples)","cuisine":"Leve","area":"Arashiyama","score":null,"maps":"Arashiyama Saga Kyoto","dishes":"Almoço simples sem fila longa antes de seguir para Osaka","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}},"alt":{"name":"Arashiyama Yoshimura","cuisine":"Soba (com vista)","area":"Arashiyama","score":3.45,"maps":"Arashiyama Yoshimura Soba","dishes":"Soba com vista da ponte Togetsukyo","verified":false,"stype":"tabelog","cardSummary":"Soba com vista em Arashiyama; boa alternativa, mas fila pode matar Kinkaku-ji.","mustOrder":"天ざる膳 / Tenzaru Zen — soba fria com tempura; alternativa simples: ざるそば.","tripDayHours":"Segunda temporada turística 10:30–17:00; aberto quase o ano todo, fechado 1º jan; confirmar no dia.","arrivalAlert":"Se espera >30 min, cortar. O dia precisa chegar a Kinkaku-ji/Osaka.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Alternativa sentada de soba coerente com Arashiyama se a logística permitir.","arrival":"Dar nome/esperar se o tempo permitir. Pedir Tenzaru Zen para ter soba + tempura.","orderMust":"天ざる膳 se quiser refeição completa; ざるそば se quiser leve.","menuWords":[{"jp":"天ざる膳","romaji":"tenzaru zen","en":"Tempura and cold soba set","pt":"set de soba fria com tempura","confidence":"alta","whatItIs":"Set de soba fria com tempura; boa opção equilibrada."},{"jp":"ざるそば","romaji":"zaru soba","en":"Cold soba","pt":"soba fria simples","confidence":"alta","whatItIs":"Soba fria simples; leve e tradicional."},{"jp":"にしんしぐれご飯","romaji":"nishin shigure gohan","en":"Herring rice","pt":"arroz com arenque cozido/temperado","confidence":"alta","whatItIs":"Em termos simples: arroz com arenque cozido/temperado."},{"jp":"そば茶ロール","romaji":"soba-cha roll","en":"Soba tea roll cake","pt":"sobremesa de chá de soba","confidence":"alta","whatItIs":"Bolo/rolinho de chá de soba; sobremesa leve da casa."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Espera >30 min: não entra; almoço simples/snack e táxi para Kinkaku-ji.","avoid":"Não sacrificar Kinkaku-ji por almoço bonito.","openingForTripDay":"Segunda temporada turística 10:30–17:00; aberto quase o ano todo, fechado 1º jan; confirmar no dia.","sourceNote":"Tabelog/Gltjp listam Arashiyama Yoshimura, horário 10:30/11:00–17:00 e Tenzaru Zen como popular."}}},"dinner":{"chosen":{"name":"Tsurutontan Soemoncho","cuisine":"Udon","area":"Osaka (Namba)","score":3.4,"maps":"Tsurutontan Soemoncho Osaka","dishes":"Udon grosso artesanal em tigela gigante — confortável após check-in","verified":false,"stype":"tabelog","src":"roteiro","cardSummary":"Udon confortável na chegada a Osaka; tigelas grandes e menu amplo.","mustOrder":"大判きつねのおうどん se aparecer; alternativa segura: 明太子クリームのおうどん ou カレーのおうどん conforme vontade.","tripDayHours":"Segunda 11:00–06:00 segundo Tabelog para Soemoncho; aberto o ano todo.","arrivalAlert":"Menu é enorme; decidir antes para não perder tempo.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Chegada em Osaka pede comfort food sem competir com o Wagyu premium do dia seguinte.","arrival":"Entrar, pedir mesa, escolher udon. Perguntar tamanho: em Tsurutontan muitas porções de noodle podem variar sem custo adicional, confirmar no menu.","orderMust":"大判きつねのおうどん se disponível; se não, mentaiko cream/curry udon são escolhas populares e fáceis.","menuWords":[{"jp":"大判きつねのおうどん","romaji":"ōban kitsune no oudôn","en":"Large fried-tofu udon","pt":"udon com grande folha de tofu frito doce","confidence":"alta","whatItIs":"Udon com grande folha de tofu frito doce; prato confortável e fácil de gostar."},{"jp":"明太子クリームのおうどん","romaji":"mentaiko kurīmu no oudôn","en":"Spicy cod roe cream udon","pt":"udon cremoso com ovas de bacalhau apimentadas","confidence":"alta","whatItIs":"Udon cremoso com ovas apimentadas; mais moderno, rico e marcante."},{"jp":"カレーのおうどん","romaji":"karē no oudôn","en":"Curry udon","pt":"udon com curry japonês","confidence":"alta","whatItIs":"Udon em curry japonês; confortável, mais pesado e bem temperado."},{"jp":"おうどん","romaji":"oudôn","en":"Udon noodles","pt":"udon/macarrão grosso de trigo","confidence":"alta","whatItIs":"Udon em forma mais polida/cortês; macarrão grosso de trigo."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila estiver chata, usar Imai Honten ou restaurante simples de Namba.","avoid":"Não pedir muitos pratos paralelos; o foco é udon/conforto.","openingForTripDay":"Segunda 11:00–06:00 segundo Tabelog para Soemoncho; aberto o ano todo.","sourceNote":"Tabelog Soemoncho lista segunda 11:00–06:00; site oficial Tsurutontan lista menu amplo e sazonais."}},"alt":{"name":"Imai Honten","cuisine":"Udon (kitsune)","area":"Dotonbori","score":3.6,"maps":"Imai Honten Dotonbori","dishes":"Casa tradicional de udon de Dotonbori — caldo dashi delicado, nota alta","verified":false,"stype":"tabelog","cardSummary":"Alternativa clássica de udon em Dotonbori; dashi mais tradicional que Tsurutontan.","mustOrder":"きつねうどん / Kitsune Udon; se quiser algo clássico de Osaka, けいらんうどん.","tripDayHours":"Segunda à noite: confirmar; Tabelog lista Imai como fechado às quartas, então segunda é compatível.","arrivalAlert":"Mais tradicional; bom se quiser dashi/udon clássico, não tigela criativa.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Plano B forte de udon tradicional em Dotonbori.","arrival":"Pedir kitsune udon para a experiência clássica.","orderMust":"きつねうどん; けいらんうどん se quiser caldo espesso com ovo e gengibre.","menuWords":[{"jp":"きつねうどん","romaji":"kitsune udon","en":"Udon with sweet fried tofu","pt":"udon com tofu frito doce","confidence":"alta","whatItIs":"Macarrão grosso de trigo; textura macia/elástica."},{"jp":"けいらんうどん","romaji":"keiran udon","en":"Egg-drop ankake udon","pt":"udon com caldo levemente espesso e ovo","confidence":"alta","whatItIs":"Macarrão grosso de trigo; textura macia/elástica."},{"jp":"親子丼","romaji":"oyakodon","en":"Chicken and egg rice bowl","pt":"bowl de frango e ovo","confidence":"alta","whatItIs":"Em termos simples: bowl de frango e ovo."},{"jp":"おだし","romaji":"odashi","en":"Dashi broth","pt":"caldo-base japonês","confidence":"alta","whatItIs":"Caldo dashi da casa; base de sabor do udon."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila/tempo ruim: jantar simples perto do hotel.","avoid":"Não somar com Tsurutontan; é alternativa.","openingForTripDay":"Segunda à noite: confirmar; Tabelog lista Imai como fechado às quartas, então segunda é compatível.","sourceNote":"Tabelog lista Imai Honten entre os melhores udon de Namba/Dotonbori e menu com Keiran Udon; outros guias destacam kitsune udon."}}}},{"day":18,"lunch":{"chosen":{"name":"Daiki Suisan Dotonbori","cuisine":"Kaiten sushi","area":"Dotonbori","score":3.06,"maps":"Daiki Suisan Kaiten Sushi Dotonbori, Osaka","dishes":"Nigiri variado, atum, salmão — divertido e prático","verified":true,"stype":"tabelog","src":"roteiro","cardSummary":"Kaiten sushi de Osaka com foco em 本まぐろ; pedir combos de atum e nigiri específicos.","mustOrder":"まぐろづくし / Tuna assortment + 本まぐろ中トロ/大トロ/カマトロ se preço estiver ok.","tripDayHours":"Terça almoço: confirmar filial Dotonbori no dia; menu oficial/Daiki lista itens permanentes.","arrivalAlert":"Olhar preço dos pratos/cores. Pedir pelo tablet/menu quando possível.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Kaiten sushi de Osaka aprovado para almoço antes do bloco geek/pinball.","arrival":"Sentar, checar sistema de pedidos, procurar seção 〖大起水産〗こだわりの本まぐろ.","orderMust":"まぐろづくし para provar vários cortes; complementar com 本まぐろ中トロ e 炙り大トロ se quiser.","menuWords":[{"jp":"まぐろづくし","romaji":"maguro-zukushi","en":"Tuna assortment","pt":"seleção de atum","confidence":"alta","whatItIs":"Seleção de atum; bom para comparar cortes magro/gordos."},{"jp":"本まぐろ赤身","romaji":"hon-maguro akami","en":"Bluefin tuna lean meat","pt":"atum bluefin magro","confidence":"alta","whatItIs":"Atum bluefin; melhor/mais nobre que atum genérico."},{"jp":"本まぐろ中トロ","romaji":"hon-maguro chū-toro","en":"Bluefin medium fatty tuna","pt":"atum bluefin médio gordo","confidence":"alta","whatItIs":"Atum bluefin; melhor/mais nobre que atum genérico."},{"jp":"本まぐろ大トロ","romaji":"hon-maguro ō-toro","en":"Bluefin fatty tuna belly","pt":"atum bluefin bem gorduroso","confidence":"alta","whatItIs":"Atum bluefin; melhor/mais nobre que atum genérico."},{"jp":"本まぐろカマトロ","romaji":"hon-maguro kama-toro","en":"Bluefin tuna collar/belly rare cut","pt":"corte raro/gordo do atum próximo ao colar","confidence":"alta","whatItIs":"Atum bluefin; melhor/mais nobre que atum genérico."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila inviável, comer rápido em Namba e proteger pinball/jantar premium.","avoid":"Não encher de peças genéricas baratas antes do atum; o diferencial da rede é 本まぐろ.","openingForTripDay":"Terça almoço: confirmar filial Dotonbori no dia; menu oficial/Daiki lista itens permanentes.","sourceNote":"Menu oficial Daiki Suisan/FaSma/Tabelog da unidade Dotonbori listam まぐろづくし e cortes 本まぐろ."}},"alt":{"name":"Kani Doraku Honten","cuisine":"Caranguejo","area":"Dotonbori","score":3.3,"maps":"Kani Doraku Honten Dotonbori","dishes":"Pratos de caranguejo no ícone do letreiro de Dotonbori","verified":false,"stype":"tabelog","cardSummary":"Alternativa de caranguejo em Dotonbori; mais turístico, mas clássico visual.","mustOrder":"かに会席 / crab course se quiser experiência completa; se for leve, かに寿司/焼かに.","tripDayHours":"Terça almoço: confirmar disponibilidade/espera na filial Honten.","arrivalAlert":"Não usar se ameaçar o jantar Wagyu; é alternativa ao almoço, não extra.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Clássico de Dotonbori se quiser caranguejo em vez de kaiten sushi.","arrival":"Pedir menu em inglês; escolher curso conforme fome/preço.","orderMust":"Crab course/kaiseki pequeno ou itens a la carte de crab sushi/grilled crab.","menuWords":[{"jp":"かに会席","romaji":"kani kaiseki","en":"Crab kaiseki course","pt":"curso de caranguejo","confidence":"alta","whatItIs":"Em termos simples: curso de caranguejo."},{"jp":"焼かに","romaji":"yaki kani","en":"Grilled crab","pt":"caranguejo grelhado","confidence":"alta","whatItIs":"Em termos simples: caranguejo grelhado."},{"jp":"かに寿司","romaji":"kani sushi","en":"Crab sushi","pt":"sushi de caranguejo","confidence":"alta","whatItIs":"Em termos simples: sushi de caranguejo."},{"jp":"かにすき","romaji":"kani-suki","en":"Crab hot pot","pt":"hot pot de caranguejo","confidence":"alta","whatItIs":"Em termos simples: hot pot de caranguejo."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila/preço alto demais: manter Daiki Suisan.","avoid":"Não virar refeição longa se ainda há Den Den Town/pinball/jantar premium.","openingForTripDay":"Terça almoço: confirmar disponibilidade/espera na filial Honten.","sourceNote":"Curadoria de cardápio de Kani Doraku; confirmar menu/horário na filial Dotonbori Honten."}}},"dinner":{"chosen":{"name":"Matsusakagyu Yakiniku M","cuisine":"Wagyu Yakiniku","area":"Hozenji Yokocho","score":3.3,"maps":"Matsusakagyu Yakiniku M Hozenji Yokocho, Osaka","dishes":"Matsusaka beef A5 na grelha — jantar premium. RESERVAR!","verified":true,"stype":"tabelog","src":"web","cardSummary":"Jantar premium controlado de Matsusaka beef; foco em curso/sortido, não pedir cortes caros aleatoriamente.","mustOrder":"Matsusaka Beef Course ou Matsusaka beef assortment; provar lean→marbled e usar soy sauce/wasabi salt.","tripDayHours":"Terça jantar: oficial normalmente 17:00–23:00/L.O.22:30; reservar.","arrivalAlert":"Reservar. Não somar com Dotonbori Mitsuru; um jantar premium basta.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Experiência Wagyu premium da viagem em Osaka, controlada e protegida.","arrival":"Chegar com reserva, escolher curso adequado ao orçamento/fome. Staff pode orientar grelha; não cozinhar demais.","orderMust":"Curso de Matsusaka beef ou rare cuts assortment; incluir cortes lean e marbled.","menuWords":[{"jp":"松阪牛","romaji":"Matsusaka-gyū","en":"Matsusaka beef","pt":"carne Matsusaka, uma das marcas premium do Japão","confidence":"alta","whatItIs":"Matsusaka beef; uma das carnes japonesas premium mais famosas."},{"jp":"コース","romaji":"kōsu","en":"Course menu","pt":"menu/curso fechado","confidence":"alta","whatItIs":"Menu fechado/curso; bom para evitar escolher cortes avulsos."},{"jp":"盛り合わせ","romaji":"moriawase","en":"Assortment/platter","pt":"seleção/sortido","confidence":"alta","whatItIs":"Em termos simples: seleção/sortido."},{"jp":"赤身","romaji":"akami","en":"Lean meat","pt":"corte magro","confidence":"alta","whatItIs":"Atum magro; sabor limpo e menos gorduroso."},{"jp":"霜降り","romaji":"shimofuri","en":"Marbled meat","pt":"carne marmorizada","confidence":"alta","whatItIs":"Marmorização; gordura entremeada que deixa a carne macia."},{"jp":"わさび塩","romaji":"wasabi-jio","en":"Wasabi salt","pt":"sal com wasabi","confidence":"alta","whatItIs":"Sal com wasabi; realça a carne com picância leve."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Sem reserva/mesa: usar Dotonbori Mitsuru como substituto premium protegido.","avoid":"Não pedir dois jantares premium de carne na mesma noite.","openingForTripDay":"Terça jantar: oficial normalmente 17:00–23:00/L.O.22:30; reservar.","sourceNote":"Site oficial Matsusakagyu Yakiniku M lista menu a la carte com 10 cortes raros e estilo yakiniku com soy sauce/wasabi salt; TripAdvisor reforça experiência."}},"alt":{"name":"Dotonbori Mitsuru","cuisine":"Wagyu Yakiniku (A5)","area":"Nipponbashi/Dotonbori","score":3.3,"maps":"Dotonbori Mitsuru Osaka","dishes":"A5 Kuroge Wagyu — substituto premium forte, não plano B fraco","verified":false,"stype":"tabelog","cardSummary":"Substituto premium real de yakiniku A5/Kuroge em Dotonbori.","mustOrder":"黒毛和牛/A5 assortment ou curso de yakiniku da casa; escolher sortido para não errar.","tripDayHours":"Terça jantar: confirmar reserva/horário.","arrivalAlert":"É substituto, não segundo jantar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Mantém a experiência premium de carne se Matsusakagyu M falhar.","arrival":"Pedir course/assortment de Kuroge Wagyu; controlar preço.","orderMust":"黒毛和牛盛り合わせ ou curso recomendado.","menuWords":[{"jp":"黒毛和牛","romaji":"kuroge wagyū","en":"Japanese Black Wagyu","pt":"wagyu japonês preto","confidence":"alta","whatItIs":"Wagyu japonês preto; indica carne de melhor qualidade/marmorização."},{"jp":"A5ランク","romaji":"ē-go ranku","en":"A5 grade","pt":"classificação A5","confidence":"alta","whatItIs":"Classificação A5; indica alto grau de marmorização/qualidade."},{"jp":"盛り合わせ","romaji":"moriawase","en":"Assortment","pt":"sortido/seleção","confidence":"alta","whatItIs":"Em termos simples: sortido/seleção."},{"jp":"カルビ","romaji":"karubi","en":"Short rib","pt":"costela/short rib","confidence":"alta","whatItIs":"Short rib/costela bovina; corte marmorizado, suculento e clássico de yakiniku."},{"jp":"ハラミ","romaji":"harami","en":"Skirt steak/diaphragm","pt":"fraldinha/diafragma","confidence":"alta","whatItIs":"Fraldinha/diafragma; sabor de carne mais pronunciado."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se Mitsuru também falhar, escolher jantar mais simples; não caçar carne premium às cegas.","avoid":"Não usar como complemento após Matsusakagyu.","openingForTripDay":"Terça jantar: confirmar reserva/horário.","sourceNote":"Curadoria de yakiniku/Kuroge Wagyu em Dotonbori; validar menu/reserva antes da viagem."}}},"snackNote":"Snack obrigatório: Takoya Dotonbori Kukuru / Konamon Museum — takoyaki + akashiyaki com caldo dashi.","snackGuide":{"name":"Takoya Dotonbori Kukuru / Konamon Museum","cuisine":"Takoyaki / akashiyaki","area":"Dotonbori","score":3.5,"stype":"tabelog","verified":false,"src":"roteiro","maps":"Takoya Dotonbori Kukuru Dotonbori Konamon Museum","cardSummary":"Snack must de Osaka: comparar takoyaki (massa com polvo) e akashiyaki (versão mais leve/ovada mergulhada em dashi).","mustOrder":"たこ焼き / Takoyaki + 明石焼き / Akashiyaki. Se aparecer no menu, たこ焼釜飯・明石焼セット.","tripDayHours":"Terça 10:30–11:30 no roteiro; confirmar horário da loja no dia.","arrivalAlert":"Muito quente por dentro; não morder inteiro de uma vez.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Cumpre Osaka clássico e o must de akashiyaki aprovado por causa do gosto por ovo.","arrival":"Pedir no balcão/restaurante. Takoyaki vem com molho; akashiyaki deve ser mergulhado no dashi.","orderMust":"たこ焼き + 明石焼き; set com たこ焼釜飯・明石焼セット se quiser provar os dois em formato completo.","menuWords":[{"jp":"たこ焼き","romaji":"takoyaki","en":"Octopus balls","pt":"bolinhos de polvo de Osaka","confidence":"alta","whatItIs":"Bolinho quente de massa com polvo; crocante fora, cremoso por dentro e geralmente muito quente."},{"jp":"明石焼き","romaji":"akashiyaki","en":"Akashi-style eggy octopus dumplings","pt":"bolinho ovado/macio de polvo para mergulhar no dashi","confidence":"alta","whatItIs":"Bolinho de polvo mais leve e ovado, mergulhado em caldo dashi; menos pesado que takoyaki."},{"jp":"出汁","romaji":"dashi","en":"Dashi broth","pt":"caldo japonês","confidence":"alta","whatItIs":"Caldo-base japonês de umami, normalmente de peixe/algas; não é sopa para beber sozinho em grande quantidade."},{"jp":"たこ焼釜飯・明石焼セット","romaji":"takoyaki kamameshi akashiyaki set","en":"Takoyaki kamameshi and Akashiyaki set","pt":"set de takoyaki kamameshi e akashiyaki","confidence":"alta","whatItIs":"Combo com arroz/panela de takoyaki e akashiyaki; bom para provar as duas variações."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","en":"We are three people.","pt":"Somos 3 pessoas."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","en":"Do you have an English menu?","pt":"Tem menu em inglês?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","en":"What do you recommend?","pt":"Qual é a recomendação da casa?"},{"jp":"これをください","romaji":"kore o kudasai","en":"This, please.","pt":"Este, por favor."}],"queueRule":"Fila grande: marcar para voltar mais tarde em Dotonbori; não atrasar Daiki/pinball.","avoid":"Não comer correndo sem esfriar; costuma queimar por dentro.","sourceNote":"Tabelog lista o set com Akashiyaki; Osaka-info/Nippon.com confirmam Konamon Museum/Kukuru como referência de takoyaki.","snackExplanation":"Takoyaki é o bolinho de polvo clássico de Osaka; akashiyaki é mais macio, com mais ovo, e se come mergulhando no caldo dashi."}}},{"day":19,"lunchNote":"Dentro do USJ — escolher conforme localização/horário do VIP (ex: Park Side Grille). Não comprometer o melhor do tour.","dinnerNote":"Jantar no Universal CityWalk ou retorno ao hotel, sem deslocamento longo."},{"day":20,"lunch":{"chosen":{"name":"Kuromon Sanpei","cuisine":"Sushi/Sashimi","area":"Kuromon Market","score":3.3,"maps":"Kuromon Sanpei, Nipponbashi, Osaka","dishes":"Sushi/sashimi fresco de mercado — brunch cedo se a fila permitir","verified":false,"stype":"tabelog","src":"roteiro","cardSummary":"Seafood objetivo no Kuromon: comprar sushi/sashimi/donburi e comer no espaço da loja.","mustOrder":"本まぐろ/中トロ/大トロ ou seafood donburi; escolher corte de atum com preço claro.","tripDayHours":"Quinta manhã/brunch; confirmar horário do mercado/loja no dia.","arrivalAlert":"Se a vitrine/fila estiver ruim, não insistir; aeroporto manda.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Último mercado de Osaka, mas com foco objetivo: seafood de boa rotatividade.","arrival":"Escolher na vitrine/balcão, pagar, sentar no eat-in. Ver preço antes de apontar atum premium.","orderMust":"本まぐろ中トロ ou 大トロ se preço estiver ok; 海鮮丼 se quiser bowl completo.","menuWords":[{"jp":"本まぐろ","romaji":"hon-maguro","en":"Bluefin tuna","pt":"atum bluefin","confidence":"alta","whatItIs":"Atum bluefin; melhor/mais nobre que atum genérico."},{"jp":"中トロ","romaji":"chū-toro","en":"Medium fatty tuna","pt":"atum médio gordo","confidence":"alta","whatItIs":"Atum médio gordo; equilíbrio entre sabor e gordura."},{"jp":"大トロ","romaji":"ō-toro","en":"Fatty tuna belly","pt":"barriga de atum bem gordurosa","confidence":"alta","whatItIs":"Barriga gordurosa do atum; derrete mais, costuma ser caro."},{"jp":"海鮮丼","romaji":"kaisen-don","en":"Seafood rice bowl","pt":"bowl de frutos do mar","confidence":"alta","whatItIs":"Bowl de arroz coberto com frutos do mar crus; só vale se peixe/preço parecerem bons."},{"jp":"刺身盛り合わせ","romaji":"sashimi moriawase","en":"Assorted sashimi","pt":"seleção de sashimi","confidence":"alta","whatItIs":"Seleção de sashimi; peixe cru sem arroz."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila/lotação ruim: cortar sem culpa ou comer algo rápido; não arriscar voo.","avoid":"Não comprar peça caríssima sem preço claro. Não transformar Kuromon em passeio longo.","openingForTripDay":"Quinta manhã/brunch; confirmar horário do mercado/loja no dia.","sourceNote":"Site oficial Kuromon Sanpei descreve sushi, sashimi, donburi, peixe grelhado e eat-in; Tabelog confirma seafood bowls/sushi."}},"alt":{"name":"Okonomiyaki Chitose","cuisine":"Okonomiyaki","area":"Shinsekai / Dobutsuen-mae","score":3.5,"maps":"Okonomiyaki Chitose Osaka","dishes":"Opcional forte apenas com fila aceitável; Takasuga-yaki, Pork Mix ou modan-yaki. Mizuno em Dotonbori fica como alternativa secundária se a logística favorecer.","verified":false,"stype":"tabelog","src":"roteiro","cardSummary":"Opcional forte no dia do voo: okonomiyaki local selecionado pelo Tabelog 100, só se fila permitir.","mustOrder":"Takasuga-yaki se aparecer; alternativa segura: 豚玉 / buta-tama ou モダン焼き / modan-yaki.","tripDayHours":"Quinta 11:30–14:30 e 17:00–20:00 típico; fechado terça/quarta. Quinta do roteiro é compatível, mas confirmar.","arrivalAlert":"Não aceita reserva. Se fila, cortar; aeroporto manda.","fieldGuide":{"confidence":"alta","validatedAt":"2026-06-07","why":"Cumpre okonomiyaki de Osaka com qualidade, mas o dia do voo não permite espera longa.","arrival":"Entrar só com fila curta. Pedir okonomiyaki principal e sair em ~60 min.","orderMust":"Se encontrar Takasuga-yaki, pedir. Caso contrário, 豚玉 ou モダン焼き são escolhas seguras.","menuWords":[{"jp":"豚玉","romaji":"buta-tama","en":"Pork okonomiyaki","pt":"okonomiyaki de porco","confidence":"alta","whatItIs":"Okonomiyaki de porco; versão básica e segura."},{"jp":"モダン焼き","romaji":"modan-yaki","en":"Okonomiyaki with noodles","pt":"okonomiyaki com noodles","confidence":"alta","whatItIs":"Okonomiyaki com noodles; mais pesado/substancial."},{"jp":"焼きそば","romaji":"yakisoba","en":"Fried noodles","pt":"macarrão frito","confidence":"alta","whatItIs":"Macarrão frito na chapa; comum com okonomiyaki."},{"jp":"お好み焼き","romaji":"okonomiyaki","en":"Japanese savory pancake","pt":"panqueca salgada japonesa","confidence":"alta","whatItIs":"Panqueca salgada japonesa; em Osaka, prato clássico de chapa."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Fila >20–25 min: cortar e seguir para Shinsekai/Kushikatsu ou hotel.","avoid":"Não arriscar banho/malas/aeroporto por okonomiyaki.","openingForTripDay":"Quinta 11:30–14:30 e 17:00–20:00 típico; fechado terça/quarta. Quinta do roteiro é compatível, mas confirmar.","sourceNote":"Tabelog lista Chitose como selecionado Tabelog Okonomiyaki 100 2025, sem reservas; menu oficial/Tabelog com okonomiyaki/yakisoba."}}},"snackNote":"Snack/almoço tardio obrigatório se couber: Kushikatsu Daruma Shinsekai ou loja local em Janjan Yokocho. É must gastronômico curto, não jantar; aeroporto manda.","dinner":{"chosen":{"name":"KIX / lounge / voo Osaka → Dubai","cuisine":"Aeroporto / lounge / voo","area":"Kansai International Airport / voo","score":null,"maps":"Kansai International Airport KIX","dishes":"Jantar no aeroporto, lounge ou voo; sem nota de restaurante.","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}},"alt":{"name":"Snack rápido antes de sair do hotel","cuisine":"Snack / conveniência","area":"Namba / Cross Hotel / KIX","score":null,"maps":"Cross Hotel Osaka / Kansai International Airport","dishes":"Só se o horário permitir; não sacrificar saída para KIX; sem nota de restaurante.","verified":false,"rtype":"logistico","src":"roteiro","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}}},"lunchNote":"Dia de voo: Kuromon Sanpei é brunch/almoço cedo se fila aceitável. Chitose é opcional forte, mas não pode competir com banho/malas/KIX. Kuromon + Chitose + Kushikatsu só funcionam se tudo estiver rápido.","dinnerNote":"Jantar real do dia é KIX/lounge/voo. Kushikatsu Daruma é snack/must curto em Shinsekai, não jantar.","snackGuide":{"name":"Kushikatsu Daruma Shinsekai / Janjan","cuisine":"Kushikatsu / espetinhos fritos","area":"Shinsekai / Janjan Yokocho","score":3.4,"stype":"tabelog","verified":false,"src":"roteiro","maps":"Kushikatsu Daruma Shinsekai Osaka","cardSummary":"Must curto de Shinsekai: espetinhos empanados e fritos. Escolha 4–6 sabores e trate como snack, não jantar longo.","mustOrder":"元祖串かつ / original kushikatsu, どて焼き / dote-yaki, 紅しょうが / beni-shoga, うずら / quail egg, れんこん / lotus root.","tripDayHours":"Quinta 14:15–15:30 no roteiro; confirmar filial/espera no dia.","arrivalAlert":"Aeroporto manda. Se fila ameaçar retorno ao hotel, trocar por loja local rápida ou cortar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Cumpre a experiência clássica de Shinsekai/Osaka em formato snack controlado antes do aeroporto.","arrival":"Pedir set pequeno ou espetinhos individuais. Comer quente. Respeitar a regra do molho: não mergulhar duas vezes se houver molho compartilhado.","orderMust":"元祖串かつ + どて焼き + 1–2 vegetais clássicos como 紅しょうが/れんこん.","menuWords":[{"jp":"元祖串かつ","romaji":"ganso kushikatsu","en":"Original kushikatsu skewer","pt":"espetinho clássico empanado/frito","confidence":"alta","whatItIs":"Espetinho clássico empanado e frito; comer quente, logo que chega."},{"jp":"どて焼き","romaji":"dote-yaki","en":"Miso-stewed beef tendon","pt":"tendão/carne bovina cozida em missô","confidence":"alta","whatItIs":"Tendão/carne bovina cozida em missô; sabor intenso, textura gelatinosa."},{"jp":"紅しょうが","romaji":"beni-shōga","en":"Pickled red ginger skewer","pt":"gengibre vermelho em conserva frito","confidence":"alta","whatItIs":"Gengibre vermelho em conserva empanado/frito; ácido, salgado e bem típico de Osaka."},{"jp":"れんこん","romaji":"renkon","en":"Lotus root","pt":"raiz de lótus","confidence":"alta","whatItIs":"Raiz de lótus; crocante, leve e boa para equilibrar os espetinhos de carne."},{"jp":"うずら","romaji":"uzura","en":"Quail egg","pt":"ovo de codorna","confidence":"alta","whatItIs":"Ovo de codorna no espeto; simples, seguro e fácil para família."},{"jp":"ソース二度づけ禁止","romaji":"sōsu nido-zuke kinshi","en":"No double-dipping in the sauce","pt":"não mergulhar duas vezes no molho","confidence":"alta","whatItIs":"Regra/aviso: não mergulhar o espeto duas vezes no molho compartilhado."}],"phrases":[{"jp":"三人です","romaji":"san-nin desu","en":"We are three people.","pt":"Somos 3 pessoas."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","en":"Do you have an English menu?","pt":"Tem menu em inglês?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","en":"What do you recommend?","pt":"Qual é a recomendação da casa?"},{"jp":"これをください","romaji":"kore o kudasai","en":"This, please.","pt":"Este, por favor."}],"queueRule":"Fila >15–20 min ou relógio apertado: cortar/trocar por casa local sem fila.","avoid":"Não transformar em jantar; o jantar real é KIX/lounge/voo.","sourceNote":"Daruma é clássico de Shinsekai; regra cultural do kushikatsu é no-double-dipping quando aplicável; confirmar filial/horário perto da viagem.","snackExplanation":"Kushikatsu é espetinho de carne/legume/frutos do mar empanado e frito; o charme é provar variedade pequena e comer quente."}}},{"day":21,"lunch":{"chosen":{"name":"Dubai Mall — almoço rápido conforme energia","cuisine":"Variado / shopping","area":"Dubai Mall","score":null,"maps":"Dubai Mall Fashion Avenue","dishes":"Escolher restaurante com fila baixa no Dubai Mall após descanso do voo; não transformar almoço em reserva rígida.","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}},"alt":{"name":"Social House","cuisine":"Internacional","area":"Dubai Mall","score":4,"maps":"Social House Dubai Mall","dishes":"Vista das fontes","verified":false,"stype":"ta","cardSummary":"Opção definida no roteiro para resolver a refeição no contexto do dia.","mustOrder":"Vista das fontes","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Opção definida no roteiro para resolver a refeição no contexto do dia.","arrival":"Confirmar entrada/fila, pedir mesa para 3 e usar menu em inglês/fotos se disponível.","orderMust":"Vista das fontes","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Guia curatorial baseado no tipo de restaurante; pendente de validação fina fonte por fonte se não marcado como alta."}}},"dinner":{"chosen":{"name":"Time Out Market Dubai","cuisine":"Food hall","area":"Souk Al Bahar","score":null,"maps":"Time Out Market Dubai Souk Al Bahar","dishes":"Vários chefs com vista Burj/Fountain","verified":false,"src":"ia","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}},"alt":{"name":"At.mosphere Burj Khalifa","cuisine":"Fine dining (alto)","area":"Burj Khalifa 122F","score":4.3,"maps":"At.mosphere Burj Khalifa","dishes":"Jantar no céu — opcional especial, exige reserva","verified":false,"stype":"ta","cardSummary":"Opção definida no roteiro para resolver a refeição no contexto do dia.","mustOrder":"Menu degustação ou afternoon tea no 122º andar do Burj Khalifa pela vista; reservar com antecedência.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Opção definida no roteiro para resolver a refeição no contexto do dia.","arrival":"Confirmar entrada/fila, pedir mesa para 3 e usar menu em inglês/fotos se disponível.","orderMust":"Menu degustação ou afternoon tea no 122º andar do Burj Khalifa pela vista; reservar com antecedência.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Cardápio em inglês no local; foco no prato que justifica a visita."}}},"dinnerNote":"Time Out Market ou Social House só se a energia permitir; depois do voo Osaka→Dubai, descanso e malas valem mais que jantar especial."},{"day":22,"lunch":{"chosen":{"name":"Mall of the Emirates — almoço rápido","cuisine":"Variado / shopping","area":"Al Barsha","score":null,"maps":"Mall of the Emirates Dubai","dishes":"Almoço no shopping conforme compras e energia; escolher fila baixa e voltar cedo para malas.","verified":false,"src":"roteiro","rtype":"logistico","cardSummary":"Refeição prática para fazer o dia funcionar, sem restaurante fixo ou nota específica.","mustOrder":"Escolher algo simples, rápido e compatível com o próximo deslocamento.","tripDayHours":"Variável — confirmar no local/app no dia.","arrivalAlert":"Não gastar tempo procurando “o restaurante perfeito”; o objetivo aqui é logística.","fieldGuide":{"confidence":"logístico","validatedAt":"2026-06-07","why":"Este item existe para resolver fome/energia sem travar o roteiro.","arrival":"Ao chegar à área, escolher a opção com menor fricção: fila curta, assento fácil, cardápio compreensível.","orderMust":"Prato simples e seguro: sanduíche/onigiri/bento/curry/ramen leve conforme o local.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se a fila passar de 15–20 min, trocar por konbini/café/food court mais simples.","avoid":"Não transformar refeição logística em passeio longo.","openingForTripDay":"Variável.","sourceNote":"Guia operacional; não há restaurante único para validar."}},"alt":{"name":"Carluccio's","cuisine":"Italiano","area":"Mall of the Emirates","score":4,"maps":"Carluccio's Mall of the Emirates","dishes":"Italiano confiável para pausa de compras","verified":false,"stype":"ta","cardSummary":"Opção definida no roteiro para resolver a refeição no contexto do dia.","mustOrder":"Massa fresca e antipasti italianos; pausa confiável de shopping.","tripDayHours":"Confirmar no dia; horário-base ainda precisa de validação fina.","arrivalAlert":"Checar fila/último pedido antes de entrar.","fieldGuide":{"confidence":"média","validatedAt":"2026-06-07","why":"Opção definida no roteiro para resolver a refeição no contexto do dia.","arrival":"Confirmar entrada/fila, pedir mesa para 3 e usar menu em inglês/fotos se disponível.","orderMust":"Massa fresca e antipasti italianos; pausa confiável de shopping.","menuWords":[],"phrases":[{"jp":"三人です","romaji":"san-nin desu","pt":"Somos 3 pessoas.","en":"We are three people."},{"jp":"英語のメニューはありますか？","romaji":"eigo no menyuu wa arimasu ka?","pt":"Tem menu em inglês?","en":"Do you have an English menu?"},{"jp":"おすすめは何ですか？","romaji":"osusume wa nan desu ka?","pt":"Qual é a recomendação da casa?","en":"What do you recommend?"},{"jp":"これをください","romaji":"kore o kudasai","pt":"Este, por favor.","en":"This, please."}],"queueRule":"Se fila/espera passar do limite definido no roteiro, usar a alternativa aprovada do mesmo bloco.","avoid":"Não pedir aleatoriamente; focar no prato que justifica a visita.","openingForTripDay":"Confirmar perto da viagem.","sourceNote":"Cardápio em inglês no local; foco no prato que justifica a visita."}}},"dinnerNote":"Jantar final leve perto do Sofitel ou no shopping. Malas prontas antes de dormir.","lunchNote":"MOE é dia de compras finais; almoço precisa ser simples. Carluccio's é opção sentada, não compromisso."},{"day":23,"lunchNote":"Refeição logística (voo/aeroporto/hotel) — sem restaurante marcado.","dinnerNote":"Refeição logística (voo/aeroporto/hotel) — sem restaurante marcado."}];
+const DEFAULT_RESERVATIONS = [{"id":"tdr-vp-unlimited-dec2026","title":"Tokyo Disney Vacation Package — Enjoy Unlimited Rides on Eligible Attractions! ― 2DAYS","visitDate":"09/12/2026–10/12/2026","day":12,"category":"Parques / Disney","leadGroup":"imediato","risk":"critico","status":"monitorando","monitorFrom":"2026-06-07","targetActionDate":"Assim que o comunicado oficial de dezembro/2026 for publicado","targetActionTime":"15:00 JST se seguir o padrão das publicações oficiais recentes","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial necessária","sourceNote":"O site oficial já publicou Nov/2026: comunicado de 28/05/2026 com venda em 04/06/2026 15:00 JST. Dez/2026 ainda deve ser monitorado no News oficial; não cravar data sem publicação oficial.","sourceUrl":"https://reserve.tokyodisneyresort.jp/en/news/list/","linkLabel":"Abrir site oficial","notes":"Comprar no minuto de abertura. Confirmar se o pacote Unlimited de dezembro mantém a lista de atrações elegíveis e as regras do plano. Não usar Happy Entry como premissa operacional.","dependencies":["Conta TDR criada e logada","Cartão internacional liberado/3DS","Decisão final do hotel Disney e composição do quarto"],"checklist":["Criar/login na conta TDR","Salvar cartão/checar 3D Secure","Abrir News oficial todos os dias","Quando sair dezembro, entrar antes das 15:00 JST","Comprar pacote/guardar PDF e número da reserva"],"planB":"Se esgotar: avaliar hotel Disney + ingressos regulares + DPA/Premier Access/planos separados; não mexer no restante sem nova aprovação.","lastValidatedAt":"2026-06-07"},{"id":"disney-hotel-toystory-dec2026","title":"Disney Hotel / Toy Story Hotel — confirmar estadia e quarto correto","visitDate":"08/12/2026–11/12/2026","day":11,"category":"Hotéis / Disney","leadGroup":"imediato","risk":"alto","status":"monitorando","monitorFrom":"2026-06-07","targetActionDate":"Junto com o Vacation Package ou imediatamente após definir pacote","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial necessária","sourceNote":"Hotel pode estar embutido no VP ou separado. Confirmar configuração para 3 pessoas e política de malas/entrega.","sourceUrl":"https://reserve.tokyodisneyresort.jp/en/about/vp_01","linkLabel":"Abrir site oficial","notes":"Confirmar se a configuração do Toy Story Hotel comporta vocês com conforto e se a reserva do VP cobre exatamente as noites desejadas.","dependencies":["Escolha final Toy Story vs outro Disney Hotel","VP comprado ou reserva avulsa Disney"],"checklist":["Confirmar datas 08–11/12","Confirmar tipo de quarto para 3","Salvar confirmação","Anotar cancelamento e pagamento"],"planB":"Se VP obrigar outro hotel/quarto, reavaliar logística Disney e malas.","lastValidatedAt":"2026-06-07"},{"id":"international-flights","title":"Voos internacionais Emirates / Brasil–Dubai–Tóquio–Osaka–Dubai–Brasil","visitDate":"28/11/2026–20/12/2026","day":1,"category":"Voos","leadGroup":"imediato","risk":"critico","status":"pendente","monitorFrom":"2026-06-07","targetActionDate":"Conferir/emitir o quanto antes","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"confirmação do usuário","sourceNote":"Item de controle: roteiro depende dos voos-base. Usar confirmação da companhia/agência, não apenas anotação do roteiro.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Marcar como reservado/pago quando todos os trechos estiverem emitidos e assentos/bagagem conferidos.","dependencies":[],"checklist":["Conferir localizadores","Conferir franquia de bagagem","Conferir nomes exatamente como passaporte","Salvar PDFs no Drive","Checar assentos 3 juntos"],"planB":"Se algum trecho mudar, revisar hotéis e dias críticos imediatamente.","lastValidatedAt":"2026-06-07"},{"id":"tokyo-hotel-jr-kyushu","title":"JR Kyushu Hotel Blossom Shinjuku — quarto 3 pessoas e datas","visitDate":"02/12/2026–08/12/2026","day":5,"category":"Hotéis","leadGroup":"imediato","risk":"alto","status":"reservado","monitorFrom":"2026-06-07","targetActionDate":"Confirmar por escrito cama/configuração e data correta","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"confirmação do usuário + hotel/Booking","sourceNote":"Reserva já foi informada pelo usuário; ainda exige confirmação escrita do arranjo para 3 adultos e da data de check-in correta.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"A reserva colada pelo usuário era 01/12–08/12; roteiro chega em 02/12. Confirmar se a diária 01/12 foi intencional ou erro.","dependencies":[],"checklist":["Enviar mensagem perguntando 2 camas + terceira cama/espaço para 3","Revisar entrada 01/12 vs chegada real 02/12","Salvar confirmação do hotel","Confirmar café da manhã e cancelamento"],"planB":"Se responderem que são só 2 camas sem terceira cama, trocar quarto/hotel antes de expirar cancelamento gratuito.","lastValidatedAt":"2026-06-07"},{"id":"dubai-sofitel","title":"Sofitel Dubai Downtown — estadias Dubai início/fim","visitDate":"29/11/2026–01/12/2026 e 18/12/2026–20/12/2026","day":2,"category":"Hotéis","leadGroup":"imediato","risk":"medio","status":"pendente","monitorFrom":"2026-06-07","targetActionDate":"Confirmar reservas e late/early check-in","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"confirmação do usuário","sourceNote":"Item de controle de hotel; confirmar duas estadias, early check-in no retorno do Japão e proximidade com Dubai Mall.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"No retorno de Osaka, o voo chega cedo em Dubai; early check-in ou estratégia de bagagem/descanso é importante.","dependencies":[],"checklist":["Confirmar 29/11–01/12","Confirmar 18/12–20/12","Perguntar early check-in em 18/12","Salvar PDFs/links"],"planB":"Sem early check-in: deixar malas e fazer café/descanso leve sem compromisso forte.","lastValidatedAt":"2026-06-07"},{"id":"kyoto-granvia","title":"Hotel Granvia Kyoto — base integrada à Kyoto Station","visitDate":"11/12/2026–14/12/2026","day":14,"category":"Hotéis","leadGroup":"imediato","risk":"alto","status":"pendente","monitorFrom":"2026-06-07","targetActionDate":"Reservar/confirmar o quanto antes","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"roteiro atual","sourceNote":"Hotel crítico pela logística do Shinkansen e envio/recebimento de malas. Confirmar recebimento de Ta-Q-Bin/Yamato e envio para Osaka.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"A localização integrada à estação protege a chegada no dia 11/12 e o envio de malas para Osaka.","dependencies":[],"checklist":["Confirmar reserva 11–14/12","Confirmar recebimento de malas de Shinjuku em 11/12","Confirmar cutoff de envio para Osaka","Salvar confirmação"],"planB":"Se mudar hotel em Kyoto, revisar imediatamente todos os transportes de Kyoto e envio de malas.","lastValidatedAt":"2026-06-07"},{"id":"osaka-cross-hotel","title":"Cross Hotel Osaka — base Namba/Dotonbori","visitDate":"14/12/2026–17/12/2026","day":17,"category":"Hotéis","leadGroup":"imediato","risk":"alto","status":"pendente","monitorFrom":"2026-06-07","targetActionDate":"Reservar/confirmar o quanto antes","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"roteiro atual","sourceNote":"Hotel crítico para Namba/Dotonbori, dia final e transfer KIX. Confirmar recebimento de malas enviadas de Kyoto.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Base perto de Dotonbori melhora restaurantes, compras e último dia.","dependencies":[],"checklist":["Confirmar reserva 14–17/12","Confirmar recebimento de malas do Granvia Kyoto","Ver late checkout ou guarda-volumes dia 17","Salvar confirmação"],"planB":"Se mudar hotel, revisar Dotonbori/Nipponbashi/USJ/KIX.","lastValidatedAt":"2026-06-07"},{"id":"ferrari-world-ticket-transfer","title":"Ferrari World Abu Dhabi + transfer Dubai↔Yas Island","visitDate":"30/11/2026","day":3,"category":"Parques / Dubai-Abu Dhabi","leadGroup":"3m","risk":"medio","status":"pendente","monitorFrom":"2026-08-15","targetActionDate":"2026-09-01 a 2026-10-15","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial/alta para parque; transfer a contratar","sourceNote":"Ingressos do parque e transfer privado podem ser comprados antes; Quick Pass/FacePass e operação das atrações devem ser confirmados perto da data.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Resolver transfer antes para não improvisar bate-volta. Ingresso/upgrade podem ser ajustados conforme calendário e operação.","dependencies":[],"checklist":["Comprar/confirmar ingressos","Definir transfer/driver","Checar Quick Pass/upgrade","Salvar confirmação"],"planB":"Se transfer ficar caro, avaliar tour/driver local com horário fechado; não usar transporte público improvisado.","lastValidatedAt":"2026-06-07"},{"id":"shibuya-sky-sunset","title":"SHIBUYA SKY — sunset 03/12","visitDate":"03/12/2026","day":6,"category":"Atrações / Tóquio","leadGroup":"14d","risk":"alto","status":"pendente","monitorFrom":"2026-11-01","targetActionDate":"Assim que a janela oficial/fornecedor abrir para 03/12; não passar de 19/11/2026","targetActionTime":"00:00 JST se seguir janela de 14 dias; confirmar perto","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial parcial + janela a confirmar","sourceNote":"GO TOKYO confirma horário de funcionamento 10:00–22:30 e entrada até 21:20; janela exata de venda precisa ser checada no canal oficial/fornecedor para dezembro/2026.","sourceUrl":"https://www.gotokyo.org/en/spot/1749/index.html","linkLabel":"Abrir site oficial","notes":"Comprar horário 15:30–16:00 para pegar luz + noite. Rooftop pode fechar por vento/clima; não levar tripé/selfie stick/itens soltos.","dependencies":[],"checklist":["Monitorar site/fornecedores a partir de 01/11","Comprar o primeiro slot bom de sunset","Salvar QR/PDF","Anotar política climática"],"planB":"Se sunset esgotar: comprar fim da tarde/noite e manter PARCO/Crossing; não mover o dia inteiro sem aprovação.","lastValidatedAt":"2026-06-07"},{"id":"teamlab-planets","title":"teamLab Planets Toyosu — ingresso com horário","visitDate":"06/12/2026","day":9,"category":"Atrações / Tóquio","leadGroup":"2m","risk":"alto","status":"pendente","monitorFrom":"2026-10-01","targetActionDate":"Quando dezembro/2026 abrir no ticket store oficial","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial/alta","sourceNote":"Ticket store oficial confirma venda de ingressos por horário e experiência teamLab Planets; mês de dezembro deve ser comprado quando liberado no canal oficial.","sourceUrl":"https://teamlabplanets.dmm.com/en","linkLabel":"Abrir site oficial","notes":"Mirar manhã 09:30. Ingresso por horário; revisar roupas adequadas porque há água/espelhos.","dependencies":[],"checklist":["Checar abertura do mês de dezembro","Comprar 3 ingressos para manhã","Salvar QR/PDF","Revisar regras de roupa/água"],"planB":"Se horário 09:30 esgotar: pegar primeiro horário matinal viável e ajustar Akihabara sem mexer no Roast Beef Ohno sem aprovação.","lastValidatedAt":"2026-06-07"},{"id":"fuji-private-tour","title":"Excursão/Tour Monte Fuji / Kawaguchiko sem Gotemba","visitDate":"07/12/2026","day":10,"category":"Passeio / Tour privado","leadGroup":"3m","risk":"alto","status":"pendente","monitorFrom":"2026-08-15","targetActionDate":"2026-09-01 a 2026-10-15","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"curadoria a contratar","sourceNote":"Não há tour específico aprovado ainda. Reservar tour privado/semiprivado com saída Shinjuku, foco Kawaguchiko/Oishi/Chureito/Oshino e sem outlet.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Dia climático: operador precisa aceitar ajuste de rota conforme visibilidade do Fuji.","dependencies":[],"checklist":["Escolher operador/roteiro","Confirmar pickup em Shinjuku","Confirmar sem Gotemba/outlet","Confirmar cancelamento por clima","Salvar voucher/WhatsApp"],"planB":"Se previsão ruim, manter tour se política permitir e transformar em rota regional + Hoto Fudo; se cancelável, avaliar reembolso.","lastValidatedAt":"2026-06-07"},{"id":"narita-arrival-transfer","title":"Narita → JR Kyushu Shinjuku — Limousine Bus ou transfer privado","visitDate":"02/12/2026","day":5,"category":"Transporte","leadGroup":"1m","risk":"medio","status":"pendente","monitorFrom":"2026-11-01","targetActionDate":"2026-11-15 a 2026-11-25","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial a confirmar","sourceNote":"Plano A é Airport Limousine Bus até Busta Shinjuku; se horários estiverem ruins ou cansaço alto, transfer privado.","sourceUrl":"https://www.limousinebus.co.jp/guide/en/","linkLabel":"Abrir site oficial","notes":"Não enviar mala do aeroporto para o hotel; levar com vocês nesse primeiro deslocamento.","dependencies":[],"checklist":["Checar horários do Limousine Bus para 02/12","Se horário ruim, reservar transfer privado","Salvar ponto de embarque/desembarque","Deixar rota Busta→hotel offline"],"planB":"Plano B: transfer privado direto. Plano C: Narita Express só se bus/transfer não encaixarem.","lastValidatedAt":"2026-06-07"},{"id":"luggage-shinjuku-kyoto","title":"Ta-Q-Bin/Yamato — malas grandes Shinjuku → Hotel Granvia Kyoto","visitDate":"08/12/2026","day":11,"category":"Malas / Logística","leadGroup":"1m","risk":"alto","status":"pendente","monitorFrom":"2026-11-01","targetActionDate":"Confirmar com JR Kyushu e Granvia até 01/12/2026","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"hotel/Yamato a confirmar","sourceNote":"A Yamato oferece hands-free travel/hotel delivery; confirmar hotéis e cutoff real. Esta é a chave para Disney só com mala pequena.","sourceUrl":"https://www.global-yamato.com/en/hands-free-travel/","linkLabel":"Abrir site oficial","notes":"Enviar malas grandes em 08/12 do JR Kyushu Shinjuku para Hotel Granvia Kyoto, entrega desejada 11/12.","dependencies":[],"checklist":["Confirmar se JR Kyushu despacha para Granvia","Confirmar se Granvia recebe e guarda","Separar mala pequena Disney/Kyoto","Tirar foto do recibo/etiqueta"],"planB":"Se não puder enviar, revisar plano com transfer/táxi e assento oversized; não levar mala grande na Keiyo Line.","lastValidatedAt":"2026-06-07"},{"id":"gyukatsu-motomura-watch","title":"Gyukatsu Motomura Shinjuku — sem reserva, regra de fila","visitDate":"08/12/2026","day":11,"category":"Restaurante / Sem reserva","leadGroup":"semana","risk":"medio","status":"monitorando","monitorFrom":"2026-12-01","targetActionDate":"Confirmar horários/loja na semana","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"Tabelog/site a reconfirmar","sourceNote":"Almoço-alvo só se fila aceitável. Não é reserva; é regra de corte.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Se fila passar 30–40 min, abortar para proteger Toy Story/Maihama.","dependencies":[],"checklist":["Confirmar loja/horário","Levar alternativa Tsunahachi/refeição rápida","Definir limite de fila antes de chegar"],"planB":"Cortar sem culpa se a fila ameaçar Disney.","lastValidatedAt":"2026-06-07"},{"id":"tokyo-disney-park-tickets-day3","title":"Tokyo DisneySea curto 11/12 — ingresso/entrada do terceiro dia","visitDate":"11/12/2026","day":14,"category":"Parques / Disney","leadGroup":"2m","risk":"alto","status":"pendente","monitorFrom":"2026-09-15","targetActionDate":"Confirmar se está incluído no VP ou comprar ingresso separado quando janela abrir","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial necessária","sourceNote":"O VP 2DAYS cobre os dias premium; o dia 11/12 é curto e pode exigir ingresso separado se não estiver incluído em outra reserva.","sourceUrl":"https://reserve.tokyodisneyresort.jp/en/about/vp_01","linkLabel":"Abrir site oficial","notes":"Conferir exatamente no pacote comprado. Não descobrir no hotel.","dependencies":["Compra do VP Disney"],"checklist":["Depois de comprar VP, checar quais dias/parks estão cobertos","Comprar ingresso separado para 11/12 se necessário","Salvar QR no app"],"planB":"Se ingresso do terceiro dia ficar caro/indisponível, transformar 11/12 em manhã logística/Ikspiari e shinkansen mais cedo.","lastValidatedAt":"2026-06-07"},{"id":"shinkansen-tokyo-kyoto","title":"Shinkansen Tokyo → Kyoto — assentos reservados + lado Fuji","visitDate":"11/12/2026","day":14,"category":"Transporte / Trem","leadGroup":"1m","risk":"alto","status":"pendente","monitorFrom":"2026-10-15","targetActionDate":"2026-11-11","targetActionTime":"10:00 JST (regra geral 1 mês antes; confirmar no canal escolhido)","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial/alta","sourceNote":"JR Central informa que assentos com oversized baggage são limitados e, como outros assentos reservados, ficam disponíveis 1 mês antes; malas grandes estarão enviadas, mas reservar assentos comuns com antecedência protege horário.","sourceUrl":"https://global.jr-central.co.jp/en/info/oversized-baggage/","linkLabel":"Abrir site oficial","notes":"Reservar Tokyo→Kyoto em horário compatível com DisneySea curto. Preferir assento E em classe comum 3+2 para chance de Fuji; confirmar layout.","dependencies":[],"checklist":["Definir horário de saída do DisneySea","Reservar 3 assentos juntos","Tentar lado Fuji/assento E se aplicável","Salvar QR/tickets","Não reservar oversized se malas grandes já foram enviadas"],"planB":"Se horário desejado esgotar, pegar trem anterior/posterior e ajustar DisneySea curto; trem manda no dia.","lastValidatedAt":"2026-06-07"},{"id":"nintendo-museum-pending","title":"Nintendo Museum — pendência crítica: roteiro atual não tem bloco ativo","visitDate":"A definir; candidato histórico 14/12","day":17,"category":"Atrações / Kyoto-Uji","leadGroup":"3m","risk":"critico","status":"atencao","monitorFrom":"2026-09-01","targetActionDate":"Se reativar visita em dezembro: entrar no sorteio 3 meses antes do mês/data desejada","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial/alta","sourceNote":"Nintendo Museum informa que tickets são vendidos por sorteio, com inscrições aceitas 3 meses antes da visita; resultados saem no 1º dia do mês seguinte e pagamento até o dia 7. O roteiro v11.3 atual não contém bloco Nintendo Museum.","sourceUrl":"https://museum.nintendo.com/en/guide/visit-flow/index.html","linkLabel":"Abrir site oficial","notes":"Alerta: existe memória histórica de que Nintendo Museum era desejado, mas o roteiro atual não contém a visita. Não reservar sem decidir onde encaixar.","dependencies":[],"checklist":["Decidir se Nintendo Museum volta ao roteiro","Criar/confirmar Nintendo Account","Se voltar: entrar no sorteio 3 meses antes","Se sorteado: pagar até dia 7","Emitir QR 14:00 do dia anterior"],"planB":"Se não entrar no sorteio, tentar first-come tickets até 2 meses antes se houver cancelamentos; caso contrário manter Arashiyama/Kinkaku/Osaka.","lastValidatedAt":"2026-06-07"},{"id":"arashiyama-rickshaw","title":"Rickshaw Arashiyama — 2 rickshaws para 3 pessoas","visitDate":"14/12/2026","day":17,"category":"Passeio / Kyoto","leadGroup":"2m","risk":"medio","status":"pendente","monitorFrom":"2026-10-01","targetActionDate":"2026-10-15 a 2026-11-15","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"operador a contratar","sourceNote":"Rickshaw é opcional forte para poupar caminhada e dar contexto; reservar 45 min se horário permitir, 30 min como alternativa.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Não sacrificar Bamboo, Togetsukyo, Kinkaku-ji ou ida para Osaka.","dependencies":[],"checklist":["Escolher operador em Arashiyama","Reservar 2 rickshaws para 3","Mirar 45 min; plano B 30 min","Confirmar ponto de encontro"],"planB":"Se atrasar em Arashiyama, cortar rickshaw antes de cortar Kinkaku-ji.","lastValidatedAt":"2026-06-07"},{"id":"luggage-kyoto-osaka","title":"Ta-Q-Bin/Yamato — malas Hotel Granvia Kyoto → Cross Hotel Osaka","visitDate":"13/12/2026 ou 14/12/2026","day":16,"category":"Malas / Logística","leadGroup":"1m","risk":"alto","status":"pendente","monitorFrom":"2026-11-15","targetActionDate":"Confirmar cutoff no check-in do Granvia e executar até 13/12","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"hotel/Yamato a confirmar","sourceNote":"Envio de malas Kyoto→Osaka permite Arashiyama/Kinkaku com mochila leve.","sourceUrl":"https://www.global-yamato.com/en/hands-free-travel/","linkLabel":"Abrir site oficial","notes":"No check-in do Granvia, perguntar cutoff e entrega no Cross Hotel Osaka. Se cutoff for cedo, enviar de manhã em 13/12.","dependencies":[],"checklist":["Confirmar Cross Hotel recebe malas","Perguntar cutoff no Granvia","Separar bolsa ponte Kyoto→Osaka","Tirar foto do recibo"],"planB":"Se falhar, voltar ao Granvia para malas antes de Osaka, mas isso corta a noite em Osaka.","lastValidatedAt":"2026-06-07"},{"id":"usj-vip-5h","title":"Universal Studios Japan — VIP 5h + Studio Pass","visitDate":"16/12/2026","day":19,"category":"Parques / USJ","leadGroup":"2m","risk":"critico","status":"pendente","monitorFrom":"2026-09-15","targetActionDate":"Por volta de 16/10/2026, se seguir janela de 2 meses; confirmar no site oficial/autorizado","targetActionTime":"00:00–horário do canal, confirmar","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial/alta para canal; janela exata a confirmar","sourceNote":"USJ oficial/autorizado vende VIP/Extras no canal de ticketing; janelas podem ser limitadas e variar. Comprar assim que a data abrir.","sourceUrl":"https://www.usjticketing.com/extras","linkLabel":"Abrir site oficial","notes":"Precisa de Studio Pass separado + VIP. Confirmar ponto de encontro, horário do tour, Super Nintendo World/Donkey Kong e se Power-Up Band será comprada antes.","dependencies":[],"checklist":["Checar calendário 2 meses antes","Comprar Studio Pass","Comprar VIP 5h","Salvar QR/vouchers","Anotar chegada 30 min antes do tour"],"planB":"Se VIP 5h esgotar: avaliar VIP alternativo/Express Pass forte; não replanejar USJ sem aprovação.","lastValidatedAt":"2026-06-07"},{"id":"matsusakagyu-yakiniku-m","title":"Matsusakagyu Yakiniku M Hozenji Yokocho — jantar premium","visitDate":"15/12/2026","day":18,"category":"Restaurante / Osaka","leadGroup":"2m","risk":"alto","status":"pendente","monitorFrom":"2026-10-01","targetActionDate":"Assim que dezembro ou a data de 15/12 abrir para reservas","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial/alta","sourceNote":"Jantar premium protegido; reservar cedo para 3 pessoas. Dotonbori Mitsuru é substituto premium, não plano B fraco.","sourceUrl":"https://matsusaka-projects.com/english/","linkLabel":"Abrir site oficial","notes":"Reservar em horário compatível com pinball/Hozenji. Se preço/curso ficar alto demais, decidir substituto antes da viagem.","dependencies":[],"checklist":["Checar reservas da unidade Hozenji Yokocho","Reservar mesa para 3 às 20:00–20:30","Salvar confirmação","Checar cancelamento/depósito"],"planB":"Se M não fechar, reservar Dotonbori Mitsuru no mesmo eixo.","lastValidatedAt":"2026-06-07"},{"id":"zeniba-shibuya","title":"Yakiniku ZENIBA Shibuya — jantar 03/12","visitDate":"03/12/2026","day":6,"category":"Restaurante / Tóquio","leadGroup":"1m","risk":"alto","status":"pendente","monitorFrom":"2026-10-15","targetActionDate":"2026-11-01 a 2026-11-15","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"fonte oficial/restaurante a reconfirmar","sourceNote":"Jantar familiar relevante em Shibuya; mapa já foi corrigido para GEMS Jingumae 10F.","sourceUrl":"https://www.hotpepper.jp/strJ001294969/","linkLabel":"Abrir site oficial","notes":"Reservar para 20:00 se possível. Confirmar que o pedido desejado é 溶岩焼き盛り合わせ / lava-grilled assorted meats.","dependencies":[],"checklist":["Checar canal de reserva","Reservar 3 pessoas 20:00","Salvar confirmação","Anotar endereço GEMS Jingumae 10F"],"planB":"Se não reservar, usar alternativa Shinjuku Gyu-Kaku/Yakiniku Like apenas como fallback aprovado.","lastValidatedAt":"2026-06-07"},{"id":"nemuro-hanamaru-strategy","title":"Nemuro Hanamaru Ginza — estratégia de senha, não reserva","visitDate":"05/12/2026","day":8,"category":"Restaurante / Fila-senha","leadGroup":"semana","risk":"alto","status":"monitorando","monitorFrom":"2026-11-25","targetActionDate":"Confirmar unidade e sistema na semana; executar senha por volta de 17:30 no dia","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"Tabelog/loja a reconfirmar","sourceNote":"Não é reserva clássica; risco é fila/senha. Estratégia: escolher unidade Ginza/Tokyu Plaza e retirar senha cedo.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"O app deve lembrar que o jantar depende de senha/espera inteligente, não de fila física longa.","dependencies":[],"checklist":["Confirmar unidade Ginza vs KITTE","Checar horário no dia","Chegar/retirar senha ~17:30","Esperar em shopping perto"],"planB":"Se espera empurrar muito tarde, usar restaurante no mesmo prédio e tentar sushi em outro dia.","lastValidatedAt":"2026-06-07"},{"id":"sarabeths-shinjuku","title":"Sarabeth’s Lumine Shinjuku — jantar americano 06/12","visitDate":"06/12/2026","day":9,"category":"Restaurante / Tóquio","leadGroup":"1m","risk":"medio","status":"pendente","monitorFrom":"2026-11-01","targetActionDate":"Checar reserva/fila 2–4 semanas antes","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial/alta para horário","sourceNote":"Site oficial lista Lumine Shinjuku, acesso South Exit e horário 9:00–22:00 com L.O. 21:00; reservar se houver canal, senão chegar antes do L.O.","sourceUrl":"https://sarabethsrestaurants.jp/location/shinjuku/en/","linkLabel":"Abrir site oficial","notes":"Jantar aprovado para fechar Akihabara perto do hotel. Não trocar por Shogun/Kabukicho.","dependencies":[],"checklist":["Checar se aceita reserva","Se aceitar, reservar 19:30","Se não, anotar L.O. 21:00","Salvar Shake Shack como plano B"],"planB":"Se cheio ou tarde, Shake Shack Shinjuku Southern Terrace é alternativa aprovada.","lastValidatedAt":"2026-06-07"},{"id":"onodera-kyoto","title":"Kaiten Sushi Ginza Onodera Kyoto — alvo se fila/senha permitir","visitDate":"12/12/2026","day":15,"category":"Restaurante / Kyoto","leadGroup":"1m","risk":"medio","status":"pendente","monitorFrom":"2026-11-01","targetActionDate":"Checar reserva/senha 2–4 semanas antes","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"Tabelog/loja a reconfirmar","sourceNote":"Alvo real de sushi em Kyoto, mas pode conviver com Chao Chao. Confirmar se há reserva, senha ou apenas fila.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Se for só fila, tratar como tentativa controlada, não compromisso que sacrifique Gion/Pontocho.","dependencies":[],"checklist":["Checar se aceita reserva","Confirmar horário/último pedido","Definir regra com Chao Chao","Salvar mapa exato"],"planB":"Se inviável, Chao Chao vira jantar leve e sushi fica em outro dia/Daiki/Kuromon.","lastValidatedAt":"2026-06-07"},{"id":"tsurutontan-soemoncho","title":"Tsurutontan Soemoncho — jantar chegada Osaka","visitDate":"14/12/2026","day":17,"category":"Restaurante / Osaka","leadGroup":"1m","risk":"medio","status":"pendente","monitorFrom":"2026-11-01","targetActionDate":"Checar reserva/fila 2–4 semanas antes","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"Tabelog/site a reconfirmar","sourceNote":"Jantar confortável pós-Kyoto. Horário amplo, mas confirmar operação do dia e se aceita reserva.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Não pode competir com chegada em Osaka; se fila ruim, comer em Namba/Dotonbori.","dependencies":[],"checklist":["Checar horário segunda","Checar reserva","Salvar Imai Honten como alternativa","Confirmar rota do Cross Hotel"],"planB":"Se cansados/fila, jantar simples perto do hotel.","lastValidatedAt":"2026-06-07"},{"id":"dinner-dotonbori-mitsuru-backup","title":"Dotonbori Mitsuru — reserva de segurança se Matsusakagyu M falhar","visitDate":"15/12/2026","day":18,"category":"Restaurante / Osaka","leadGroup":"2m","risk":"medio","status":"monitorando","monitorFrom":"2026-10-01","targetActionDate":"Reservar somente se Matsusakagyu M não fechar","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"curadoria do roteiro","sourceNote":"Substituto premium equivalente/protegido para A5/Kuroge Wagyu; não reservar os dois sem decisão para evitar duplicidade de carne cara.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Usar como plano B real, não como restaurante extra.","dependencies":["Decisão Matsusakagyu Yakiniku M"],"checklist":["Se M esgotar, checar disponibilidade Mitsuru","Reservar horário semelhante","Cancelar duplicidade se houver"],"planB":"Se ambos falharem, procurar yakiniku premium em Namba/Hozenji com aprovação prévia.","lastValidatedAt":"2026-06-07"},{"id":"kix-transfer","title":"Transfer/van Cross Hotel Osaka → Kansai Airport KIX","visitDate":"17/12/2026","day":20,"category":"Transporte / Aeroporto","leadGroup":"1m","risk":"alto","status":"pendente","monitorFrom":"2026-11-15","targetActionDate":"2026-12-01","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"a contratar","sourceNote":"Plano A aprovado: transfer/van/táxi grande para KIX devido a malas/compras. Rapi:t é plano B se malas estiverem controladas.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Reservar se o volume de malas confirmar. Evita estação com malas no último dia.","dependencies":[],"checklist":["Confirmar horário de saída do hotel","Orçar van/táxi grande","Reservar com margem para voo","Salvar contato/WhatsApp"],"planB":"Plano B: Nankai Rapi:t de Namba se malas controladas e grupo descansado.","lastValidatedAt":"2026-06-07"},{"id":"visit-japan-web-esim","title":"Visit Japan Web + eSIM/Suica/apps antes do Japão","visitDate":"Até 01/12/2026","day":4,"category":"Documentos / Apps","leadGroup":"1m","risk":"alto","status":"pendente","monitorFrom":"2026-11-01","targetActionDate":"2026-11-15 a 2026-11-25","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"procedimento de viagem","sourceNote":"Não é reserva comercial, mas é checklist de entrada/conforto: Visit Japan Web, eSIM, Suica, apps Disney/USJ/Nintendo/Maps.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Evita resolver internet/QR na chegada em Narita.","dependencies":[],"checklist":["Preencher Visit Japan Web","Instalar/validar eSIM","Configurar Suica/IC no iPhone/Android se possível","Instalar apps Disney/USJ/Nintendo","Salvar PDFs offline"],"planB":"Se eSIM falhar, comprar SIM/eSIM no aeroporto antes de sair para Shinjuku.","lastValidatedAt":"2026-06-07"},{"id":"disney-vp-benefits-check","title":"Checagem final dos benefícios Disney VP e lista de atrações elegíveis","visitDate":"09/12/2026–10/12/2026","day":12,"category":"Parques / Disney","leadGroup":"semana","risk":"critico","status":"pendente","monitorFrom":"2026-12-01","targetActionDate":"Semana da viagem","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial necessária","sourceNote":"Mesmo com pacote comprado, validar no app quais atrações estão elegíveis e se há fechamentos em dezembro/2026.","sourceUrl":"https://reserve.tokyodisneyresort.jp/en/about/vp_01","linkLabel":"Abrir site oficial","notes":"Unlimited vale só para atrações elegíveis do pacote, não para o parque inteiro.","dependencies":["Compra do VP Disney"],"checklist":["Checar app TDR","Checar fechamentos/closures","Checar vouchers/snacks/original goods","Separar QR/benefícios por pessoa"],"planB":"Se houver atração fechada, redistribuir foco entre elegíveis e shows/paradas sem sacrificar dias premium.","lastValidatedAt":"2026-06-07"},{"id":"nintendo-qr-workshop-if-booked","title":"Nintendo Museum — emitir QR e reservar workshop no dia, se visita for reativada","visitDate":"Dia anterior/No dia","day":17,"category":"Atrações / Kyoto-Uji","leadGroup":"day","risk":"medio","status":"atencao","monitorFrom":"2026-12-13","targetActionDate":"14:00 do dia anterior para QR; workshop ao entrar","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"oficial/alta","sourceNote":"Nintendo informa que QR pode ser emitido a partir de 14:00 do dia anterior; workshops exigem reserva no mesmo dia e são first-come.","sourceUrl":"https://museum.nintendo.com/en/guide/visit-flow/index.html","linkLabel":"Abrir site oficial","notes":"Só vale se a visita voltar ao roteiro e ingresso for obtido.","dependencies":["Nintendo Museum ticket"],"checklist":["Emitir QR 14:00 do dia anterior","Levar passaporte","Se quiser workshop, pedir reserva ao entrar"],"planB":"Se não houver ingresso, ignorar este item.","lastValidatedAt":"2026-06-07"},{"id":"burj-atmosphere-optional","title":"At.mosphere / Burj Khalifa jantar especial — opcional, não previsto como obrigação","visitDate":"18/12/2026 ou 19/12/2026","day":21,"category":"Restaurante / Dubai","leadGroup":"1m","risk":"baixo","status":"nao_necessario","monitorFrom":"2026-11-15","targetActionDate":"Reservar apenas se vocês decidirem incluir jantar especial","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"opcional","sourceNote":"O roteiro atual trata Dubai final como compras/descanso. At.mosphere é opcional e exige reserva se decidido.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Não reservar automaticamente: pode competir com descanso/malas após Japão.","dependencies":[],"checklist":["Decidir se querem jantar especial","Se sim, checar janela/reserva","Confirmar dress code e horário"],"planB":"Se não entrar, manter Time Out Market/Social House/Dubai Mall.","lastValidatedAt":"2026-06-07"},{"id":"restaurants-weekly-recheck","title":"Rechecagem final de horários/fechamentos dos restaurantes-alvo","visitDate":"Todos os restaurantes do Japão","day":"vários","category":"Restaurante / Auditoria final","leadGroup":"semana","risk":"alto","status":"pendente","monitorFrom":"2026-12-01","targetActionDate":"Semana anterior de cada cidade","targetActionTime":"","officialOpenDate":null,"owner":"Rodrigo","sourceReliability":"auditoria operacional","sourceNote":"Vários restaurantes mudam horário, última chamada, folga semanal ou operação sazonal. A aba cardápio já está enriquecida, mas a semana da viagem exige reconfirmação.","sourceUrl":"","linkLabel":"Abrir site oficial","notes":"Itens críticos: ZENIBA, Maisen, Roast Beef Ohno, Sarabeth’s, Hoto Fudo, Onodera, Tsurutontan, Matsusakagyu M, Chitose, Kuromon Sanpei.","dependencies":[],"checklist":["Rever Google/Tabelog/oficial de cada alvo","Checar feriados/fechamento temporário","Ajustar plano B se necessário"],"planB":"Se algum alvo fechar, marcar pendência e propor troca antes da viagem.","lastValidatedAt":"2026-06-07"}];
+const DEFAULT_RESERVATIONS_META = {"title":"Reservas e Prazos","generatedAt":"2026-06-07T15:30:00Z","rule":"Data exata só quando houver fonte oficial. Quando 2026/dezembro ainda não estiver publicado, usar monitoramento e não inventar data.","statusOptions":["pendente","monitorando","reservado","pago","atencao","nao_necessario","cancelado"],"riskOrder":["critico","alto","medio","baixo"],"leadGroups":[{"id":"imediato","label":"🔥 Já / imediato"},{"id":"6m","label":"6+ meses antes"},{"id":"5m","label":"5 meses antes"},{"id":"4m","label":"4 meses antes"},{"id":"3m","label":"3 meses antes"},{"id":"2m","label":"2 meses antes"},{"id":"1m","label":"1 mês antes"},{"id":"14d","label":"14 dias antes"},{"id":"semana","label":"Semana da viagem"},{"id":"day","label":"No dia / véspera"}],"warning":"Reservas críticas devem ser reconfirmadas no site oficial perto da janela de abertura; o app é painel de controle, não substitui o canal oficial."};
+const USERS = ["Rodrigo", "Luciana", "Luísa"];
+const UCOLOR = { Rodrigo: "#2563eb", Luciana: "#db2777", "Luísa": "#7c3aed" };
+const UEMOJI = { Rodrigo: "👨", Luciana: "👩", "Luísa": "👧" };
+const PHOTO_STORAGE_KEY = "vjtrip26-profile-photos-v1";
+
+// Ícone do site: bandeira do Japão. Fotos dos perfis são carregadas pelo usuário e salvas localmente no aparelho.
+const PERSON_PROFILE = {
+  Rodrigo: { initials: "R", label: "Rodrigo", color: "#2563eb" },
+  Luciana: { initials: "L", label: "Luciana", color: "#db2777" },
+  "Luísa": { initials: "L", label: "Luísa", color: "#7c3aed" },
+};
+
+const APP_ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="26" fill="#ffffff"/>
+  <circle cx="64" cy="64" r="31" fill="#bc002d"/>
+</svg>`;
+
+const readStoredProfilePhotos = () => {
+  if (typeof localStorage === "undefined") return {};
+  try { return JSON.parse(localStorage.getItem(PHOTO_STORAGE_KEY) || "{}"); } catch { return {}; }
+};
+
+const writeStoredProfilePhotos = (photos) => {
+  if (typeof localStorage === "undefined") return;
+  try { localStorage.setItem(PHOTO_STORAGE_KEY, JSON.stringify(photos || {})); } catch {}
+};
+
+const imageFileToAvatarDataUrl = (file, size = 420) => new Promise((resolve, reject) => {
+  if (!file) return resolve(null);
+  const reader = new FileReader();
+  reader.onerror = () => reject(new Error("Não consegui ler a foto."));
+  reader.onload = () => {
+    const img = new Image();
+    img.onerror = () => reject(new Error("Arquivo de imagem inválido."));
+    img.onload = () => {
+      const minSide = Math.min(img.width, img.height);
+      const sx = Math.round((img.width - minSide) / 2);
+      const sy = Math.round((img.height - minSide) / 2);
+      const canvas = document.createElement("canvas");
+      canvas.width = size; canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+      resolve(canvas.toDataURL("image/jpeg", 0.86));
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+function installAppBranding() {
+  if (typeof document === "undefined") return;
+  document.title = "Dubai + Japão 2026";
+  const svgData = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(APP_ICON_SVG)}`;
+  const ensureLink = (rel, type, href) => {
+    let link = document.querySelector(`link[rel='${rel}']`);
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = rel;
+      document.head.appendChild(link);
+    }
+    if (type) link.type = type;
+    link.href = href;
+  };
+  ensureLink("icon", "image/svg+xml", svgData);
+  ensureLink("shortcut icon", "image/svg+xml", svgData);
+  ensureLink("apple-touch-icon", "image/svg+xml", svgData);
+  const manifest = {
+    name: "Travel Companion Dubai + Japão 2026",
+    short_name: "Japão 26",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#ffffff",
+    theme_color: "#bc002d",
+    icons: [{ src: svgData, sizes: "128x128", type: "image/svg+xml" }],
+  };
+  ensureLink("manifest", "application/manifest+json", `data:application/manifest+json;charset=utf-8,${encodeURIComponent(JSON.stringify(manifest))}`);
+}
+
+const ProjectIcon = ({ size = 56 }) => (
+  <span style={{ width: size, height: size, display: "inline-flex", borderRadius: Math.round(size * .22), overflow: "hidden", boxShadow: "0 10px 30px #00000025", flexShrink: 0, border: "1px solid rgba(0,0,0,.08)", background: "#fff" }}
+    dangerouslySetInnerHTML={{ __html: APP_ICON_SVG }} />
+);
+
+const PersonAvatar = ({ name, size = 28, selected = false, photoSrc = "" }) => {
+  const p = PERSON_PROFILE[name] || PERSON_PROFILE.Rodrigo;
+  const s = size;
+  return (
+    <span title={name} aria-label={name} style={{ width: s, height: s, display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: 999, background: selected ? "rgba(255,255,255,.22)" : "#ffffff", boxShadow: selected ? "0 0 0 2px rgba(255,255,255,.28)" : "0 1px 4px #0000001a", overflow: "hidden", flexShrink: 0, border: selected ? "1px solid rgba(255,255,255,.35)" : "1px solid #e2e8f0" }}>
+      {photoSrc ? (
+        <img src={photoSrc} alt={name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+      ) : (
+        <span style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: Math.max(12, Math.round(s * .42)), color: selected ? "#fff" : p.color, background: selected ? p.color : "#f8fafc" }}>{p.initials}</span>
+      )}
+    </span>
+  );
+};
+
+const PersonLabel = ({ name, size = 24, selected = false, color = "inherit", photoSrc = "" }) => (
+  <span style={{ display: "inline-flex", alignItems: "center", gap: 7, color }}>
+    <PersonAvatar name={name} size={size} selected={selected} photoSrc={photoSrc} />
+    <span>{name}</span>
+  </span>
+);
+
+const CAT_META = {
+  transfer: { e: "🚕", c: "#0891b2", label: "Deslocamento" },
+  food:     { e: "🍽️", c: "#ea580c", label: "Refeição" },
+  shop:     { e: "🛍️", c: "#db2777", label: "Compras" },
+  cultural: { e: "⛩️", c: "#7c3aed", label: "Histórico/Cultural" },
+  photo:    { e: "📸", c: "#0ea5e9", label: "Foto/Vista" },
+  activity: { e: "🎢", c: "#16a34a", label: "Parque/Experiência" },
+  logistic: { e: "📦", c: "#d97706", label: "Logística" },
+};
+
+// Ícone por modal de transporte (campo "mode" do JSON). Cai no genérico se não houver.
+const MODE_META = {
+  walk:       { e: "🚶", label: "A pé" },
+  train:      { e: "🚆", label: "Trem" },
+  subway:     { e: "🚇", label: "Metrô" },
+  taxi:       { e: "🚕", label: "Táxi" },
+  car:        { e: "🚐", label: "Carro/Van" },
+  bus:        { e: "🚌", label: "Ônibus" },
+  shinkansen: { e: "🚄", label: "Shinkansen" },
+  flight:     { e: "✈️", label: "Voo" },
+  stay:       { e: "🏨", label: "Hotel/Parada" },
+};
+// Ícone final da atividade: usa o modal quando existir, senão o ícone da categoria.
+const actIcon = (a) => (a && a.mode && MODE_META[a.mode] ? MODE_META[a.mode].e : (CAT_META[a.cat] || CAT_META.activity).e);
+// Modais que são DESLOCAMENTO de verdade (não "parada"/"no local").
+const TRANSPORT_MODES = new Set(["walk", "train", "subway", "taxi", "car", "bus", "shinkansen", "flight"]);
+// Descritor do campo de logística: transporte real -> ícone/rótulo do modal; senão "No local".
+const moveMeta = (a) => (a && a.mode && TRANSPORT_MODES.has(a.mode)) ? MODE_META[a.mode] : { e: "🧭", label: "No local" };
+
+const HOTELS = [
+  ["Sofitel Dubai Downtown", "Dubai", "28/11", "01/12", "3"],
+  ["JR Kyushu Hotel Blossom Shinjuku", "Tóquio", "02/12", "08/12", "6"],
+  ["Tokyo Disney Resort Toy Story Hotel", "Maihama", "08/12", "11/12", "3"],
+  ["Hotel Granvia Kyoto", "Kyoto", "11/12", "14/12", "3"],
+  ["Cross Hotel Osaka", "Osaka", "14/12", "17/12", "3"],
+  ["Sofitel Dubai Downtown", "Dubai", "18/12", "20/12", "2"],
+];
+
+const FLIGHTS = [
+  { leg: 1, date: "28/11/2026", from: "São Paulo (GRU)", to: "Dubai (DXB)", dur: "~15h", note: "Chegar ao GRU com 3h de antecedência" },
+  { leg: 2, date: "01/12/2026", from: "Dubai (DXB)", to: "Tóquio Narita (NRT)", dur: "~14h", note: "Saída à noite — jantar no aeroporto/lounge. Pouso ~13:10" },
+  { leg: 3, date: "17/12/2026", from: "Osaka (KIX)", to: "Dubai (DXB)", dur: "~8h", note: "Nankai Rapi:t até KIX. Chegar 3h antes" },
+  { leg: 4, date: "20/12/2026", from: "Dubai (DXB)", to: "São Paulo (GRU)", dur: "~15h", note: "Duty-free só após check-in e segurança" },
+];
+
+const EMPTY = {
+  mustDone: {},   // { "day-idx": true }
+  actDone: {},    // { "day-actIdx": true }
+  shopping: { Rodrigo: [], Luciana: [], "Luísa": [] }, // [{id,text,store,done,by}]
+  dayNote: {},    // { day: "texto" }
+  dayStatus: {},  // { day: "done"|"partial" }
+  // gastos/reservas: cada item {id,label,amount,currency,pay,status,date,link,note}
+  expenses: { hotel: [], flight: [], ticket: [] },
+  reservationStatus: {}, // { reservationId: status }
+  meta: { lastBy: "", lastAt: "" },
+};
+
+// multi-moeda da viagem
+const CURRENCIES = ["JPY", "BRL", "AED", "USD"];
+const CUR_SYMBOL = { JPY: "¥", BRL: "R$", AED: "AED", USD: "US$" };
+const PAY_METHODS = ["Cartão de crédito", "Débito", "Pix", "Dinheiro", "Outro"];
+const EXP_CATS = [
+  { id: "hotel", label: "🏨 Hotéis", color: "#7c3aed" },
+  { id: "flight", label: "✈️ Passagens", color: "#0ea5e9" },
+  { id: "ticket", label: "🎟️ Ingressos e passeios", color: "#f59e0b" },
+];
+const fmtMoney = (n, cur) => `${CUR_SYMBOL[cur] || ""} ${Number(n || 0).toLocaleString("pt-BR")}`.trim();
+
+
+const Card = ({ children, s = {} }) => (
+  <div style={{ background: "#fff", borderRadius: 16, boxShadow: "0 1px 6px #00000010", margin: "0 12px 10px", overflow: "hidden", ...s }}>{children}</div>
+);
+
+const mapsUrl = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+const ROUTE_STORAGE_KEY = "vjroute26";
+const ROUTE_BACKUPS_KEY = "vjroute26_backups";
+const SHOP_SEED_KEY = "vjseed26";
+const SHOPPING_LIST_STORAGE_KEY = "vjshopping26";
+const SHOPPING_LIST_BACKUPS_KEY = "vjshopping26_backups";
+const SHOPPING_LIST_SCHEMA = "vjtrip26-shopping-v1";
+const DEFAULT_SHOPPING_LIST = {
+  "schema": "vjtrip26-shopping-v1",
+  "app": "Travel Companion Dubai + Japão 2026",
+  "version": "compras-v4.0.0-editavel-sem-travas",
+  "exportedAt": "2026-06-21T13:45:47.606Z",
+  "note": "Lista editável. Importação padrão substitui a lista atual para respeitar exclusões feitas pelo Rodrigo. Todos os itens podem ser excluídos, reclassificados e movidos de pessoa/categoria/modo de compra no app.",
+  "lists": {
+    "Rodrigo": [
+      {
+        "text": "RiUP X5 Charge — リアップX5チャージ — 3 frascos de 60 ml",
+        "store": "Matsumoto Kiyoshi / Don Quijote com farmácia / @cosme",
+        "category": "cabelo",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "essencial",
+        "note": "Produto principal de cabelo no Japão. Comprar este modelo primeiro; X5 Plus NEO entra como substituto se o Charge não estiver disponível. Cobre item original: RiUP X5 Plus NEO ou Charge (minoxidil 5% — balcão 薬)",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Presentes / Mala / Extras"
+        ],
+        "sort": 10101
+      },
+      {
+        "text": "Anessa Perfect UV Sunscreen Skincare Milk NA SPF50+ PA++++ 60 ml — 3 unidades",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme / Shiseido",
+        "category": "protetor solar",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "essencial",
+        "note": "Protetor solar principal para uso diário no Brasil",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10107
+      },
+      {
+        "text": "Melano CC Premium Essence — メラノCC 薬用しみ 集中対策 プレミアム美容液 — 3 tubos",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme",
+        "category": "vitamina C",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "essencial",
+        "note": "Vitamina C japonesa custo-benefício; comprar Premium, não a versão comum se as duas estiverem lado a lado",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10109
+      },
+      {
+        "text": "Apagard Premio 105 g — アパガードプレミオ — 3 tubos",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "dental",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "essencial",
+        "note": "Creme dental japonês principal para estoque",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10117
+      },
+      {
+        "text": "Lamisil AT Cream — ラミシールATクリーム — 2 tubos",
+        "store": "Matsumoto Kiyoshi / Don Quijote com farmácia / drogaria",
+        "category": "antifúngico",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "essencial",
+        "note": "Produto fechado para pé/pele/mizumushi. Mostrar o nome japonês na loja",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10122
+      },
+      {
+        "text": "RiUP X5 Plus NEO — リアップX5プラスネオ — 2 frascos de 60 ml se não achar Charge suficiente",
+        "store": "Matsumoto Kiyoshi / Don Quijote com farmácia / @cosme",
+        "category": "cabelo",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Backup direto do RiUP Charge, não item genérico",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Presentes / Mala / Extras"
+        ],
+        "sort": 10202
+      },
+      {
+        "text": "Scalp-D Medicated Shampoo Oily — スカルプD 薬用スカルプシャンプー オイリー — 1 frasco",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "cabelo",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Shampoo japonês masculino para couro cabeludo oleoso/densidade visual. Cobre item original: Shampoo/tônico Scalp-D (Angfa)",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10203
+      },
+      {
+        "text": "Bioré UV Aqua Rich Watery Essence SPF50+ PA++++ — 3 unidades",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme",
+        "category": "protetor solar",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Protetor leve para alternar, bolsa e reposição. Cobre item original: Bioré UV Aqua Rich (protetor)",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10208
+      },
+      {
+        "text": "Obagi C25 Serum Neo 12 ml — オバジC25セラム ネオ — 1 unidade",
+        "store": "Matsumoto Kiyoshi grande / @cosme / lojas de departamento",
+        "category": "vitamina C",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Compra premium pequena; vale por ser item caro e compacto",
+        "primaryStore": "Matsumoto Kiyoshi grande",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza premium — Ginza/Depachika"
+        ],
+        "sort": 10210
+      },
+      {
+        "text": "Hada Labo Gokujyun Premium Lotion — 肌ラボ 極潤プレミアム ヒアルロン液 — 2 frascos",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme",
+        "category": "hidratação",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Loção hidratante base japonesa; bom estoque para Brasil. Cobre item original: Hada Labo Gokujyun lotion",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10211
+      },
+      {
+        "text": "Curél Intensive Moisture Facial Cream 40 g — キュレル 潤浸保湿 フェイスクリーム — 1 unidade",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme",
+        "category": "hidratação",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Creme de barreira compacto e muito útil",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10213
+      },
+      {
+        "text": "ELIXIR Retinol Power Wrinkle Smoothing Cream 22 g — エリクシール レチノパワー リンクルクリーム — 1 unidade",
+        "store": "Lojas Shiseido / drogarias grandes / @cosme",
+        "category": "retinol",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Retinol japonês principal. Estoque inteligente; não precisa comprar vários retinóis japoneses diferentes",
+        "primaryStore": "Lojas Shiseido",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10214
+      },
+      {
+        "text": "Apagard Royal 135 g — アパガードロイヤル — 1 tubo",
+        "store": "Drogarias grandes / Don Quijote / lojas com variedade Apagard",
+        "category": "dental",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Versão mais premium da Apagard; comprar se encontrar sem caça longa",
+        "primaryStore": "Drogarias grandes",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10218
+      },
+      {
+        "text": "Mentholatum Exiv W Deep 10 Cream — メンソレータム エクシブ Wディープ10クリーム — 1 tubo",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "antifúngico",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Para pé/sola/calcanhar e pele mais grossa",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10223
+      },
+      {
+        "text": "Butenalock Vα Cream EX — ブテナロックVαクリームEX — 1 tubo",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "antifúngico",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Backup japonês forte para mizumushi/pé",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10224
+      },
+      {
+        "text": "Loxonin S Tape L — ロキソニンSテープL — 2 caixas",
+        "store": "Matsumoto Kiyoshi / Don Quijote com farmácia / drogaria",
+        "category": "joelho/dor",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Adesivo tópico para joelho/caminhada/viagem",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10225
+      },
+      {
+        "text": "Kao Spot Jelly Belly Button Cleaner / SPOT JELLY Navel Gunk Removal Pack — 2 sets",
+        "store": "Don Quijote / Loft / Hands / lojas de curiosidades japonesas",
+        "category": "curiosidades úteis / higiene",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Jelly de limpar umbigo que existia na lista original. Produto fechado: Kao Spot Jelly Belly Button Cleaner / SPOT JELLY Navel Gunk Removal Pack",
+        "qty": "2 sets",
+        "primaryStore": "Don Quijote",
+        "routeDay": "03/12 Shibuya/Harajuku ou 05/12 Ginza",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "original_app",
+        "storeSection": "higiene corporal / body care / curiosidades",
+        "backupStores": [
+          "Loft",
+          "Hands",
+          "Amazon JP se entregar no hotel"
+        ],
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 10294
+      },
+      {
+        "text": "Scalp-D NEXT+ Volume Up Shampoo — スカルプD NEXT+ ボリュームアップ — 1 frasco",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "cabelo",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Compra de estoque se aparecer fácil no Donki/drogaria",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10404
+      },
+      {
+        "text": "Shiseido Adenovital Shampoo — アデノバイタル シャンプー — 1 frasco",
+        "store": "Drogarias grandes / lojas Shiseido / Don Quijote",
+        "category": "cabelo",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Linha japonesa premium de couro cabeludo/cabelo",
+        "primaryStore": "Drogarias grandes",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10405
+      },
+      {
+        "text": "Shiseido Adenovital Advanced Scalp Essence — アデノバイタル アドバンスト スカルプエッセンス — 1 unidade",
+        "store": "Drogarias grandes / lojas Shiseido / Don Quijote",
+        "category": "cabelo",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Tônico/essence de couro cabeludo para estoque",
+        "primaryStore": "Drogarias grandes",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10406
+      },
+      {
+        "text": "Kobayashi Keshimin Cream — 小林製薬 ケシミンクリーム — 1 unidade",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "manchas",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Creme japonês clássico para manchas/sunspots",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Presentes / Mala / Extras"
+        ],
+        "sort": 10412
+      },
+      {
+        "text": "Senka Perfect Whip — 専科 パーフェクトホイップ — 2 unidades",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "limpeza facial",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Item barato, pequeno e fácil de estocar",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10416
+      },
+      {
+        "text": "Apagard Serena 105 g — アパガードセレナ — 1 tubo",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "dental",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Versão focada em manchas de café/chá/vinho",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10419
+      },
+      {
+        "text": "Ora2 Premium Stain Clear Paste — オーラツー プレミアム ステインクリア — 2 tubos",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "dental",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Complemento barato para manchas superficiais",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10420
+      },
+      {
+        "text": "Lion Brilliant More W — ブリリアントモア ダブル — 1 tubo",
+        "store": "Drogarias grandes / lojas odontológicas / Amazon JP se entregar no hotel",
+        "category": "dental",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Dental japonês mais específico; comprar se aparecer fácil",
+        "primaryStore": "Drogarias grandes",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10421
+      },
+      {
+        "text": "Salonpas Ae — サロンパスAe — 1 caixa grande",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "dor",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Item barato e útil para dor muscular geral",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10426
+      },
+      {
+        "text": "Dr. Scholl GelActiv Insoles — 1 par",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "pés/caminhada",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Palmilha para proteger caminhada forte de viagem",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10429
+      },
+      {
+        "text": "Amino Vital Gold — アミノバイタル ゴールド — 1 caixa",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "treino",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Sachets pequenos para treino/caminhada; bom para mala",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10430
+      },
+      {
+        "text": "Rohto C Cube m — ロートCキューブm — 2 unidades",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "olhos/lentes",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Colírio japonês para usuário de lentes; item pequeno para estoque",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10432
+      },
+      {
+        "text": "Soft Santear — ソフトサンティア — 2 unidades",
+        "store": "Matsumoto Kiyoshi / Don Quijote / drogaria",
+        "category": "olhos/lentes",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Lágrima artificial japonesa popular; bom backup de viagem/uso diário",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10433
+      },
+      {
+        "text": "Shiseido The Collagen Powder — 資生堂 ザ・コラーゲン パウダー — 1 unidade",
+        "store": "Matsumoto Kiyoshi / Don Quijote / Shiseido",
+        "category": "colágeno",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Produto japonês de estoque; comprar em pó por render melhor que bebida pronta",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10434
+      },
+      {
+        "text": "FANCL Deep Charge Collagen Powder — ファンケル ディープチャージ コラーゲン パウダー — 1 unidade",
+        "store": "FANCL / Matsumoto Kiyoshi / Don Quijote",
+        "category": "colágeno",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Alternativa japonesa em pó; boa para comparar com Shiseido",
+        "primaryStore": "FANCL",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Presentes / Mala / Extras"
+        ],
+        "sort": 10435
+      },
+      {
+        "text": "Melano CC (vitamina C)",
+        "store": "",
+        "note": "",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10593
+      },
+      {
+        "text": "Pocari Sweat Powder / Aquarius Powder — 1 caixa",
+        "store": "Don Quijote / konbini / drogarias",
+        "category": "hidratação",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "baixa",
+        "note": "Sachets para hidratação; comprar se sobrar espaço",
+        "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10731
+      },
+      {
+        "text": "Shiseido Vital Perfection WrinkleSpot Treatment — バイタルパーフェクション リンクルリフト ディープレチノホワイト — 1 unidade",
+        "store": "Shiseido / depachika / lojas de departamento",
+        "category": "retinol premium",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Premium da Shiseido; entra se quiser levar um retinol mais sofisticado além do ELIXIR",
+        "primaryStore": "Shiseido",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza premium — Ginza/Depachika"
+        ],
+        "sort": 20415
+      },
+      {
+        "text": "Uni Jetstream 4&1 Metal Edition — 2 unidades",
+        "store": "Loft / Hands / Itoya / papelarias",
+        "category": "papelaria",
+        "city": "Tokyo/Kyoto/Osaka",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Caneta japonesa excelente para uso e presente",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 30444
+      },
+      {
+        "text": "Zebra Sarasa Grand — 2 unidades",
+        "store": "Loft / Hands / Itoya / papelarias",
+        "category": "papelaria",
+        "city": "Tokyo/Kyoto/Osaka",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Caneta boa e barata de trazer",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 30445
+      },
+      {
+        "text": "Pilot Frixion Ball 3 / Frixion pens — 2 kits",
+        "store": "Loft / Hands / Itoya / papelarias",
+        "category": "papelaria",
+        "city": "Tokyo/Kyoto/Osaka",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Caneta apagável japonesa; bom para presente/uso",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 30446
+      },
+      {
+        "text": "Hashis bons / apoio de hashi / cerâmica pequena — 2 a 4 itens",
+        "store": "Loft / Hands / Nishiki / Kappabashi",
+        "category": "casa/presente",
+        "city": "Kyoto/Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Itens pequenos, leves e bons de presente",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Facas / Casa Japão",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 30450
+      },
+      {
+        "text": "Kokuyo Campus / Midori MD Notebook — 2 cadernos",
+        "store": "Loft / Hands / Itoya / papelarias",
+        "category": "papelaria",
+        "city": "Tokyo/Kyoto/Osaka",
+        "country": "Japan",
+        "priority": "baixa",
+        "note": "Papelaria japonesa de qualidade",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 30747
+      },
+      {
+        "text": "Toalhas Imabari — 2 unidades",
+        "store": "Loft / Hands / depachika / lojas de casa",
+        "category": "casa/presente",
+        "city": "Tokyo/Kyoto/Osaka",
+        "country": "Japan",
+        "priority": "baixa",
+        "note": "Bom presente japonês se sobrar mala",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Beleza premium — Ginza/Depachika",
+          "Facas / Casa Japão",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 30749
+      },
+      {
+        "text": "Alcon Air Optix Night & Day Aqua 6-pack — OE +2.75 / BC 8.6 / DIA 13.8 — 1 caixa",
+        "store": "Óticas em Dubai / Boots / Life Pharmacy com ótica",
+        "category": "lentes",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "essencial",
+        "note": "Lente do olho esquerdo",
+        "primaryStore": "Óticas em Dubai",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai",
+          "Óticas Dubai"
+        ],
+        "sort": 40153
+      },
+      {
+        "text": "Nizoral 2% Ketoconazole Shampoo 100 ml — 2 frascos",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "cabelo/couro cabeludo",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "alta",
+        "note": "Comprar em Dubai; produto fechado, não genérico",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40254
+      },
+      {
+        "text": "La Roche-Posay Anthelios UVMune 400 Invisible Fluid SPF50+ 50 ml — 2 unidades",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "protetor solar",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "alta",
+        "note": "Protetor europeu/ocidental para alternar com Anessa/Bioré",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40258
+      },
+      {
+        "text": "La Roche-Posay Cicaplast Baume B5+ 100 ml — 2 unidades",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "barreira/reparo",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "alta",
+        "note": "Creme reparador útil e caro no Brasil",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40259
+      },
+      {
+        "text": "SkinCeuticals C E Ferulic 30 ml — 1 unidade",
+        "store": "SkinCeuticals / Sephora / farmácias premium em Dubai",
+        "category": "vitamina C premium",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "alta",
+        "note": "Compra premium; pequeno e caro, vale comparar com Brasil",
+        "primaryStore": "SkinCeuticals",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40265
+      },
+      {
+        "text": "Nordic Naturals Ultimate Omega 60 softgels — 2 potes",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "omega-3",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "alta",
+        "note": "Ômega-3 principal",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40271
+      },
+      {
+        "text": "Move Free Advanced Triple Strength — 1 pote",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "articulação",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "alta",
+        "note": "Suplemento articular alvo #1",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40276
+      },
+      {
+        "text": "Osteo Bi-Flex Triple Strength — 1 pote",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "articulação",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "alta",
+        "note": "Suplemento articular alvo #2; bom para estoque",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40277
+      },
+      {
+        "text": "DS Laboratories Revita Shampoo — 1 frasco",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy / Sephora se houver",
+        "category": "cabelo",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Shampoo premium de densidade; bom se preço estiver razoável",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40455
+      },
+      {
+        "text": "Vichy Dercos Densi-Solutions Thickening Shampoo — 1 frasco",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "cabelo",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Alternativa ocidental para engrossar aparência do fio",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40456
+      },
+      {
+        "text": "La Roche-Posay Hyalu B5 Serum 30 ml — 1 unidade",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "hidratação",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Sérum de hidratação ocidental",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40460
+      },
+      {
+        "text": "La Roche-Posay Retinol B3 Serum 30 ml — 1 unidade",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "retinol",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Retinol ocidental para estoque, diferente do ELIXIR japonês",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40461
+      },
+      {
+        "text": "Vichy Liftactiv Retinol Specialist Serum — 1 unidade",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "retinol",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Segundo retinol ocidental se o preço compensar",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40462
+      },
+      {
+        "text": "CeraVe Moisturising Cream 454 g — 1 pote",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "hidratação/corpo",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Pote grande; comprar se couber no limite de mala",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40463
+      },
+      {
+        "text": "CeraVe Hydrating Cleanser 473 ml — 1 frasco",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "limpeza facial",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Limpeza diária, bom preço em Dubai",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40464
+      },
+      {
+        "text": "Life Extension Super Omega-3 — 2 potes",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "omega-3",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Alternativa forte de omega-3",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40472
+      },
+      {
+        "text": "Solgar Omega-3 700 — 1 pote",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "omega-3",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Alternativa Solgar",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40473
+      },
+      {
+        "text": "NOW Ultra Omega-3 — 2 potes",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "omega-3",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Alternativa com boa reputação/custo",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40474
+      },
+      {
+        "text": "California Gold Nutrition Omega-3 Premium Fish Oil — 2 potes",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy / iHerb UAE se disponível",
+        "category": "omega-3",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Alternativa boa se aparecer com preço agressivo",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40475
+      },
+      {
+        "text": "Solgar Glucosamine Chondroitin MSM — 1 pote",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "articulação",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Terceira opção articular se preço estiver bom",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40478
+      },
+      {
+        "text": "Solgar Chelated Magnesium ou NOW Magnesium Bisglycinate — 1 pote",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "magnésio",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Magnésio em forma boa, sem procurar fórmula genérica",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40479
+      },
+      {
+        "text": "Vital Proteins Collagen Peptides 20 oz — 1 pote",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy / lojas de suplemento",
+        "category": "colágeno",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Colágeno ocidental em pote grande",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40480
+      },
+      {
+        "text": "Compeed Cold Sore Patch — 1 caixa",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "farmácia",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Item pequeno para emergência",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40484
+      },
+      {
+        "text": "La Roche-Posay Cicaplast Lips — 2 unidades",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "lábios",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Lábios/ressecamento; pequeno e útil",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40485
+      },
+      {
+        "text": "Toppik Hair Building Fibers Medium Brown — 1 unidade",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy / lojas de beleza",
+        "category": "cabelo",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "baixa",
+        "note": "Fibras capilares para eventos/fotos; Medium Brown como cor base",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40757
+      },
+      {
+        "text": "KIKI Health Collagen Peptides 200 g — 1 pote",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "colágeno",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "baixa",
+        "note": "Alternativa se aparecer fácil",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40781
+      },
+      {
+        "text": "Organic Earth Collagen Peptides — 1 pote",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "colágeno",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "baixa",
+        "note": "Alternativa se aparecer fácil",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40782
+      },
+      {
+        "text": "Nuun Sport Hydration Tablets ou Hydralyte Tablets — 1 tubo/caixa",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "hidratação",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "baixa",
+        "note": "Pequeno, útil para viagem/treino",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40783
+      },
+      {
+        "text": "La Roche-Posay Anthelios XL Stick Sensitive Areas SPF50+ — 1 unidade",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "lábios/protetor",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "baixa",
+        "note": "Stick para áreas sensíveis/bolsa",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40786
+      },
+      {
+        "text": "Prada Amber Pour Homme EDT 100 ml — original lacrado",
+        "store": "Dubai Duty Free / Sephora Dubai / lojas premium / Amazon.ae confiável",
+        "category": "perfume",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "altíssima",
+        "note": "Alvo exato: Prada Amber Pour Homme EDT 100 ml clássico. Não confundir com Intense, Luna Rossa, Amber feminino ou L’Homme",
+        "qty": "1 a 2 frascos",
+        "primaryStore": "Dubai Duty Free",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v3-prada-amber",
+        "backupStores": [
+          "Sephora Dubai",
+          "lojas premium de perfume",
+          "Amazon.ae confiável"
+        ],
+        "shoppingMode": [
+          "Perfumes Dubai / Duty Free"
+        ],
+        "sort": 50195
+      },
+      {
+        "text": "Rasasi Hawas for Him EDP 100 ml — 1 frasco",
+        "store": "Rasasi / Dubai Mall / Mall of the Emirates / perfume shops",
+        "category": "perfume",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "alta",
+        "note": "Perfume Dubai alvo #1",
+        "primaryStore": "Rasasi",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Perfumes Dubai / Duty Free"
+        ],
+        "sort": 50287
+      },
+      {
+        "text": "Lattafa Khamrah EDP 100 ml — 1 frasco",
+        "store": "Lattafa / perfume shops / Dubai Mall",
+        "category": "perfume",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Âmbar/doce quente, ótimo custo-benefício",
+        "primaryStore": "Lattafa",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Perfumes Dubai / Duty Free"
+        ],
+        "sort": 50488
+      },
+      {
+        "text": "Al Haramain Amber Oud Gold Edition EDP 60 ml — 1 frasco",
+        "store": "Al Haramain / perfume shops",
+        "category": "perfume",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Âmbar forte/projetado",
+        "primaryStore": "Al Haramain",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Perfumes Dubai / Duty Free"
+        ],
+        "sort": 50489
+      },
+      {
+        "text": "Ajmal Amber Wood EDP 100 ml — 1 frasco",
+        "store": "Ajmal / Dubai Mall / Mall of the Emirates",
+        "category": "perfume",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Opção âmbar amadeirada da Ajmal",
+        "primaryStore": "Ajmal",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Perfumes Dubai / Duty Free"
+        ],
+        "sort": 50490
+      },
+      {
+        "text": "Amouage Interlude Man EDP — 1 frasco se quiser luxo",
+        "store": "Amouage / Dubai Mall / perfume boutiques",
+        "category": "perfume",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "baixa",
+        "note": "Compra premium; frasco caro e forte",
+        "primaryStore": "Amouage",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Perfumes Dubai / Duty Free"
+        ],
+        "sort": 50791
+      },
+      {
+        "text": "Faca japonesa Sujihiki 270 mm ou Gyuto 240 mm — 1 peça",
+        "store": "Tower Knives / Aritsugu Kyoto / Kamata Hakensha Kappabashi",
+        "category": "faca/cozinha",
+        "city": "Tokyo/Kyoto",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Compra de valor real para você. Levar na mala despachada. Cobre item original: Faca Sujihiki 270mm (Tower Knives, Dia 7)",
+        "primaryStore": "Tower Knives",
+        "routeDay": "04/12 Asakusa/Ueno",
+        "dayHint": "04/12 Asakusa/Ueno",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Facas / Casa Japão"
+        ],
+        "sort": 60236
+      },
+      {
+        "text": "Vinil KISS / hard rock / metal japonês com OBI — foco em Alive!, Destroyer, Love Gun",
+        "store": "disk union Shinjuku ROCK / Heavy Metal Museum / HMV Shibuya",
+        "category": "vinil/KISS",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Procurar também por キッス. Cobre item original: Vinil KISS / rock-metal (Disk Union Shibuya)",
+        "primaryStore": "disk union Shinjuku ROCK",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Hobby / Vinil / Games"
+        ],
+        "sort": 70239
+      },
+      {
+        "text": "Senka Perfect Whip (sabonete facial)",
+        "store": "",
+        "note": "",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "original_app",
+        "shoppingMode": [
+          "Outras compras Japão"
+        ],
+        "sort": 999592
+      }
+    ],
+    "Luciana": [
+      {
+        "text": "Anessa Perfect UV Sunscreen Skincare Milk NA SPF50+ PA++++ 60 ml — 2 unidades",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme / Shiseido",
+        "category": "protetor solar",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Protetor japonês para uso diário. Cobre item original: Anessa Perfect UV Sunscreen (~¥2.500)",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10208
+      },
+      {
+        "text": "Melano CC Premium Essence — メラノCC 薬用しみ 集中対策 プレミアム美容液 — 2 tubos",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme",
+        "category": "vitamina C",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Vitamina C japonesa custo-benefício. Cobre item original: Melano CC (vitamina C / manchas)",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10211
+      },
+      {
+        "text": "Hada Labo Gokujyun Premium Lotion — 肌ラボ 極潤プレミアム ヒアルロン液 — 2 frascos",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme",
+        "category": "hidratação",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Loção hidratante base japonesa. Cobre item original: Hada Labo Gokujyun lotion (~¥800)",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10212
+      },
+      {
+        "text": "Allie Chrono Beauty Gel UV EX SPF50+ PA++++ — 1 unidade",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme",
+        "category": "protetor solar",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Alternativa japonesa ao Anessa",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10409
+      },
+      {
+        "text": "Bioré UV Aqua Rich Watery Essence SPF50+ PA++++ — 2 unidades",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme",
+        "category": "protetor solar",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Protetor leve/barato para alternar",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10410
+      },
+      {
+        "text": "Curél Intensive Moisture Facial Cream 40 g — キュレル 潤浸保湿 フェイスクリーム — 1 unidade",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme",
+        "category": "hidratação/barreira",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Creme de barreira",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10413
+      },
+      {
+        "text": "Minon Amino Moist Moist Charge Lotion II — ミノン アミノモイスト モイストチャージ ローションII — 1 unidade",
+        "store": "Matsumoto Kiyoshi / Don Quijote / @cosme",
+        "category": "hidratação",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Hidratação japonesa suave",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Presentes / Mala / Extras"
+        ],
+        "sort": 10414
+      },
+      {
+        "text": "Shiseido The Collagen Powder — 資生堂 ザ・コラーゲン パウダー — 1 unidade",
+        "store": "Matsumoto Kiyoshi / Don Quijote / Shiseido",
+        "category": "colágeno",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Colágeno japonês em pó",
+        "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10415
+      },
+      {
+        "text": "FANCL Deep Charge Collagen Powder — ファンケル ディープチャージ コラーゲン パウダー — 1 unidade",
+        "store": "FANCL / Matsumoto Kiyoshi / Don Quijote",
+        "category": "colágeno",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Colágeno FANCL para estoque",
+        "primaryStore": "FANCL",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Presentes / Mala / Extras"
+        ],
+        "sort": 10416
+      },
+      {
+        "text": "SK-II Facial Treatment Essence 230 ml — 1 unidade",
+        "store": "Depachika / lojas de departamento / duty-free Japão",
+        "category": "skincare premium",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "essencial",
+        "note": "Item premium japonês principal para Luciana. Cobre item original: SK-II Facial Treatment Essence (loja de departamento)",
+        "primaryStore": "Depachika",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Beleza premium — Ginza/Depachika"
+        ],
+        "sort": 20101
+      },
+      {
+        "text": "Shiseido Ultimune Power Infusing Concentrate 75 ml — 1 unidade",
+        "store": "Shiseido / depachika / duty-free",
+        "category": "skincare premium",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Sérum premium Shiseido. Cobre item original: Shiseido (linha premium)",
+        "primaryStore": "Shiseido",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Beleza premium — Ginza/Depachika"
+        ],
+        "sort": 20202
+      },
+      {
+        "text": "Decorté Liposome Advanced Repair Serum 75 ml — 1 unidade",
+        "store": "Decorté / depachika / lojas de departamento",
+        "category": "skincare premium",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Produto japonês premium forte para estoque",
+        "primaryStore": "Decorté",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza premium — Ginza/Depachika"
+        ],
+        "sort": 20203
+      },
+      {
+        "text": "SUQQU The Liquid Foundation 30 ml — 1 unidade",
+        "store": "SUQQU / Ginza / lojas de departamento",
+        "category": "maquiagem premium",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Base premium japonesa; comprar cor testada no balcão",
+        "primaryStore": "SUQQU",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza premium — Ginza/Depachika"
+        ],
+        "sort": 20205
+      },
+      {
+        "text": "SUQQU Pure Color Blush — 1 unidade",
+        "store": "SUQQU / Ginza / lojas de departamento",
+        "category": "maquiagem premium",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Blush premium japonês",
+        "primaryStore": "SUQQU",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza premium — Ginza/Depachika"
+        ],
+        "sort": 20206
+      },
+      {
+        "text": "Clé de Peau Beauté Correcting Cream Veil SPF25 — 1 unidade",
+        "store": "Clé de Peau / depachika / lojas de departamento",
+        "category": "make/skincare premium",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Primer/base premium; compra de origem no Japão",
+        "primaryStore": "Clé de Peau",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza premium — Ginza/Depachika"
+        ],
+        "sort": 20404
+      },
+      {
+        "text": "Kanebo Comfort Stretchy Wash — 1 unidade",
+        "store": "Kanebo / depachika / lojas de departamento",
+        "category": "limpeza facial premium",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Item premium japonês de limpeza",
+        "primaryStore": "Kanebo",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza premium — Ginza/Depachika"
+        ],
+        "sort": 20407
+      },
+      {
+        "text": "SkinCeuticals C E Ferulic 30 ml — 1 unidade",
+        "store": "Dubai: SkinCeuticals / Sephora / farmácias premium",
+        "category": "vitamina C premium",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Compra premium se preço em Dubai for melhor que Brasil",
+        "primaryStore": "Dubai: SkinCeuticals",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40417
+      },
+      {
+        "text": "La Roche-Posay Cicaplast Baume B5+ 100 ml — 1 unidade",
+        "store": "Life Pharmacy / Boots / Aster Pharmacy",
+        "category": "barreira/reparo",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "média",
+        "note": "Produto coringa de pele para a família",
+        "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Life Pharmacy / Boots Dubai"
+        ],
+        "sort": 40418
+      },
+      {
+        "text": "Bolsas/acessórios de luxo — Gucci / Prada / Louis Vuitton / Dior",
+        "store": "Dubai Mall / Mall of the Emirates",
+        "category": "luxo",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "baixa",
+        "note": "Deixar como lembrete de compra final em Dubai, sem consumir tempo no começo da viagem",
+        "primaryStore": "Dubai Mall",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Perfumes Dubai / Duty Free"
+        ],
+        "sort": 50719
+      },
+      {
+        "text": "Senka Perfect Whip (sabonete facial, ~¥500)",
+        "store": "",
+        "note": "",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "original_app",
+        "shoppingMode": [
+          "Outras compras Japão"
+        ],
+        "sort": 999520
+      }
+    ],
+    "Luísa": [
+      {
+        "text": "Heroine Make Long & Curl Mascara Advanced Film — ヒロインメイク ロング＆カールマスカラ アドバンストフィルム — 1 unidade",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi",
+        "category": "maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "essencial",
+        "note": "Máscara japonesa principal. Cobre item original: Heroine Make rímel à prova d'água",
+        "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10108
+      },
+      {
+        "text": "Kate Lip Monster — ケイト リップモンスター — 2 unidades",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi",
+        "category": "maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "essencial",
+        "note": "Lip japonês famoso; comprar 2 cores. Cobre item original: Kate paleta de olhos",
+        "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10111
+      },
+      {
+        "text": "Canmake Cream Cheek — キャンメイク クリームチーク — 2 unidades",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi / Loft",
+        "category": "maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Blush japonês barato e certeiro",
+        "primaryStore": "Don Quijote",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10201
+      },
+      {
+        "text": "Canmake Marshmallow Finish Powder Abloom — キャンメイク マシュマロフィニッシュパウダー Abloom — 1 unidade",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi / Loft",
+        "category": "maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Pó japonês clássico. Cobre item original: Canmake Marshmallow Powder (~¥770)",
+        "primaryStore": "Don Quijote",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10202
+      },
+      {
+        "text": "Canmake Mermaid Skin Gel UV SPF50+ PA++++ — キャンメイク マーメイドスキンジェルUV — 2 unidades",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi / Loft",
+        "category": "protetor solar/maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Protetor leve que também serve como base. Cobre item original: Canmake Mermaid Skin Gel UV",
+        "primaryStore": "Don Quijote",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10203
+      },
+      {
+        "text": "Cezanne Pearl Glow Highlight — セザンヌ パールグロウハイライト — 1 unidade",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi",
+        "category": "maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Iluminador japonês bom e barato. Cobre item original: Cezanne base/blush",
+        "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10205
+      },
+      {
+        "text": "Heroine Make Smooth Liquid Eyeliner Super Keep — ヒロインメイク スムースリキッドアイライナー スーパーキープ — 1 unidade",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi",
+        "category": "maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Delineador japonês forte",
+        "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10209
+      },
+      {
+        "text": "Kate Designing Eyebrow 3D — ケイト デザイニングアイブロウ3D — 1 unidade",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi",
+        "category": "maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Paleta de sobrancelha certeira",
+        "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10212
+      },
+      {
+        "text": "Rom&nd Juicy Lasting Tint — ロムアンド ジューシーラスティングティント — 2 unidades",
+        "store": "Loft / PLAZA / @cosme / Don Quijote",
+        "category": "K-beauty",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "K-beauty fácil de achar em Tóquio. Cobre item original: Lip tint rom&nd / Peripera (Loft/PLAZA)",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10213
+      },
+      {
+        "text": "Anua Heartleaf 77% Soothing Toner — アヌア ドクダミ77% スージングトナー — 1 unidade",
+        "store": "Loft / PLAZA / @cosme / Don Quijote / Shin-Okubo",
+        "category": "K-skincare",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Skincare coreano leve",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10216
+      },
+      {
+        "text": "Beauty of Joseon Relief Sun Rice + Probiotics SPF50+ PA++++ — 2 unidades",
+        "store": "Loft / PLAZA / @cosme / Don Quijote / Shin-Okubo",
+        "category": "K-skincare/protetor",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Protetor coreano famoso e leve",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10218
+      },
+      {
+        "text": "Canmake Quick Lash Curler — キャンメイク クイックラッシュカーラー — 1 unidade",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi / Loft",
+        "category": "maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Item famoso de cílios",
+        "primaryStore": "Don Quijote",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10404
+      },
+      {
+        "text": "Cezanne Lasting Lip Color N — セザンヌ ラスティング リップカラーN — 1 unidade",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi",
+        "category": "maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Batom barato para estoque",
+        "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10406
+      },
+      {
+        "text": "Cezanne Make Keep Base — セザンヌ 皮脂テカリ防止下地 — 1 unidade",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi",
+        "category": "maquiagem/base",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Primer/base popular japonesa",
+        "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10407
+      },
+      {
+        "text": "Majolica Majorca Lash Expander Long Long Long EX — マジョリカ マジョルカ ラッシュエキスパンダー ロングロングロング EX — 1 unidade",
+        "store": "Don Quijote / @cosme / Matsumoto Kiyoshi",
+        "category": "maquiagem",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Outra máscara japonesa boa",
+        "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10410
+      },
+      {
+        "text": "Peripera Ink Mood Glowy Tint — ペリペラ インクムードグロイティント — 2 unidades",
+        "store": "Loft / PLAZA / @cosme / Don Quijote",
+        "category": "K-beauty",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Tint coreano para estoque",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10414
+      },
+      {
+        "text": "Clio Kill Lash Superproof Mascara — クリオ キルラッシュ スーパープルーフマスカラ — 1 unidade",
+        "store": "Loft / PLAZA / @cosme / Don Quijote",
+        "category": "K-beauty",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Máscara coreana alternativa",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10415
+      },
+      {
+        "text": "COSRX Advanced Snail 96 Mucin Power Essence — コスアールエックス スネイル96 — 1 unidade",
+        "store": "Loft / PLAZA / @cosme / Don Quijote / Shin-Okubo",
+        "category": "K-skincare",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Essence coreana clássica",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10417
+      },
+      {
+        "text": "Biore UV Aqua Rich (protetor diário)",
+        "store": "",
+        "note": "",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki"
+        ],
+        "sort": 10524
+      },
+      {
+        "text": "Shibuya 109 — acessórios/cabelo/meias/bolsas pequenas",
+        "store": "Shibuya 109",
+        "category": "moda/acessórios",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Experiência de compra teen sem foco em doces",
+        "primaryStore": "Shibuya 109",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 30419
+      },
+      {
+        "text": "Loft / PLAZA — adesivos, nécessaires, acessórios e beleza",
+        "store": "Loft / PLAZA",
+        "category": "presentes/acessórios",
+        "city": "Tokyo/Kyoto/Osaka",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Loja boa para garimpo sem comida doce",
+        "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Presentes / Mala / Extras"
+        ],
+        "sort": 30423
+      },
+      {
+        "text": "Purikura — fotos japonesas",
+        "store": "Shibuya / Harajuku / game centers",
+        "category": "experiência",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "baixa",
+        "note": "Experiência divertida e rápida para Luísa",
+        "primaryStore": "Shibuya",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Hobby / Vinil / Games"
+        ],
+        "sort": 70721
+      },
+      {
+        "text": "Takeshita Street — acessórios, óculos, meias e itens kawaii úteis",
+        "store": "Takeshita Street / Harajuku",
+        "category": "acessórios",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Sem transformar em roteiro de doce/snack colorido",
+        "primaryStore": "Takeshita Street",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Outras compras Japão"
+        ],
+        "sort": 999420
+      },
+      {
+        "text": "UNIQLO / GU — peças básicas e collabs",
+        "store": "UNIQLO / GU Shibuya/Ginza/Osaka",
+        "category": "moda",
+        "city": "Tokyo/Osaka",
+        "country": "Japan",
+        "priority": "média",
+        "note": "Compra de roupa básica/collab",
+        "primaryStore": "UNIQLO",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Outras compras Japão"
+        ],
+        "sort": 999422
+      },
+      {
+        "text": "Glitter de pálpebra / highlighter (tendência kira kira)",
+        "store": "",
+        "note": "",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "original_app",
+        "shoppingMode": [
+          "Outras compras Japão"
+        ],
+        "sort": 999525
+      }
+    ]
+  },
+  "exportedBy": "Rodrigo",
+  "source": "base exportada pelo Rodrigo em 2026-06-21T13:45:47Z, limpa sem travas de exclusão",
+  "previousVersion": "compras-2026-06-21T13-34-21",
+  "updatedAt": "2026-06-21T10:55:00-03:00",
+  "updatedBy": "ChatGPT / Rodrigo",
+  "importMode": "replace",
+  "viewHints": {
+    "defaultMode": "Loja",
+    "storeOrder": [
+      "Drogaria Japão / Donki",
+      "Beleza premium — Ginza/Depachika",
+      "Beleza jovem — @cosme / Loft / PLAZA",
+      "Life Pharmacy / Boots Dubai",
+      "Óticas Dubai",
+      "Perfumes Dubai / Duty Free",
+      "Facas / Casa Japão",
+      "Hobby / Vinil / Games",
+      "Loft / Hands / Papelaria",
+      "Presentes / Mala / Extras",
+      "Dubai Mall / compras finais",
+      "Outras compras Japão"
+    ],
+    "dayOrder": [
+      "03/12 Shibuya/Harajuku",
+      "04/12 Asakusa/Ueno",
+      "05/12 Ginza",
+      "Primeiros dias Tóquio",
+      "Dubai final / aeroporto"
+    ]
+  }
+};
+const SHOP_SEED = DEFAULT_SHOPPING_LIST.lists;
+
+const normalizePersonName = (name) => {
+  const clean = (name || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+  return USERS.find((u) => u.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === clean) || null;
+};
+
+const normalizeShoppingListsInput = (payload) => {
+  const grouped = { Rodrigo: [], Luciana: [], "Luísa": [] };
+  if (Array.isArray(payload?.items)) {
+    payload.items.forEach((item) => {
+      const owner = normalizePersonName(item?.person || item?.owner || item?.user || item?.by) || "Rodrigo";
+      grouped[owner].push(item);
+    });
+    return grouped;
+  }
+  const raw = payload?.lists || payload?.shopping || payload;
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("O arquivo precisa ter 'lists' com Rodrigo, Luciana e/ou Luísa.");
+  Object.entries(raw).forEach(([key, value]) => {
+    const person = normalizePersonName(key);
+    if (person) {
+      if (!Array.isArray(value)) throw new Error(`A lista de ${person} precisa ser um array.`);
+      grouped[person] = value;
+    }
+  });
+  return grouped;
+};
+
+const shoppingKey = (text) => (text || "").toString().trim().toLocaleLowerCase("pt-BR");
+const stableShoppingId = (person, text, index) => `shop-${person.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()}-${index + 1}-${Math.abs([...text].reduce((a, ch) => ((a << 5) - a + ch.charCodeAt(0)) | 0, 0))}`;
+
+function validateShoppingListPayload(payload, existingShopping = EMPTY.shopping, sourceLabel = "arquivo") {
+  if (payload?.schema && payload.schema !== SHOPPING_LIST_SCHEMA) {
+    throw new Error(`Schema de compras inválido: ${payload.schema}. Esperado: ${SHOPPING_LIST_SCHEMA}.`);
+  }
+  const lists = normalizeShoppingListsInput(payload);
+  const out = { Rodrigo: [], Luciana: [], "Luísa": [] };
+  USERS.forEach((person) => {
+    const existingByText = new Map((existingShopping?.[person] || []).map((item) => [shoppingKey(item.text), item]));
+    out[person] = (lists[person] || []).map((raw, index) => {
+      const source = typeof raw === "string" ? { text: raw } : (raw || {});
+      const text = (source.text || source.title || source.name || "").toString().trim();
+      if (!text) throw new Error(`${person}: item ${index + 1} sem campo 'text'.`);
+      const prev = existingByText.get(shoppingKey(text));
+      const outItem = {
+        id: source.id || prev?.id || stableShoppingId(person, text, index),
+        text,
+        store: (source.store ?? source.where ?? prev?.store ?? "").toString(),
+        done: typeof source.done === "boolean" ? source.done : Boolean(prev?.done),
+        by: source.by || source.owner || source.person || sourceLabel,
+      };
+      ["category", "city", "country", "priority", "note", "qty", "primaryStore", "routeDay", "dayHint", "source", "storeSection", "url", "nameJa"].forEach((key) => {
+        if (source[key] !== undefined && source[key] !== null && source[key] !== "") outItem[key] = source[key];
+        else if (prev?.[key] !== undefined && prev?.[key] !== null && prev?.[key] !== "") outItem[key] = prev[key];
+      });
+      ["backupStores", "shoppingMode"].forEach((key) => {
+        if (Array.isArray(source[key])) outItem[key] = source[key];
+        else if (typeof source[key] === "string" && source[key].trim()) outItem[key] = source[key].split(/[|,]/).map(s => s.trim()).filter(Boolean);
+        else if (Array.isArray(prev?.[key])) outItem[key] = prev[key];
+      });
+      if (source.sort !== undefined || prev?.sort !== undefined) outItem.sort = Number(source.sort ?? prev?.sort ?? 999999);
+      return outItem;
+    });
+  });
+  const total = USERS.reduce((acc, person) => acc + out[person].length, 0);
+  if (total < 1) throw new Error("A lista de compras está vazia.");
+  return out;
+}
+
+
+function mergeShoppingLists(existingShopping = EMPTY.shopping, incomingShopping = EMPTY.shopping) {
+  const merged = { Rodrigo: [], Luciana: [], "Luísa": [] };
+  USERS.forEach((person) => {
+    const existing = existingShopping?.[person] || [];
+    const incoming = incomingShopping?.[person] || [];
+    const byKey = new Map(existing.map((item) => [shoppingKey(item.text), item]));
+    const used = new Set();
+    incoming.forEach((item) => {
+      const key = shoppingKey(item.text);
+      const prev = byKey.get(key);
+      if (prev) used.add(key);
+      merged[person].push({
+        ...(prev || {}),
+        ...item,
+        id: prev?.id || item.id,
+        done: typeof prev?.done === "boolean" ? prev.done : Boolean(item.done),
+      });
+    });
+    existing.forEach((item) => {
+      const key = shoppingKey(item.text);
+      if (!used.has(key)) merged[person].push(item);
+    });
+    merged[person].sort((a, b) => (Number(a.sort ?? 999999) - Number(b.sort ?? 999999)) || shoppingKey(a.text).localeCompare(shoppingKey(b.text), "pt-BR"));
+  });
+  return merged;
+}
+
+function buildSeedShopping(payload = DEFAULT_SHOPPING_LIST) {
+  return validateShoppingListPayload(payload, EMPTY.shopping, "sugestão");
+}
+
+function makeRoutePayload(content, extra = {}) {
+  return {
+    schema: "vjtrip26-route-v2",
+    app: "Travel Companion Dubai + Japão 2026",
+    exportedAt: new Date().toISOString(),
+    note: "Edite os arrays days, meals, mustdo, stores, tips e reservations. Depois importe este JSON em Config > Manutenção. Campos ausentes voltam ao padrão do app.",
+    days: content.days,
+    meals: content.meals,
+    mustdo: content.mustdo,
+    stores: content.stores,
+    tips: content.tips,
+    reservations: content.reservations,
+    reservationsMeta: content.reservationsMeta,
+    ...extra,
+  };
+}
+
+function makeShoppingListPayload(shopping, extra = {}) {
+  const lists = { Rodrigo: [], Luciana: [], "Luísa": [] };
+  USERS.forEach((person) => {
+    lists[person] = (shopping?.[person] || []).map((item) => {
+      const clean = { text: item.text || "", store: item.store || "" };
+      ["category", "city", "country", "priority", "note", "qty", "primaryStore", "routeDay", "dayHint", "source", "storeSection", "url", "nameJa"].forEach((key) => { if (item[key] !== undefined && item[key] !== null && item[key] !== "") clean[key] = item[key]; });
+      ["backupStores", "shoppingMode"].forEach((key) => { if (Array.isArray(item[key]) && item[key].length) clean[key] = item[key]; });
+      if (item.sort !== undefined) clean.sort = item.sort;
+      return clean;
+    }).filter((item) => item.text);
+  });
+  return {
+    schema: SHOPPING_LIST_SCHEMA,
+    app: "Travel Companion Dubai + Japão 2026",
+    version: `compras-${safeStamp()}`,
+    exportedAt: new Date().toISOString(),
+    note: "Arquivo externo da lista de compras. Edite os arrays em lists.Rodrigo, lists.Luciana e lists['Luísa']; depois importe em Config > Manutenção da lista de compras. O app cria backup automático antes de substituir a lista atual. Campos aceitos por item: text, store, category, city, country, priority, note, qty, primaryStore, backupStores, routeDay, shoppingMode e sort.",
+    lists,
+    ...extra,
+  };
+}
+
+function downloadJson(filename, payload) {
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function safeStamp() {
+  return new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+}
+
+const MONTH_ABBR = ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"];
+function dayMonth(dateStr) {
+  // "04/12/2026" -> "04 dez"
+  if (!dateStr || typeof dateStr !== "string") return "";
+  const parts = dateStr.split("/");
+  if (parts.length < 2) return dateStr;
+  const dd = parts[0];
+  const mi = parseInt(parts[1], 10) - 1;
+  const mon = MONTH_ABBR[mi] || parts[1];
+  return `${dd} ${mon}`;
+}
+
+function validateRoutePayload(payload) {
+  const days = Array.isArray(payload) ? payload : payload?.days;
+  if (!Array.isArray(days)) throw new Error("O arquivo precisa ter um array 'days' ou ser um array de dias.");
+  if (days.length < 1) throw new Error("O roteiro precisa ter pelo menos 1 dia.");
+  days.forEach((d, index) => {
+    if (!d || typeof d !== "object") throw new Error(`Dia ${index + 1}: item inválido.`);
+    if (d.day == null) throw new Error(`Dia ${index + 1}: faltou o campo 'day'.`);
+    if (!d.date) throw new Error(`Dia ${d.day}: faltou o campo 'date'.`);
+    if (!d.anchor && !d.title) throw new Error(`Dia ${d.day}: faltou 'anchor' ou 'title'.`);
+    if (!Array.isArray(d.activities)) throw new Error(`Dia ${d.day}: faltou o array 'activities'.`);
+  });
+  const arr = (v, def) => (Array.isArray(v) && v.length ? v : def);
+  const isArr = Array.isArray(payload);
+  return {
+    days,
+    meals: arr(isArr ? null : payload?.meals, DEFAULT_MEALS),
+    mustdo: arr(isArr ? null : payload?.mustdo, DEFAULT_MUSTDO),
+    stores: arr(isArr ? null : payload?.stores, DEFAULT_STORES),
+    tips: arr(isArr ? null : payload?.tips, DEFAULT_TIPS),
+    reservations: arr(isArr ? null : payload?.reservations, DEFAULT_RESERVATIONS),
+    reservationsMeta: (isArr ? null : payload?.reservationsMeta) || DEFAULT_RESERVATIONS_META,
+  };
+}
+
+export default function App() {
+  const [tab, setTab] = useState("itinerary");
+  const [who, setWho] = useState(null);
+  const [profilePhotos, setProfilePhotos] = useState(() => readStoredProfilePhotos());
+  const [st, setSt] = useState(EMPTY);
+  const [routeDays, setRouteDays] = useState(DEFAULT_DAYS);
+  const [stores, setStores] = useState(DEFAULT_STORES);
+  const [mustdo, setMustdo] = useState(DEFAULT_MUSTDO);
+  const [tips, setTips] = useState(DEFAULT_TIPS);
+  const [meals, setMeals] = useState(DEFAULT_MEALS);
+  const [reservations, setReservations] = useState(DEFAULT_RESERVATIONS);
+  const [reservationsMeta, setReservationsMeta] = useState(DEFAULT_RESERVATIONS_META);
+  const DAYS = routeDays;
+  const STORES = stores;
+  const MUSTDO = mustdo;
+  const TIPS = tips;
+  const MEALS = meals;
+  const RESERVATIONS = reservations;
+  const RESERVATIONS_META = reservationsMeta;
+  const currentContent = () => ({ days: DAYS, stores: STORES, mustdo: MUSTDO, tips: TIPS, meals: MEALS, reservations: RESERVATIONS, reservationsMeta: RESERVATIONS_META });
+  useEffect(() => { installAppBranding(); }, []);
+  const applyContent = (c) => { setRouteDays(c.days); setStores(c.stores); setMustdo(c.mustdo); setTips(c.tips); setMeals(c.meals); setReservations(c.reservations || DEFAULT_RESERVATIONS); setReservationsMeta(c.reservationsMeta || DEFAULT_RESERVATIONS_META); };
+  const [routeBackups, setRouteBackups] = useState([]);
+  const [shoppingBackups, setShoppingBackups] = useState([]);
+  const [shoppingListMeta, setShoppingListMeta] = useState({
+    schema: DEFAULT_SHOPPING_LIST.schema,
+    version: DEFAULT_SHOPPING_LIST.version,
+    updatedAt: DEFAULT_SHOPPING_LIST.updatedAt,
+    updatedBy: DEFAULT_SHOPPING_LIST.updatedBy,
+  });
+  const [syncing, setSyncing] = useState(false);
+  const [lastSync, setLastSync] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  // UI state
+  const [openDay, setOpenDay] = useState(null);
+  const [openAct, setOpenAct] = useState({});
+  const [openResto, setOpenResto] = useState({});
+  const [openTip, setOpenTip] = useState(null);
+  const [openReport, setOpenReport] = useState(null);
+  const [openReservation, setOpenReservation] = useState({});
+  const [reservationFilter, setReservationFilter] = useState("todos");
+  const [infoSub, setInfoSub] = useState("dicas");
+  const [fontScale, setFontScale] = useState(1);
+  const fs = (n) => Math.round(n * fontScale);
+  const [shopUser, setShopUser] = useState("Rodrigo");
+  const [shopView, setShopView] = useState("Todos");
+  const [shopMode, setShopMode] = useState("Loja");
+  const [shopContext, setShopContext] = useState("Drogaria Japão / Donki");
+  const [shopText, setShopText] = useState("");
+  const [shopStore, setShopStore] = useState("");
+  const [shopCustom, setShopCustom] = useState("");
+  const [editShopKey, setEditShopKey] = useState(null);
+  const [editShopDraft, setEditShopDraft] = useState(null);
+  // ── gastos/reservas ──
+  const [expCat, setExpCat] = useState("hotel");
+  const [expForm, setExpForm] = useState(null); // {label,amount,currency,pay,status,date,link,note} ou null
+  const blankExp = { label: "", amount: "", currency: "JPY", pay: "Cartão de crédito", status: "prepaid", date: "", link: "", note: "" };
+  const inp = { width: "100%", boxSizing: "border-box", padding: "10px 12px", borderRadius: 9, border: "1px solid #e2e8f0", fontSize: fs(14), outline: "none", background: "#f8fafc" };
+  const [maintUnlocked] = useState(true);
+  const [importingRoute, setImportingRoute] = useState(false);
+  const [importingShopping, setImportingShopping] = useState(false);
+  const routeFileRef = useRef(null);
+  const shoppingFileRef = useRef(null);
+  const pollRef = useRef(null);
+
+  // ── storage ──
+  const load = useCallback(async (quiet = false) => {
+    if (!quiet) setSyncing(true);
+    try {
+      const r = await storage.get("vjtrip26", true);
+      let appData = null;
+      if (r?.value) {
+        const parsed = JSON.parse(r.value);
+        appData = { ...EMPTY, ...parsed, shopping: { ...EMPTY.shopping, ...(parsed.shopping || {}) }, expenses: { ...EMPTY.expenses, ...(parsed.expenses || {}) }, reservationStatus: { ...(parsed.reservationStatus || {}) } };
+        setSt(appData);
+      }
+      // Semear listas sugeridas UMA vez, só se ninguém adicionou nada ainda.
+      try {
+        const seeded = await storage.get(SHOP_SEED_KEY, true);
+        const cur = appData || EMPTY;
+        const totalItems = ["Rodrigo", "Luciana", "Luísa"].reduce((a, u) => a + ((cur.shopping?.[u] || []).length), 0);
+        if (!seeded?.value && totalItems === 0) {
+          const seededData = { ...cur, shopping: buildSeedShopping(), meta: { lastBy: "sugestão", lastAt: new Date().toISOString() } };
+          await storage.set("vjtrip26", JSON.stringify(seededData), true);
+          await storage.set(SHOP_SEED_KEY, "done", true);
+          setSt(seededData);
+        }
+      } catch (e) { /* seed best-effort */ }
+      const route = await storage.get(ROUTE_STORAGE_KEY, true);
+      if (route?.value) {
+        const parsedRoute = JSON.parse(route.value);
+        const content = validateRoutePayload(parsedRoute);
+        applyContent(content);
+      }
+      const backups = await storage.get(ROUTE_BACKUPS_KEY, true);
+      if (backups?.value) {
+        const parsedBackups = JSON.parse(backups.value);
+        if (Array.isArray(parsedBackups)) setRouteBackups(parsedBackups);
+      }
+      const shoppingMetaRaw = await storage.get(SHOPPING_LIST_STORAGE_KEY, true);
+      if (shoppingMetaRaw?.value) {
+        const parsedShoppingMeta = JSON.parse(shoppingMetaRaw.value);
+        setShoppingListMeta({
+          schema: parsedShoppingMeta.schema || SHOPPING_LIST_SCHEMA,
+          version: parsedShoppingMeta.version || parsedShoppingMeta.updatedAt || "arquivo",
+          updatedAt: parsedShoppingMeta.updatedAt || parsedShoppingMeta.exportedAt || "",
+          updatedBy: parsedShoppingMeta.updatedBy || parsedShoppingMeta.exportedBy || "arquivo",
+          source: parsedShoppingMeta.source || "",
+        });
+      }
+      const shoppingBackupsRaw = await storage.get(SHOPPING_LIST_BACKUPS_KEY, true);
+      if (shoppingBackupsRaw?.value) {
+        const parsedShoppingBackups = JSON.parse(shoppingBackupsRaw.value);
+        if (Array.isArray(parsedShoppingBackups)) setShoppingBackups(parsedShoppingBackups);
+      }
+      setLastSync(new Date());
+    } catch (e) { /* first run */ }
+    if (!quiet) setSyncing(false);
+  }, []);
+
+  const save = useCallback(async (next, label = "") => {
+    const withMeta = { ...next, meta: { lastBy: who || "?", lastAt: new Date().toISOString() } };
+    setSt(withMeta);
+    try {
+      await storage.set("vjtrip26", JSON.stringify(withMeta), true);
+      setLastSync(new Date());
+      if (label) { setToast(`✓ ${label}`); setTimeout(() => setToast(null), 2200); }
+    } catch { setToast("⚠️ Erro ao salvar"); setTimeout(() => setToast(null), 2200); }
+  }, [who]);
+
+  // ── gastos/reservas ──
+  const saveExpense = (cat, item) => {
+    const list = st.expenses?.[cat] || [];
+    let next;
+    if (item.id) {
+      next = list.map(x => x.id === item.id ? item : x);
+    } else {
+      next = [...list, { ...item, id: Date.now() + "" + Math.floor(Math.random() * 999) }];
+    }
+    save({ ...st, expenses: { ...EMPTY.expenses, ...st.expenses, [cat]: next } }, "Gasto salvo");
+    setExpForm(null);
+  };
+  const removeExpense = (cat, id) => {
+    const list = (st.expenses?.[cat] || []).filter(x => x.id !== id);
+    save({ ...st, expenses: { ...EMPTY.expenses, ...st.expenses, [cat]: list } }, "Gasto removido");
+  };
+
+  const setReservationStatus = (id, status) => {
+    save({ ...st, reservationStatus: { ...(st.reservationStatus || {}), [id]: status } }, "Reserva atualizada");
+  };
+
+  useEffect(() => {
+    (async () => {
+      try { const r = await storage.get("vjwho26"); if (r?.value) setWho(r.value); } catch {}
+        try { const s = await storage.get("vjscale26"); if (s?.value) setFontScale(parseFloat(s.value)); } catch {}
+    })();
+    load();
+  }, [load]);
+
+  useEffect(() => {
+    pollRef.current = setInterval(() => load(true), 20000);
+    return () => clearInterval(pollRef.current);
+  }, [load]);
+
+  const chooseWho = async (n) => { setWho(n); try { await storage.set("vjwho26", n); } catch {} };
+
+  // ── manutenção do roteiro ──
+  const exportRoute = () => {
+    downloadJson(`roteiro-vjtrip26-${safeStamp()}.json`, makeRoutePayload(currentContent(), { exportedBy: who || "?" }));
+  };
+
+  const exportFullBackup = () => {
+    downloadJson(`backup-completo-vjtrip26-${safeStamp()}.json`, {
+      schema: "vjtrip26-full-backup-v1",
+      exportedAt: new Date().toISOString(),
+      exportedBy: who || "?",
+      route: makeRoutePayload(currentContent()),
+      shoppingList: makeShoppingListPayload(st.shopping, { exportedBy: who || "?" }),
+      appData: st,
+      routeBackups,
+      shoppingBackups,
+      shoppingListMeta,
+    });
+  };
+
+  const saveRouteWithBackup = async (newContent, reason = "Importação manual") => {
+    const backup = {
+      id: `backup-${safeStamp()}`,
+      createdAt: new Date().toISOString(),
+      createdBy: who || "?",
+      reason,
+      days: DAYS,
+    };
+    // Trim existing backups: keep only 'days' to avoid Firestore 1MB limit.
+    // Old backups may have 'content' (all 5 sections). Strip to just days.
+    const slimBackup = (b) => {
+      const { content, ...rest } = b;
+      return { ...rest, days: b.days ?? b.content?.days ?? [] };
+    };
+    const nextBackups = [backup, ...routeBackups.map(slimBackup)].slice(0, 5);
+    const routePayload = makeRoutePayload(newContent, { updatedAt: new Date().toISOString(), updatedBy: who || "?", source: reason });
+    await storage.set(ROUTE_BACKUPS_KEY, JSON.stringify(nextBackups), true);
+    await storage.set(ROUTE_STORAGE_KEY, JSON.stringify(routePayload), true);
+    setRouteBackups(nextBackups);
+    applyContent(newContent);
+    setLastSync(new Date());
+  };
+
+  const importRouteFile = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    setImportingRoute(true);
+    try {
+      const text = await file.text();
+      const payload = JSON.parse(text);
+      const content = validateRoutePayload(payload);
+      const msg = `Importar ${content.days.length} dias + restaurantes, must do, lojas e dicas e substituir para todos? Um backup automático será criado antes.`;
+      if (!confirm(msg)) return;
+      await saveRouteWithBackup(content, `Importado de ${file.name}`);
+      setToast(`✓ Conteúdo importado: ${content.days.length} dias`);
+      setTimeout(() => setToast(null), 2600);
+    } catch (e) {
+      setToast(`⚠️ JSON inválido: ${e.message}`);
+      setTimeout(() => setToast(null), 4200);
+    } finally {
+      setImportingRoute(false);
+    }
+  };
+
+  const restoreRouteBackup = async (backup) => {
+    if (!backup || (!backup.content && !backup.days)) return;
+    if (!confirm(`Restaurar o backup de ${new Date(backup.createdAt).toLocaleString("pt-BR")} para todos?`)) return;
+    try {
+      const raw = backup.content ? backup.content : { days: backup.days };
+      const content = validateRoutePayload(raw);
+      await saveRouteWithBackup(content, `Restauração do ${backup.id}`);
+      setToast("✓ Backup restaurado");
+      setTimeout(() => setToast(null), 2600);
+    } catch (e) {
+      setToast(`⚠️ Falha ao restaurar: ${e.message}`);
+      setTimeout(() => setToast(null), 4200);
+    }
+  };
+
+  const resetRouteToDefault = async () => {
+    if (!confirm("Voltar ao roteiro original embutido no app? Um backup do roteiro atual será criado.")) return;
+    try {
+      await saveRouteWithBackup({ days: DEFAULT_DAYS, meals: DEFAULT_MEALS, mustdo: DEFAULT_MUSTDO, stores: DEFAULT_STORES, tips: DEFAULT_TIPS }, "Voltar ao conteúdo original do app");
+      setToast("✓ Roteiro original restaurado");
+      setTimeout(() => setToast(null), 2600);
+    } catch {
+      setToast("⚠️ Erro ao restaurar roteiro original");
+      setTimeout(() => setToast(null), 2600);
+    }
+  };
+
+  // ── manutenção da lista de compras ──
+  const exportShoppingList = () => {
+    downloadJson(`lista-compras-vjtrip26-${safeStamp()}.json`, makeShoppingListPayload(st.shopping, {
+      exportedBy: who || "?",
+      source: "exportado do app",
+      previousVersion: shoppingListMeta?.version || DEFAULT_SHOPPING_LIST.version,
+    }));
+  };
+
+  const saveShoppingListWithBackup = async (newShopping, reason = "Importação manual", sourceFile = "") => {
+    const currentTotal = USERS.reduce((acc, person) => acc + (st.shopping?.[person] || []).length, 0);
+    const backup = {
+      id: `shopping-backup-${safeStamp()}`,
+      createdAt: new Date().toISOString(),
+      createdBy: who || "?",
+      reason,
+      version: shoppingListMeta?.version || DEFAULT_SHOPPING_LIST.version,
+      totalItems: currentTotal,
+      shopping: { ...EMPTY.shopping, ...(st.shopping || {}) },
+    };
+    const nextBackups = [backup, ...shoppingBackups].slice(0, 5);
+    const payload = makeShoppingListPayload(newShopping, {
+      version: `compras-${safeStamp()}`,
+      updatedAt: new Date().toISOString(),
+      updatedBy: who || "?",
+      source: sourceFile || reason,
+    });
+    await storage.set(SHOPPING_LIST_BACKUPS_KEY, JSON.stringify(nextBackups), true);
+    await storage.set(SHOPPING_LIST_STORAGE_KEY, JSON.stringify(payload), true);
+    setShoppingBackups(nextBackups);
+    setShoppingListMeta({
+      schema: payload.schema,
+      version: payload.version,
+      updatedAt: payload.updatedAt,
+      updatedBy: payload.updatedBy,
+      source: payload.source,
+    });
+    await save({ ...st, shopping: newShopping }, "Lista de compras atualizada");
+    try { await storage.set(SHOP_SEED_KEY, "done", true); } catch {}
+  };
+
+  const importShoppingFile = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    setImportingShopping(true);
+    try {
+      const text = await file.text();
+      const payload = JSON.parse(text);
+      const importedShopping = validateShoppingListPayload(payload, st.shopping, file.name);
+      const mergeMode = payload?.importMode === "merge";
+      const nextShopping = mergeMode ? mergeShoppingLists(st.shopping, importedShopping) : importedShopping;
+      const importedTotal = USERS.reduce((acc, person) => acc + importedShopping[person].length, 0);
+      const finalTotal = USERS.reduce((acc, person) => acc + nextShopping[person].length, 0);
+      const action = mergeMode ? "mesclar com a lista atual" : "substituir a lista atual";
+      const msg = `Importar ${importedTotal} itens e ${action}? Resultado final: ${finalTotal} itens. Itens com o mesmo texto preservam o status de comprado.`;
+      if (!confirm(msg)) return;
+      await saveShoppingListWithBackup(nextShopping, `Importado de ${file.name}${mergeMode ? " (mescla)" : " (substituição)"}`, file.name);
+      setToast(`✓ Lista importada: ${finalTotal} itens`);
+      setTimeout(() => setToast(null), 2600);
+    } catch (e) {
+      setToast(`⚠️ JSON de compras inválido: ${e.message}`);
+      setTimeout(() => setToast(null), 4200);
+    } finally {
+      setImportingShopping(false);
+    }
+  };
+
+  const restoreShoppingBackup = async (backup) => {
+    if (!backup?.shopping) return;
+    const when = backup.createdAt ? new Date(backup.createdAt).toLocaleString("pt-BR") : "backup selecionado";
+    if (!confirm(`Restaurar a lista de compras do backup de ${when}? Um backup da lista atual será criado antes.`)) return;
+    try {
+      const nextShopping = validateShoppingListPayload({ lists: backup.shopping }, st.shopping, `backup ${backup.id || ""}`);
+      await saveShoppingListWithBackup(nextShopping, `Restauração do ${backup.id || "backup"}`);
+      setToast("✓ Backup de compras restaurado");
+      setTimeout(() => setToast(null), 2600);
+    } catch (e) {
+      setToast(`⚠️ Falha ao restaurar compras: ${e.message}`);
+      setTimeout(() => setToast(null), 4200);
+    }
+  };
+
+  const resetShoppingToDefault = async () => {
+    if (!confirm("Voltar à lista padrão limpa embutida no app? Um backup da lista atual será criado.")) return;
+    try {
+      const nextShopping = buildSeedShopping(DEFAULT_SHOPPING_LIST);
+      await saveShoppingListWithBackup(nextShopping, "Voltar à lista padrão limpa", "lista padrão limpa embutida");
+      setToast("✓ Lista padrão limpa restaurada");
+      setTimeout(() => setToast(null), 2600);
+    } catch (e) {
+      setToast(`⚠️ Erro ao restaurar lista original: ${e.message}`);
+      setTimeout(() => setToast(null), 3200);
+    }
+  };
+
+  const restoreSuggestedShopping = async () => {
+    if (!confirm("Mesclar a lista padrão limpa com a lista atual? Os itens que você já tem serão mantidos.")) return;
+    try {
+      const seed = buildSeedShopping();
+      const merged = mergeShoppingLists(st.shopping, seed);
+      await saveShoppingListWithBackup(merged, "Mesclar lista padrão", "lista v3 embutida");
+      try { await storage.set(SHOP_SEED_KEY, "done", true); } catch {}
+    } catch { setToast("⚠️ Erro ao restaurar listas"); setTimeout(() => setToast(null), 2600); }
+  };
+
+  // ── mutations ──
+  const toggleMust = (day, idx) => {
+    const key = `${day}-${idx}`;
+    const m = { ...st.mustDone, [key]: !st.mustDone[key] };
+    if (!m[key]) delete m[key];
+    save({ ...st, mustDone: m });
+  };
+  const toggleAct = (day, idx) => {
+    const key = `${day}-${idx}`;
+    const a = { ...st.actDone, [key]: !st.actDone[key] };
+    if (!a[key]) delete a[key];
+    save({ ...st, actDone: a });
+  };
+  const setStatus = (day, s) => {
+    const ds = { ...st.dayStatus };
+    if (ds[day] === s) delete ds[day]; else ds[day] = s;
+    save({ ...st, dayStatus: ds }, s ? `Dia ${day} marcado` : "");
+  };
+  const setNote = (day, note) => {
+    const dn = { ...st.dayNote, [day]: note };
+    save({ ...st, dayNote: dn });
+  };
+  const addShop = () => {
+    if (!shopText.trim()) return;
+    const store = shopStore === "Outros (especificar)" ? (shopCustom.trim() || "Outros") : shopStore;
+    const u = { ...st.shopping };
+    u[shopUser] = [...u[shopUser], { id: Date.now(), text: shopText.trim(), store: store || "—", done: false, by: who || "?" }];
+    save({ ...st, shopping: u }, "Item adicionado");
+    setShopText(""); setShopCustom("");
+  };
+  const toggleShop = (user, id) => {
+    const u = { ...st.shopping };
+    u[user] = u[user].map(i => i.id === id ? { ...i, done: !i.done } : i);
+    save({ ...st, shopping: u });
+  };
+  const rmShop = (user, id) => {
+    const u = { ...st.shopping };
+    u[user] = u[user].filter(i => i.id !== id);
+    save({ ...st, shopping: u }, "Item removido");
+  };
+
+  const openShopEdit = (user, item) => {
+    setEditShopKey(`${user}::${item.id}`);
+    setEditShopDraft({
+      owner: user,
+      text: item.text || "",
+      qty: item.qty || "",
+      priority: item.priority || "",
+      category: item.category || "",
+      primaryStore: item.primaryStore || "",
+      store: item.store || "",
+      routeDay: item.routeDay || item.dayHint || "",
+      city: item.city || "",
+      country: item.country || "",
+      shoppingMode: Array.isArray(item.shoppingMode) ? item.shoppingMode.join(", ") : (item.shoppingMode || ""),
+      note: item.note || "",
+      sort: item.sort ?? "",
+    });
+  };
+  const saveShopEdit = (oldUser, id) => {
+    if (!editShopDraft?.text?.trim()) return;
+    const newUser = USERS.includes(editShopDraft.owner) ? editShopDraft.owner : oldUser;
+    const original = (st.shopping?.[oldUser] || []).find(i => i.id === id) || {};
+    const cleanArray = (v) => (v || "").split(/[|,]/).map(s => s.trim()).filter(Boolean);
+    const updated = {
+      ...original,
+      text: editShopDraft.text.trim(),
+      qty: editShopDraft.qty.trim(),
+      priority: editShopDraft.priority.trim(),
+      category: editShopDraft.category.trim(),
+      primaryStore: editShopDraft.primaryStore.trim(),
+      store: editShopDraft.store.trim(),
+      routeDay: editShopDraft.routeDay.trim(),
+      dayHint: editShopDraft.routeDay.trim(),
+      city: editShopDraft.city.trim(),
+      country: editShopDraft.country.trim(),
+      shoppingMode: cleanArray(editShopDraft.shoppingMode),
+      note: editShopDraft.note.trim(),
+    };
+    delete updated.protected;
+    if (editShopDraft.sort !== "" && !Number.isNaN(Number(editShopDraft.sort))) updated.sort = Number(editShopDraft.sort); else delete updated.sort;
+    const next = { ...st.shopping, Rodrigo: [...(st.shopping?.Rodrigo || [])], Luciana: [...(st.shopping?.Luciana || [])], "Luísa": [...(st.shopping?.["Luísa"] || [])] };
+    next[oldUser] = next[oldUser].filter(i => i.id !== id);
+    next[newUser] = [...(next[newUser] || []), updated].sort((a,b) => (Number(a.sort ?? 999999) - Number(b.sort ?? 999999)) || shoppingKey(a.text).localeCompare(shoppingKey(b.text), "pt-BR"));
+    save({ ...st, shopping: next }, "Item de compras editado");
+    setEditShopKey(null);
+    setEditShopDraft(null);
+  };
+
+  const fmt = (d) => d ? new Date(d).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "—";
+  const chooseScale = async (v) => { setFontScale(v); try { await storage.set("vjscale26", String(v)); } catch {} };
+  const photoFor = (name) => profilePhotos?.[name] || "";
+  const setUserPhoto = async (name, file) => {
+    if (!file) return;
+    try {
+      const dataUrl = await imageFileToAvatarDataUrl(file, 420);
+      const next = { ...(profilePhotos || {}), [name]: dataUrl };
+      setProfilePhotos(next);
+      writeStoredProfilePhotos(next);
+      setToast(`✓ Foto de ${name} atualizada neste aparelho`);
+      setTimeout(() => setToast(null), 2200);
+    } catch (e) {
+      setToast("⚠️ Não consegui carregar essa foto");
+      setTimeout(() => setToast(null), 2200);
+    }
+  };
+  const removeUserPhoto = (name) => {
+    const next = { ...(profilePhotos || {}) };
+    delete next[name];
+    setProfilePhotos(next);
+    writeStoredProfilePhotos(next);
+    setToast(`✓ Foto de ${name} removida deste aparelho`);
+    setTimeout(() => setToast(null), 2200);
+  };
+
+  // ════════════════════ WHO AM I ════════════════════
+  if (!who) return (
+    <div style={{ maxWidth: 440, margin: "0 auto", minHeight: "100vh", background: "linear-gradient(160deg,#0f2a4a,#0ea5e9)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 32, fontFamily: "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif" }}>
+      <ProjectIcon size={72} />
+      <div style={{ color: "#fff", fontSize: 27, fontWeight: 900, textAlign: "center" }}>Travel Companion</div>
+      <div style={{ color: "#bfdbfe", fontSize: 14, marginBottom: 40, textAlign: "center" }}>Dubai + Japão 2026 · Família</div>
+      <div style={{ color: "#e0f2fe", fontSize: 15, fontWeight: 700, marginBottom: 16 }}>Quem é você?</div>
+      {USERS.map(u => (
+        <button key={u} onClick={() => chooseWho(u)}
+          style={{ width: "100%", maxWidth: 280, margin: "6px 0", padding: 16, borderRadius: 16, border: "none", cursor: "pointer", background: "rgba(255,255,255,.15)", color: "#fff", fontSize: 18, fontWeight: 800, backdropFilter: "blur(10px)", display: "flex", alignItems: "center", gap: 14, justifyContent: "center" }}>
+          <PersonLabel name={u} size={34} selected photoSrc={photoFor(u)} />
+        </button>
+      ))}
+      <div style={{ color: "#93c5fd", fontSize: 12, marginTop: 32, textAlign: "center", maxWidth: 260 }}>
+        ⚡ Tudo é compartilhado em tempo real entre os 3 dispositivos.
+      </div>
+    </div>
+  );
+
+  // ════════════════════ small UI helpers ════════════════════
+  const SyncBar = () => (
+    <div style={{ background: "#f0f9ff", borderBottom: "1px solid #bae6fd", padding: "6px 12px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+        <div style={{ width: 8, height: 8, borderRadius: 99, background: syncing ? "#f59e0b" : "#22c55e" }} />
+        <span style={{ fontSize: fs(11), color: "#0369a1" }}>{syncing ? "Sincronizando…" : `Sync ${fmt(lastSync)}`}</span>
+        {st.meta?.lastBy && <span style={{ fontSize: fs(11), color: "#64748b" }}>· por <b>{st.meta.lastBy}</b></span>}
+      </div>
+      <button onClick={() => load()} style={{ background: "#0ea5e9", color: "#fff", border: "none", borderRadius: 6, padding: "3px 10px", fontSize: fs(11), fontWeight: 700, cursor: "pointer" }}>↻ Atualizar</button>
+    </div>
+  );
+  const Header = ({ grad, title, sub }) => (
+    <>
+      <div style={{ background: grad, color: "#fff", padding: "16px 16px 14px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div>
+            <div style={{ fontSize: 20, fontWeight: 900 }}>{title}</div>
+            <div style={{ fontSize: 12, opacity: .85 }}>{sub}</div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+<PersonAvatar name={who} size={24} selected photoSrc={photoFor(who)} />
+            <span style={{ fontSize: 12, fontWeight: 700 }}>{who}</span>
+            <button onClick={() => setWho(null)} style={{ background: "rgba(255,255,255,.25)", border: "none", color: "#fff", borderRadius: 6, fontSize: 10, padding: "2px 6px", cursor: "pointer" }}>trocar</button>
+          </div>
+        </div>
+      </div>
+      <SyncBar />
+    </>
+  );
+  const Maps = ({ q }) => (
+    <a href={mapsUrl(q)} target="_blank" rel="noopener noreferrer"
+      style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: fs(12), color: "#1d4ed8", textDecoration: "none", background: "#eff6ff", padding: "6px 11px", borderRadius: 8, border: "1px solid #bfdbfe", marginTop: 4, fontWeight: 600 }}>
+      📍 {q.length > 42 ? q.slice(0, 42) + "…" : q}
+    </a>
+  );
+  const Bar = ({ v, t, c }) => (
+    <div style={{ background: "#e2e8f0", borderRadius: 99, height: 7, overflow: "hidden" }}>
+      <div style={{ width: `${t > 0 ? Math.round(v / t * 100) : 0}%`, background: c || "#3b82f6", height: "100%", transition: "width .4s", borderRadius: 99 }} />
+    </div>
+  );
+  const Field = ({ icon, label, text, bg, fg }) => (
+    <div style={{ background: bg, borderRadius: 8, padding: "7px 10px", marginBottom: 5 }}>
+      <span style={{ fontSize: fs(12), color: fg }}><b>{icon} {label}:</b> {text}</span>
+    </div>
+  );
+
+
+  const TransportGuide = ({ guide }) => {
+    if (!guide) return null;
+    const steps = Array.isArray(guide.stepByStep) ? guide.stepByStep : [];
+    const signs = Array.isArray(guide.stationSigns) ? guide.stationSigns : [];
+    const conf = guide.confidence === "alta" ? ["#dcfce7", "#166534", "alta"] : guide.confidence === "média" ? ["#fef3c7", "#92400e", "média"] : ["#f1f5f9", "#475569", guide.confidence || "—"];
+    return (
+      <details style={{ background: "#ecfeff", border: "2px solid #06b6d4", borderRadius: 12, margin: "9px 0", overflow: "hidden", boxShadow: "0 1px 5px #0891b21f" }}>
+        <summary style={{ padding: "11px 12px", cursor: "pointer", fontSize: fs(13), fontWeight: 900, color: "#155e75", listStyle: "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+          <span>🚆 TOQUE AQUI · Guia de transporte</span>
+          <span style={{ fontSize: fs(11), fontWeight: 800, color: "#0f766e", background: "#ccfbf1", borderRadius: 99, padding: "3px 8px", whiteSpace: "nowrap" }}>passo a passo ▼</span>
+        </summary>
+        <div style={{ padding: "0 12px 9px", marginTop: -4, fontSize: fs(11), color: "#0f766e", fontWeight: 700 }}>
+          {guide.summary || guide.method || "Placas, saída correta, armadilhas e plano B."}
+        </div>
+        <div style={{ borderTop: "1px solid #ccfbf1", padding: "9px 11px" }}>
+          <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 8 }}>
+            {guide.method && <span style={{ background: "#ccfbf1", color: "#115e59", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 800 }}>{guide.method}</span>}
+            {guide.difficulty && <span style={{ background: "#e0f2fe", color: "#075985", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 800 }}>dificuldade: {guide.difficulty}</span>}
+            {guide.luggageRisk && <span style={{ background: "#fff7ed", color: "#9a3412", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 800 }}>mala: {guide.luggageRisk}</span>}
+            <span style={{ background: conf[0], color: conf[1], borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 800 }}>confiança: {conf[2]}</span>
+          </div>
+          {guide.route && <Field icon="🧭" label="Rota-base" text={guide.route} bg="#ecfeff" fg="#155e75" />}
+          {steps.length > 0 && (
+            <div style={{ background: "#fff", borderRadius: 8, padding: "8px 10px", marginBottom: 6, border: "1px solid #ccfbf1" }}>
+              <div style={{ fontSize: fs(11), fontWeight: 900, color: "#0f766e", marginBottom: 5 }}>Passo a passo</div>
+              {steps.map((stp, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 7, padding: "3px 0", fontSize: fs(12), color: "#334155" }}>
+                  <span style={{ background: "#14b8a6", color: "#fff", width: 18, height: 18, borderRadius: 99, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: fs(10), fontWeight: 900, flexShrink: 0 }}>{idx + 1}</span>
+                  <span>{stp}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          {signs.length > 0 && (
+            <div style={{ margin: "6px 0" }}>
+              <div style={{ fontSize: fs(11), fontWeight: 900, color: "#0f766e", marginBottom: 4 }}>Placas / palavras para procurar</div>
+              <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                {signs.map((sg, idx) => <span key={idx} style={{ background: "#ffffff", color: "#0f766e", border: "1px solid #99f6e4", borderRadius: 99, padding: "3px 8px", fontSize: fs(11), fontWeight: 700 }}>{sg}</span>)}
+              </div>
+            </div>
+          )}
+          {guide.correctExit && <Field icon="🚪" label="Saída certa" text={guide.correctExit} bg="#f0fdf4" fg="#166534" />}
+          {guide.finalWalk && <Field icon="🚶" label="Caminhada final" text={guide.finalWalk} bg="#f8fafc" fg="#334155" />}
+          {guide.traps && <Field icon="⚠️" label="Armadilha" text={guide.traps} bg="#fef2f2" fg="#991b1b" />}
+          {guide.planB && <Field icon="🅱️" label="Plano B" text={guide.planB} bg="#fffbeb" fg="#92400e" />}
+          {guide.liveCheck && <Field icon="📱" label="Checagem ao vivo" text={guide.liveCheck} bg="#eef2ff" fg="#3730a3" />}
+          {guide.sourceNote && <div style={{ fontSize: fs(10), color: "#64748b", marginTop: 5 }}>Fonte/observação: {guide.sourceNote}</div>}
+        </div>
+      </details>
+    );
+  };
+
+  // ════════════════════ ROTEIRO ════════════════════
+  const renderItinerary = () => (
+    <>
+      <Header grad="linear-gradient(135deg,#1e40af,#0ea5e9)" title="📋 Roteiro" sub={`${DAYS.length} dias · clique no dia e nas atividades`} />
+      <div style={{ padding: "8px 0 110px" }}>
+        {DAYS.map(d => {
+          const open = openDay === d.day;
+          const ds = st.dayStatus[d.day];
+          return (
+            <Card key={d.day}>
+              <button onClick={() => setOpenDay(open ? null : d.day)} style={{ width: "100%", padding: "12px 14px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 4, alignItems: "center" }}>
+                      <span style={{ background: d.color, color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>{dayMonth(d.date)}</span>
+                      <span style={{ fontSize: fs(11), color: "#94a3b8", fontWeight: 600 }}>{d.weekday}</span>
+                      {ds === "done" && <span style={{ background: "#d1fae5", color: "#065f46", fontSize: fs(10), padding: "2px 7px", borderRadius: 99 }}>✓ Feito</span>}
+                      {ds === "partial" && <span style={{ background: "#fef3c7", color: "#92400e", fontSize: fs(10), padding: "2px 7px", borderRadius: 99 }}>⚡ Parcial</span>}
+                    </div>
+                    <div style={{ fontWeight: 800, fontSize: fs(15), color: "#1e293b" }}>{d.anchor}</div>
+                    <div style={{ fontSize: fs(12), color: "#64748b", marginTop: 2 }}>📍 {d.base}</div>
+                  </div>
+                  <span style={{ color: "#cbd5e1", fontSize: fs(16), transform: open ? "rotate(180deg)" : "none", transition: ".2s", marginTop: 4 }}>▼</span>
+                </div>
+              </button>
+
+              {open && (
+                <div style={{ borderTop: "1px solid #f1f5f9", padding: "10px 12px 12px" }}>
+                  {/* OBJETIVO / LÓGICA DO DIA */}
+                  {d.logic && (
+                    <div style={{ background: "linear-gradient(135deg,#eef2ff,#e0e7ff)", borderRadius: 12, padding: "10px 12px", marginBottom: 8 }}>
+                      <div style={{ fontSize: fs(10), fontWeight: 800, color: "#4338ca", letterSpacing: .5 }}>🎯 OBJETIVO DO DIA</div>
+                      <div style={{ fontSize: fs(13), color: "#312e81", marginTop: 3, fontWeight: 500 }}>{d.logic}</div>
+                    </div>
+                  )}
+                  {/* Regra de ouro / atenção / resultado */}
+                  {d.goldenRule && <Field icon="👑" label="Regra de ouro" text={d.goldenRule} bg="#fefce8" fg="#854d0e" />}
+                  {d.attention && <Field icon="⚠️" label="Atenção" text={d.attention} bg="#fef2f2" fg="#991b1b" />}
+                  {d.expected && <Field icon="✅" label="Resultado esperado" text={d.expected} bg="#f0fdf4" fg="#166534" />}
+                  {d.transportBriefing && <Field icon="🚆" label="Transporte do dia" text={d.transportBriefing} bg="#ecfeff" fg="#155e75" />}
+
+                  {/* Antes de sair */}
+                  {d.before?.length > 0 && (
+                    <div style={{ background: "#f8fafc", borderRadius: 10, padding: "8px 12px", margin: "8px 0" }}>
+                      <div style={{ fontSize: fs(11), fontWeight: 800, color: "#475569", marginBottom: 4 }}>📝 Antes de sair</div>
+                      {d.before.map((b, i) => (
+                        <div key={i} style={{ fontSize: fs(12), color: "#475569", padding: "2px 0", display: "flex", gap: 6 }}>
+                          <span style={{ color: "#94a3b8" }}>•</span> {b}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {/* Refeições */}
+                  {d.meals && <div style={{ background: "#fff7ed", borderLeft: "3px solid #f97316", padding: "8px 10px", borderRadius: "0 8px 8px 0", marginBottom: 8 }}>
+                    <div style={{ fontSize: fs(10), fontWeight: 800, color: "#c2410c" }}>🍽️ REFEIÇÕES DO DIA</div>
+                    <div style={{ fontSize: fs(12), color: "#7c2d12", marginTop: 2 }}>{d.meals}</div>
+                  </div>}
+
+                  {/* ATIVIDADES (passo a passo) */}
+                  <div style={{ fontSize: fs(11), fontWeight: 800, color: "#94a3b8", margin: "10px 2px 6px", letterSpacing: .5 }}>PASSO A PASSO DO DIA</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    {d.activities.map((a, i) => {
+                      const k = `${d.day}-${i}`;
+                      const ao = openAct[k];
+                      const cm = CAT_META[a.cat] || CAT_META.activity;
+                      return (
+                        <div key={i} style={{ borderRadius: 12, border: `1px solid ${cm.c}33`, overflow: "hidden", background: "#fff" }}>
+                          <button onClick={() => setOpenAct(p => ({ ...p, [k]: !p[k] }))} style={{ width: "100%", padding: "10px 12px", background: cm.c + "0c", border: "none", cursor: "pointer", textAlign: "left" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                              <span style={{ fontSize: fs(17) }}>{actIcon(a)}</span>
+                              <div style={{ flex: 1 }}>
+                                <div style={{ fontWeight: 700, fontSize: fs(13), color: "#1e293b" }}>{a.title}</div>
+                                <div style={{ fontSize: fs(11), color: cm.c, fontWeight: 600 }}>{a.time}{a.type ? ` · ${a.type}` : ""}</div>
+                                {a.transportGuide && (
+                                  <div style={{ marginTop: 5, display: "inline-flex", alignItems: "center", gap: 5, background: "#ecfeff", color: "#155e75", border: "1px solid #67e8f9", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 900 }}>
+                                    🚆 tem guia detalhado · toque no card
+                                  </div>
+                                )}
+                              </div>
+                              <span style={{ color: "#cbd5e1", fontSize: fs(13), transform: ao ? "rotate(180deg)" : "none", transition: ".2s" }}>▼</span>
+                            </div>
+                          </button>
+                          {ao && (
+                            <div style={{ padding: "10px 12px", borderTop: `1px solid ${cm.c}22` }}>
+                              {a.logistics && <Field icon={moveMeta(a).e} label={moveMeta(a).label} text={a.logistics} bg="#ecfeff" fg="#155e75" />}
+                              {a.transportGuide && <TransportGuide guide={a.transportGuide} />}
+                              {a.onArrival && <Field icon="👉" label="Ao chegar" text={a.onArrival} bg="#f8fafc" fg="#334155" />}
+                              {a.insight && <Field icon="💡" label="Por que está no roteiro" text={a.insight} bg="#eff6ff" fg="#1e40af" />}
+                              {a.eat && <Field icon="🍴" label="Comer/pedir" text={a.eat} bg="#fff7ed" fg="#c2410c" />}
+                              {a.buy && <Field icon="🛍️" label="Comprar/procurar" text={a.buy} bg="#fdf4ff" fg="#86198f" />}
+                              {a.photo && <Field icon="📸" label="Foto/atenção" text={a.photo} bg="#f0f9ff" fg="#075985" />}
+                              {a.decision && <Field icon="🎯" label="Decisão de saída" text={a.decision} bg="#f0fdf4" fg="#15803d" />}
+                              {a.ifLate && <Field icon="⏱️" label="Se atrasar" text={a.ifLate} bg="#fef2f2" fg="#b91c1c" />}
+                              {a.notes && a.notes.map((n, j) => <Field key={j} icon="📌" label="Nota" text={n} bg="#fffbeb" fg="#92400e" />)}
+                              {a.maps && <Maps q={a.maps} />}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Resumo executivo */}
+                  {d.summary && (
+                    <div style={{ background: "#1e293b", color: "#e2e8f0", borderRadius: 10, padding: "9px 12px", marginTop: 10 }}>
+                      <div style={{ fontSize: fs(10), fontWeight: 800, color: "#94a3b8" }}>📋 RESUMO DO DIA</div>
+                      <div style={{ fontSize: fs(12), marginTop: 3 }}>{d.summary}</div>
+                    </div>
+                  )}
+
+                  {/* Status buttons */}
+                  <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
+                    <button onClick={() => setStatus(d.day, "done")} style={{ flex: 1, padding: 9, borderRadius: 8, border: "none", cursor: "pointer", fontSize: fs(12), fontWeight: 700, background: ds === "done" ? "#d1fae5" : "#f1f5f9", color: ds === "done" ? "#065f46" : "#64748b" }}>✓ Dia concluído</button>
+                    <button onClick={() => setStatus(d.day, "partial")} style={{ flex: 1, padding: 9, borderRadius: 8, border: "none", cursor: "pointer", fontSize: fs(12), fontWeight: 700, background: ds === "partial" ? "#fef3c7" : "#f1f5f9", color: ds === "partial" ? "#92400e" : "#64748b" }}>⚡ Parcial</button>
+                  </div>
+                </div>
+              )}
+            </Card>
+          );
+        })}
+      </div>
+    </>
+  );
+
+  // ════════════════════ MUST DO (por dia) ════════════════════
+  const renderMustDo = () => {
+    let total = 0, done = 0;
+    MUSTDO.forEach(g => g.items.forEach((_, i) => { total++; if (st.mustDone[`${g.day}-${i}`]) done++; }));
+    return (
+      <>
+        <Header grad="linear-gradient(135deg,#be123c,#e11d48)" title="⭐ Must Do" sub={`${done}/${total} imperdíveis · por dia`} />
+        <div style={{ padding: "10px 12px 0" }}><Bar v={done} t={total} c="#e11d48" /></div>
+        <div style={{ padding: "10px 0 110px" }}>
+          {MUSTDO.map(g => {
+            const day = DAYS.find(d => d.day === g.day);
+            return (
+              <Card key={g.day}>
+                <div style={{ padding: "10px 14px 4px", display: "flex", gap: 8, alignItems: "center", borderBottom: "1px solid #f8fafc" }}>
+                  <span style={{ background: day?.color || "#64748b", color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>{dayMonth(day?.date)}</span>
+                  <span style={{ fontWeight: 700, fontSize: fs(13), color: "#1e293b" }}>{day?.anchor}</span>
+                </div>
+                <div style={{ padding: "6px 14px 12px" }}>
+                  {g.items.map((it, i) => {
+                    const k = `${g.day}-${i}`;
+                    const dn = !!st.mustDone[k];
+                    return (
+                      <button key={i} onClick={() => toggleMust(g.day, i)} style={{ width: "100%", display: "flex", gap: 10, alignItems: "flex-start", padding: "7px 0", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
+                        <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${dn ? "#e11d48" : "#cbd5e1"}`, background: dn ? "#e11d48" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1, transition: ".2s" }}>
+                          {dn && <span style={{ color: "#fff", fontWeight: 900, fontSize: fs(13) }}>✓</span>}
+                        </div>
+                        <span style={{ flex: 1, fontSize: fs(14), color: dn ? "#94a3b8" : "#1e293b", textDecoration: dn ? "line-through" : "none", fontWeight: it.includes("⭐") ? 700 : 500 }}>{it}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      </>
+    );
+  };
+
+  // ════════════════════ RESTAURANTES (escolhido x alternativa, por dia) ════════════════════
+  const RestoCard = ({ r, role }) => {
+    const isLogistico = r.rtype === "logistico" || r.mealType === "logistico" || r.tipo === "logistico";
+    const cat = isLogistico ? "logistico" : (role === "alt" ? "alt" : (r.src === "ia" ? "ia" : "roteiro"));
+    const STYLES = {
+      roteiro:   { accent: "#16a34a", bg: "#f0fdf4", tag: "ESCOLHIDO", ico: "✓ " },
+      ia:        { accent: "#6366f1", bg: "#eef2ff", tag: "SUGESTÃO IA", ico: "✨ " },
+      alt:       { accent: "#d97706", bg: "#fffbeb", tag: "ALTERNATIVA", ico: "↻ " },
+      logistico: { accent: "#0f766e", bg: "#ecfeff", tag: "LOGÍSTICO", ico: "🧭 " },
+    };
+    const { accent, bg, tag, ico } = STYLES[cat];
+    const guide = r.fieldGuide || r.guide || null;
+    const gkey = `${role}-${r.name}-${r.area || ""}`;
+    const isOpen = !!openResto[gkey];
+    const toggleGuide = () => setOpenResto(prev => ({ ...prev, [gkey]: !prev[gkey] }));
+    const GuideText = ({ label, children }) => children ? (
+      <div style={{ marginTop: 8 }}>
+        <div style={{ fontSize: fs(10), color: accent, fontWeight: 900, textTransform: "uppercase", letterSpacing: .4 }}>{label}</div>
+        <div style={{ fontSize: fs(12), color: "#334155", lineHeight: 1.45 }}>{children}</div>
+      </div>
+    ) : null;
+    const arr = (v) => Array.isArray(v) ? v : [];
+    return (
+      <div style={{ border: `2px solid ${accent}`, borderRadius: 12, overflow: "hidden", marginBottom: 8, background: "#fff" }}>
+        <div style={{ background: bg, padding: "8px 12px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+              <span style={{ background: accent, color: "#fff", fontSize: fs(9), fontWeight: 800, padding: "2px 7px", borderRadius: 99, letterSpacing: .5 }}>{ico}{tag}</span>
+              <span style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b" }}>{r.name}</span>
+            </div>
+            <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 2 }}>{r.cuisine} · {r.area}</div>
+          </div>
+          {r.score != null && (
+            <div style={{ textAlign: "center", flexShrink: 0, background: "#fff", borderRadius: 8, padding: "3px 9px", border: `1px solid ${accent}44` }}>
+              <div style={{ fontSize: fs(8), color: r.stype === "ta" ? "#1d4ed8" : "#d97706", fontWeight: 700 }}>{r.stype === "ta" ? "TRIPADV." : "TABELOG"}</div>
+              <div style={{ fontSize: fs(16), fontWeight: 900, color: r.stype === "ta" ? "#2563eb" : "#d97706" }}>{r.verified ? "" : "≈"}{r.stype === "ta" ? r.score.toFixed(1) : r.score.toFixed(2)}</div>
+              <div style={{ fontSize: fs(7), color: r.verified ? "#16a34a" : "#94a3b8", fontWeight: 700 }}>{r.verified ? "✓ verif." : "aprox."}</div>
+            </div>
+          )}
+        </div>
+        <div style={{ padding: "8px 12px" }}>
+          {r.cardSummary && <div style={{ fontSize: fs(12), color: "#334155", marginBottom: 6 }}>🎯 <b>Por que ir:</b> {r.cardSummary}</div>}
+          <div style={{ fontSize: fs(12), color: "#475569", marginBottom: 6 }}>🥢 <b>Pedir:</b> {r.mustOrder || r.dishes}</div>
+          {r.tripDayHours && <div style={{ fontSize: fs(11), color: "#64748b", marginBottom: 5 }}>🕒 <b>Horário no dia:</b> {r.tripDayHours}</div>}
+          {r.arrivalAlert && <div style={{ fontSize: fs(11), color: "#9a3412", marginBottom: 6 }}>⚠️ {r.arrivalAlert}</div>}
+          <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+            <Maps q={r.maps} />
+            {guide && <button onClick={toggleGuide} style={{ border: `1px solid ${accent}`, background: isOpen ? accent : "#fff", color: isOpen ? "#fff" : accent, borderRadius: 9, padding: "7px 10px", fontSize: fs(11), fontWeight: 800, cursor: "pointer" }}>
+              {isOpen ? "Fechar guia" : "Guia no local"}
+            </button>}
+          </div>
+          {guide && isOpen && (
+            <div style={{ marginTop: 10, borderTop: "1px solid #e2e8f0", paddingTop: 10 }}>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 }}>
+                {guide.confidence && <span style={{ background: "#f1f5f9", color: "#334155", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 800 }}>Confiança: {guide.confidence}</span>}
+                {guide.validatedAt && <span style={{ background: "#f8fafc", color: "#64748b", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 700 }}>Validado: {guide.validatedAt}</span>}
+              </div>
+              <GuideText label="Cheguei. Como funciona?">{guide.arrival}</GuideText>
+              <GuideText label="O que pedir sem erro">{guide.orderMust}</GuideText>
+              <GuideText label="O que é este snack/prato">{guide.snackExplanation}</GuideText>
+              <GuideText label="Como usar a lista de barracas">{guide.marketExplanation}</GuideText>
+              <GuideText label="Regra se der errado">{guide.queueRule}</GuideText>
+              <GuideText label="Evitar">{guide.avoid}</GuideText>
+              {arr(guide.menuWords).length > 0 && (
+                <div style={{ marginTop: 8 }}>
+                  <div style={{ fontSize: fs(10), color: accent, fontWeight: 900, textTransform: "uppercase", letterSpacing: .4 }}>Palavras do cardápio</div>
+                  <div style={{ display: "grid", gap: 4, marginTop: 4 }}>
+                    {arr(guide.menuWords).slice(0, 10).map((w, idx) => (
+                      <div key={idx} style={{ fontSize: fs(11), color: "#334155", background: "#f8fafc", borderRadius: 8, padding: "6px 7px" }}>
+                        <div><b>{w.jp}</b> <span style={{ color: "#64748b" }}>({w.romaji})</span></div>
+                        {w.en && <div style={{ color: "#0f172a", marginTop: 2 }}>🇬🇧 {w.en}</div>}
+                        <div style={{ color: "#475569", marginTop: 2 }}>🇧🇷 {w.pt}</div>
+                        {w.whatItIs && <div style={{ color: "#155e75", marginTop: 2, fontSize: fs(10), lineHeight: 1.35 }}>ℹ️ {w.whatItIs}</div>}
+                        {w.menuNote && <div style={{ color: "#92400e", marginTop: 2, fontSize: fs(10) }}>💡 {w.menuNote}</div>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {arr(guide.marketTargets).length > 0 && (
+                <div style={{ marginTop: 10 }}>
+                  <div style={{ fontSize: fs(10), color: accent, fontWeight: 900, textTransform: "uppercase", letterSpacing: .4 }}>Barracas / itens para procurar</div>
+                  <div style={{ display: "grid", gap: 6, marginTop: 4 }}>
+                    {arr(guide.marketTargets).slice(0, 8).map((w, idx) => (
+                      <div key={idx} style={{ fontSize: fs(11), color: "#334155", background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 8, padding: "7px 8px" }}>
+                        <div style={{ fontWeight: 800, color: "#9a3412" }}>📍 {w.where}</div>
+                        <div style={{ marginTop: 2 }}><b>{w.jp}</b> <span style={{ color: "#64748b" }}>({w.romaji})</span></div>
+                        {w.en && <div style={{ color: "#0f172a", marginTop: 2 }}>🇬🇧 {w.en}</div>}
+                        <div style={{ color: "#475569", marginTop: 2 }}>🇧🇷 {w.pt}</div>
+                        {w.whatItIs && <div style={{ color: "#155e75", marginTop: 2, fontSize: fs(10), lineHeight: 1.35 }}>ℹ️ {w.whatItIs}</div>}
+                        {w.order && <div style={{ marginTop: 3 }}><b>Peça:</b> {w.order}</div>}
+                        {w.why && <div style={{ marginTop: 3 }}><b>Por quê:</b> {w.why}</div>}
+                        {w.caution && <div style={{ marginTop: 3, color: "#b45309" }}>⚠️ {w.caution}</div>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {arr(guide.phrases).length > 0 && (
+                <div style={{ marginTop: 8 }}>
+                  <div style={{ fontSize: fs(10), color: accent, fontWeight: 900, textTransform: "uppercase", letterSpacing: .4 }}>Frases úteis</div>
+                  {arr(guide.phrases).slice(0, 4).map((ph, idx) => (
+                    <div key={idx} style={{ fontSize: fs(11), color: "#334155", marginTop: 3 }}>
+                      <b>{ph.jp}</b> <span style={{ color: "#64748b" }}>({ph.romaji})</span>{ph.en ? ` — ${ph.en}` : ""} — {ph.pt}
+                    </div>
+                  ))}
+                </div>
+              )}
+              <GuideText label="Fonte/observação">{guide.sourceNote}</GuideText>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const Meal = ({ icon, label, meal, note }) => {
+    if (note) {
+      const logNote = /logístic|aeroporto|voo|lounge|counter service|CityWalk|shopping|konbini|hotel/i.test(note);
+      return (
+        <div style={{ margin: "0 0 10px" }}>
+          <div style={{ fontSize: fs(12), fontWeight: 800, color: "#475569", marginBottom: 4 }}>{icon} {label}</div>
+          <div style={{ background: logNote ? "#ecfeff" : "#f1f5f9", border: logNote ? "1px solid #99f6e4" : "none", borderRadius: 10, padding: "9px 12px", fontSize: fs(12), color: logNote ? "#0f766e" : "#64748b", fontStyle: "italic" }}>
+            {logNote && <span style={{ display: "inline-block", background: "#0f766e", color: "#fff", fontSize: fs(9), fontWeight: 800, padding: "2px 7px", borderRadius: 99, marginRight: 6, fontStyle: "normal" }}>🧭 LOGÍSTICO</span>}
+            {note}
+          </div>
+        </div>
+      );
+    }
+    if (!meal) return null;
+    return (
+      <div style={{ margin: "0 0 10px" }}>
+        <div style={{ fontSize: fs(12), fontWeight: 800, color: "#475569", marginBottom: 6 }}>{icon} {label}</div>
+        {meal.chosen && <RestoCard r={meal.chosen} role="chosen" />}
+        {meal.alt && <RestoCard r={meal.alt} role="alt" />}
+        {meal.note && <div style={{ fontSize: fs(11), color: "#94a3b8", fontStyle: "italic", marginTop: 2 }}>{meal.note}</div>}
+      </div>
+    );
+  };
+
+  const renderFood = () => (
+    <>
+      <Header grad="linear-gradient(135deg,#c2410c,#ea580c)" title="🍽️ Restaurantes" sub="Almoço, jantar e guia no local · pratos apontáveis" />
+      <div style={{ padding: "8px 12px 110px" }}>
+        <div style={{ background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 12, padding: "10px 12px", margin: "4px 0 12px", fontSize: fs(12), color: "#7c2d12" }}>
+          <b>🟢 Escolhido</b> = definido no roteiro · <b>🟣 Sugestão IA</b> = roteiro deixou em aberto e sugeri · <b>🟡 Alternativa</b> = plano B na mesma região · <b>🧭 Logístico</b> = refeição prática sem restaurante fixo/nota específica.
+          <div style={{ marginTop: 4, color: "#9a3412" }}>Notas: <b>✓ verif.</b> = confirmada no Tabelog; <b>≈ aprox.</b> = estimativa — reconfirme perto da viagem. Japão usa Tabelog (3.5+ já é excelente); Dubai usa TripAdvisor. Itens logísticos não exibem nota quando não há restaurante específico.</div>
+        </div>
+        {MEALS.map(m => {
+          const day = DAYS.find(d => d.day === m.day);
+          return (
+            <Card key={m.day}>
+              <div style={{ padding: "10px 14px 8px", borderBottom: "1px solid #f1f5f9", display: "flex", gap: 8, alignItems: "center" }}>
+                <span style={{ background: day?.color || "#64748b", color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>{dayMonth(day?.date)}</span>
+                <span style={{ fontSize: fs(12), color: "#64748b", fontWeight: 600 }}>{day?.city} · {day?.anchor}</span>
+              </div>
+              <div style={{ padding: "10px 14px" }}>
+                <Meal icon="🍱" label="ALMOÇO" meal={m.lunch} note={m.lunchNote} />
+                {m.snackNote && <div style={{ background: "#fdf4ff", borderRadius: 10, padding: "8px 12px", marginBottom: 10, fontSize: fs(12), color: "#86198f" }}>🍢 <b>Snack:</b> {m.snackNote}</div>}
+                {m.snackGuide && <RestoCard r={{...m.snackGuide, cuisine: "Snack", area: "Osaka", maps: m.snackGuide.maps || "Takoya Dotonbori Kukuru Dotonbori Konamon Museum"}} role="chosen" />}
+                <Meal icon="🍶" label="JANTAR" meal={m.dinner} note={m.dinnerNote} />
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+    </>
+  );
+
+  // ════════════════════ COMPRAS ════════════════════
+  const renderShopping = () => {
+    const totalAll = USERS.reduce((a, u) => a + (st.shopping[u] || []).length, 0);
+    const doneAll = USERS.reduce((a, u) => a + (st.shopping[u] || []).filter(i => i.done).length, 0);
+    const allPairs = USERS.flatMap(u => (st.shopping[u] || []).map(item => ({ u, item })));
+    const modeOrder = DEFAULT_SHOPPING_LIST?.viewHints?.storeOrder || [];
+    const dayOrder = DEFAULT_SHOPPING_LIST?.viewHints?.dayOrder || [];
+    const asArray = (v) => Array.isArray(v) ? v : (typeof v === "string" && v.trim() ? v.split(/[|,]/).map(s => s.trim()).filter(Boolean) : []);
+    const inferShoppingModes = (item) => {
+      const explicit = asArray(item.shoppingMode);
+      if (explicit.length) return explicit;
+      const blob = `${item.text || ""} ${item.store || ""} ${item.category || ""} ${item.country || ""}`.toLowerCase();
+      const modes = [];
+      const add = (m) => { if (!modes.includes(m)) modes.push(m); };
+      if (blob.includes("dubai") || item.country === "UAE") {
+        if (/prada|rasasi|lattafa|haramain|ajmal|amouage|perfume|duty free/.test(blob)) add("Perfumes Dubai / Duty Free");
+        if (/life pharmacy|boots|aster|nizoral|revita|vichy|cerave|skinceuticals|omega|creatina|whey|move free|osteo|solgar|magnésio|magnesio/.test(blob)) add("Life Pharmacy / Boots Dubai");
+        if (/alcon|air optix|lente|ótica|otica/.test(blob)) add("Óticas Dubai");
+        if (!modes.length) add("Dubai Mall / compras finais");
+        return modes;
+      }
+      if (/riup|scalp|adenovital|melano|hada labo|biore|bioré|anessa|apagard|ora2|loxonin|salonpas|lamisil|exiv|butenalock|drogaria|matsumoto|don quijote|donki|farmácia|farmacia|jelly|umbigo|navel/.test(blob)) add("Drogaria Japão / Donki");
+      if (/canmake|cezanne|heroine|kate|rom&nd|romand|peripera|clio|anua|cosrx|beauty of joseon|shibuya 109|plaza|@cosme|loft/.test(blob)) add("Beleza jovem — @cosme / Loft / PLAZA");
+      if (/sk-ii|sk ii|ultimune|decorté|decorte|suqqu|clé de peau|cle de peau|depachika|departamento/.test(blob)) add("Beleza premium — Ginza/Depachika");
+      if (/faca|knife|tower knives|aritsugu|kappabashi|pedra|cerâmica|ceramica|hashi|imabari/.test(blob)) add("Facas / Casa Japão");
+      if (/disk union|kiss|vinil|vinyl|hmv|tower records|mandarake|surugaya|super potato|game|pinball|bookoff/.test(blob)) add("Hobby / Vinil / Games");
+      if (/papelaria|jetstream|sarasa|frixion|kokuyo|midori|itoya|hands/.test(blob)) add("Loft / Hands / Papelaria");
+      if (/ippodo|chá|cha|presente|mala|packing cube/.test(blob)) add("Presentes / Mala / Extras");
+      return modes.length ? modes : ["Outras compras Japão"];
+    };
+    const itemDay = (item) => item.routeDay || item.dayHint || "Sem dia definido";
+    const uniqueSorted = (values, order = []) => [...new Set(values.filter(Boolean))].sort((a, b) => {
+      const ia = order.indexOf(a), ib = order.indexOf(b);
+      if (ia >= 0 || ib >= 0) return (ia >= 0 ? ia : 999) - (ib >= 0 ? ib : 999);
+      return a.localeCompare(b, "pt-BR");
+    });
+    const storeOptions = uniqueSorted(allPairs.flatMap(({ item }) => inferShoppingModes(item)), modeOrder);
+    const dayOptions = uniqueSorted(allPairs.map(({ item }) => itemDay(item)), dayOrder);
+    const categoryOptions = uniqueSorted(allPairs.map(({ item }) => item.category || "Sem categoria"));
+    const contextOptions = shopMode === "Loja" ? storeOptions : shopMode === "Hoje" ? dayOptions : shopMode === "Categoria" ? categoryOptions : [];
+    const activeContext = contextOptions.includes(shopContext) ? shopContext : (contextOptions[0] || "");
+    const personTabs = ["Todos", ...USERS];
+    const changeShopView = (tab) => {
+      const clean = tab.replace(/ \d+$/, "");
+      setShopView(clean);
+      if (USERS.includes(clean)) setShopUser(clean);
+    };
+    const filteredPairs = allPairs.filter(({ u, item }) => {
+      if (shopView !== "Todos" && u !== shopView) return false;
+      if (shopMode === "Loja") return inferShoppingModes(item).includes(activeContext);
+      if (shopMode === "Hoje") return itemDay(item) === activeContext;
+      if (shopMode === "Categoria") return (item.category || "Sem categoria") === activeContext;
+      if (shopMode === "Pessoa") return true;
+      return true;
+    }).sort((a, b) => (Number(a.item.sort ?? 999999) - Number(b.item.sort ?? 999999)) || shoppingKey(a.item.text).localeCompare(shoppingKey(b.item.text), "pt-BR"));
+    const filteredDone = filteredPairs.filter(({ item }) => item.done).length;
+
+    const renderChips = (items, active, onPick, color = "#7c3aed") => (
+      <div style={{ display: "flex", gap: 7, overflowX: "auto", paddingBottom: 6, WebkitOverflowScrolling: "touch" }}>
+        {items.map((x) => {
+          const selected = active === x;
+          return <button key={x} onClick={() => onPick(x)} style={{ flexShrink: 0, border: "none", borderRadius: 999, padding: "8px 11px", background: selected ? color : "#f8fafc", color: selected ? "#fff" : "#475569", fontWeight: 900, fontSize: fs(11), cursor: "pointer", boxShadow: selected ? "0 2px 7px #00000018" : "inset 0 0 0 1px #e2e8f0" }}>{x}</button>;
+        })}
+      </div>
+    );
+
+    const renderItem = (u, item) => {
+      const modes = inferShoppingModes(item);
+      return (
+        <div key={item.id} style={{ background: "#fff", borderRadius: 12, padding: "10px 12px", marginBottom: 7, boxShadow: "0 1px 4px #0000000d", display: "flex", alignItems: "flex-start", gap: 10, opacity: item.done ? .55 : 1, borderLeft: `4px solid ${UCOLOR[u]}` }}>
+          <button onClick={() => toggleShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0, marginTop: 1 }}>
+            <div style={{ width: 23, height: 23, borderRadius: 7, border: `2px solid ${item.done ? UCOLOR[u] : "#cbd5e1"}`, background: item.done ? UCOLOR[u] : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              {item.done && <span style={{ color: "#fff", fontWeight: 900, fontSize: fs(12) }}>✓</span>}
+            </div>
+          </button>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+              <span style={{ fontSize: fs(10), background: "#f1f5f9", color: "#475569", padding: "2px 6px", borderRadius: 999, fontWeight: 900 }}>{u}</span>
+              {item.qty && <span style={{ fontSize: fs(10), background: "#ecfdf5", color: "#047857", padding: "2px 6px", borderRadius: 999, fontWeight: 900 }}>Qtd: {item.qty}</span>}
+              {item.priority && <span style={{ fontSize: fs(10), color: "#6d28d9", background: "#f3e8ff", borderRadius: 999, padding: "2px 6px", fontWeight: 900 }}>⭐ {item.priority}</span>}
+            </div>
+            <div style={{ fontSize: fs(14), color: "#1e293b", textDecoration: item.done ? "line-through" : "none", fontWeight: 800, marginTop: 4, lineHeight: 1.25 }}>{item.text}</div>
+            <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 5, lineHeight: 1.35 }}>🏬 {item.primaryStore || item.store || "Loja a definir"}{item.store && item.primaryStore ? ` · ${item.store}` : ""}</div>
+            {(item.routeDay || item.dayHint || item.storeSection) && <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 3, lineHeight: 1.35 }}>🧭 {[item.routeDay || item.dayHint, item.storeSection].filter(Boolean).join(" · ")}</div>}
+            <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 6 }}>
+              {modes.slice(0, 2).map(m => <span key={m} style={{ fontSize: fs(10), color: "#075985", background: "#e0f2fe", borderRadius: 999, padding: "2px 6px", fontWeight: 800 }}>{m}</span>)}
+              {item.category && <span style={{ fontSize: fs(10), color: "#0369a1", background: "#e0f2fe", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{item.category}</span>}
+              {(item.city || item.country) && <span style={{ fontSize: fs(10), color: "#065f46", background: "#d1fae5", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{[item.city, item.country].filter(Boolean).join(" · ")}</span>}
+            </div>
+            {item.note && <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 5, lineHeight: 1.35 }}>📝 {item.note}</div>}
+            {editShopKey === `${u}::${item.id}` && editShopDraft && (
+              <div style={{ marginTop: 10, background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, padding: 10 }}>
+                <div style={{ fontWeight: 900, color: "#334155", fontSize: fs(12), marginBottom: 8 }}>Editar item</div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
+                  <select value={editShopDraft.owner} onChange={e => setEditShopDraft({ ...editShopDraft, owner: e.target.value })} style={{ ...inp, fontSize: fs(12) }}>{USERS.map(x => <option key={x} value={x}>{x}</option>)}</select>
+                  <input value={editShopDraft.qty} onChange={e => setEditShopDraft({ ...editShopDraft, qty: e.target.value })} placeholder="Qtd" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.priority} onChange={e => setEditShopDraft({ ...editShopDraft, priority: e.target.value })} placeholder="Prioridade" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.category} onChange={e => setEditShopDraft({ ...editShopDraft, category: e.target.value })} placeholder="Categoria" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.primaryStore} onChange={e => setEditShopDraft({ ...editShopDraft, primaryStore: e.target.value })} placeholder="Loja principal" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.routeDay} onChange={e => setEditShopDraft({ ...editShopDraft, routeDay: e.target.value })} placeholder="Dia/rota" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.city} onChange={e => setEditShopDraft({ ...editShopDraft, city: e.target.value })} placeholder="Cidade" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.country} onChange={e => setEditShopDraft({ ...editShopDraft, country: e.target.value })} placeholder="País" style={{ ...inp, fontSize: fs(12) }} />
+                </div>
+                <input value={editShopDraft.text} onChange={e => setEditShopDraft({ ...editShopDraft, text: e.target.value })} placeholder="Item" style={{ ...inp, fontSize: fs(12), marginTop: 7 }} />
+                <input value={editShopDraft.store} onChange={e => setEditShopDraft({ ...editShopDraft, store: e.target.value })} placeholder="Lojas alternativas / descrição de loja" style={{ ...inp, fontSize: fs(12), marginTop: 7 }} />
+                <input value={editShopDraft.shoppingMode} onChange={e => setEditShopDraft({ ...editShopDraft, shoppingMode: e.target.value })} placeholder="Modo de compra / abas de loja — separe por vírgula" style={{ ...inp, fontSize: fs(12), marginTop: 7 }} />
+                <textarea value={editShopDraft.note} onChange={e => setEditShopDraft({ ...editShopDraft, note: e.target.value })} placeholder="Observação" style={{ ...inp, fontSize: fs(12), marginTop: 7, minHeight: 64, resize: "vertical", fontFamily: "inherit" }} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7, marginTop: 8 }}>
+                  <button onClick={() => { setEditShopKey(null); setEditShopDraft(null); }} style={{ padding: 9, borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", color: "#64748b", fontWeight: 900, cursor: "pointer" }}>Cancelar</button>
+                  <button onClick={() => saveShopEdit(u, item.id)} style={{ padding: 9, borderRadius: 8, border: "none", background: UCOLOR[u], color: "#fff", fontWeight: 900, cursor: "pointer" }}>Salvar</button>
+                </div>
+              </div>
+            )}
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0 }}><button onClick={() => openShopEdit(u, item)} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, cursor: "pointer", color: "#475569", fontSize: fs(11), fontWeight: 900, padding: "5px 7px" }}>Editar</button><button onClick={() => rmShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fca5a5", fontSize: fs(19), lineHeight: 1, padding: 0 }}>×</button></div>
+        </div>
+      );
+    };
+
+    return (
+      <>
+        <Header grad="linear-gradient(135deg,#6d28d9,#db2777)" title="🛍️ Compras" sub={`${filteredDone}/${filteredPairs.length} no filtro · total ${doneAll}/${totalAll}`} />
+        <div style={{ padding: "8px 12px 110px" }}>
+          <div style={{ position: "sticky", top: 0, zIndex: 5, background: "#f8fafc", padding: "4px 0 8px", marginBottom: 8 }}>
+            {renderChips(["Loja", "Hoje", "Pessoa", "Categoria", "Tudo"], shopMode, (m) => setShopMode(m), "#6d28d9")}
+            {(shopMode === "Loja" || shopMode === "Hoje" || shopMode === "Categoria") && contextOptions.length > 0 && renderChips(contextOptions, activeContext, (x) => setShopContext(x), "#db2777")}
+            {renderChips(personTabs.map(tab => {
+              const count = tab === "Todos" ? filteredPairs.length : filteredPairs.filter(p => p.u === tab).length;
+              return `${tab} ${count}`;
+            }), `${shopView} ${shopView === "Todos" ? filteredPairs.length : filteredPairs.filter(p => p.u === shopView).length}`, (label) => changeShopView(label.replace(/ \d+$/, "")), "#0f766e")}
+          </div>
+
+          <div style={{ background: "#fff", borderRadius: 12, padding: 12, marginBottom: 12, boxShadow: "0 1px 4px #0000000d" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+              <div style={{ fontWeight: 900, fontSize: fs(14), color: "#334155" }}>Adicionar item rápido</div>
+              <select value={shopUser} onChange={e => setShopUser(e.target.value)} style={{ padding: "7px 9px", borderRadius: 999, border: "1px solid #e2e8f0", fontSize: fs(12), outline: "none", background: "#f8fafc", color: "#334155", fontWeight: 700 }}>
+                {USERS.map(u => <option key={u} value={u}>{u}</option>)}
+              </select>
+            </div>
+            <input value={shopText} onChange={e => setShopText(e.target.value)} placeholder={`O que comprar para ${shopUser}?`} style={{ width: "100%", boxSizing: "border-box", padding: "10px 12px", borderRadius: 9, border: "1px solid #e2e8f0", fontSize: fs(14), outline: "none", background: "#f8fafc", marginBottom: 8 }} />
+            <select value={shopStore} onChange={e => setShopStore(e.target.value)} style={{ width: "100%", boxSizing: "border-box", padding: "10px 12px", borderRadius: 9, border: "1px solid #e2e8f0", fontSize: fs(14), outline: "none", background: "#f8fafc", marginBottom: shopStore === "Outros (especificar)" ? 8 : 10, color: shopStore ? "#1e293b" : "#94a3b8" }}>
+              <option value="">Selecione a loja…</option>
+              {STORES.map(g => (<optgroup key={g.city} label={g.city}>{g.items.map(it => <option key={it} value={it}>{it}</option>)}</optgroup>))}
+            </select>
+            {shopStore === "Outros (especificar)" && <input value={shopCustom} onChange={e => setShopCustom(e.target.value)} placeholder="Qual loja?" style={{ width: "100%", boxSizing: "border-box", padding: "10px 12px", borderRadius: 9, border: "1px solid #e2e8f0", fontSize: fs(14), outline: "none", background: "#f8fafc", marginBottom: 10 }} />}
+            <button onClick={addShop} disabled={!shopText.trim()} style={{ width: "100%", padding: 11, borderRadius: 9, border: "none", cursor: shopText.trim() ? "pointer" : "default", background: shopText.trim() ? UCOLOR[shopUser] : "#e2e8f0", color: "#fff", fontWeight: 800, fontSize: fs(14) }}>+ Adicionar à lista de {shopUser}</button>
+          </div>
+
+          {USERS.filter(u => shopView === "Todos" || shopView === u).map(u => {
+            const items = filteredPairs.filter(p => p.u === u).map(p => p.item);
+            if (!items.length) return null;
+            const dn = items.filter(i => i.done).length;
+            return <div key={u} style={{ marginBottom: 16 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 7 }}>
+                <span style={{ fontWeight: 900, fontSize: fs(14), color: UCOLOR[u] }}><PersonLabel name={u} size={24} photoSrc={photoFor(u)} /></span>
+                <span style={{ fontSize: fs(11), color: "#94a3b8" }}>{dn}/{items.length} neste filtro</span>
+              </div>
+              {items.map(item => renderItem(u, item))}
+            </div>;
+          })}
+          {filteredPairs.length === 0 && <div style={{ textAlign: "center", padding: "40px 0", color: "#94a3b8", fontSize: fs(14) }}>Nada neste filtro. Troque Loja/Pessoa/Categoria acima.</div>}
+        </div>
+      </>
+    );
+  };
+
+  // ════════════════════ DAILY REPORT ════════════════════
+  const renderDaily = () => {
+    const doneDays = DAYS.filter(d => st.dayStatus[d.day] === "done").length;
+    return (
+      <>
+        <Header grad="linear-gradient(135deg,#064e3b,#059669)" title="📊 Daily Report" sub="Clique no que você fez em cada dia" />
+        <div style={{ padding: "10px 12px 0" }}><Bar v={doneDays} t={DAYS.length} c="#059669" /></div>
+        <div style={{ padding: "10px 0 110px" }}>
+          {DAYS.map(d => {
+            const open = openReport === d.day;
+            const ds = st.dayStatus[d.day];
+            const totalA = d.activities.length;
+            const doneA = d.activities.filter((_, i) => st.actDone[`${d.day}-${i}`]).length;
+            return (
+              <Card key={d.day}>
+                <button onClick={() => setOpenReport(open ? null : d.day)} style={{ width: "100%", padding: "12px 14px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center", marginBottom: 3 }}>
+                        <span style={{ background: d.color, color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "2px 8px", borderRadius: 99 }}>{dayMonth(d.date)}</span>
+                        {ds === "done" && <span style={{ fontSize: fs(10), background: "#d1fae5", color: "#065f46", padding: "2px 7px", borderRadius: 99 }}>✓ Feito</span>}
+                        {ds === "partial" && <span style={{ fontSize: fs(10), background: "#fef3c7", color: "#92400e", padding: "2px 7px", borderRadius: 99 }}>⚡ Parcial</span>}
+                        {doneA > 0 && <span style={{ fontSize: fs(10), color: "#059669", fontWeight: 700 }}>{doneA}/{totalA} atividades</span>}
+                      </div>
+                      <div style={{ fontWeight: 700, fontSize: fs(13), color: "#1e293b" }}>{d.anchor}</div>
+                    </div>
+                    <span style={{ color: "#cbd5e1", transform: open ? "rotate(180deg)" : "none", transition: ".2s" }}>▼</span>
+                  </div>
+                </button>
+                {open && (
+                  <div style={{ borderTop: "1px solid #f1f5f9", padding: "10px 14px" }}>
+                    <div style={{ fontSize: fs(11), fontWeight: 800, color: "#94a3b8", marginBottom: 6 }}>MARQUE O QUE VOCÊ FEZ:</div>
+                    {d.activities.map((a, i) => {
+                      const k = `${d.day}-${i}`;
+                      const dn = !!st.actDone[k];
+                      const cm = CAT_META[a.cat] || CAT_META.activity;
+                      return (
+                        <button key={i} onClick={() => toggleAct(d.day, i)} style={{ width: "100%", display: "flex", gap: 9, alignItems: "center", padding: "6px 0", background: "none", border: "none", borderBottom: "1px dashed #f1f5f9", cursor: "pointer", textAlign: "left" }}>
+                          <div style={{ width: 20, height: 20, borderRadius: 6, border: `2px solid ${dn ? "#059669" : "#cbd5e1"}`, background: dn ? "#059669" : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                            {dn && <span style={{ color: "#fff", fontWeight: 900, fontSize: fs(11) }}>✓</span>}
+                          </div>
+                          <span style={{ fontSize: fs(12) }}>{actIcon(a)}</span>
+                          <span style={{ flex: 1, fontSize: fs(13), color: dn ? "#94a3b8" : "#334155", textDecoration: dn ? "line-through" : "none" }}>{a.title}<span style={{ color: "#cbd5e1", fontSize: fs(11) }}> · {a.time}</span></span>
+                        </button>
+                      );
+                    })}
+
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, margin: "12px 0 8px" }}>
+                      <button onClick={() => setStatus(d.day, "done")} style={{ padding: 9, borderRadius: 8, border: "none", cursor: "pointer", fontSize: fs(12), fontWeight: 700, background: ds === "done" ? "#d1fae5" : "#f1f5f9", color: ds === "done" ? "#065f46" : "#64748b" }}>✓ Dia concluído</button>
+                      <button onClick={() => setStatus(d.day, "partial")} style={{ padding: 9, borderRadius: 8, border: "none", cursor: "pointer", fontSize: fs(12), fontWeight: 700, background: ds === "partial" ? "#fef3c7" : "#f1f5f9", color: ds === "partial" ? "#92400e" : "#64748b" }}>⚡ Parcial</button>
+                    </div>
+                    <textarea placeholder="Diário livre — o que foi incrível, o que mudou, observações…"
+                      defaultValue={st.dayNote[d.day] || ""}
+                      onBlur={e => setNote(d.day, e.target.value)}
+                      style={{ width: "100%", boxSizing: "border-box", padding: "9px 11px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: fs(13), resize: "none", height: 70, outline: "none", fontFamily: "inherit" }} />
+                    <div style={{ fontSize: fs(10), color: "#cbd5e1", marginTop: 2 }}>O texto salva ao sair do campo.</div>
+                  </div>
+                )}
+              </Card>
+            );
+          })}
+        </div>
+      </>
+    );
+  };
+
+  // ════════════════════ RESUMO ════════════════════
+  const summaryBody = () => (
+      <div style={{ padding: "4px 0 0" }}>
+        <div style={{ margin: "10px 12px", background: "linear-gradient(135deg,#1e40af,#7c3aed)", color: "#fff", borderRadius: 16, padding: 20, boxShadow: "0 4px 20px #1e40af44" }}>
+          <div style={{ fontSize: fs(52), fontWeight: 900, lineHeight: 1 }}>23</div>
+          <div style={{ fontSize: fs(16), fontWeight: 700 }}>dias de viagem</div>
+          <div style={{ fontSize: fs(13), opacity: .8 }}>28 nov → 20 dez 2026</div>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, margin: "0 12px 10px" }}>
+          {[["🇦🇪", "Dubai", "5 dias"], ["🗾", "Japão", "16 dias"], ["🏨", "Hotéis", "6"], ["✈️", "Voos", "4"]].map(([e, t, v], i) => (
+            <div key={i} style={{ background: "#fff", borderRadius: 12, padding: 14, boxShadow: "0 1px 6px #0000000d", textAlign: "center" }}>
+              <div style={{ fontSize: fs(26) }}>{e}</div><div style={{ fontWeight: 700, fontSize: fs(13), color: "#1e293b" }}>{t}</div><div style={{ fontSize: fs(11), color: "#64748b" }}>{v}</div>
+            </div>
+          ))}
+        </div>
+        <Card><div style={{ padding: 14 }}>
+          <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 10 }}>🗺️ Roteiro por base</div>
+          {[["🇦🇪", "Dubai (início)", "28/11–01/12", "#0ea5e9"], ["🗼", "Tóquio / Shinjuku", "02/12–08/12", "#f97316"], ["🎠", "Tokyo Disney / Maihama", "08/12–11/12", "#f43f5e"], ["🏯", "Kyoto", "11/12–14/12", "#7c3aed"], ["🌆", "Osaka / Namba", "14/12–17/12", "#f59e0b"], ["🇦🇪", "Dubai (final)", "18/12–20/12", "#0ea5e9"]].map(([e, c, d, col], i, arr) => (
+            <div key={i} style={{ display: "flex", gap: 10, alignItems: "center", padding: "8px 0", borderBottom: i < arr.length - 1 ? "1px solid #f8fafc" : "none" }}>
+              <span style={{ fontSize: fs(18) }}>{e}</span><div style={{ flex: 1 }}><div style={{ fontWeight: 600, fontSize: fs(13), color: "#1e293b" }}>{c}</div><div style={{ fontSize: fs(11), color: "#94a3b8" }}>{d}</div></div>
+              <span style={{ width: 10, height: 10, borderRadius: 99, background: col }} />
+            </div>
+          ))}
+        </div></Card>
+        <Card><div style={{ padding: 14 }}>
+          <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 10 }}>🏨 Hotéis</div>
+          {HOTELS.map((h, i) => (
+            <div key={i} style={{ padding: "7px 0", borderBottom: i < HOTELS.length - 1 ? "1px dashed #f8fafc" : "none" }}>
+              <div style={{ fontWeight: 600, fontSize: fs(13), color: "#1e293b" }}>{h[0]}</div>
+              <div style={{ fontSize: fs(11), color: "#94a3b8" }}>{h[1]} · {h[2]}–{h[3]} · {h[4]}n</div>
+            </div>
+          ))}
+        </div></Card>
+        <Card><div style={{ padding: 14 }}>
+          <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 8 }}>📅 Âncora de cada dia</div>
+          {DAYS.map(d => (
+            <div key={d.day} style={{ display: "flex", gap: 8, padding: "4px 0", fontSize: fs(12), alignItems: "center" }}>
+              <span style={{ background: d.color, color: "#fff", fontWeight: 700, fontSize: fs(10), padding: "1px 6px", borderRadius: 99, minWidth: 44, textAlign: "center" }}>{dayMonth(d.date)}</span>
+              <span style={{ color: "#334155", flex: 1 }}>{d.anchor}</span>
+            </div>
+          ))}
+        </div></Card>
+      </div>
+  );
+
+  // ════════════════════ DICAS + RESUMO + VOOS (aba Info) ════════════════════
+  const tipsBody = () => (
+      <div style={{ padding: "4px 0 0" }}>
+        {TIPS.map((t, i) => {
+          const open = openTip === i;
+          return (
+            <Card key={i}>
+              <button onClick={() => setOpenTip(open ? null : i)} style={{ width: "100%", padding: "13px 16px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ fontWeight: 700, fontSize: fs(14), color: "#1e293b" }}>{t.cat}</div>
+                  <span style={{ color: "#cbd5e1", transform: open ? "rotate(180deg)" : "none", transition: ".2s" }}>▼</span>
+                </div>
+              </button>
+              {open && (
+                <div style={{ borderTop: "1px solid #f1f5f9", padding: "10px 16px 14px" }}>
+                  {t.items.map((it, j) => (
+                    <div key={j} style={{ display: "flex", gap: 8, padding: "6px 0", borderBottom: j < t.items.length - 1 ? "1px dashed #f8fafc" : "none" }}>
+                      <span style={{ color: "#f59e0b", fontWeight: 900, flexShrink: 0 }}>→</span>
+                      <span style={{ fontSize: fs(13), color: "#374151" }}>{it}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Card>
+          );
+        })}
+      </div>
+  );
+
+  // VOOS body
+  const flightsBody = () => (
+      <div style={{ padding: "4px 0 0" }}>
+        {FLIGHTS.map((f, i) => (
+          <Card key={i}><div style={{ padding: 14 }}>
+            <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 10 }}>
+              <span style={{ background: "#0ea5e9", color: "#fff", fontWeight: 800, fontSize: fs(11), padding: "3px 10px", borderRadius: 99 }}>Voo {f.leg}</span>
+              <span style={{ fontWeight: 700, fontSize: fs(14) }}>{f.date}</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
+              <div style={{ flex: 1, textAlign: "center" }}><div style={{ fontWeight: 900, fontSize: fs(17), color: "#1e293b" }}>{f.from.split(" ")[0]}</div><div style={{ fontSize: fs(11), color: "#64748b" }}>{f.from}</div></div>
+              <div style={{ textAlign: "center" }}><div style={{ fontSize: fs(20) }}>✈️</div><div style={{ fontSize: fs(10), color: "#0ea5e9", fontWeight: 700 }}>{f.dur}</div></div>
+              <div style={{ flex: 1, textAlign: "center" }}><div style={{ fontWeight: 900, fontSize: fs(17), color: "#1e293b" }}>{f.to.split(" ")[0]}</div><div style={{ fontSize: fs(11), color: "#64748b" }}>{f.to}</div></div>
+            </div>
+            <div style={{ background: "#f0f9ff", padding: "8px 10px", borderRadius: 8, fontSize: fs(12), color: "#075985" }}>📌 {f.note}</div>
+          </div></Card>
+        ))}
+        <Card><div style={{ padding: 14 }}>
+          <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 10 }}>☐ Validações antes da viagem</div>
+          {["Ingressos: Shibuya Sky, teamLab, Disneyland, DisneySea, USJ VIP 5h", "Disney: confirmar atrações elegíveis do Vacation Package 2026", "Fuji: tour privado 07/12 confirmado", "Shinkansen 11/12: assento E + margem para Ekibenya Matsuri", "Bagagem: envio Disney→Kyoto (antes 11/12) e Kyoto→Osaka (noite 13/12)", "Dia 14/12: operar só com mochila pequena", "Tax-free: passaporte físico nos dias de compras", "Hotéis: camas para 3, café, guarda de malas, early check-in 18/12", "Restaurantes de fila: Nemuro, Onodera, Matsusakagyu, Tsurutontan, Kuromon, Chitose, Daruma", "Revalidar endereços e rotas no Google Maps perto da viagem"].map((it, i, arr) => (
+            <div key={i} style={{ display: "flex", gap: 8, padding: "5px 0", borderBottom: i < arr.length - 1 ? "1px dashed #f8fafc" : "none", fontSize: fs(12), color: "#374151" }}>
+              <span style={{ color: "#0ea5e9" }}>☐</span> {it}
+            </div>
+          ))}
+        </div></Card>
+      </div>
+  );
+
+  // ════════════════════ GASTOS / RESERVAS (sub-aba de Info) ════════════════════
+  const expensesBody = () => {
+    const all = [...(st.expenses?.hotel || []), ...(st.expenses?.flight || []), ...(st.expenses?.ticket || [])];
+    // totais por moeda, separando pago x a pagar no local
+    const totals = {};
+    all.forEach(e => {
+      const c = e.currency || "JPY";
+      if (!totals[c]) totals[c] = { paid: 0, due: 0 };
+      const v = Number(e.amount || 0);
+      if (e.status === "onsite") totals[c].due += v; else totals[c].paid += v;
+    });
+    const curList = CURRENCIES.filter(c => totals[c]);
+
+    return (
+      <div style={{ padding: "4px 0 0" }}>
+        {/* TOTALIZADOR */}
+        <Card s={{ borderLeft: "4px solid #16a34a" }}>
+          <div style={{ padding: 14 }}>
+            <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 10 }}>💰 Total por moeda</div>
+            {curList.length === 0 && <div style={{ fontSize: fs(12), color: "#94a3b8" }}>Nenhum gasto lançado ainda. Adicione abaixo.</div>}
+            {curList.map(c => (
+              <div key={c} style={{ marginBottom: 8, paddingBottom: 8, borderBottom: "1px dashed #f1f5f9" }}>
+                <div style={{ fontWeight: 700, fontSize: fs(13), color: "#0f172a", marginBottom: 3 }}>{c}</div>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ fontSize: fs(12), color: "#16a34a" }}>✅ Pago: <b>{fmtMoney(totals[c].paid, c)}</b></span>
+                  <span style={{ fontSize: fs(12), color: "#dc2626" }}>🔸 A pagar no local: <b>{fmtMoney(totals[c].due, c)}</b></span>
+                  <span style={{ fontSize: fs(12), color: "#475569" }}>Σ Total: <b>{fmtMoney(totals[c].paid + totals[c].due, c)}</b></span>
+                </div>
+              </div>
+            ))}
+            <div style={{ fontSize: fs(10), color: "#94a3b8", marginTop: 4 }}>Moedas somadas separadamente — sem conversão automática (câmbio muda).</div>
+          </div>
+        </Card>
+
+        {/* SELETOR DE CATEGORIA */}
+        <div style={{ display: "flex", gap: 6, padding: "4px 0 8px" }}>
+          {EXP_CATS.map(c => (
+            <button key={c.id} onClick={() => { setExpCat(c.id); setExpForm(null); }} style={{ flex: 1, padding: "8px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(11), background: expCat === c.id ? c.color : "#fff", color: expCat === c.id ? "#fff" : "#475569", boxShadow: expCat === c.id ? `0 2px 8px ${c.color}55` : "0 1px 4px #0000000d" }}>{c.label}</button>
+          ))}
+        </div>
+
+        {/* LISTA DA CATEGORIA */}
+        {(st.expenses?.[expCat] || []).map(e => (
+          <Card key={e.id}>
+            <div style={{ padding: 14 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 700, fontSize: fs(14), color: "#1e293b" }}>{e.label || "(sem nome)"}</div>
+                  <div style={{ fontSize: fs(16), fontWeight: 900, color: "#0f172a", margin: "2px 0" }}>{fmtMoney(e.amount, e.currency)}</div>
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
+                    <span style={{ fontSize: fs(10), fontWeight: 700, padding: "2px 8px", borderRadius: 99, background: e.status === "onsite" ? "#fef2f2" : "#f0fdf4", color: e.status === "onsite" ? "#dc2626" : "#16a34a" }}>{e.status === "onsite" ? "🔸 Pagar no local" : "✅ Pré-pago"}</span>
+                    {e.pay && <span style={{ fontSize: fs(10), padding: "2px 8px", borderRadius: 99, background: "#f1f5f9", color: "#475569" }}>{e.pay}</span>}
+                    {e.date && <span style={{ fontSize: fs(10), padding: "2px 8px", borderRadius: 99, background: "#eff6ff", color: "#1d4ed8" }}>📅 {e.date}</span>}
+                  </div>
+                  {e.note && <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 6 }}>{e.note}</div>}
+                  {e.link && <a href={e.link} target="_blank" rel="noreferrer" style={{ display: "inline-block", marginTop: 8, fontSize: fs(12), fontWeight: 700, color: "#fff", background: "#16a34a", padding: "5px 12px", borderRadius: 8, textDecoration: "none" }}>📎 Ver reserva</a>}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <button onClick={() => setExpForm({ ...e })} style={{ background: "#f1f5f9", border: "none", borderRadius: 8, padding: "5px 8px", cursor: "pointer", fontSize: fs(12) }}>✏️</button>
+                  <button onClick={() => removeExpense(expCat, e.id)} style={{ background: "#fef2f2", border: "none", borderRadius: 8, padding: "5px 8px", cursor: "pointer", fontSize: fs(12) }}>🗑️</button>
+                </div>
+              </div>
+            </div>
+          </Card>
+        ))}
+
+        {/* BOTÃO ADICIONAR / FORMULÁRIO */}
+        {!expForm && (
+          <button onClick={() => setExpForm({ ...blankExp })} style={{ width: "100%", padding: "12px", marginTop: 4, borderRadius: 10, border: "2px dashed #cbd5e1", background: "#fff", color: "#475569", fontWeight: 700, fontSize: fs(13), cursor: "pointer" }}>＋ Adicionar {EXP_CATS.find(c => c.id === expCat)?.label.replace(/^[^ ]+ /, "")}</button>
+        )}
+
+        {expForm && (
+          <Card s={{ borderLeft: "4px solid #16a34a" }}>
+            <div style={{ padding: 14, display: "flex", flexDirection: "column", gap: 10 }}>
+              <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b" }}>{expForm.id ? "Editar" : "Novo"} lançamento</div>
+              <input value={expForm.label} onChange={ev => setExpForm({ ...expForm, label: ev.target.value })} placeholder={expCat === "hotel" ? "Ex: Toy Story Hotel — 1 noite" : expCat === "flight" ? "Ex: GRU → DXB (Emirates)" : "Ex: USJ VIP 5h × 3"} style={inp} />
+              <div style={{ display: "flex", gap: 8 }}>
+                <input value={expForm.amount} onChange={ev => setExpForm({ ...expForm, amount: ev.target.value.replace(/[^\d.]/g, "") })} inputMode="decimal" placeholder="Valor" style={{ ...inp, flex: 2 }} />
+                <select value={expForm.currency} onChange={ev => setExpForm({ ...expForm, currency: ev.target.value })} style={{ ...inp, flex: 1 }}>
+                  {CURRENCIES.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+              <select value={expForm.pay} onChange={ev => setExpForm({ ...expForm, pay: ev.target.value })} style={inp}>
+                {PAY_METHODS.map(p => <option key={p} value={p}>{p}</option>)}
+              </select>
+              <div style={{ display: "flex", gap: 6 }}>
+                <button onClick={() => setExpForm({ ...expForm, status: "prepaid" })} style={{ flex: 1, padding: "9px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: expForm.status === "prepaid" ? "#16a34a" : "#f1f5f9", color: expForm.status === "prepaid" ? "#fff" : "#475569" }}>✅ Pré-pago</button>
+                <button onClick={() => setExpForm({ ...expForm, status: "onsite" })} style={{ flex: 1, padding: "9px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: expForm.status === "onsite" ? "#dc2626" : "#f1f5f9", color: expForm.status === "onsite" ? "#fff" : "#475569" }}>🔸 Pagar no local</button>
+              </div>
+              <div>
+                <label style={{ fontSize: fs(11), color: "#64748b", fontWeight: 600 }}>{expForm.status === "onsite" ? "Data prevista da cobrança" : "Data da cobrança"}</label>
+                <input value={expForm.date} onChange={ev => setExpForm({ ...expForm, date: ev.target.value })} placeholder="Ex: 09/12/2026" style={inp} />
+              </div>
+              <div>
+                <label style={{ fontSize: fs(11), color: "#64748b", fontWeight: 600 }}>📎 Link da reserva (Google Drive)</label>
+                <input value={expForm.link} onChange={ev => setExpForm({ ...expForm, link: ev.target.value })} placeholder="Cole o link do Drive (com acesso por link)" style={inp} />
+              </div>
+              <input value={expForm.note} onChange={ev => setExpForm({ ...expForm, note: ev.target.value })} placeholder="Nota / localizador (opcional)" style={inp} />
+              <div style={{ display: "flex", gap: 8 }}>
+                <button onClick={() => setExpForm(null)} style={{ flex: 1, padding: "11px", borderRadius: 9, border: "1px solid #e2e8f0", background: "#fff", color: "#64748b", fontWeight: 700, fontSize: fs(13), cursor: "pointer" }}>Cancelar</button>
+                <button onClick={() => saveExpense(expCat, expForm)} disabled={!expForm.label} style={{ flex: 2, padding: "11px", borderRadius: 9, border: "none", background: expForm.label ? "#16a34a" : "#cbd5e1", color: "#fff", fontWeight: 800, fontSize: fs(13), cursor: expForm.label ? "pointer" : "default" }}>Salvar</button>
+              </div>
+            </div>
+          </Card>
+        )}
+        <div style={{ background: "#eff6ff", borderRadius: 10, padding: "10px 14px", margin: "8px 0", fontSize: fs(11), color: "#075985" }}>💡 Para anexar a reserva: suba o PDF/print no Google Drive, defina <b>"qualquer pessoa com o link pode ver"</b> e cole o link no campo 📎. Vira um botão "Ver reserva".</div>
+      </div>
+    );
+  };
+
+
+
+  const reservationStatusLabel = (status) => ({
+    pendente: "☐ Pendente",
+    monitorando: "👀 Monitorando",
+    reservado: "✅ Reservado",
+    pago: "💳 Pago",
+    atencao: "⚠️ Atenção",
+    nao_necessario: "➖ Não necessário",
+    cancelado: "❌ Cancelado",
+  }[status || "pendente"] || status || "☐ Pendente");
+  const riskStyle = (risk) => risk === "critico" ? ["#fee2e2", "#991b1b", "🔴 Crítico"] : risk === "alto" ? ["#ffedd5", "#9a3412", "🟠 Alto"] : risk === "medio" ? ["#fef3c7", "#92400e", "🟡 Médio"] : ["#ecfdf5", "#166534", "🟢 Baixo"];
+  const statusStyle = (status) => status === "reservado" || status === "pago" ? ["#dcfce7", "#166534"] : status === "atencao" ? ["#fee2e2", "#991b1b"] : status === "monitorando" ? ["#dbeafe", "#1d4ed8"] : status === "nao_necessario" || status === "cancelado" ? ["#f1f5f9", "#475569"] : ["#fff7ed", "#9a3412"];
+  const leadLabel = (id) => (RESERVATIONS_META?.leadGroups || []).find(g => g.id === id)?.label || id || "Sem grupo";
+  const leadOrder = (id) => {
+    const arr = (RESERVATIONS_META?.leadGroups || []).map(g => g.id);
+    const i = arr.indexOf(id);
+    return i >= 0 ? i : 99;
+  };
+
+  const reservationsBody = () => {
+    const statusMap = st.reservationStatus || {};
+    const list = (RESERVATIONS || []).map(r => ({ ...r, effectiveStatus: statusMap[r.id] || r.status || "pendente" }))
+      .sort((a,b) => (leadOrder(a.leadGroup) - leadOrder(b.leadGroup)) || ({critico:0,alto:1,medio:2,baixo:3}[a.risk] ?? 9) - ({critico:0,alto:1,medio:2,baixo:3}[b.risk] ?? 9));
+    const visible = list.filter(r => reservationFilter === "todos" || r.leadGroup === reservationFilter || r.risk === reservationFilter || r.effectiveStatus === reservationFilter);
+    const total = list.length;
+    const done = list.filter(r => ["reservado","pago","nao_necessario"].includes(r.effectiveStatus)).length;
+    const criticalOpen = list.filter(r => r.risk === "critico" && !["reservado","pago","nao_necessario","cancelado"].includes(r.effectiveStatus)).length;
+    const filters = [["todos","Todos"],["critico","Críticos"],["alto","Altos"],["imediato","Já"],["3m","3m"],["2m","2m"],["1m","1m"],["14d","14d"],["semana","Semana"],["pendente","Pendentes"],["monitorando","Monitorando"]];
+    return (
+      <div>
+        <Card s={{ borderLeft: "4px solid #dc2626" }}>
+          <div style={{ padding: 14 }}>
+            <div style={{ fontWeight: 900, fontSize: fs(16), color: "#7f1d1d" }}>📅 Reservas e Prazos</div>
+            <div style={{ fontSize: fs(12), color: "#991b1b", marginTop: 5 }}>{RESERVATIONS_META?.rule || "Data exata só com fonte oficial; quando houver incerteza, o item fica em monitoramento."}</div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+              <span style={{ background: "#f1f5f9", color: "#334155", borderRadius: 99, padding: "4px 9px", fontSize: fs(11), fontWeight: 800 }}>Total: {total}</span>
+              <span style={{ background: "#dcfce7", color: "#166534", borderRadius: 99, padding: "4px 9px", fontSize: fs(11), fontWeight: 800 }}>Resolvidos: {done}</span>
+              <span style={{ background: criticalOpen ? "#fee2e2" : "#dcfce7", color: criticalOpen ? "#991b1b" : "#166534", borderRadius: 99, padding: "4px 9px", fontSize: fs(11), fontWeight: 800 }}>Críticos abertos: {criticalOpen}</span>
+            </div>
+            {RESERVATIONS_META?.warning && <div style={{ marginTop: 8, fontSize: fs(11), color: "#92400e", background: "#fffbeb", padding: "8px 10px", borderRadius: 9 }}>⚠️ {RESERVATIONS_META.warning}</div>}
+          </div>
+        </Card>
+        <div style={{ display: "flex", gap: 6, overflowX: "auto", padding: "2px 12px 10px" }}>
+          {filters.map(([id,label]) => <button key={id} onClick={() => setReservationFilter(id)} style={{ whiteSpace: "nowrap", padding: "8px 10px", borderRadius: 99, border: "none", cursor: "pointer", background: reservationFilter === id ? "#dc2626" : "#fff", color: reservationFilter === id ? "#fff" : "#7f1d1d", fontWeight: 800, fontSize: fs(11), boxShadow: reservationFilter === id ? "0 2px 8px #dc262655" : "0 1px 4px #0000000d" }}>{label}</button>)}
+        </div>
+        {visible.map(r => {
+          const [rb,rc,rl] = riskStyle(r.risk);
+          const [sb,sc] = statusStyle(r.effectiveStatus);
+          const open = !!openReservation[r.id];
+          return (
+            <Card key={r.id} s={{ borderLeft: `4px solid ${rc}` }}>
+              <div style={{ padding: 14 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 5 }}>
+                      <span style={{ background: rb, color: rc, borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 900 }}>{rl}</span>
+                      <span style={{ background: "#eef2ff", color: "#3730a3", borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 800 }}>{leadLabel(r.leadGroup)}</span>
+                      <span style={{ background: sb, color: sc, borderRadius: 99, padding: "3px 8px", fontSize: fs(10), fontWeight: 900 }}>{reservationStatusLabel(r.effectiveStatus)}</span>
+                    </div>
+                    <div style={{ fontWeight: 900, fontSize: fs(14), color: "#1e293b" }}>{r.title}</div>
+                    <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 2 }}>📍 {r.category || "Reserva"} · {r.visitDate || "sem data"}{r.day ? ` · Dia ${r.day}` : ""}</div>
+                    {r.targetActionDate && <div style={{ fontSize: fs(12), color: "#b45309", marginTop: 6 }}><b>Quando agir:</b> {r.targetActionDate}{r.targetActionTime ? ` · ${r.targetActionTime}` : ""}</div>}
+                    {r.monitorFrom && <div style={{ fontSize: fs(11), color: "#475569", marginTop: 2 }}><b>Monitorar desde:</b> {r.monitorFrom}</div>}
+                    {r.notes && <div style={{ fontSize: fs(12), color: "#334155", marginTop: 7 }}>{r.notes}</div>}
+                  </div>
+                  <button onClick={() => setOpenReservation({ ...openReservation, [r.id]: !open })} style={{ border: "none", background: "#f1f5f9", color: "#334155", borderRadius: 9, padding: "7px 9px", fontSize: fs(11), fontWeight: 900, cursor: "pointer" }}>{open ? "▲" : "Guia"}</button>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 5, marginTop: 10 }}>
+                  {[["pendente","☐"],["monitorando","👀"],["reservado","✅"],["pago","💳"],["atencao","⚠️"],["nao_necessario","➖"]].map(([stt,ico]) => (
+                    <button key={stt} onClick={() => setReservationStatus(r.id, stt)} style={{ padding: "7px 4px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 800, fontSize: fs(10), background: r.effectiveStatus === stt ? "#dc2626" : "#f8fafc", color: r.effectiveStatus === stt ? "#fff" : "#475569" }}>{ico} {stt === "nao_necessario" ? "não nec." : stt}</button>
+                  ))}
+                </div>
+                {open && (
+                  <div style={{ marginTop: 10, borderTop: "1px solid #e2e8f0", paddingTop: 10 }}>
+                    {r.sourceNote && <Field icon="🔎" label="Fonte/critério" text={r.sourceNote} bg="#f8fafc" fg="#475569" />}
+                    {r.sourceReliability && <Field icon="🧪" label="Confiabilidade" text={r.sourceReliability} bg="#ecfeff" fg="#155e75" />}
+                    {r.officialOpenDate && <Field icon="📌" label="Abertura oficial" text={r.officialOpenDate} bg="#f0fdf4" fg="#166534" />}
+                    {Array.isArray(r.dependencies) && r.dependencies.length > 0 && <Field icon="🔗" label="Dependências" text={r.dependencies.join(" · ")} bg="#eef2ff" fg="#3730a3" />}
+                    {Array.isArray(r.checklist) && r.checklist.length > 0 && (
+                      <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 9, padding: "8px 10px", margin: "6px 0" }}>
+                        <div style={{ fontSize: fs(11), fontWeight: 900, color: "#1e293b", marginBottom: 4 }}>Checklist</div>
+                        {r.checklist.map((c, i) => <div key={i} style={{ fontSize: fs(12), color: "#334155", padding: "2px 0" }}>☐ {c}</div>)}
+                      </div>
+                    )}
+                    {r.planB && <Field icon="🅱️" label="Plano B" text={r.planB} bg="#fffbeb" fg="#92400e" />}
+                    {r.sourceUrl && <a href={r.sourceUrl} target="_blank" rel="noreferrer" style={{ display: "inline-block", marginTop: 7, fontSize: fs(12), fontWeight: 900, color: "#fff", background: "#dc2626", padding: "7px 12px", borderRadius: 9, textDecoration: "none" }}>🔗 {r.linkLabel || "Abrir fonte"}</a>}
+                    {r.lastValidatedAt && <div style={{ marginTop: 6, fontSize: fs(10), color: "#94a3b8" }}>Validado/gerado em: {r.lastValidatedAt}</div>}
+                  </div>
+                )}
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+    );
+  };
+
+  // aba INFO: Dicas | Resumo | Voos | Gastos | Reservas
+  const renderInfo = () => {
+    const subs = [["dicas", "💡 Dicas"], ["resumo", "📌 Resumo"], ["voos", "✈️ Voos"], ["gastos", "💰 Gastos"], ["reservas", "📅 Reservas"]];
+    return (
+      <>
+        <Header grad="linear-gradient(135deg,#78350f,#f59e0b)" title="💡 Dicas & Info" sub="Dicas · Resumo · Voos · Gastos · Reservas" />
+        <div style={{ display: "flex", gap: 6, padding: "10px 12px 4px" }}>
+          {subs.map(([id, label]) => (
+            <button key={id} onClick={() => setInfoSub(id)} style={{ flex: 1, padding: "8px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: infoSub === id ? "#b45309" : "#fff", color: infoSub === id ? "#fff" : "#92400e", boxShadow: infoSub === id ? "0 2px 8px #b4530955" : "0 1px 4px #0000000d" }}>{label}</button>
+          ))}
+        </div>
+        <div style={{ paddingBottom: 110 }}>
+          {infoSub === "dicas" && tipsBody()}
+          {infoSub === "resumo" && summaryBody()}
+          {infoSub === "voos" && flightsBody()}
+          {infoSub === "gastos" && expensesBody()}
+          {infoSub === "reservas" && reservationsBody()}
+        </div>
+      </>
+    );
+  };
+
+  // ════════════════════ CONFIG ════════════════════
+  const renderSettings = () => {
+    const doneDays = DAYS.filter(d => st.dayStatus[d.day] === "done").length;
+    let mTot = 0, mDone = 0; MUSTDO.forEach(g => g.items.forEach((_, i) => { mTot++; if (st.mustDone[`${g.day}-${i}`]) mDone++; }));
+    const shopT = USERS.reduce((a, u) => a + st.shopping[u].length, 0);
+    const shopD = USERS.reduce((a, u) => a + st.shopping[u].filter(i => i.done).length, 0);
+    return (
+      <>
+        <Header grad="linear-gradient(135deg,#334155,#475569)" title="⚙️ Config" sub="Dubai + Japão 2026" />
+        <div style={{ padding: "8px 0 110px" }}>
+          <Card s={{ borderLeft: "4px solid #0ea5e9" }}><div style={{ padding: 14 }}>
+            <div style={{ fontWeight: 800, fontSize: fs(14), color: "#0369a1", marginBottom: 6 }}>⚡ Compartilhado em tempo real</div>
+            <div style={{ fontSize: fs(13), color: "#0284c7" }}>Tudo que você marca aparece para Rodrigo, Luciana e Luísa quando o Firebase estiver configurado. Auto-atualiza a cada 20s ou toque em "↻ Atualizar".</div>
+            <div style={{ fontSize: fs(12), color: "#7dd3fc", marginTop: 8 }}>Modo: <b>{isFirebaseEnabled ? "Compartilhado Firebase" : "Teste local neste iPhone"}</b><br/>Última edição: <b>{st.meta?.lastBy || "—"}</b> às {fmt(st.meta?.lastAt)}</div>
+          </div></Card>
+          <Card><div style={{ padding: 14 }}>
+            <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 10 }}>👤 Trocar usuário</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6 }}>
+              {USERS.map(u => (
+                <button key={u} onClick={() => chooseWho(u)} style={{ padding: "9px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: who === u ? UCOLOR[u] : "#f1f5f9", color: who === u ? "#fff" : "#64748b" }}><PersonLabel name={u} size={22} selected={who === u} photoSrc={photoFor(u)} /></button>
+              ))}
+            </div>
+          </div></Card>
+          <Card><div style={{ padding: 14 }}>
+            <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 6 }}>📷 Fotos dos perfis</div>
+            <div style={{ fontSize: fs(12), color: "#64748b", marginBottom: 10 }}>As fotos ficam salvas neste aparelho. Para aparecer em outro celular, carregue a foto também naquele aparelho.</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
+              {USERS.map(u => (
+                <div key={u} style={{ display: "flex", alignItems: "center", gap: 10, padding: 10, borderRadius: 12, background: "#f8fafc", border: "1px solid #e2e8f0" }}>
+                  <PersonAvatar name={u} size={44} photoSrc={photoFor(u)} />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontWeight: 800, fontSize: fs(13), color: "#1e293b" }}>{u}</div>
+                    <div style={{ fontSize: fs(11), color: "#64748b" }}>{photoFor(u) ? "foto carregada" : "sem foto — mostra inicial"}</div>
+                  </div>
+                  <label style={{ cursor: "pointer", background: UCOLOR[u], color: "#fff", borderRadius: 9, padding: "8px 10px", fontSize: fs(12), fontWeight: 800 }}>
+                    escolher foto
+                    <input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => setUserPhoto(u, e.target.files?.[0])} />
+                  </label>
+                  {photoFor(u) && <button onClick={() => removeUserPhoto(u)} style={{ cursor: "pointer", background: "#fee2e2", color: "#991b1b", border: "none", borderRadius: 9, padding: "8px 10px", fontSize: fs(12), fontWeight: 800 }}>remover</button>}
+                </div>
+              ))}
+            </div>
+          </div></Card>
+          <Card><div style={{ padding: 14 }}>
+            <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 12 }}>📊 Progresso</div>
+            {[["Must Do", mDone, mTot, "#e11d48"], ["Dias concluídos", doneDays, DAYS.length, "#059669"], ["Compras total", shopD, shopT || 1, "#7c3aed"], ...USERS.map(u => [`${u}`, st.shopping[u].filter(i => i.done).length, st.shopping[u].length || 1, UCOLOR[u]])].map(([l, v, t, c], i) => (
+              <div key={i} style={{ marginBottom: 10 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: fs(12), color: "#64748b", marginBottom: 3 }}><span>{l}</span><span style={{ fontWeight: 700, color: c }}>{v}/{t}</span></div>
+                <Bar v={v} t={t} c={c} />
+              </div>
+            ))}
+          </div></Card>
+          <Card><div style={{ padding: 14 }}>
+            <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 10 }}>🔤 Tamanho da fonte (conteúdo)</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6 }}>
+              {[["Normal", 1], ["Grande", 1.15], ["Maior", 1.3]].map(([label, v]) => (
+                <button key={label} onClick={() => chooseScale(v)} style={{ padding: "10px 4px", borderRadius: 9, border: "none", cursor: "pointer", fontWeight: 700, fontSize: Math.round(13 * v), background: fontScale === v ? "#0ea5e9" : "#f1f5f9", color: fontScale === v ? "#fff" : "#64748b", boxShadow: fontScale === v ? "0 2px 8px #0ea5e955" : "none" }}>{label}</button>
+              ))}
+            </div>
+            <div style={{ fontSize: fs(11), color: "#94a3b8", marginTop: 8 }}>Aumenta o texto de leitura (não os títulos). Salvo neste aparelho.</div>
+          </div></Card>
+          <Card s={{ borderLeft: "4px solid #f59e0b" }}><div style={{ padding: 14 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <div>
+                <div style={{ fontWeight: 900, fontSize: fs(15), color: "#92400e" }}>🛠️ Manutenção do roteiro</div>
+                <div style={{ fontSize: fs(12), color: "#a16207", marginTop: 2 }}>{DAYS.length} dias carregados · backups: {routeBackups.length}</div>
+              </div>
+              <span style={{ background: "#dcfce7", color: "#166534", fontSize: fs(10), fontWeight: 800, padding: "4px 8px", borderRadius: 99 }}>ABERTO</span>
+            </div>
+            <div style={{ background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 10, padding: 10, fontSize: fs(12), color: "#92400e", marginBottom: 10 }}>
+              Use para baixar o roteiro em JSON, editar fora do app e reenviar. Antes de substituir, o app cria backup automático do roteiro atual.
+            </div>
+            {maintUnlocked && (
+              <>
+                <input ref={routeFileRef} type="file" accept="application/json,.json" onChange={importRouteFile} style={{ display: "none" }} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
+                  <button onClick={exportRoute} style={{ padding: 11, borderRadius: 9, border: "none", background: "#ecfeff", color: "#0e7490", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>⬇️ Exportar roteiro</button>
+                  <button onClick={() => routeFileRef.current?.click()} disabled={importingRoute} style={{ padding: 11, borderRadius: 9, border: "none", background: "#fef3c7", color: "#92400e", fontWeight: 800, cursor: "pointer", fontSize: fs(12), opacity: importingRoute ? .6 : 1 }}>⬆️ Importar JSON</button>
+                  <button onClick={exportFullBackup} style={{ padding: 11, borderRadius: 9, border: "none", background: "#eef2ff", color: "#4338ca", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>💾 Backup completo</button>
+                  <button onClick={resetRouteToDefault} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>↩️ Roteiro original</button>
+                </div>
+                <div style={{ fontSize: fs(11), color: "#b45309", marginTop: 8 }}>
+                  Dica: depois de exportar, edite o arquivo mantendo a estrutura JSON. Campos mais seguros para alterar: horários, títulos, textos, mapas, refeições, compras e atividades.
+                </div>
+                {routeBackups.length > 0 && (
+                  <div style={{ marginTop: 12 }}>
+                    <div style={{ fontWeight: 800, fontSize: fs(12), color: "#92400e", marginBottom: 6 }}>Restaurar backup anterior</div>
+                    {routeBackups.slice(0, 5).map((b, i) => (
+                      <div key={b.id || i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 0", borderTop: i === 0 ? "1px solid #fde68a" : "1px dashed #fde68a" }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: fs(12), fontWeight: 800, color: "#78350f" }}>{new Date(b.createdAt).toLocaleString("pt-BR")}</div>
+                          <div style={{ fontSize: fs(10), color: "#b45309" }}>{b.reason || "Backup"} · por {b.createdBy || "—"}</div>
+                        </div>
+                        <button onClick={() => restoreRouteBackup(b)} style={{ border: "none", borderRadius: 8, background: "#fff7ed", color: "#c2410c", padding: "7px 9px", fontWeight: 800, cursor: "pointer", fontSize: fs(11) }}>Restaurar</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div></Card>
+          <Card s={{ borderLeft: "4px solid #7c3aed" }}><div style={{ padding: 14 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, marginBottom: 8 }}>
+              <div>
+                <div style={{ fontWeight: 900, fontSize: fs(15), color: "#581c87" }}>🛍️ Manutenção da lista de compras</div>
+                <div style={{ fontSize: fs(12), color: "#7e22ce", marginTop: 2 }}>{shopT} itens carregados · backups: {shoppingBackups.length}</div>
+              </div>
+              <span style={{ background: "#f3e8ff", color: "#6b21a8", fontSize: fs(10), fontWeight: 800, padding: "4px 8px", borderRadius: 99 }}>JSON</span>
+            </div>
+            <div style={{ background: "#faf5ff", border: "1px solid #e9d5ff", borderRadius: 10, padding: 10, fontSize: fs(12), color: "#6b21a8", marginBottom: 8 }}>
+              A lista de compras é arquivo externo versionado. A importação padrão substitui a lista atual, respeitando o que você apagou; checks são preservados quando o texto do item é igual.
+            </div>
+            <div style={{ fontSize: fs(11), color: "#7e22ce", marginBottom: 10 }}>
+              Versão atual: <b>{shoppingListMeta?.version || DEFAULT_SHOPPING_LIST.version}</b><br/>
+              Atualizada por: <b>{shoppingListMeta?.updatedBy || "base"}</b>{shoppingListMeta?.updatedAt ? ` · ${new Date(shoppingListMeta.updatedAt).toLocaleString("pt-BR")}` : ""}
+            </div>
+            {maintUnlocked && (
+              <>
+                <input ref={shoppingFileRef} type="file" accept="application/json,.json" onChange={importShoppingFile} style={{ display: "none" }} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
+                  <button onClick={exportShoppingList} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f3e8ff", color: "#6b21a8", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>⬇️ Exportar compras</button>
+                  <button onClick={() => shoppingFileRef.current?.click()} disabled={importingShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#ede9fe", color: "#5b21b6", fontWeight: 800, cursor: "pointer", fontSize: fs(12), opacity: importingShopping ? .6 : 1 }}>⬆️ Importar/substituir</button>
+                  <button onClick={resetShoppingToDefault} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>↩️ Lista padrão limpa</button>
+                  <button onClick={restoreSuggestedShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f8fafc", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>➕ Mesclar lista padrão</button>
+                </div>
+                <div style={{ fontSize: fs(11), color: "#7e22ce", marginTop: 8 }}>
+                  Edite somente o arquivo de compras quando quiser fazer alteração em massa. Campos aceitos por item: <b>text</b>, <b>store</b>, <b>category</b>, <b>city</b>, <b>country</b>, <b>priority</b>, <b>note</b>, <b>qty</b>, <b>primaryStore</b>, <b>backupStores</b>, <b>routeDay</b>, <b>shoppingMode</b> e <b>sort</b>.
+                </div>
+                {shoppingBackups.length > 0 && (
+                  <div style={{ marginTop: 12 }}>
+                    <div style={{ fontWeight: 800, fontSize: fs(12), color: "#581c87", marginBottom: 6 }}>Restaurar backup de compras</div>
+                    {shoppingBackups.slice(0, 5).map((b, i) => (
+                      <div key={b.id || i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 0", borderTop: i === 0 ? "1px solid #e9d5ff" : "1px dashed #e9d5ff" }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: fs(12), fontWeight: 800, color: "#581c87" }}>{new Date(b.createdAt).toLocaleString("pt-BR")}</div>
+                          <div style={{ fontSize: fs(10), color: "#7e22ce" }}>{b.reason || "Backup"} · {b.totalItems || 0} itens · por {b.createdBy || "—"}</div>
+                        </div>
+                        <button onClick={() => restoreShoppingBackup(b)} style={{ border: "none", borderRadius: 8, background: "#faf5ff", color: "#6b21a8", padding: "7px 9px", fontWeight: 800, cursor: "pointer", fontSize: fs(11) }}>Restaurar</button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div></Card>
+          <Card><div style={{ padding: 14 }}>
+            <div style={{ fontWeight: 800, fontSize: fs(14), color: "#1e293b", marginBottom: 6 }}>🗑️ Resetar dados</div>
+            <div style={{ fontSize: fs(12), color: "#94a3b8", marginBottom: 10 }}>Limpa Must Do, compras, Daily Report — para toda a família.</div>
+            <button onClick={() => { if (confirm("Resetar tudo? Afeta os 3.")) save(EMPTY, "Dados resetados"); }} style={{ width: "100%", padding: 11, borderRadius: 9, border: "none", cursor: "pointer", background: "#fef2f2", color: "#dc2626", fontWeight: 700, fontSize: fs(13) }}>Resetar todos os dados</button>
+          </div></Card>
+          <div style={{ textAlign: "center", padding: "16px 0 0", fontSize: fs(13), color: "#94a3b8" }}>Boa viagem, família! 🌏✈️🎌</div>
+        </div>
+      </>
+    );
+  };
+
+  const VIEWS = {
+    itinerary: renderItinerary, mustdo: renderMustDo, food: renderFood, shopping: renderShopping,
+    daily: renderDaily, tips: renderInfo, settings: renderSettings,
+  };
+  const NAV = [
+    { id: "itinerary", label: "Roteiro", icon: "📋" }, { id: "mustdo", label: "Must Do", icon: "⭐" },
+    { id: "food", label: "Resto.", icon: "🍽️" }, { id: "shopping", label: "Compras", icon: "🛍️" },
+    { id: "daily", label: "Daily", icon: "📊" }, { id: "tips", label: "Info", icon: "💡" },
+    { id: "settings", label: "Config", icon: "⚙️" },
+  ];
+
+  return (
+    <div style={{ maxWidth: 440, margin: "0 auto", minHeight: "100vh", background: "#f1f5f9", fontFamily: "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif", position: "relative" }}>
+      {toast && <div style={{ position: "fixed", top: 14, left: "50%", transform: "translateX(-50%)", background: "#1e293b", color: "#fff", padding: "9px 18px", borderRadius: 99, fontSize: fs(13), fontWeight: 700, zIndex: 999, boxShadow: "0 4px 16px #00000033", whiteSpace: "nowrap" }}>{toast}</div>}
+      {VIEWS[tab]()}
+      <div style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 440, background: "rgba(255,255,255,.97)", backdropFilter: "blur(20px)", borderTop: "1px solid #e2e8f0", zIndex: 100 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", padding: "4px 2px 8px" }}>
+          {NAV.map(n => {
+            const active = tab === n.id;
+            return (
+              <button key={n.id} onClick={() => setTab(n.id)} style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "4px 0", background: "none", border: "none", cursor: "pointer", gap: 1 }}>
+                <div style={{ width: 34, height: 26, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", background: active ? "#1d4ed8" : "transparent", transition: ".2s" }}>
+                  <span style={{ fontSize: active ? 17 : 15 }}>{n.icon}</span>
+                </div>
+                <span style={{ fontSize: 8, fontWeight: active ? 800 : 500, color: active ? "#1d4ed8" : "#94a3b8", lineHeight: 1.2 }}>{n.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
