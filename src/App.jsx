@@ -193,45 +193,118 @@ const ROUTE_STORAGE_KEY = "vjroute26";
 const ROUTE_BACKUPS_KEY = "vjroute26_backups";
 const SHOP_SEED_KEY = "vjseed26";
 const SHOP_SEED = {
-  "Luísa": [
-    "Canmake Marshmallow Powder (~¥770)",
-    "Canmake Mermaid Skin Gel UV",
-    "Cezanne base/blush",
-    "Kate paleta de olhos",
-    "Heroine Make rímel à prova d'água",
-    "Lip tint rom&nd / Peripera (Loft/PLAZA)",
-    "Biore UV Aqua Rich (protetor diário)",
-    "Glitter de pálpebra / highlighter (tendência kira kira)",
+  "Rodrigo": [
+    { text: "💇 RiUP X5 Charge / RiUP X5 Plus NEO (minoxidil 5%)", store: "Tóquio • Matsumoto Kiyoshi / Sundrug / Don Quijote (balcão 薬)", aliases: ["RiUP X5 Plus NEO ou Charge (minoxidil 5% — balcão 薬)"] },
+    { text: "💇 ANGFA Scalp-D Medicated Scalp Shampoo", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi / @cosme", aliases: ["Shampoo/tônico Scalp-D (Angfa)"] },
+    { text: "💇 Scalp-D NEXT+ Volume Up Shampoo", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi / @cosme" },
+    { text: "💇 Shiseido Adenovital Shampoo / Advanced Scalp Essence", store: "Tóquio • @cosme / lojas de beleza / departamentos" },
+    { text: "💇 Nizoral 2% Ketoconazole Shampoo", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "💇 DS Laboratories Revita Shampoo OU Vichy Dercos Densi-Solutions", store: "Dubai • Life Pharmacy / Boots / lojas de suplemento" },
+    { text: "💇 Toppik Hair Building Fibers", store: "Dubai • Sephora / Amazon.ae / lojas de beleza" },
+
+    { text: "🧴 Anessa Perfect UV Skincare Milk SPF50+ PA++++", store: "Tóquio • @cosme / Matsumoto Kiyoshi / Don Quijote" },
+    { text: "🧴 Bioré UV Aqua Rich Watery Essence SPF50+ PA++++", store: "Tóquio • farmácias / Don Quijote / @cosme", aliases: ["Bioré UV Aqua Rich (protetor)"] },
+    { text: "🧴 Hada Labo Gokujyun Premium Hydrating Lotion", store: "Tóquio • Matsumoto Kiyoshi / Don Quijote / @cosme", aliases: ["Hada Labo Gokujyun lotion"] },
+    { text: "🧴 Melano CC Premium Essence (vitamina C)", store: "Tóquio • Matsumoto Kiyoshi / Don Quijote / @cosme", aliases: ["Melano CC (vitamina C)"] },
+    { text: "🧴 Obagi C25 Serum Neo", store: "Tóquio • @cosme / departamentos / farmácias grandes" },
+    { text: "🧴 ELIXIR Retinol Power Wrinkle Cream OU Shiseido Vital Perfection WrinkleSpot", store: "Tóquio • @cosme / Shiseido / departamentos" },
+    { text: "🧴 Curél Intensive Moisture Cream", store: "Tóquio • Matsumoto Kiyoshi / @cosme" },
+    { text: "🧴 La Roche-Posay Anthelios UVMune 400 Invisible Fluid SPF50+", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "🧴 La Roche-Posay Cicaplast Baume B5+ 100 ml", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "🧴 La Roche-Posay Hyalu B5 Serum", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "🧴 La Roche-Posay Retinol B3 OU Vichy Liftactiv Retinol", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "🧴 CeraVe Moisturising Cream", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "🧴 CeraVe Hydrating Cleanser OU Foaming Cleanser", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "🧴 SkinCeuticals C E Ferulic (só se preço compensar)", store: "Dubai • Sephora / dermocosméticos" },
+
+    { text: "💊 Shiseido The Collagen Powder", store: "Tóquio • @cosme / Matsumoto Kiyoshi / Don Quijote / departamentos" },
+    { text: "💊 FANCL Deep Charge Collagen", store: "Tóquio • FANCL / @cosme / duty-free" },
+    { text: "💊 Collagen Peptides pote grande sem sabor (Organic Earth / KIKI / Vital Proteins)", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "💪 Creatina monohidratada Creapure OU Optimum Nutrition Micronized Creatine", store: "Dubai • Life Pharmacy / GNC / lojas de suplemento" },
+    { text: "💪 Whey isolado Dymatize ISO100 / ON Gold Standard Isolate / Isopure", store: "Dubai • Life Pharmacy / GNC — comprar só se preço compensar" },
+    { text: "💊 Ômega-3 concentrado Solgar Omega-3 700 / Nordic / Life Extension", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "🦵 Osteo Bi-Flex / Move Free / Solgar Glucosamine Chondroitin MSM — escolher UM", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "🥤 Nuun Sport Electrolytes / Hydralyte Electrolyte Tablets", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "💊 Magnesium Glycinate/Bisglycinate — só se substituir fórmula atual", store: "Dubai • Life Pharmacy / Boots" },
+
+    { text: "🦵 Salonpas / Hisamitsu Pain Relieving Patches", store: "Tóquio • Matsumoto Kiyoshi / Sundrug / Don Quijote" },
+    { text: "🦵 Loxonin S Tape / Loxoprofen Sodium Patch", store: "Tóquio • farmácia com orientação do farmacêutico" },
+    { text: "🦵 Zamst EK-3 ou ZK-7 Knee Support", store: "Tóquio • ABC-Mart / Alpen / Sports Depo / lojas esportivas" },
+    { text: "👟 Dr. Scholl GelActiv Insoles / palmilha de gel", store: "Tóquio • Don Quijote / farmácias / lojas esportivas" },
+    { text: "🧦 Meias de compressão Dr. Scholl / MediQtto / Uniqlo", store: "Tóquio • Uniqlo / farmácias" },
+
+    { text: "🦷 Apagard Premio OU Apagard Royal", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi / @cosme" },
+    { text: "🦷 Ora2 Premium Stain Clear OU Lion Brilliant More W", store: "Tóquio • Don Quijote / farmácias" },
+    { text: "💋 Compeed Cold Sore Patch + Cicaplast Lips + lip balm com FPS", store: "Dubai • Boots / Life Pharmacy; Japão • farmácias" },
+    { text: "👣 Lamisil AT / Terbinafine + spray seca-sapato", store: "Dubai/Japão • Life Pharmacy / Boots / Don Quijote / farmácias" },
+    { text: "👁 Air Optix Night & Day Aqua — Alcon (+1,75 e +2,75 se BC/DIA bater)", store: "Dubai • óticas / Alensa.ae" },
+
+    { text: "🔪 Faca Sujihiki 270 mm ou Gyuto 240 mm + pedra #1000/#3000", store: "Tóquio/Kyoto • Tower Knives / Kamata Hakensha / Aritsugu", aliases: ["Faca Sujihiki 270mm (Tower Knives, Dia 7)"] },
+    { text: "💿 Vinil KISS japonês com OBI (procurar KISS e キッス)", store: "Tóquio • Disk Union Shinjuku / Tower Shibuya / HMV Shibuya", aliases: ["Vinil KISS / rock-metal (Disk Union Shibuya)"] },
+    { text: "💿 KISS memorabilia / action figures / pôsteres", store: "Tóquio • Mandarake Nakano; Osaka • Mandarake Grand Chaos / Surugaya" },
+    { text: "🕹 Games retrô / Super Potato / Surugaya / Mandarake", store: "Tóquio • Akihabara / Nakano; Osaka • Den-Den Town" },
+    { text: "🎯 Pinball: The Silver Ball Planet", store: "Osaka • Americamura — experiência, não compra pesada" },
+    { text: "🌲 Perfume woody amber: Amouage Epic Man / Ajmal Amber Wood / Rasasi / Lattafa", store: "Dubai • Amouage / Ajmal / Rasasi / Lattafa — testar na pele 1h" },
   ],
   "Luciana": [
-    "Anessa Perfect UV Sunscreen (~¥2.500)",
-    "Hada Labo Gokujyun lotion (~¥800)",
-    "Senka Perfect Whip (sabonete facial, ~¥500)",
-    "Melano CC (vitamina C / manchas)",
-    "Shiseido (linha premium)",
-    "SK-II Facial Treatment Essence (loja de departamento)",
+    { text: "🧴 Anessa Perfect UV Milk / Allie Chrono Beauty / Bioré UV", store: "Tóquio • @cosme / Matsumoto Kiyoshi / Don Quijote", aliases: ["Anessa Perfect UV Sunscreen (~¥2.500)"] },
+    { text: "🧴 Hada Labo Gokujyun Premium / Curél / Minon", store: "Tóquio • @cosme / farmácias", aliases: ["Hada Labo Gokujyun lotion (~¥800)"] },
+    { text: "🧴 Senka Perfect Whip", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi", aliases: ["Senka Perfect Whip (sabonete facial, ~¥500)"] },
+    { text: "🧴 Melano CC Premium Essence", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi", aliases: ["Melano CC (vitamina C / manchas)"] },
+    { text: "🧴 SK-II Facial Treatment Essence", store: "Tóquio • Ginza Mitsukoshi / Matsuya / departamentos", aliases: ["SK-II Facial Treatment Essence (loja de departamento)"] },
+    { text: "🧴 Shiseido Ultimune Power Infusing Concentrate", store: "Tóquio • Shiseido / @cosme / departamentos", aliases: ["Shiseido (linha premium)"] },
+    { text: "💄 SUQQU The Liquid Foundation", store: "Tóquio • Ginza / departamentos" },
+    { text: "💄 SUQQU Pure Color Blush", store: "Tóquio • Ginza / departamentos" },
+    { text: "💄 Kanebo / Clé de Peau / Decorté", store: "Tóquio • Ginza / departamentos" },
+    { text: "🧴 La Roche-Posay / CeraVe / Bioderma Sensibio H2O", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "🧴 Cicaplast Baume B5+ / Anthelios UVMune 400", store: "Dubai • Life Pharmacy / Boots" },
+    { text: "👜 Komehyo / Brand Off / Daikokuya — bolsas usadas autenticadas", store: "Tóquio • Ginza; Osaka • Shinsaibashi — só se sobrar tempo" },
+    { text: "👚 UNIQLO / GU / MUJI — peças, básicos, organizadores e travel goods", store: "Tóquio • Ginza/Shinjuku/Shibuya" },
+    { text: "🏠 Toalhas Imabari", store: "Japão • Loft / Hands / departamentos" },
+    { text: "🏠 Cerâmica, hashis bons, chá Ippodo e presentes úteis", store: "Kyoto • Nishiki/Kiyomizu; Tóquio • Kappabashi/Loft/Hands" },
+    { text: "🌲 Perfume e maquiagem em Sephora Dubai", store: "Dubai • Sephora Dubai Mall / Mall of the Emirates" },
   ],
-  "Rodrigo": [
-    "RiUP X5 Plus NEO ou Charge (minoxidil 5% — balcão 薬)",
-    "Senka Perfect Whip (sabonete facial)",
-    "Hada Labo Gokujyun lotion",
-    "Melano CC (vitamina C)",
-    "Bioré UV Aqua Rich (protetor)",
-    "Shampoo/tônico Scalp-D (Angfa)",
-    "Faca Sujihiki 270mm (Tower Knives, Dia 7)",
-    "Vinil KISS / rock-metal (Disk Union Shibuya)",
+  "Luísa": [
+    { text: "💄 Canmake Marshmallow Finish Powder", store: "Tóquio • @cosme / Don Quijote / Matsumoto Kiyoshi", aliases: ["Canmake Marshmallow Powder (~¥770)"] },
+    { text: "🧴 Canmake Mermaid Skin Gel UV", store: "Tóquio • @cosme / Don Quijote", aliases: ["Canmake Mermaid Skin Gel UV"] },
+    { text: "💄 Canmake Cream Cheek", store: "Tóquio • @cosme / Don Quijote" },
+    { text: "💄 Cezanne Pearl Glow Highlight / Lasting Lip Color", store: "Tóquio • @cosme / Don Quijote", aliases: ["Cezanne base/blush"] },
+    { text: "💄 Kate Lip Monster", store: "Tóquio • @cosme / Don Quijote" },
+    { text: "💄 Kate Designing Eyebrow 3D", store: "Tóquio • @cosme / Don Quijote", aliases: ["Kate paleta de olhos"] },
+    { text: "💄 Heroine Make Long & Curl Mascara Advanced Film", store: "Tóquio • Don Quijote / Matsumoto Kiyoshi", aliases: ["Heroine Make rímel à prova d'água"] },
+    { text: "💄 Rom&nd Juicy Lasting Tint / Glasting Melting Balm", store: "Tóquio • @cosme / Don Quijote / Loft / PLAZA", aliases: ["Lip tint rom&nd / Peripera (Loft/PLAZA)"] },
+    { text: "💄 Peripera / Clio — lip tint, cushion, blush", store: "Tóquio • Don Quijote / @cosme / Shin-Okubo" },
+    { text: "🧴 COSRX Advanced Snail 96 Mucin", store: "Tóquio • Don Quijote / @cosme / Shin-Okubo" },
+    { text: "🧴 Anua Heartleaf 77 Toner", store: "Tóquio • Don Quijote / @cosme / Shin-Okubo" },
+    { text: "🧴 Beauty of Joseon Relief Sun", store: "Tóquio • Don Quijote / @cosme / Shin-Okubo" },
+    { text: "🧴 Bioré UV Aqua Rich / Skin Aqua UV Super Moisture Gel", store: "Tóquio • farmácias / Don Quijote", aliases: ["Biore UV Aqua Rich (protetor diário)"] },
+    { text: "✨ Glitter de pálpebra / highlighter kira-kira", store: "Tóquio • Loft / PLAZA / @cosme", aliases: ["Glitter de pálpebra / highlighter (tendência kira kira)"] },
+    { text: "👗 Shibuya 109 — moda jovem", store: "Tóquio • Shibuya" },
+    { text: "🎮 Shibuya PARCO 6F — Nintendo Tokyo / Pokémon Center", store: "Tóquio • Shibuya PARCO" },
+    { text: "📸 Purikura", store: "Tóquio • Harajuku/Shibuya arcades" },
+    { text: "🎀 Takeshita acessórios, meias, pelúcias e itens kawaii úteis", store: "Tóquio • Harajuku — sem focar doces/snacks" },
+    { text: "✒️ Papelaria japonesa: Uni Jetstream / Zebra Sarasa / Pilot Frixion / Kokuyo", store: "Tóquio • Loft / Hands" },
+    { text: "👚 UNIQLO / GU — básicos e moda jovem", store: "Tóquio • Ginza/Shibuya/Shinjuku" },
   ],
 };
+function normalizeSeedItem(item) {
+  if (typeof item === "string") return { text: item, store: "", aliases: [] };
+  return { text: item.text || "", store: item.store || "", aliases: item.aliases || [] };
+}
+
 function buildSeedShopping() {
   const out = { Rodrigo: [], Luciana: [], "Luísa": [] };
   let id = Date.now();
   Object.keys(SHOP_SEED).forEach((u) => {
-    SHOP_SEED[u].forEach((text) => {
-      out[u].push({ id: id++, text, store: "", done: false, by: "sugestão" });
+    SHOP_SEED[u].forEach((raw) => {
+      const item = normalizeSeedItem(raw);
+      if (!item.text) return;
+      out[u].push({ id: id++, text: item.text, store: item.store || "", done: false, by: "sugestão", aliases: item.aliases || [] });
     });
   });
   return out;
 }
+
 
 function makeRoutePayload(content, extra = {}) {
   return {
@@ -528,19 +601,35 @@ export default function App() {
   };
 
   const restoreSuggestedShopping = async () => {
-    if (!confirm("Adicionar de volta as listas de compras sugeridas (Rodrigo, Luciana e Luísa)? Os itens que você já tem serão mantidos.")) return;
+    if (!confirm("Adicionar/atualizar as listas de compras sugeridas (Rodrigo, Luciana e Luísa)? Os itens que você já marcou serão mantidos.")) return;
     try {
       const seed = buildSeedShopping();
       const merged = { Rodrigo: [], Luciana: [], "Luísa": [] };
       ["Rodrigo", "Luciana", "Luísa"].forEach((u) => {
-        const existing = st.shopping?.[u] || [];
-        const existingText = new Set(existing.map((i) => i.text));
-        const toAdd = seed[u].filter((i) => !existingText.has(i.text));
-        merged[u] = [...existing, ...toAdd];
+        const current = (st.shopping?.[u] || []).map((i) => ({ ...i }));
+        seed[u].forEach((s) => {
+          const idx = current.findIndex((i) => i.text === s.text || (s.aliases || []).includes(i.text));
+          if (idx >= 0) {
+            current[idx] = {
+              ...current[idx],
+              text: s.text,
+              store: (!current[idx].store || current[idx].store === "—") ? (s.store || current[idx].store || "") : current[idx].store,
+              by: current[idx].by || "sugestão"
+            };
+          } else {
+            current.push(s);
+          }
+        });
+        const seen = new Set();
+        merged[u] = current.filter((i) => {
+          if (seen.has(i.text)) return false;
+          seen.add(i.text);
+          return true;
+        }).map(({ aliases, ...clean }) => clean);
       });
-      await save({ ...st, shopping: merged }, "Listas sugeridas restauradas");
+      await save({ ...st, shopping: merged }, "Listas sugeridas atualizadas");
       try { await storage.set(SHOP_SEED_KEY, "done", true); } catch {}
-    } catch { setToast("⚠️ Erro ao restaurar listas"); setTimeout(() => setToast(null), 2600); }
+    } catch { setToast("⚠️ Erro ao atualizar listas"); setTimeout(() => setToast(null), 2600); }
   };
 
   // ── mutations ──
@@ -1613,7 +1702,7 @@ export default function App() {
                   <button onClick={() => routeFileRef.current?.click()} disabled={importingRoute} style={{ padding: 11, borderRadius: 9, border: "none", background: "#fef3c7", color: "#92400e", fontWeight: 800, cursor: "pointer", fontSize: fs(12), opacity: importingRoute ? .6 : 1 }}>⬆️ Importar JSON</button>
                   <button onClick={exportFullBackup} style={{ padding: 11, borderRadius: 9, border: "none", background: "#eef2ff", color: "#4338ca", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>💾 Backup completo</button>
                   <button onClick={resetRouteToDefault} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>↩️ Roteiro original</button>
-                  <button onClick={restoreSuggestedShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>🛍️ Restaurar listas sugeridas</button>
+                  <button onClick={restoreSuggestedShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>🛍️ Adicionar/atualizar listas sugeridas</button>
                 </div>
                 <div style={{ fontSize: fs(11), color: "#b45309", marginTop: 8 }}>
                   Dica: depois de exportar, edite o arquivo mantendo a estrutura JSON. Campos mais seguros para alterar: horários, títulos, textos, mapas, refeições, compras e atividades.
