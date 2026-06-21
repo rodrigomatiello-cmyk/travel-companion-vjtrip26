@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════════
-//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.13 (lista de compras externa)
+//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.14 (lista de compras externa + metadados visíveis)
 // ═══════════════════════════════════════════════════════════════════════════
 import { useState, useEffect, useCallback, useRef } from "react";
 import { storage, isFirebaseEnabled } from "./sharedStorage";
@@ -1336,6 +1336,14 @@ export default function App() {
                     <div style={{ flex: 1 }}>
                       <div style={{ fontSize: fs(14), color: "#1e293b", textDecoration: item.done ? "line-through" : "none", fontWeight: 500 }}>{item.text}</div>
                       <div style={{ fontSize: fs(11), color: "#94a3b8" }}>🏬 {item.store}{item.by ? ` · add por ${item.by}` : ""}</div>
+                      {(item.priority || item.category || item.city || item.country) && (
+                        <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 5 }}>
+                          {item.priority && <span style={{ fontSize: fs(10), color: "#6d28d9", background: "#f3e8ff", borderRadius: 999, padding: "2px 6px", fontWeight: 800 }}>⭐ {item.priority}</span>}
+                          {item.category && <span style={{ fontSize: fs(10), color: "#0369a1", background: "#e0f2fe", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{item.category}</span>}
+                          {(item.city || item.country) && <span style={{ fontSize: fs(10), color: "#065f46", background: "#d1fae5", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{[item.city, item.country].filter(Boolean).join(" · ")}</span>}
+                        </div>
+                      )}
+                      {item.note && <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 4, lineHeight: 1.35 }}>📝 {item.note}</div>}
                     </div>
                     <button onClick={() => rmShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fca5a5", fontSize: fs(19), lineHeight: 1 }}>×</button>
                   </div>
