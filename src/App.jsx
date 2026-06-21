@@ -198,12 +198,9 @@ const SHOPPING_LIST_SCHEMA = "vjtrip26-shopping-v1";
 const DEFAULT_SHOPPING_LIST = {
   "schema": "vjtrip26-shopping-v1",
   "app": "Travel Companion Dubai + Japão 2026",
-  "version": "compras-v3.0.0-viagem-por-loja-protegida",
-  "updatedAt": "2026-06-21T09:45:00-03:00",
-  "updatedBy": "ChatGPT / Rodrigo",
-  "source": "merge v1 original protegido + v2 produtos certeiros + correções de viagem",
-  "importMode": "merge",
-  "note": "Lista v3 orientada por viagem. Preserva itens originais/protegidos, adiciona produtos certeiros e organiza por shoppingMode/loja/rota para uso real dentro das lojas. Importação padrão deve mesclar, não substituir.",
+  "version": "compras-v4.0.0-editavel-sem-travas",
+  "exportedAt": "2026-06-21T13:45:47.606Z",
+  "note": "Lista editável. Importação padrão substitui a lista atual para respeitar exclusões feitas pelo Rodrigo. Todos os itens podem ser excluídos, reclassificados e movidos de pessoa/categoria/modo de compra no app.",
   "lists": {
     "Rodrigo": [
       {
@@ -213,20 +210,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "essencial",
-        "note": "Produto principal de cabelo no Japão. Comprar este modelo primeiro; X5 Plus NEO entra como substituto se o Charge não estiver disponível. Cobre item original do app: RiUP X5 Plus NEO ou Charge (minoxidil 5% — balcão 薬)",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Produto principal de cabelo no Japão. Comprar este modelo primeiro; X5 Plus NEO entra como substituto se o Charge não estiver disponível. Cobre item original: RiUP X5 Plus NEO ou Charge (minoxidil 5% — balcão 薬)",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
         "shoppingMode": [
           "Drogaria Japão / Donki",
           "Presentes / Mala / Extras"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10101,
-        "protected": true,
-        "id": "shop-rodrigo-1"
+        "sort": 10101
       },
       {
         "text": "Anessa Perfect UV Sunscreen Skincare Milk NA SPF50+ PA++++ 60 ml — 3 unidades",
@@ -235,18 +228,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "essencial",
-        "note": "Protetor solar principal para uso diário no Brasil.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Protetor solar principal para uso diário no Brasil",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 10107,
-        "id": "shop-rodrigo-2"
+        "sort": 10107
       },
       {
         "text": "Melano CC Premium Essence — メラノCC 薬用しみ 集中対策 プレミアム美容液 — 3 tubos",
@@ -255,18 +245,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "essencial",
-        "note": "Vitamina C japonesa custo-benefício; comprar Premium, não a versão comum se as duas estiverem lado a lado.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Vitamina C japonesa custo-benefício; comprar Premium, não a versão comum se as duas estiverem lado a lado",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10109,
-        "id": "shop-rodrigo-3"
+        "sort": 10109
       },
       {
         "text": "Apagard Premio 105 g — アパガードプレミオ — 3 tubos",
@@ -275,18 +262,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "essencial",
-        "note": "Creme dental japonês principal para estoque.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Creme dental japonês principal para estoque",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10117,
-        "id": "shop-rodrigo-4"
+        "sort": 10117
       },
       {
         "text": "Lamisil AT Cream — ラミシールATクリーム — 2 tubos",
@@ -295,18 +279,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "essencial",
-        "note": "Produto fechado para pé/pele/mizumushi. Mostrar o nome japonês na loja.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Produto fechado para pé/pele/mizumushi. Mostrar o nome japonês na loja",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10122,
-        "id": "shop-rodrigo-5"
+        "sort": 10122
       },
       {
         "text": "RiUP X5 Plus NEO — リアップX5プラスネオ — 2 frascos de 60 ml se não achar Charge suficiente",
@@ -315,19 +296,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Backup direto do RiUP Charge, não item genérico.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Backup direto do RiUP Charge, não item genérico",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki",
           "Presentes / Mala / Extras"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10202,
-        "id": "shop-rodrigo-6"
+        "sort": 10202
       },
       {
         "text": "Scalp-D Medicated Shampoo Oily — スカルプD 薬用スカルプシャンプー オイリー — 1 frasco",
@@ -336,19 +314,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Shampoo japonês masculino para couro cabeludo oleoso/densidade visual. Cobre item original do app: Shampoo/tônico Scalp-D (Angfa)",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Shampoo japonês masculino para couro cabeludo oleoso/densidade visual. Cobre item original: Shampoo/tônico Scalp-D (Angfa)",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10203,
-        "protected": true,
-        "id": "shop-rodrigo-7"
+        "sort": 10203
       },
       {
         "text": "Bioré UV Aqua Rich Watery Essence SPF50+ PA++++ — 3 unidades",
@@ -357,19 +331,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Protetor leve para alternar, bolsa e reposição. Cobre item original do app: Bioré UV Aqua Rich (protetor)",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Protetor leve para alternar, bolsa e reposição. Cobre item original: Bioré UV Aqua Rich (protetor)",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10208,
-        "protected": true,
-        "id": "shop-rodrigo-8"
+        "sort": 10208
       },
       {
         "text": "Obagi C25 Serum Neo 12 ml — オバジC25セラム ネオ — 1 unidade",
@@ -378,19 +348,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Compra premium pequena; vale por ser item caro e compacto.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Compra premium pequena; vale por ser item caro e compacto",
         "primaryStore": "Matsumoto Kiyoshi grande",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki",
           "Beleza premium — Ginza/Depachika"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10210,
-        "id": "shop-rodrigo-9"
+        "sort": 10210
       },
       {
         "text": "Hada Labo Gokujyun Premium Lotion — 肌ラボ 極潤プレミアム ヒアルロン液 — 2 frascos",
@@ -399,19 +366,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Loção hidratante base japonesa; bom estoque para Brasil. Cobre item original do app: Hada Labo Gokujyun lotion",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Loção hidratante base japonesa; bom estoque para Brasil. Cobre item original: Hada Labo Gokujyun lotion",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10211,
-        "protected": true,
-        "id": "shop-rodrigo-10"
+        "sort": 10211
       },
       {
         "text": "Curél Intensive Moisture Facial Cream 40 g — キュレル 潤浸保湿 フェイスクリーム — 1 unidade",
@@ -420,18 +383,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Creme de barreira compacto e muito útil.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Creme de barreira compacto e muito útil",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10213,
-        "id": "shop-rodrigo-11"
+        "sort": 10213
       },
       {
         "text": "ELIXIR Retinol Power Wrinkle Smoothing Cream 22 g — エリクシール レチノパワー リンクルクリーム — 1 unidade",
@@ -440,18 +400,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Retinol japonês principal. Estoque inteligente; não precisa comprar vários retinóis japoneses diferentes.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Retinol japonês principal. Estoque inteligente; não precisa comprar vários retinóis japoneses diferentes",
         "primaryStore": "Lojas Shiseido",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 10214,
-        "id": "shop-rodrigo-12"
+        "sort": 10214
       },
       {
         "text": "Apagard Royal 135 g — アパガードロイヤル — 1 tubo",
@@ -460,18 +417,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Versão mais premium da Apagard; comprar se encontrar sem caça longa.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Versão mais premium da Apagard; comprar se encontrar sem caça longa",
         "primaryStore": "Drogarias grandes",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10218,
-        "id": "shop-rodrigo-13"
+        "sort": 10218
       },
       {
         "text": "Mentholatum Exiv W Deep 10 Cream — メンソレータム エクシブ Wディープ10クリーム — 1 tubo",
@@ -480,18 +434,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Para pé/sola/calcanhar e pele mais grossa.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Para pé/sola/calcanhar e pele mais grossa",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10223,
-        "id": "shop-rodrigo-14"
+        "sort": 10223
       },
       {
         "text": "Butenalock Vα Cream EX — ブテナロックVαクリームEX — 1 tubo",
@@ -500,18 +451,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Backup japonês forte para mizumushi/pé.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Backup japonês forte para mizumushi/pé",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10224,
-        "id": "shop-rodrigo-15"
+        "sort": 10224
       },
       {
         "text": "Loxonin S Tape L — ロキソニンSテープL — 2 caixas",
@@ -520,69 +468,40 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Adesivo tópico para joelho/caminhada/viagem.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Adesivo tópico para joelho/caminhada/viagem",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10225,
-        "id": "shop-rodrigo-16"
-      },
-      {
-        "text": "Mala dobrável / packing cubes — 1 kit",
-        "store": "Don Quijote / Loft / Hands",
-        "category": "mala/logística",
-        "city": "Tokyo/Osaka",
-        "country": "Japan",
-        "priority": "alta",
-        "note": "Útil para organizar compras e retorno.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA",
-          "Loft / Hands / Papelaria",
-          "Presentes / Mala / Extras"
-        ],
-        "routeDay": "03/12 Shibuya/Harajuku",
-        "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10251,
-        "id": "shop-rodrigo-17"
+        "sort": 10225
       },
       {
         "text": "Kao Spot Jelly Belly Button Cleaner / SPOT JELLY Navel Gunk Removal Pack — 2 sets",
         "store": "Don Quijote / Loft / Hands / lojas de curiosidades japonesas",
+        "category": "curiosidades úteis / higiene",
+        "city": "Tokyo",
+        "country": "Japan",
+        "priority": "alta",
+        "note": "Jelly de limpar umbigo que existia na lista original. Produto fechado: Kao Spot Jelly Belly Button Cleaner / SPOT JELLY Navel Gunk Removal Pack",
+        "qty": "2 sets",
         "primaryStore": "Don Quijote",
+        "routeDay": "03/12 Shibuya/Harajuku ou 05/12 Ginza",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "original_app",
+        "storeSection": "higiene corporal / body care / curiosidades",
         "backupStores": [
           "Loft",
           "Hands",
           "Amazon JP se entregar no hotel"
         ],
-        "category": "curiosidades úteis / higiene",
-        "city": "Tokyo",
-        "country": "Japan",
-        "priority": "alta",
-        "qty": "2 sets",
-        "routeDay": "03/12 Shibuya/Harajuku ou 05/12 Ginza",
-        "dayHint": "03/12 Shibuya/Harajuku",
         "shoppingMode": [
           "Drogaria Japão / Donki",
           "Loft / Hands / Papelaria"
         ],
-        "storeSection": "higiene corporal / body care / curiosidades",
-        "note": "Jelly de limpar umbigo que existia na lista original. Produto fechado: Kao Spot Jelly Belly Button Cleaner / SPOT JELLY Navel Gunk Removal Pack. Item protegido: não remover. Item original protegido do app.",
-        "owner": "Rodrigo",
-        "source": "original_app",
-        "sort": 10294,
-        "protected": true,
-        "id": "shop-rodrigo-18"
+        "sort": 10294
       },
       {
         "text": "Scalp-D NEXT+ Volume Up Shampoo — スカルプD NEXT+ ボリュームアップ — 1 frasco",
@@ -591,18 +510,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Compra de estoque se aparecer fácil no Donki/drogaria.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Compra de estoque se aparecer fácil no Donki/drogaria",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10404,
-        "id": "shop-rodrigo-19"
+        "sort": 10404
       },
       {
         "text": "Shiseido Adenovital Shampoo — アデノバイタル シャンプー — 1 frasco",
@@ -611,18 +527,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Linha japonesa premium de couro cabeludo/cabelo.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Linha japonesa premium de couro cabeludo/cabelo",
         "primaryStore": "Drogarias grandes",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 10405,
-        "id": "shop-rodrigo-20"
+        "sort": 10405
       },
       {
         "text": "Shiseido Adenovital Advanced Scalp Essence — アデノバイタル アドバンスト スカルプエッセンス — 1 unidade",
@@ -631,18 +544,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Tônico/essence de couro cabeludo para estoque.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Tônico/essence de couro cabeludo para estoque",
         "primaryStore": "Drogarias grandes",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 10406,
-        "id": "shop-rodrigo-21"
+        "sort": 10406
       },
       {
         "text": "Kobayashi Keshimin Cream — 小林製薬 ケシミンクリーム — 1 unidade",
@@ -651,19 +561,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Creme japonês clássico para manchas/sunspots.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Creme japonês clássico para manchas/sunspots",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki",
           "Presentes / Mala / Extras"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10412,
-        "id": "shop-rodrigo-22"
+        "sort": 10412
       },
       {
         "text": "Senka Perfect Whip — 専科 パーフェクトホイップ — 2 unidades",
@@ -672,18 +579,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Item barato, pequeno e fácil de estocar.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Item barato, pequeno e fácil de estocar",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10416,
-        "id": "shop-rodrigo-23"
+        "sort": 10416
       },
       {
         "text": "Apagard Serena 105 g — アパガードセレナ — 1 tubo",
@@ -692,18 +596,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Versão focada em manchas de café/chá/vinho.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Versão focada em manchas de café/chá/vinho",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10419,
-        "id": "shop-rodrigo-24"
+        "sort": 10419
       },
       {
         "text": "Ora2 Premium Stain Clear Paste — オーラツー プレミアム ステインクリア — 2 tubos",
@@ -712,18 +613,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Complemento barato para manchas superficiais.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Complemento barato para manchas superficiais",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10420,
-        "id": "shop-rodrigo-25"
+        "sort": 10420
       },
       {
         "text": "Lion Brilliant More W — ブリリアントモア ダブル — 1 tubo",
@@ -732,18 +630,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Dental japonês mais específico; comprar se aparecer fácil.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Dental japonês mais específico; comprar se aparecer fácil",
         "primaryStore": "Drogarias grandes",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10421,
-        "id": "shop-rodrigo-26"
+        "sort": 10421
       },
       {
         "text": "Salonpas Ae — サロンパスAe — 1 caixa grande",
@@ -752,18 +647,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Item barato e útil para dor muscular geral.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Item barato e útil para dor muscular geral",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10426,
-        "id": "shop-rodrigo-27"
+        "sort": 10426
       },
       {
         "text": "Dr. Scholl GelActiv Insoles — 1 par",
@@ -772,18 +664,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Palmilha para proteger caminhada forte de viagem.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Palmilha para proteger caminhada forte de viagem",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10429,
-        "id": "shop-rodrigo-28"
+        "sort": 10429
       },
       {
         "text": "Amino Vital Gold — アミノバイタル ゴールド — 1 caixa",
@@ -792,18 +681,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Sachets pequenos para treino/caminhada; bom para mala.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Sachets pequenos para treino/caminhada; bom para mala",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10430,
-        "id": "shop-rodrigo-29"
+        "sort": 10430
       },
       {
         "text": "Rohto C Cube m — ロートCキューブm — 2 unidades",
@@ -812,18 +698,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Colírio japonês para usuário de lentes; item pequeno para estoque.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Colírio japonês para usuário de lentes; item pequeno para estoque",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10432,
-        "id": "shop-rodrigo-30"
+        "sort": 10432
       },
       {
         "text": "Soft Santear — ソフトサンティア — 2 unidades",
@@ -832,18 +715,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Lágrima artificial japonesa popular; bom backup de viagem/uso diário.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Lágrima artificial japonesa popular; bom backup de viagem/uso diário",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10433,
-        "id": "shop-rodrigo-31"
+        "sort": 10433
       },
       {
         "text": "Shiseido The Collagen Powder — 資生堂 ザ・コラーゲン パウダー — 1 unidade",
@@ -852,18 +732,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Produto japonês de estoque; comprar em pó por render melhor que bebida pronta.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Produto japonês de estoque; comprar em pó por render melhor que bebida pronta",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 10434,
-        "id": "shop-rodrigo-32"
+        "sort": 10434
       },
       {
         "text": "FANCL Deep Charge Collagen Powder — ファンケル ディープチャージ コラーゲン パウダー — 1 unidade",
@@ -872,79 +749,28 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Alternativa japonesa em pó; boa para comparar com Shiseido.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Alternativa japonesa em pó; boa para comparar com Shiseido",
         "primaryStore": "FANCL",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki",
           "Presentes / Mala / Extras"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10435,
-        "id": "shop-rodrigo-33"
-      },
-      {
-        "text": "CD japonês do KISS com OBI — キッス — 1 a 3 achados",
-        "store": "disk union / BOOKOFF / Mandarake Nakano",
-        "category": "KISS/colecionável",
-        "city": "Tokyo",
-        "country": "Japan",
-        "priority": "média",
-        "note": "Item leve e bom para garimpo.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "disk union",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Hobby / Vinil / Games",
-          "Presentes / Mala / Extras"
-        ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10440,
-        "id": "shop-rodrigo-34"
-      },
-      {
-        "text": "Merch KISS / rock usado",
-        "store": "Mandarake Nakano Broadway / Surugaya / BOOKOFF",
-        "category": "KISS/colecionável",
-        "city": "Tokyo/Osaka",
-        "country": "Japan",
-        "priority": "média",
-        "note": "Garimpo sem compromisso; entra por hobby pessoal.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Mandarake Nakano Broadway",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Hobby / Vinil / Games"
-        ],
-        "routeDay": "Osaka",
-        "dayHint": "Osaka",
-        "sort": 10441,
-        "id": "shop-rodrigo-35"
+        "sort": 10435
       },
       {
         "text": "Melano CC (vitamina C)",
         "store": "",
-        "owner": "Rodrigo",
+        "note": "",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
         "source": "original_app",
-        "qty": "",
-        "primaryStore": "",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10593,
-        "protected": true,
-        "note": "Item original protegido do app.",
-        "id": "shop-rodrigo-36"
+        "sort": 10593
       },
       {
         "text": "Pocari Sweat Powder / Aquarius Powder — 1 caixa",
@@ -953,18 +779,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "baixa",
-        "note": "Sachets para hidratação; comprar se sobrar espaço.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Sachets para hidratação; comprar se sobrar espaço",
         "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10731,
-        "id": "shop-rodrigo-37"
+        "sort": 10731
       },
       {
         "text": "Shiseido Vital Perfection WrinkleSpot Treatment — バイタルパーフェクション リンクルリフト ディープレチノホワイト — 1 unidade",
@@ -973,39 +796,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Premium da Shiseido; entra se quiser levar um retinol mais sofisticado além do ELIXIR.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Premium da Shiseido; entra se quiser levar um retinol mais sofisticado além do ELIXIR",
         "primaryStore": "Shiseido",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Beleza premium — Ginza/Depachika"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 20415,
-        "id": "shop-rodrigo-38"
-      },
-      {
-        "text": "Ippodo Kyoto — matcha / hojicha / sencha — 2 a 3 pacotes",
-        "store": "Ippodo Kyoto / depachika",
-        "category": "chá/presente",
-        "city": "Kyoto",
-        "country": "Japan",
-        "priority": "média",
-        "note": "Presente e uso em casa; comprar em Kyoto.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Ippodo Kyoto",
-        "shoppingMode": [
-          "Beleza premium — Ginza/Depachika",
-          "Presentes / Mala / Extras"
-        ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 20448,
-        "id": "shop-rodrigo-39"
+        "sort": 20415
       },
       {
         "text": "Uni Jetstream 4&1 Metal Edition — 2 unidades",
@@ -1014,19 +813,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo/Kyoto/Osaka",
         "country": "Japan",
         "priority": "média",
-        "note": "Caneta japonesa excelente para uso e presente.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Caneta japonesa excelente para uso e presente",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Make Luísa — @cosme/Loft/PLAZA",
-          "Loft / Hands / Papelaria"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 30444,
-        "id": "shop-rodrigo-40"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 30444
       },
       {
         "text": "Zebra Sarasa Grand — 2 unidades",
@@ -1035,19 +831,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo/Kyoto/Osaka",
         "country": "Japan",
         "priority": "média",
-        "note": "Caneta boa e barata de trazer.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Caneta boa e barata de trazer",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Make Luísa — @cosme/Loft/PLAZA",
-          "Loft / Hands / Papelaria"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 30445,
-        "id": "shop-rodrigo-41"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 30445
       },
       {
         "text": "Pilot Frixion Ball 3 / Frixion pens — 2 kits",
@@ -1056,19 +849,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo/Kyoto/Osaka",
         "country": "Japan",
         "priority": "média",
-        "note": "Caneta apagável japonesa; bom para presente/uso.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Caneta apagável japonesa; bom para presente/uso",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Make Luísa — @cosme/Loft/PLAZA",
-          "Loft / Hands / Papelaria"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 30446,
-        "id": "shop-rodrigo-42"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 30446
       },
       {
         "text": "Hashis bons / apoio de hashi / cerâmica pequena — 2 a 4 itens",
@@ -1077,20 +867,17 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Kyoto/Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Itens pequenos, leves e bons de presente.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Itens pequenos, leves e bons de presente",
         "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
-          "Make Luísa — @cosme/Loft/PLAZA",
+          "Beleza jovem — @cosme / Loft / PLAZA",
           "Facas / Casa Japão",
           "Loft / Hands / Papelaria"
         ],
-        "routeDay": "03/12 Shibuya/Harajuku",
-        "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 30450,
-        "id": "shop-rodrigo-43"
+        "sort": 30450
       },
       {
         "text": "Kokuyo Campus / Midori MD Notebook — 2 cadernos",
@@ -1099,19 +886,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo/Kyoto/Osaka",
         "country": "Japan",
         "priority": "baixa",
-        "note": "Papelaria japonesa de qualidade.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Papelaria japonesa de qualidade",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Make Luísa — @cosme/Loft/PLAZA",
-          "Loft / Hands / Papelaria"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 30747,
-        "id": "shop-rodrigo-44"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Loft / Hands / Papelaria"
+        ],
+        "sort": 30747
       },
       {
         "text": "Toalhas Imabari — 2 unidades",
@@ -1120,42 +904,18 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo/Kyoto/Osaka",
         "country": "Japan",
         "priority": "baixa",
-        "note": "Bom presente japonês se sobrar mala.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Bom presente japonês se sobrar mala",
         "primaryStore": "Loft",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
-          "Make Luísa — @cosme/Loft/PLAZA",
+          "Beleza jovem — @cosme / Loft / PLAZA",
           "Beleza premium — Ginza/Depachika",
           "Facas / Casa Japão",
           "Loft / Hands / Papelaria"
         ],
-        "routeDay": "03/12 Shibuya/Harajuku",
-        "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 30749,
-        "id": "shop-rodrigo-45"
-      },
-      {
-        "text": "Alcon Air Optix Night & Day Aqua 6-pack — OD +1.75 / BC 8.6 / DIA 13.8 — 1 caixa",
-        "store": "Óticas em Dubai / Boots / Life Pharmacy com ótica",
-        "category": "lentes",
-        "city": "Dubai",
-        "country": "UAE",
-        "priority": "essencial",
-        "note": "Lente do olho direito.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Óticas em Dubai",
-        "shoppingMode": [
-          "Life Pharmacy / Boots Dubai",
-          "Óticas Dubai"
-        ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40152,
-        "id": "shop-rodrigo-46"
+        "sort": 30749
       },
       {
         "text": "Alcon Air Optix Night & Day Aqua 6-pack — OE +2.75 / BC 8.6 / DIA 13.8 — 1 caixa",
@@ -1164,19 +924,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "essencial",
-        "note": "Lente do olho esquerdo.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Lente do olho esquerdo",
         "primaryStore": "Óticas em Dubai",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai",
           "Óticas Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40153,
-        "id": "shop-rodrigo-47"
+        "sort": 40153
       },
       {
         "text": "Nizoral 2% Ketoconazole Shampoo 100 ml — 2 frascos",
@@ -1185,18 +942,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "alta",
-        "note": "Comprar em Dubai; produto fechado, não genérico.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Comprar em Dubai; produto fechado, não genérico",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40254,
-        "id": "shop-rodrigo-48"
+        "sort": 40254
       },
       {
         "text": "La Roche-Posay Anthelios UVMune 400 Invisible Fluid SPF50+ 50 ml — 2 unidades",
@@ -1205,18 +959,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "alta",
-        "note": "Protetor europeu/ocidental para alternar com Anessa/Bioré.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Protetor europeu/ocidental para alternar com Anessa/Bioré",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40258,
-        "id": "shop-rodrigo-49"
+        "sort": 40258
       },
       {
         "text": "La Roche-Posay Cicaplast Baume B5+ 100 ml — 2 unidades",
@@ -1225,18 +976,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "alta",
-        "note": "Creme reparador útil e caro no Brasil.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Creme reparador útil e caro no Brasil",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40259,
-        "id": "shop-rodrigo-50"
+        "sort": 40259
       },
       {
         "text": "SkinCeuticals C E Ferulic 30 ml — 1 unidade",
@@ -1245,58 +993,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "alta",
-        "note": "Compra premium; pequeno e caro, vale comparar com Brasil.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Compra premium; pequeno e caro, vale comparar com Brasil",
         "primaryStore": "SkinCeuticals",
-        "shoppingMode": [
-          "Life Pharmacy / Boots Dubai"
-        ],
         "routeDay": "Dubai final / aeroporto",
         "dayHint": "Dubai final / aeroporto",
-        "sort": 40265,
-        "id": "shop-rodrigo-51"
-      },
-      {
-        "text": "Optimum Nutrition Micronized Creatine Powder 300 g — 1 pote",
-        "store": "Life Pharmacy / lojas de suplemento / Dubai Mall",
-        "category": "creatina",
-        "city": "Dubai",
-        "country": "UAE",
-        "priority": "alta",
-        "note": "Compra certeira de creatina em Dubai.",
-        "owner": "Rodrigo",
         "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Life Pharmacy",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40266,
-        "id": "shop-rodrigo-52"
-      },
-      {
-        "text": "Dymatize ISO100 Hydrolyzed 5 lb — Gourmet Vanilla ou Chocolate — 1 pote",
-        "store": "Life Pharmacy / lojas de suplemento",
-        "category": "whey",
-        "city": "Dubai",
-        "country": "UAE",
-        "priority": "alta",
-        "note": "Whey principal. Pote grande: máximo 1.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Life Pharmacy",
-        "shoppingMode": [
-          "Life Pharmacy / Boots Dubai"
-        ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40268,
-        "id": "shop-rodrigo-53"
+        "sort": 40265
       },
       {
         "text": "Nordic Naturals Ultimate Omega 60 softgels — 2 potes",
@@ -1305,18 +1010,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "alta",
-        "note": "Ômega-3 principal.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Ômega-3 principal",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40271,
-        "id": "shop-rodrigo-54"
+        "sort": 40271
       },
       {
         "text": "Move Free Advanced Triple Strength — 1 pote",
@@ -1325,18 +1027,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "alta",
-        "note": "Suplemento articular alvo #1.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Suplemento articular alvo #1",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40276,
-        "id": "shop-rodrigo-55"
+        "sort": 40276
       },
       {
         "text": "Osteo Bi-Flex Triple Strength — 1 pote",
@@ -1345,18 +1044,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "alta",
-        "note": "Suplemento articular alvo #2; bom para estoque.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Suplemento articular alvo #2; bom para estoque",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40277,
-        "id": "shop-rodrigo-56"
+        "sort": 40277
       },
       {
         "text": "DS Laboratories Revita Shampoo — 1 frasco",
@@ -1365,18 +1061,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Shampoo premium de densidade; bom se preço estiver razoável.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Shampoo premium de densidade; bom se preço estiver razoável",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40455,
-        "id": "shop-rodrigo-57"
+        "sort": 40455
       },
       {
         "text": "Vichy Dercos Densi-Solutions Thickening Shampoo — 1 frasco",
@@ -1385,18 +1078,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Alternativa ocidental para engrossar aparência do fio.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Alternativa ocidental para engrossar aparência do fio",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40456,
-        "id": "shop-rodrigo-58"
+        "sort": 40456
       },
       {
         "text": "La Roche-Posay Hyalu B5 Serum 30 ml — 1 unidade",
@@ -1405,18 +1095,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Sérum de hidratação ocidental.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Sérum de hidratação ocidental",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40460,
-        "id": "shop-rodrigo-59"
+        "sort": 40460
       },
       {
         "text": "La Roche-Posay Retinol B3 Serum 30 ml — 1 unidade",
@@ -1425,18 +1112,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Retinol ocidental para estoque, diferente do ELIXIR japonês.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Retinol ocidental para estoque, diferente do ELIXIR japonês",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40461,
-        "id": "shop-rodrigo-60"
+        "sort": 40461
       },
       {
         "text": "Vichy Liftactiv Retinol Specialist Serum — 1 unidade",
@@ -1445,18 +1129,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Segundo retinol ocidental se o preço compensar.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Segundo retinol ocidental se o preço compensar",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40462,
-        "id": "shop-rodrigo-61"
+        "sort": 40462
       },
       {
         "text": "CeraVe Moisturising Cream 454 g — 1 pote",
@@ -1465,18 +1146,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Pote grande; comprar se couber no limite de mala.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Pote grande; comprar se couber no limite de mala",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40463,
-        "id": "shop-rodrigo-62"
+        "sort": 40463
       },
       {
         "text": "CeraVe Hydrating Cleanser 473 ml — 1 frasco",
@@ -1485,78 +1163,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Limpeza diária, bom preço em Dubai.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Limpeza diária, bom preço em Dubai",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40464,
-        "id": "shop-rodrigo-63"
-      },
-      {
-        "text": "Muscle Core Creatine Creapure 500 g — 1 pote",
-        "store": "Life Pharmacy / lojas de suplemento",
-        "category": "creatina",
-        "city": "Dubai",
-        "country": "UAE",
-        "priority": "média",
-        "note": "Comprar se aparecer com bom preço; Creapure é o alvo.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Life Pharmacy",
-        "shoppingMode": [
-          "Life Pharmacy / Boots Dubai"
-        ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40467,
-        "id": "shop-rodrigo-64"
-      },
-      {
-        "text": "Optimum Nutrition Gold Standard Isolate 5 lb — 1 pote",
-        "store": "Life Pharmacy / lojas de suplemento",
-        "category": "whey",
-        "city": "Dubai",
-        "country": "UAE",
-        "priority": "média",
-        "note": "Backup se ISO100 não valer preço.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Life Pharmacy",
-        "shoppingMode": [
-          "Life Pharmacy / Boots Dubai"
-        ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40469,
-        "id": "shop-rodrigo-65"
-      },
-      {
-        "text": "Isopure Zero Carb 3 lb — 1 pote",
-        "store": "Life Pharmacy / lojas de suplemento",
-        "category": "whey",
-        "city": "Dubai",
-        "country": "UAE",
-        "priority": "média",
-        "note": "Backup premium se quiser opção sem carbo.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Life Pharmacy",
-        "shoppingMode": [
-          "Life Pharmacy / Boots Dubai"
-        ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40470,
-        "id": "shop-rodrigo-66"
+        "sort": 40464
       },
       {
         "text": "Life Extension Super Omega-3 — 2 potes",
@@ -1565,18 +1180,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Alternativa forte de omega-3.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Alternativa forte de omega-3",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40472,
-        "id": "shop-rodrigo-67"
+        "sort": 40472
       },
       {
         "text": "Solgar Omega-3 700 — 1 pote",
@@ -1585,18 +1197,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Alternativa Solgar.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Alternativa Solgar",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40473,
-        "id": "shop-rodrigo-68"
+        "sort": 40473
       },
       {
         "text": "NOW Ultra Omega-3 — 2 potes",
@@ -1605,18 +1214,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Alternativa com boa reputação/custo.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Alternativa com boa reputação/custo",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40474,
-        "id": "shop-rodrigo-69"
+        "sort": 40474
       },
       {
         "text": "California Gold Nutrition Omega-3 Premium Fish Oil — 2 potes",
@@ -1625,18 +1231,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Alternativa boa se aparecer com preço agressivo.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Alternativa boa se aparecer com preço agressivo",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40475,
-        "id": "shop-rodrigo-70"
+        "sort": 40475
       },
       {
         "text": "Solgar Glucosamine Chondroitin MSM — 1 pote",
@@ -1645,18 +1248,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Terceira opção articular se preço estiver bom.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Terceira opção articular se preço estiver bom",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40478,
-        "id": "shop-rodrigo-71"
+        "sort": 40478
       },
       {
         "text": "Solgar Chelated Magnesium ou NOW Magnesium Bisglycinate — 1 pote",
@@ -1665,18 +1265,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Magnésio em forma boa, sem procurar fórmula genérica.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Magnésio em forma boa, sem procurar fórmula genérica",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40479,
-        "id": "shop-rodrigo-72"
+        "sort": 40479
       },
       {
         "text": "Vital Proteins Collagen Peptides 20 oz — 1 pote",
@@ -1685,18 +1282,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Colágeno ocidental em pote grande.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Colágeno ocidental em pote grande",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40480,
-        "id": "shop-rodrigo-73"
+        "sort": 40480
       },
       {
         "text": "Compeed Cold Sore Patch — 1 caixa",
@@ -1705,18 +1299,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Item pequeno para emergência.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Item pequeno para emergência",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40484,
-        "id": "shop-rodrigo-74"
+        "sort": 40484
       },
       {
         "text": "La Roche-Posay Cicaplast Lips — 2 unidades",
@@ -1725,18 +1316,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Lábios/ressecamento; pequeno e útil.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Lábios/ressecamento; pequeno e útil",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40485,
-        "id": "shop-rodrigo-75"
+        "sort": 40485
       },
       {
         "text": "Toppik Hair Building Fibers Medium Brown — 1 unidade",
@@ -1745,18 +1333,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "baixa",
-        "note": "Fibras capilares para eventos/fotos; Medium Brown como cor base.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Fibras capilares para eventos/fotos; Medium Brown como cor base",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40757,
-        "id": "shop-rodrigo-76"
+        "sort": 40757
       },
       {
         "text": "KIKI Health Collagen Peptides 200 g — 1 pote",
@@ -1765,18 +1350,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "baixa",
-        "note": "Alternativa se aparecer fácil.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Alternativa se aparecer fácil",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40781,
-        "id": "shop-rodrigo-77"
+        "sort": 40781
       },
       {
         "text": "Organic Earth Collagen Peptides — 1 pote",
@@ -1785,18 +1367,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "baixa",
-        "note": "Alternativa se aparecer fácil.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Alternativa se aparecer fácil",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40782,
-        "id": "shop-rodrigo-78"
+        "sort": 40782
       },
       {
         "text": "Nuun Sport Hydration Tablets ou Hydralyte Tablets — 1 tubo/caixa",
@@ -1805,18 +1384,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "baixa",
-        "note": "Pequeno, útil para viagem/treino.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Pequeno, útil para viagem/treino",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40783,
-        "id": "shop-rodrigo-79"
+        "sort": 40783
       },
       {
         "text": "La Roche-Posay Anthelios XL Stick Sensitive Areas SPF50+ — 1 unidade",
@@ -1825,43 +1401,38 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "baixa",
-        "note": "Stick para áreas sensíveis/bolsa.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Stick para áreas sensíveis/bolsa",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40786,
-        "id": "shop-rodrigo-80"
+        "sort": 40786
       },
       {
         "text": "Prada Amber Pour Homme EDT 100 ml — original lacrado",
         "store": "Dubai Duty Free / Sephora Dubai / lojas premium / Amazon.ae confiável",
+        "category": "perfume",
+        "city": "Dubai",
+        "country": "UAE",
+        "priority": "altíssima",
+        "note": "Alvo exato: Prada Amber Pour Homme EDT 100 ml clássico. Não confundir com Intense, Luna Rossa, Amber feminino ou L’Homme",
+        "qty": "1 a 2 frascos",
         "primaryStore": "Dubai Duty Free",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v3-prada-amber",
         "backupStores": [
           "Sephora Dubai",
           "lojas premium de perfume",
           "Amazon.ae confiável"
         ],
-        "category": "perfume",
-        "city": "Dubai",
-        "country": "UAE",
-        "priority": "altíssima",
-        "qty": "1 a 2 frascos",
-        "routeDay": "Dubai final / aeroporto",
         "shoppingMode": [
           "Perfumes Dubai / Duty Free"
         ],
-        "note": "Alvo exato: Prada Amber Pour Homme EDT 100 ml clássico. Não confundir com Intense, Luna Rossa, Amber feminino ou L’Homme.",
-        "owner": "Rodrigo",
-        "source": "v3-prada-amber",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 50195,
-        "id": "shop-rodrigo-81"
+        "sort": 50195
       },
       {
         "text": "Rasasi Hawas for Him EDP 100 ml — 1 frasco",
@@ -1870,78 +1441,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "alta",
-        "note": "Perfume Dubai alvo #1.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Perfume Dubai alvo #1",
         "primaryStore": "Rasasi",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Perfumes Dubai / Duty Free"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 50287,
-        "id": "shop-rodrigo-82"
-      },
-      {
-        "text": "Prada L'Homme L'Eau EDT 100 ml — alternativa Prada mais próxima disponível",
-        "store": "Dubai Duty Free / Sephora Dubai / lojas premium",
-        "primaryStore": "Dubai Duty Free",
-        "category": "perfume",
-        "city": "Dubai",
-        "country": "UAE",
-        "priority": "alta",
-        "qty": "1 frasco",
-        "routeDay": "Dubai final / aeroporto",
-        "shoppingMode": [
-          "Perfumes Dubai / Duty Free"
-        ],
-        "note": "Testar se não achar Prada Amber original. Mantém o território Prada limpo, íris/âmbar/neroli.",
-        "owner": "Rodrigo",
-        "source": "v3-prada-amber",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 50296,
-        "id": "shop-rodrigo-83"
-      },
-      {
-        "text": "Prada L'Homme EDT 100 ml — backup Prada limpo/âmbar",
-        "store": "Dubai Duty Free / Sephora Dubai / lojas premium",
-        "primaryStore": "Dubai Duty Free",
-        "category": "perfume",
-        "city": "Dubai",
-        "country": "UAE",
-        "priority": "alta",
-        "qty": "1 frasco",
-        "routeDay": "Dubai final / aeroporto",
-        "shoppingMode": [
-          "Perfumes Dubai / Duty Free"
-        ],
-        "note": "Backup Prada limpo e elegante se Amber Pour Homme não aparecer.",
-        "owner": "Rodrigo",
-        "source": "v3-prada-amber",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 50297,
-        "id": "shop-rodrigo-84"
-      },
-      {
-        "text": "Prada Infusion de Cèdre / Iris Cèdre EDP 100 ml — substituto limpo/resinoso",
-        "store": "Prada / Sephora Dubai / lojas premium",
-        "primaryStore": "Prada",
-        "category": "perfume",
-        "city": "Dubai",
-        "country": "UAE",
-        "priority": "alta",
-        "qty": "1 frasco",
-        "routeDay": "Dubai final / aeroporto",
-        "shoppingMode": [
-          "Perfumes Dubai / Duty Free"
-        ],
-        "note": "Alternativa boutique no DNA Prada limpo/resinoso; testar depois de L’Homme L’Eau.",
-        "owner": "Rodrigo",
-        "source": "v3-prada-amber",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 50298,
-        "id": "shop-rodrigo-85"
+        "sort": 50287
       },
       {
         "text": "Lattafa Khamrah EDP 100 ml — 1 frasco",
@@ -1950,18 +1458,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Âmbar/doce quente, ótimo custo-benefício.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Âmbar/doce quente, ótimo custo-benefício",
         "primaryStore": "Lattafa",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Perfumes Dubai / Duty Free"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 50488,
-        "id": "shop-rodrigo-86"
+        "sort": 50488
       },
       {
         "text": "Al Haramain Amber Oud Gold Edition EDP 60 ml — 1 frasco",
@@ -1970,18 +1475,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Âmbar forte/projetado.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Âmbar forte/projetado",
         "primaryStore": "Al Haramain",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Perfumes Dubai / Duty Free"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 50489,
-        "id": "shop-rodrigo-87"
+        "sort": 50489
       },
       {
         "text": "Ajmal Amber Wood EDP 100 ml — 1 frasco",
@@ -1990,18 +1492,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Opção âmbar amadeirada da Ajmal.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Opção âmbar amadeirada da Ajmal",
         "primaryStore": "Ajmal",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Perfumes Dubai / Duty Free"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 50490,
-        "id": "shop-rodrigo-88"
+        "sort": 50490
       },
       {
         "text": "Amouage Interlude Man EDP — 1 frasco se quiser luxo",
@@ -2010,18 +1509,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "baixa",
-        "note": "Compra premium; frasco caro e forte.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Compra premium; frasco caro e forte",
         "primaryStore": "Amouage",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Perfumes Dubai / Duty Free"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 50791,
-        "id": "shop-rodrigo-89"
+        "sort": 50791
       },
       {
         "text": "Faca japonesa Sujihiki 270 mm ou Gyuto 240 mm — 1 peça",
@@ -2030,59 +1526,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo/Kyoto",
         "country": "Japan",
         "priority": "alta",
-        "note": "Compra de valor real para você. Levar na mala despachada. Cobre item original do app: Faca Sujihiki 270mm (Tower Knives, Dia 7)",
-        "owner": "Rodrigo",
+        "note": "Compra de valor real para você. Levar na mala despachada. Cobre item original: Faca Sujihiki 270mm (Tower Knives, Dia 7)",
+        "primaryStore": "Tower Knives",
+        "routeDay": "04/12 Asakusa/Ueno",
+        "dayHint": "04/12 Asakusa/Ueno",
         "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
-        "primaryStore": "Tower Knives",
         "shoppingMode": [
           "Facas / Casa Japão"
         ],
-        "routeDay": "04/12 Asakusa/Ueno",
-        "dayHint": "04/12 Asakusa/Ueno",
-        "sort": 60236,
-        "protected": true,
-        "id": "shop-rodrigo-90"
-      },
-      {
-        "text": "Shapton Kuromaku Whetstone #1000 — シャプトン 刃の黒幕 #1000 — 1 pedra",
-        "store": "Tower Knives / Kappabashi / lojas de faca",
-        "category": "faca/cozinha",
-        "city": "Tokyo",
-        "country": "Japan",
-        "priority": "média",
-        "note": "Pedra principal para manutenção da faca.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Tower Knives",
-        "shoppingMode": [
-          "Facas / Casa Japão"
-        ],
-        "routeDay": "04/12 Asakusa/Ueno",
-        "dayHint": "04/12 Asakusa/Ueno",
-        "sort": 60437,
-        "id": "shop-rodrigo-91"
-      },
-      {
-        "text": "Suehiro Cerax #3000 Whetstone — 末広 セラックス #3000 — 1 pedra",
-        "store": "Tower Knives / Kappabashi / lojas de faca",
-        "category": "faca/cozinha",
-        "city": "Tokyo",
-        "country": "Japan",
-        "priority": "baixa",
-        "note": "Pedra de acabamento; comprar se quiser kit mais completo.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Tower Knives",
-        "shoppingMode": [
-          "Facas / Casa Japão"
-        ],
-        "routeDay": "04/12 Asakusa/Ueno",
-        "dayHint": "04/12 Asakusa/Ueno",
-        "sort": 60738,
-        "id": "shop-rodrigo-92"
+        "sort": 60236
       },
       {
         "text": "Vinil KISS / hard rock / metal japonês com OBI — foco em Alive!, Destroyer, Love Gun",
@@ -2091,116 +1543,27 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Procurar também por キッス. Cobre item original do app: Vinil KISS / rock-metal (Disk Union Shibuya)",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Procurar também por キッス. Cobre item original: Vinil KISS / rock-metal (Disk Union Shibuya)",
         "primaryStore": "disk union Shinjuku ROCK",
-        "shoppingMode": [
-          "Hobby / Vinil / Games"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 70239,
-        "protected": true,
-        "id": "shop-rodrigo-93"
-      },
-      {
-        "text": "Games retrô / item Nintendo / peça de coleção",
-        "store": "Super Potato Akihabara / Surugaya / Mandarake",
-        "category": "games",
-        "city": "Tokyo/Osaka",
-        "country": "Japan",
-        "priority": "média",
-        "note": "Comprar só achado interessante, sem virar missão pesada.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Super Potato Akihabara",
+        "source": "v2-produtos-certeiros+original_app",
         "shoppingMode": [
           "Hobby / Vinil / Games"
         ],
-        "routeDay": "06/12 Akihabara/Odaiba",
-        "dayHint": "06/12 Akihabara/Odaiba",
-        "sort": 70442,
-        "id": "shop-rodrigo-94"
-      },
-      {
-        "text": "Silver Ball Planet Osaka — lembrança/camiseta/pinball se houver",
-        "store": "Silver Ball Planet Osaka",
-        "category": "pinball",
-        "city": "Osaka",
-        "country": "Japan",
-        "priority": "baixa",
-        "note": "Mais experiência do que compra, mas deixar na lista.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Silver Ball Planet Osaka",
-        "shoppingMode": [
-          "Hobby / Vinil / Games"
-        ],
-        "routeDay": "Osaka",
-        "dayHint": "Osaka",
-        "sort": 70743,
-        "id": "shop-rodrigo-95"
-      },
-      {
-        "text": "Zamst EK-3 Knee Support — 1 unidade",
-        "store": "Sports Depo / Alpen / lojas esportivas grandes",
-        "category": "joelho",
-        "city": "Tokyo",
-        "country": "Japan",
-        "priority": "alta",
-        "note": "Modelo usável para caminhada/treino; comprar para o joelho que incomoda mais.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Sports Depo",
-        "shoppingMode": [
-          "Outras compras Japão"
-        ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 999227,
-        "id": "shop-rodrigo-96"
-      },
-      {
-        "text": "Zamst ZK-7 Knee Support — 1 unidade",
-        "store": "Sports Depo / Alpen / lojas esportivas grandes",
-        "category": "joelho",
-        "city": "Tokyo",
-        "country": "Japan",
-        "priority": "média",
-        "note": "Modelo mais estruturado; comprar se quiser uma segunda joelheira mais firme.",
-        "owner": "Rodrigo",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
-        "primaryStore": "Sports Depo",
-        "shoppingMode": [
-          "Outras compras Japão"
-        ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 999428,
-        "id": "shop-rodrigo-97"
+        "sort": 70239
       },
       {
         "text": "Senka Perfect Whip (sabonete facial)",
         "store": "",
-        "owner": "Rodrigo",
+        "note": "",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
         "source": "original_app",
-        "qty": "",
-        "primaryStore": "",
         "shoppingMode": [
           "Outras compras Japão"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 999592,
-        "protected": true,
-        "note": "Item original protegido do app.",
-        "id": "shop-rodrigo-98"
+        "sort": 999592
       }
     ],
     "Luciana": [
@@ -2211,19 +1574,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Protetor japonês para uso diário. Cobre item original do app: Anessa Perfect UV Sunscreen (~¥2.500)",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Protetor japonês para uso diário. Cobre item original: Anessa Perfect UV Sunscreen (~¥2.500)",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros+original_app",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 10208,
-        "protected": true,
-        "id": "shop-luciana-1"
+        "sort": 10208
       },
       {
         "text": "Melano CC Premium Essence — メラノCC 薬用しみ 集中対策 プレミアム美容液 — 2 tubos",
@@ -2232,19 +1591,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Vitamina C japonesa custo-benefício. Cobre item original do app: Melano CC (vitamina C / manchas)",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Vitamina C japonesa custo-benefício. Cobre item original: Melano CC (vitamina C / manchas)",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10211,
-        "protected": true,
-        "id": "shop-luciana-2"
+        "sort": 10211
       },
       {
         "text": "Hada Labo Gokujyun Premium Lotion — 肌ラボ 極潤プレミアム ヒアルロン液 — 2 frascos",
@@ -2253,19 +1608,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Loção hidratante base japonesa. Cobre item original do app: Hada Labo Gokujyun lotion (~¥800)",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Loção hidratante base japonesa. Cobre item original: Hada Labo Gokujyun lotion (~¥800)",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros+original_app",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10212,
-        "protected": true,
-        "id": "shop-luciana-3"
+        "sort": 10212
       },
       {
         "text": "Allie Chrono Beauty Gel UV EX SPF50+ PA++++ — 1 unidade",
@@ -2274,18 +1625,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Alternativa japonesa ao Anessa.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Alternativa japonesa ao Anessa",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10409,
-        "id": "shop-luciana-4"
+        "sort": 10409
       },
       {
         "text": "Bioré UV Aqua Rich Watery Essence SPF50+ PA++++ — 2 unidades",
@@ -2294,18 +1642,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Protetor leve/barato para alternar.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Protetor leve/barato para alternar",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10410,
-        "id": "shop-luciana-5"
+        "sort": 10410
       },
       {
         "text": "Curél Intensive Moisture Facial Cream 40 g — キュレル 潤浸保湿 フェイスクリーム — 1 unidade",
@@ -2314,18 +1659,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Creme de barreira.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Creme de barreira",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10413,
-        "id": "shop-luciana-6"
+        "sort": 10413
       },
       {
         "text": "Minon Amino Moist Moist Charge Lotion II — ミノン アミノモイスト モイストチャージ ローションII — 1 unidade",
@@ -2334,19 +1676,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Hidratação japonesa suave.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Hidratação japonesa suave",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki",
           "Presentes / Mala / Extras"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10414,
-        "id": "shop-luciana-7"
+        "sort": 10414
       },
       {
         "text": "Shiseido The Collagen Powder — 資生堂 ザ・コラーゲン パウダー — 1 unidade",
@@ -2355,18 +1694,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Colágeno japonês em pó.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Colágeno japonês em pó",
         "primaryStore": "Matsumoto Kiyoshi",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 10415,
-        "id": "shop-luciana-8"
+        "sort": 10415
       },
       {
         "text": "FANCL Deep Charge Collagen Powder — ファンケル ディープチャージ コラーゲン パウダー — 1 unidade",
@@ -2375,19 +1711,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Colágeno FANCL para estoque.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Colágeno FANCL para estoque",
         "primaryStore": "FANCL",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki",
           "Presentes / Mala / Extras"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10416,
-        "id": "shop-luciana-9"
+        "sort": 10416
       },
       {
         "text": "SK-II Facial Treatment Essence 230 ml — 1 unidade",
@@ -2396,19 +1729,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "essencial",
-        "note": "Item premium japonês principal para Luciana. Cobre item original do app: SK-II Facial Treatment Essence (loja de departamento)",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Item premium japonês principal para Luciana. Cobre item original: SK-II Facial Treatment Essence (loja de departamento)",
         "primaryStore": "Depachika",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros+original_app",
         "shoppingMode": [
           "Beleza premium — Ginza/Depachika"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 20101,
-        "protected": true,
-        "id": "shop-luciana-10"
+        "sort": 20101
       },
       {
         "text": "Shiseido Ultimune Power Infusing Concentrate 75 ml — 1 unidade",
@@ -2417,19 +1746,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Sérum premium Shiseido. Cobre item original do app: Shiseido (linha premium)",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Sérum premium Shiseido. Cobre item original: Shiseido (linha premium)",
         "primaryStore": "Shiseido",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros+original_app",
         "shoppingMode": [
           "Beleza premium — Ginza/Depachika"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 20202,
-        "protected": true,
-        "id": "shop-luciana-11"
+        "sort": 20202
       },
       {
         "text": "Decorté Liposome Advanced Repair Serum 75 ml — 1 unidade",
@@ -2438,18 +1763,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Produto japonês premium forte para estoque.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Produto japonês premium forte para estoque",
         "primaryStore": "Decorté",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Beleza premium — Ginza/Depachika"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 20203,
-        "id": "shop-luciana-12"
+        "sort": 20203
       },
       {
         "text": "SUQQU The Liquid Foundation 30 ml — 1 unidade",
@@ -2458,18 +1780,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Base premium japonesa; comprar cor testada no balcão.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Base premium japonesa; comprar cor testada no balcão",
         "primaryStore": "SUQQU",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Beleza premium — Ginza/Depachika"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 20205,
-        "id": "shop-luciana-13"
+        "sort": 20205
       },
       {
         "text": "SUQQU Pure Color Blush — 1 unidade",
@@ -2478,18 +1797,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Blush premium japonês.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Blush premium japonês",
         "primaryStore": "SUQQU",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Beleza premium — Ginza/Depachika"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 20206,
-        "id": "shop-luciana-14"
+        "sort": 20206
       },
       {
         "text": "Clé de Peau Beauté Correcting Cream Veil SPF25 — 1 unidade",
@@ -2498,18 +1814,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Primer/base premium; compra de origem no Japão.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Primer/base premium; compra de origem no Japão",
         "primaryStore": "Clé de Peau",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Beleza premium — Ginza/Depachika"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 20404,
-        "id": "shop-luciana-15"
+        "sort": 20404
       },
       {
         "text": "Kanebo Comfort Stretchy Wash — 1 unidade",
@@ -2518,18 +1831,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Item premium japonês de limpeza.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Item premium japonês de limpeza",
         "primaryStore": "Kanebo",
+        "routeDay": "05/12 Ginza",
+        "dayHint": "05/12 Ginza",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Beleza premium — Ginza/Depachika"
         ],
-        "routeDay": "05/12 Ginza",
-        "dayHint": "05/12 Ginza",
-        "sort": 20407,
-        "id": "shop-luciana-16"
+        "sort": 20407
       },
       {
         "text": "SkinCeuticals C E Ferulic 30 ml — 1 unidade",
@@ -2538,18 +1848,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Compra premium se preço em Dubai for melhor que Brasil.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Compra premium se preço em Dubai for melhor que Brasil",
         "primaryStore": "Dubai: SkinCeuticals",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40417,
-        "id": "shop-luciana-17"
+        "sort": 40417
       },
       {
         "text": "La Roche-Posay Cicaplast Baume B5+ 100 ml — 1 unidade",
@@ -2558,18 +1865,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "média",
-        "note": "Produto coringa de pele para a família.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Produto coringa de pele para a família",
         "primaryStore": "Life Pharmacy",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Life Pharmacy / Boots Dubai"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 40418,
-        "id": "shop-luciana-18"
+        "sort": 40418
       },
       {
         "text": "Bolsas/acessórios de luxo — Gucci / Prada / Louis Vuitton / Dior",
@@ -2578,35 +1882,27 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Dubai",
         "country": "UAE",
         "priority": "baixa",
-        "note": "Deixar como lembrete de compra final em Dubai, sem consumir tempo no começo da viagem.",
-        "owner": "Luciana",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Deixar como lembrete de compra final em Dubai, sem consumir tempo no começo da viagem",
         "primaryStore": "Dubai Mall",
+        "routeDay": "Dubai final / aeroporto",
+        "dayHint": "Dubai final / aeroporto",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Perfumes Dubai / Duty Free"
         ],
-        "routeDay": "Dubai final / aeroporto",
-        "dayHint": "Dubai final / aeroporto",
-        "sort": 50719,
-        "id": "shop-luciana-19"
+        "sort": 50719
       },
       {
         "text": "Senka Perfect Whip (sabonete facial, ~¥500)",
         "store": "",
-        "owner": "Luciana",
+        "note": "",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
         "source": "original_app",
-        "qty": "",
-        "primaryStore": "",
         "shoppingMode": [
           "Outras compras Japão"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 999520,
-        "protected": true,
-        "note": "Item original protegido do app.",
-        "id": "shop-luciana-20"
+        "sort": 999520
       }
     ],
     "Luísa": [
@@ -2617,20 +1913,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "essencial",
-        "note": "Máscara japonesa principal. Cobre item original do app: Heroine Make rímel à prova d'água",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Máscara japonesa principal. Cobre item original: Heroine Make rímel à prova d'água",
         "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "Primeiros dias Tóquio",
         "dayHint": "Primeiros dias Tóquio",
-        "sort": 10108,
-        "protected": true,
-        "id": "shop-luisa-1"
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10108
       },
       {
         "text": "Kate Lip Monster — ケイト リップモンスター — 2 unidades",
@@ -2639,20 +1931,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "essencial",
-        "note": "Lip japonês famoso; comprar 2 cores. Cobre item original do app: Kate paleta de olhos",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Lip japonês famoso; comprar 2 cores. Cobre item original: Kate paleta de olhos",
         "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "Primeiros dias Tóquio",
         "dayHint": "Primeiros dias Tóquio",
-        "sort": 10111,
-        "protected": true,
-        "id": "shop-luisa-2"
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10111
       },
       {
         "text": "Canmake Cream Cheek — キャンメイク クリームチーク — 2 unidades",
@@ -2661,19 +1949,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Blush japonês barato e certeiro.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Blush japonês barato e certeiro",
         "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10201,
-        "id": "shop-luisa-3"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10201
       },
       {
         "text": "Canmake Marshmallow Finish Powder Abloom — キャンメイク マシュマロフィニッシュパウダー Abloom — 1 unidade",
@@ -2682,20 +1967,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Pó japonês clássico. Cobre item original do app: Canmake Marshmallow Powder (~¥770)",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Pó japonês clássico. Cobre item original: Canmake Marshmallow Powder (~¥770)",
         "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10202,
-        "protected": true,
-        "id": "shop-luisa-4"
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10202
       },
       {
         "text": "Canmake Mermaid Skin Gel UV SPF50+ PA++++ — キャンメイク マーメイドスキンジェルUV — 2 unidades",
@@ -2704,20 +1985,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Protetor leve que também serve como base. Cobre item original do app: Canmake Mermaid Skin Gel UV",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Protetor leve que também serve como base. Cobre item original: Canmake Mermaid Skin Gel UV",
         "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10203,
-        "protected": true,
-        "id": "shop-luisa-5"
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10203
       },
       {
         "text": "Cezanne Pearl Glow Highlight — セザンヌ パールグロウハイライト — 1 unidade",
@@ -2726,20 +2003,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Iluminador japonês bom e barato. Cobre item original do app: Cezanne base/blush",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "Iluminador japonês bom e barato. Cobre item original: Cezanne base/blush",
         "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "Primeiros dias Tóquio",
         "dayHint": "Primeiros dias Tóquio",
-        "sort": 10205,
-        "protected": true,
-        "id": "shop-luisa-6"
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10205
       },
       {
         "text": "Heroine Make Smooth Liquid Eyeliner Super Keep — ヒロインメイク スムースリキッドアイライナー スーパーキープ — 1 unidade",
@@ -2748,19 +2021,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Delineador japonês forte.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Delineador japonês forte",
         "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "Primeiros dias Tóquio",
         "dayHint": "Primeiros dias Tóquio",
-        "sort": 10209,
-        "id": "shop-luisa-7"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10209
       },
       {
         "text": "Kate Designing Eyebrow 3D — ケイト デザイニングアイブロウ3D — 1 unidade",
@@ -2769,18 +2039,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Paleta de sobrancelha certeira.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Paleta de sobrancelha certeira",
         "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10212,
-        "id": "shop-luisa-8"
+        "sort": 10212
       },
       {
         "text": "Rom&nd Juicy Lasting Tint — ロムアンド ジューシーラスティングティント — 2 unidades",
@@ -2789,20 +2056,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "K-beauty fácil de achar em Tóquio. Cobre item original do app: Lip tint rom&nd / Peripera (Loft/PLAZA)",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros+original_app",
-        "qty": "",
+        "note": "K-beauty fácil de achar em Tóquio. Cobre item original: Lip tint rom&nd / Peripera (Loft/PLAZA)",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10213,
-        "protected": true,
-        "id": "shop-luisa-9"
+        "source": "v2-produtos-certeiros+original_app",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10213
       },
       {
         "text": "Anua Heartleaf 77% Soothing Toner — アヌア ドクダミ77% スージングトナー — 1 unidade",
@@ -2811,19 +2074,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Skincare coreano leve.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Skincare coreano leve",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10216,
-        "id": "shop-luisa-10"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10216
       },
       {
         "text": "Beauty of Joseon Relief Sun Rice + Probiotics SPF50+ PA++++ — 2 unidades",
@@ -2832,19 +2092,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "alta",
-        "note": "Protetor coreano famoso e leve.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Protetor coreano famoso e leve",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10218,
-        "id": "shop-luisa-11"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10218
       },
       {
         "text": "Canmake Quick Lash Curler — キャンメイク クイックラッシュカーラー — 1 unidade",
@@ -2853,19 +2110,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Item famoso de cílios.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Item famoso de cílios",
         "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10404,
-        "id": "shop-luisa-12"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10404
       },
       {
         "text": "Cezanne Lasting Lip Color N — セザンヌ ラスティング リップカラーN — 1 unidade",
@@ -2874,19 +2128,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Batom barato para estoque.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Batom barato para estoque",
         "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "Primeiros dias Tóquio",
         "dayHint": "Primeiros dias Tóquio",
-        "sort": 10406,
-        "id": "shop-luisa-13"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10406
       },
       {
         "text": "Cezanne Make Keep Base — セザンヌ 皮脂テカリ防止下地 — 1 unidade",
@@ -2895,19 +2146,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Primer/base popular japonesa.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Primer/base popular japonesa",
         "primaryStore": "Don Quijote",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "Primeiros dias Tóquio",
         "dayHint": "Primeiros dias Tóquio",
-        "sort": 10407,
-        "id": "shop-luisa-14"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10407
       },
       {
         "text": "Majolica Majorca Lash Expander Long Long Long EX — マジョリカ マジョルカ ラッシュエキスパンダー ロングロングロング EX — 1 unidade",
@@ -2916,18 +2164,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Outra máscara japonesa boa.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Outra máscara japonesa boa",
         "primaryStore": "Don Quijote",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10410,
-        "id": "shop-luisa-15"
+        "sort": 10410
       },
       {
         "text": "Peripera Ink Mood Glowy Tint — ペリペラ インクムードグロイティント — 2 unidades",
@@ -2936,19 +2181,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Tint coreano para estoque.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Tint coreano para estoque",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10414,
-        "id": "shop-luisa-16"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10414
       },
       {
         "text": "Clio Kill Lash Superproof Mascara — クリオ キルラッシュ スーパープルーフマスカラ — 1 unidade",
@@ -2957,19 +2199,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Máscara coreana alternativa.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Máscara coreana alternativa",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10415,
-        "id": "shop-luisa-17"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10415
       },
       {
         "text": "COSRX Advanced Snail 96 Mucin Power Essence — コスアールエックス スネイル96 — 1 unidade",
@@ -2978,36 +2217,28 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Essence coreana clássica.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Essence coreana clássica",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Drogaria Japão / Donki",
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 10417,
-        "id": "shop-luisa-18"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Drogaria Japão / Donki",
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 10417
       },
       {
         "text": "Biore UV Aqua Rich (protetor diário)",
         "store": "",
-        "owner": "Luísa",
+        "note": "",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
         "source": "original_app",
-        "qty": "",
-        "primaryStore": "",
         "shoppingMode": [
           "Drogaria Japão / Donki"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 10524,
-        "protected": true,
-        "note": "Item original protegido do app.",
-        "id": "shop-luisa-19"
+        "sort": 10524
       },
       {
         "text": "Shibuya 109 — acessórios/cabelo/meias/bolsas pequenas",
@@ -3016,18 +2247,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Experiência de compra teen sem foco em doces.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Experiência de compra teen sem foco em doces",
         "primaryStore": "Shibuya 109",
-        "shoppingMode": [
-          "Make Luísa — @cosme/Loft/PLAZA"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 30419,
-        "id": "shop-luisa-20"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA"
+        ],
+        "sort": 30419
       },
       {
         "text": "Loft / PLAZA — adesivos, nécessaires, acessórios e beleza",
@@ -3036,19 +2264,16 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo/Kyoto/Osaka",
         "country": "Japan",
         "priority": "média",
-        "note": "Loja boa para garimpo sem comida doce.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Loja boa para garimpo sem comida doce",
         "primaryStore": "Loft",
-        "shoppingMode": [
-          "Make Luísa — @cosme/Loft/PLAZA",
-          "Presentes / Mala / Extras"
-        ],
         "routeDay": "03/12 Shibuya/Harajuku",
         "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 30423,
-        "id": "shop-luisa-21"
+        "source": "v2-produtos-certeiros",
+        "shoppingMode": [
+          "Beleza jovem — @cosme / Loft / PLAZA",
+          "Presentes / Mala / Extras"
+        ],
+        "sort": 30423
       },
       {
         "text": "Purikura — fotos japonesas",
@@ -3057,18 +2282,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "baixa",
-        "note": "Experiência divertida e rápida para Luísa.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Experiência divertida e rápida para Luísa",
         "primaryStore": "Shibuya",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Hobby / Vinil / Games"
         ],
-        "routeDay": "03/12 Shibuya/Harajuku",
-        "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 70721,
-        "id": "shop-luisa-22"
+        "sort": 70721
       },
       {
         "text": "Takeshita Street — acessórios, óculos, meias e itens kawaii úteis",
@@ -3077,18 +2299,15 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo",
         "country": "Japan",
         "priority": "média",
-        "note": "Sem transformar em roteiro de doce/snack colorido.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Sem transformar em roteiro de doce/snack colorido",
         "primaryStore": "Takeshita Street",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Outras compras Japão"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 999420,
-        "id": "shop-luisa-23"
+        "sort": 999420
       },
       {
         "text": "UNIQLO / GU — peças básicas e collabs",
@@ -3097,44 +2316,42 @@ const DEFAULT_SHOPPING_LIST = {
         "city": "Tokyo/Osaka",
         "country": "Japan",
         "priority": "média",
-        "note": "Compra de roupa básica/collab.",
-        "owner": "Luísa",
-        "source": "v2-produtos-certeiros",
-        "qty": "",
+        "note": "Compra de roupa básica/collab",
         "primaryStore": "UNIQLO",
+        "routeDay": "03/12 Shibuya/Harajuku",
+        "dayHint": "03/12 Shibuya/Harajuku",
+        "source": "v2-produtos-certeiros",
         "shoppingMode": [
           "Outras compras Japão"
         ],
-        "routeDay": "03/12 Shibuya/Harajuku",
-        "dayHint": "03/12 Shibuya/Harajuku",
-        "sort": 999422,
-        "id": "shop-luisa-24"
+        "sort": 999422
       },
       {
         "text": "Glitter de pálpebra / highlighter (tendência kira kira)",
         "store": "",
-        "owner": "Luísa",
+        "note": "",
+        "routeDay": "Primeiros dias Tóquio",
+        "dayHint": "Primeiros dias Tóquio",
         "source": "original_app",
-        "qty": "",
-        "primaryStore": "",
         "shoppingMode": [
           "Outras compras Japão"
         ],
-        "routeDay": "Primeiros dias Tóquio",
-        "dayHint": "Primeiros dias Tóquio",
-        "sort": 999525,
-        "protected": true,
-        "note": "Item original protegido do app.",
-        "id": "shop-luisa-25"
+        "sort": 999525
       }
     ]
   },
+  "exportedBy": "Rodrigo",
+  "source": "base exportada pelo Rodrigo em 2026-06-21T13:45:47Z, limpa sem travas de exclusão",
+  "previousVersion": "compras-2026-06-21T13-34-21",
+  "updatedAt": "2026-06-21T10:55:00-03:00",
+  "updatedBy": "ChatGPT / Rodrigo",
+  "importMode": "replace",
   "viewHints": {
     "defaultMode": "Loja",
     "storeOrder": [
       "Drogaria Japão / Donki",
       "Beleza premium — Ginza/Depachika",
-      "Make Luísa — @cosme/Loft/PLAZA",
+      "Beleza jovem — @cosme / Loft / PLAZA",
       "Life Pharmacy / Boots Dubai",
       "Óticas Dubai",
       "Perfumes Dubai / Duty Free",
@@ -3149,11 +2366,8 @@ const DEFAULT_SHOPPING_LIST = {
       "03/12 Shibuya/Harajuku",
       "04/12 Asakusa/Ueno",
       "05/12 Ginza",
-      "06/12 Akihabara/Odaiba",
-      "Kyoto",
-      "Osaka",
-      "Dubai final / aeroporto",
-      "Primeiros dias Tóquio"
+      "Primeiros dias Tóquio",
+      "Dubai final / aeroporto"
     ]
   }
 };
@@ -3217,7 +2431,6 @@ function validateShoppingListPayload(payload, existingShopping = EMPTY.shopping,
         else if (typeof source[key] === "string" && source[key].trim()) outItem[key] = source[key].split(/[|,]/).map(s => s.trim()).filter(Boolean);
         else if (Array.isArray(prev?.[key])) outItem[key] = prev[key];
       });
-      if (source.protected || prev?.protected) outItem.protected = true;
       if (source.sort !== undefined || prev?.sort !== undefined) outItem.sort = Number(source.sort ?? prev?.sort ?? 999999);
       return outItem;
     });
@@ -3244,7 +2457,6 @@ function mergeShoppingLists(existingShopping = EMPTY.shopping, incomingShopping 
         ...item,
         id: prev?.id || item.id,
         done: typeof prev?.done === "boolean" ? prev.done : Boolean(item.done),
-        protected: Boolean(prev?.protected || item.protected),
       });
     });
     existing.forEach((item) => {
@@ -3284,7 +2496,6 @@ function makeShoppingListPayload(shopping, extra = {}) {
       const clean = { text: item.text || "", store: item.store || "" };
       ["category", "city", "country", "priority", "note", "qty", "primaryStore", "routeDay", "dayHint", "source", "storeSection", "url", "nameJa"].forEach((key) => { if (item[key] !== undefined && item[key] !== null && item[key] !== "") clean[key] = item[key]; });
       ["backupStores", "shoppingMode"].forEach((key) => { if (Array.isArray(item[key]) && item[key].length) clean[key] = item[key]; });
-      if (item.protected) clean.protected = true;
       if (item.sort !== undefined) clean.sort = item.sort;
       return clean;
     }).filter((item) => item.text);
@@ -3294,7 +2505,7 @@ function makeShoppingListPayload(shopping, extra = {}) {
     app: "Travel Companion Dubai + Japão 2026",
     version: `compras-${safeStamp()}`,
     exportedAt: new Date().toISOString(),
-    note: "Arquivo externo da lista de compras. Edite os arrays em lists.Rodrigo, lists.Luciana e lists['Luísa']; depois importe em Config > Manutenção da lista de compras. O app cria backup automático antes de substituir a lista atual. Campos aceitos por item: text, store, category, city, country, priority, note, qty, primaryStore, backupStores, routeDay, shoppingMode, protected e sort.",
+    note: "Arquivo externo da lista de compras. Edite os arrays em lists.Rodrigo, lists.Luciana e lists['Luísa']; depois importe em Config > Manutenção da lista de compras. O app cria backup automático antes de substituir a lista atual. Campos aceitos por item: text, store, category, city, country, priority, note, qty, primaryStore, backupStores, routeDay, shoppingMode e sort.",
     lists,
     ...extra,
   };
@@ -3404,6 +2615,8 @@ export default function App() {
   const [shopText, setShopText] = useState("");
   const [shopStore, setShopStore] = useState("");
   const [shopCustom, setShopCustom] = useState("");
+  const [editShopKey, setEditShopKey] = useState(null);
+  const [editShopDraft, setEditShopDraft] = useState(null);
   // ── gastos/reservas ──
   const [expCat, setExpCat] = useState("hotel");
   const [expForm, setExpForm] = useState(null); // {label,amount,currency,pay,status,date,link,note} ou null
@@ -3658,15 +2871,15 @@ export default function App() {
       const text = await file.text();
       const payload = JSON.parse(text);
       const importedShopping = validateShoppingListPayload(payload, st.shopping, file.name);
-      const replaceMode = payload?.importMode === "replace";
-      const nextShopping = replaceMode ? importedShopping : mergeShoppingLists(st.shopping, importedShopping);
+      const mergeMode = payload?.importMode === "merge";
+      const nextShopping = mergeMode ? mergeShoppingLists(st.shopping, importedShopping) : importedShopping;
       const importedTotal = USERS.reduce((acc, person) => acc + importedShopping[person].length, 0);
       const finalTotal = USERS.reduce((acc, person) => acc + nextShopping[person].length, 0);
-      const action = replaceMode ? "substituir" : "mesclar preservando itens existentes/protegidos";
+      const action = mergeMode ? "mesclar com a lista atual" : "substituir a lista atual";
       const msg = `Importar ${importedTotal} itens e ${action}? Resultado final: ${finalTotal} itens. Itens com o mesmo texto preservam o status de comprado.`;
       if (!confirm(msg)) return;
-      await saveShoppingListWithBackup(nextShopping, `Importado de ${file.name}${replaceMode ? " (substituição)" : " (mescla)"}`, file.name);
-      setToast(`✓ Lista importada/mesclada: ${finalTotal} itens`);
+      await saveShoppingListWithBackup(nextShopping, `Importado de ${file.name}${mergeMode ? " (mescla)" : " (substituição)"}`, file.name);
+      setToast(`✓ Lista importada: ${finalTotal} itens`);
       setTimeout(() => setToast(null), 2600);
     } catch (e) {
       setToast(`⚠️ JSON de compras inválido: ${e.message}`);
@@ -3692,11 +2905,11 @@ export default function App() {
   };
 
   const resetShoppingToDefault = async () => {
-    if (!confirm("Voltar à lista de compras original transportada do app? Um backup da lista atual será criado.")) return;
+    if (!confirm("Voltar à lista padrão limpa embutida no app? Um backup da lista atual será criado.")) return;
     try {
       const nextShopping = buildSeedShopping(DEFAULT_SHOPPING_LIST);
-      await saveShoppingListWithBackup(nextShopping, "Voltar à lista de compras original", "lista original embutida");
-      setToast("✓ Lista original de compras restaurada");
+      await saveShoppingListWithBackup(nextShopping, "Voltar à lista padrão limpa", "lista padrão limpa embutida");
+      setToast("✓ Lista padrão limpa restaurada");
       setTimeout(() => setToast(null), 2600);
     } catch (e) {
       setToast(`⚠️ Erro ao restaurar lista original: ${e.message}`);
@@ -3705,11 +2918,11 @@ export default function App() {
   };
 
   const restoreSuggestedShopping = async () => {
-    if (!confirm("Adicionar de volta as listas de compras sugeridas (Rodrigo, Luciana e Luísa)? Os itens que você já tem serão mantidos.")) return;
+    if (!confirm("Mesclar a lista padrão limpa com a lista atual? Os itens que você já tem serão mantidos.")) return;
     try {
       const seed = buildSeedShopping();
       const merged = mergeShoppingLists(st.shopping, seed);
-      await saveShoppingListWithBackup(merged, "Repor itens base protegidos", "lista v3 embutida");
+      await saveShoppingListWithBackup(merged, "Mesclar lista padrão", "lista v3 embutida");
       try { await storage.set(SHOP_SEED_KEY, "done", true); } catch {}
     } catch { setToast("⚠️ Erro ao restaurar listas"); setTimeout(() => setToast(null), 2600); }
   };
@@ -3753,6 +2966,54 @@ export default function App() {
     const u = { ...st.shopping };
     u[user] = u[user].filter(i => i.id !== id);
     save({ ...st, shopping: u }, "Item removido");
+  };
+
+  const openShopEdit = (user, item) => {
+    setEditShopKey(`${user}::${item.id}`);
+    setEditShopDraft({
+      owner: user,
+      text: item.text || "",
+      qty: item.qty || "",
+      priority: item.priority || "",
+      category: item.category || "",
+      primaryStore: item.primaryStore || "",
+      store: item.store || "",
+      routeDay: item.routeDay || item.dayHint || "",
+      city: item.city || "",
+      country: item.country || "",
+      shoppingMode: Array.isArray(item.shoppingMode) ? item.shoppingMode.join(", ") : (item.shoppingMode || ""),
+      note: item.note || "",
+      sort: item.sort ?? "",
+    });
+  };
+  const saveShopEdit = (oldUser, id) => {
+    if (!editShopDraft?.text?.trim()) return;
+    const newUser = USERS.includes(editShopDraft.owner) ? editShopDraft.owner : oldUser;
+    const original = (st.shopping?.[oldUser] || []).find(i => i.id === id) || {};
+    const cleanArray = (v) => (v || "").split(/[|,]/).map(s => s.trim()).filter(Boolean);
+    const updated = {
+      ...original,
+      text: editShopDraft.text.trim(),
+      qty: editShopDraft.qty.trim(),
+      priority: editShopDraft.priority.trim(),
+      category: editShopDraft.category.trim(),
+      primaryStore: editShopDraft.primaryStore.trim(),
+      store: editShopDraft.store.trim(),
+      routeDay: editShopDraft.routeDay.trim(),
+      dayHint: editShopDraft.routeDay.trim(),
+      city: editShopDraft.city.trim(),
+      country: editShopDraft.country.trim(),
+      shoppingMode: cleanArray(editShopDraft.shoppingMode),
+      note: editShopDraft.note.trim(),
+    };
+    delete updated.protected;
+    if (editShopDraft.sort !== "" && !Number.isNaN(Number(editShopDraft.sort))) updated.sort = Number(editShopDraft.sort); else delete updated.sort;
+    const next = { ...st.shopping, Rodrigo: [...(st.shopping?.Rodrigo || [])], Luciana: [...(st.shopping?.Luciana || [])], "Luísa": [...(st.shopping?.["Luísa"] || [])] };
+    next[oldUser] = next[oldUser].filter(i => i.id !== id);
+    next[newUser] = [...(next[newUser] || []), updated].sort((a,b) => (Number(a.sort ?? 999999) - Number(b.sort ?? 999999)) || shoppingKey(a.text).localeCompare(shoppingKey(b.text), "pt-BR"));
+    save({ ...st, shopping: next }, "Item de compras editado");
+    setEditShopKey(null);
+    setEditShopDraft(null);
   };
 
   const fmt = (d) => d ? new Date(d).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) : "—";
@@ -4253,7 +3514,7 @@ export default function App() {
         return modes;
       }
       if (/riup|scalp|adenovital|melano|hada labo|biore|bioré|anessa|apagard|ora2|loxonin|salonpas|lamisil|exiv|butenalock|drogaria|matsumoto|don quijote|donki|farmácia|farmacia|jelly|umbigo|navel/.test(blob)) add("Drogaria Japão / Donki");
-      if (/canmake|cezanne|heroine|kate|rom&nd|romand|peripera|clio|anua|cosrx|beauty of joseon|shibuya 109|plaza|@cosme|loft/.test(blob)) add("Make Luísa — @cosme/Loft/PLAZA");
+      if (/canmake|cezanne|heroine|kate|rom&nd|romand|peripera|clio|anua|cosrx|beauty of joseon|shibuya 109|plaza|@cosme|loft/.test(blob)) add("Beleza jovem — @cosme / Loft / PLAZA");
       if (/sk-ii|sk ii|ultimune|decorté|decorte|suqqu|clé de peau|cle de peau|depachika|departamento/.test(blob)) add("Beleza premium — Ginza/Depachika");
       if (/faca|knife|tower knives|aritsugu|kappabashi|pedra|cerâmica|ceramica|hashi|imabari/.test(blob)) add("Facas / Casa Japão");
       if (/disk union|kiss|vinil|vinyl|hmv|tower records|mandarake|surugaya|super potato|game|pinball|bookoff/.test(blob)) add("Hobby / Vinil / Games");
@@ -4309,7 +3570,6 @@ export default function App() {
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
               <span style={{ fontSize: fs(10), background: "#f1f5f9", color: "#475569", padding: "2px 6px", borderRadius: 999, fontWeight: 900 }}>{u}</span>
-              {item.protected && <span style={{ fontSize: fs(10), background: "#fff7ed", color: "#c2410c", padding: "2px 6px", borderRadius: 999, fontWeight: 900 }}>🛡️ original</span>}
               {item.qty && <span style={{ fontSize: fs(10), background: "#ecfdf5", color: "#047857", padding: "2px 6px", borderRadius: 999, fontWeight: 900 }}>Qtd: {item.qty}</span>}
               {item.priority && <span style={{ fontSize: fs(10), color: "#6d28d9", background: "#f3e8ff", borderRadius: 999, padding: "2px 6px", fontWeight: 900 }}>⭐ {item.priority}</span>}
             </div>
@@ -4322,8 +3582,31 @@ export default function App() {
               {(item.city || item.country) && <span style={{ fontSize: fs(10), color: "#065f46", background: "#d1fae5", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{[item.city, item.country].filter(Boolean).join(" · ")}</span>}
             </div>
             {item.note && <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 5, lineHeight: 1.35 }}>📝 {item.note}</div>}
+            {editShopKey === `${u}::${item.id}` && editShopDraft && (
+              <div style={{ marginTop: 10, background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, padding: 10 }}>
+                <div style={{ fontWeight: 900, color: "#334155", fontSize: fs(12), marginBottom: 8 }}>Editar item</div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
+                  <select value={editShopDraft.owner} onChange={e => setEditShopDraft({ ...editShopDraft, owner: e.target.value })} style={{ ...inp, fontSize: fs(12) }}>{USERS.map(x => <option key={x} value={x}>{x}</option>)}</select>
+                  <input value={editShopDraft.qty} onChange={e => setEditShopDraft({ ...editShopDraft, qty: e.target.value })} placeholder="Qtd" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.priority} onChange={e => setEditShopDraft({ ...editShopDraft, priority: e.target.value })} placeholder="Prioridade" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.category} onChange={e => setEditShopDraft({ ...editShopDraft, category: e.target.value })} placeholder="Categoria" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.primaryStore} onChange={e => setEditShopDraft({ ...editShopDraft, primaryStore: e.target.value })} placeholder="Loja principal" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.routeDay} onChange={e => setEditShopDraft({ ...editShopDraft, routeDay: e.target.value })} placeholder="Dia/rota" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.city} onChange={e => setEditShopDraft({ ...editShopDraft, city: e.target.value })} placeholder="Cidade" style={{ ...inp, fontSize: fs(12) }} />
+                  <input value={editShopDraft.country} onChange={e => setEditShopDraft({ ...editShopDraft, country: e.target.value })} placeholder="País" style={{ ...inp, fontSize: fs(12) }} />
+                </div>
+                <input value={editShopDraft.text} onChange={e => setEditShopDraft({ ...editShopDraft, text: e.target.value })} placeholder="Item" style={{ ...inp, fontSize: fs(12), marginTop: 7 }} />
+                <input value={editShopDraft.store} onChange={e => setEditShopDraft({ ...editShopDraft, store: e.target.value })} placeholder="Lojas alternativas / descrição de loja" style={{ ...inp, fontSize: fs(12), marginTop: 7 }} />
+                <input value={editShopDraft.shoppingMode} onChange={e => setEditShopDraft({ ...editShopDraft, shoppingMode: e.target.value })} placeholder="Modo de compra / abas de loja — separe por vírgula" style={{ ...inp, fontSize: fs(12), marginTop: 7 }} />
+                <textarea value={editShopDraft.note} onChange={e => setEditShopDraft({ ...editShopDraft, note: e.target.value })} placeholder="Observação" style={{ ...inp, fontSize: fs(12), marginTop: 7, minHeight: 64, resize: "vertical", fontFamily: "inherit" }} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7, marginTop: 8 }}>
+                  <button onClick={() => { setEditShopKey(null); setEditShopDraft(null); }} style={{ padding: 9, borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", color: "#64748b", fontWeight: 900, cursor: "pointer" }}>Cancelar</button>
+                  <button onClick={() => saveShopEdit(u, item.id)} style={{ padding: 9, borderRadius: 8, border: "none", background: UCOLOR[u], color: "#fff", fontWeight: 900, cursor: "pointer" }}>Salvar</button>
+                </div>
+              </div>
+            )}
           </div>
-          {!item.protected && <button onClick={() => rmShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fca5a5", fontSize: fs(19), lineHeight: 1, padding: 0 }}>×</button>}
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0 }}><button onClick={() => openShopEdit(u, item)} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 8, cursor: "pointer", color: "#475569", fontSize: fs(11), fontWeight: 900, padding: "5px 7px" }}>Editar</button><button onClick={() => rmShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fca5a5", fontSize: fs(19), lineHeight: 1, padding: 0 }}>×</button></div>
         </div>
       );
     };
@@ -4883,7 +4166,7 @@ export default function App() {
               <span style={{ background: "#f3e8ff", color: "#6b21a8", fontSize: fs(10), fontWeight: 800, padding: "4px 8px", borderRadius: 99 }}>JSON</span>
             </div>
             <div style={{ background: "#faf5ff", border: "1px solid #e9d5ff", borderRadius: 10, padding: 10, fontSize: fs(12), color: "#6b21a8", marginBottom: 8 }}>
-              A lista de compras agora é arquivo externo versionado. A importação padrão mescla o JSON novo com a lista atual, preservando itens originais/protegidos e checks já marcados.
+              A lista de compras é arquivo externo versionado. A importação padrão substitui a lista atual, respeitando o que você apagou; checks são preservados quando o texto do item é igual.
             </div>
             <div style={{ fontSize: fs(11), color: "#7e22ce", marginBottom: 10 }}>
               Versão atual: <b>{shoppingListMeta?.version || DEFAULT_SHOPPING_LIST.version}</b><br/>
@@ -4894,12 +4177,12 @@ export default function App() {
                 <input ref={shoppingFileRef} type="file" accept="application/json,.json" onChange={importShoppingFile} style={{ display: "none" }} />
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
                   <button onClick={exportShoppingList} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f3e8ff", color: "#6b21a8", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>⬇️ Exportar compras</button>
-                  <button onClick={() => shoppingFileRef.current?.click()} disabled={importingShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#ede9fe", color: "#5b21b6", fontWeight: 800, cursor: "pointer", fontSize: fs(12), opacity: importingShopping ? .6 : 1 }}>⬆️ Importar/mesclar</button>
-                  <button onClick={resetShoppingToDefault} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>↩️ Lista v3 completa</button>
-                  <button onClick={restoreSuggestedShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f8fafc", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>➕ Repor protegidos</button>
+                  <button onClick={() => shoppingFileRef.current?.click()} disabled={importingShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#ede9fe", color: "#5b21b6", fontWeight: 800, cursor: "pointer", fontSize: fs(12), opacity: importingShopping ? .6 : 1 }}>⬆️ Importar/substituir</button>
+                  <button onClick={resetShoppingToDefault} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f1f5f9", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>↩️ Lista padrão limpa</button>
+                  <button onClick={restoreSuggestedShopping} style={{ padding: 11, borderRadius: 9, border: "none", background: "#f8fafc", color: "#475569", fontWeight: 800, cursor: "pointer", fontSize: fs(12) }}>➕ Mesclar lista padrão</button>
                 </div>
                 <div style={{ fontSize: fs(11), color: "#7e22ce", marginTop: 8 }}>
-                  Edite somente o arquivo de compras quando quiser fazer alteração em massa. Campos aceitos por item: <b>text</b>, <b>store</b>, <b>category</b>, <b>city</b>, <b>country</b>, <b>priority</b>, <b>note</b>, <b>qty</b>, <b>primaryStore</b>, <b>backupStores</b>, <b>routeDay</b>, <b>shoppingMode</b>, <b>protected</b> e <b>sort</b>.
+                  Edite somente o arquivo de compras quando quiser fazer alteração em massa. Campos aceitos por item: <b>text</b>, <b>store</b>, <b>category</b>, <b>city</b>, <b>country</b>, <b>priority</b>, <b>note</b>, <b>qty</b>, <b>primaryStore</b>, <b>backupStores</b>, <b>routeDay</b>, <b>shoppingMode</b> e <b>sort</b>.
                 </div>
                 {shoppingBackups.length > 0 && (
                   <div style={{ marginTop: 12 }}>
