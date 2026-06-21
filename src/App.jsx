@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════════
-//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.14 (lista de compras externa + metadados visíveis)
+//  TRAVEL COMPANION · Dubai + Japão 2026 · v4.15 (compras com abas por pessoa)
 // ═══════════════════════════════════════════════════════════════════════════
 import { useState, useEffect, useCallback, useRef } from "react";
 import { storage, isFirebaseEnabled } from "./sharedStorage";
@@ -442,6 +442,7 @@ export default function App() {
   const [fontScale, setFontScale] = useState(1);
   const fs = (n) => Math.round(n * fontScale);
   const [shopUser, setShopUser] = useState("Rodrigo");
+  const [shopView, setShopView] = useState("Todos");
   const [shopText, setShopText] = useState("");
   const [shopStore, setShopStore] = useState("");
   const [shopCustom, setShopCustom] = useState("");
@@ -1278,23 +1279,73 @@ export default function App() {
   const renderShopping = () => {
     const totalAll = USERS.reduce((a, u) => a + st.shopping[u].length, 0);
     const doneAll = USERS.reduce((a, u) => a + st.shopping[u].filter(i => i.done).length, 0);
+    const visibleUsers = shopView === "Todos" ? USERS : [shopView];
+    const activeTotal = visibleUsers.reduce((a, u) => a + (st.shopping[u] || []).length, 0);
+    const activeDone = visibleUsers.reduce((a, u) => a + (st.shopping[u] || []).filter(i => i.done).length, 0);
+
+    const changeShopView = (tab) => {
+      setShopView(tab);
+      if (USERS.includes(tab)) setShopUser(tab);
+    };
+
+    const renderItem = (u, item) => (
+      <div key={item.id} style={{ background: "#fff", borderRadius: 10, padding: "9px 12px", marginBottom: 5, boxShadow: "0 1px 4px #0000000d", display: "flex", alignItems: "center", gap: 10, opacity: item.done ? .55 : 1 }}>
+        <button onClick={() => toggleShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0 }}>
+          <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${item.done ? UCOLOR[u] : "#cbd5e1"}`, background: item.done ? UCOLOR[u] : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            {item.done && <span style={{ color: "#fff", fontWeight: 900, fontSize: fs(12) }}>✓</span>}
+          </div>
+        </button>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: fs(14), color: "#1e293b", textDecoration: item.done ? "line-through" : "none", fontWeight: 600 }}>{item.text}</div>
+          <div style={{ fontSize: fs(11), color: "#94a3b8" }}>🏬 {item.store}{item.by ? ` · add por ${item.by}` : ""}</div>
+          {(item.priority || item.category || item.city || item.country) && (
+            <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 5 }}>
+              {item.priority && <span style={{ fontSize: fs(10), color: "#6d28d9", background: "#f3e8ff", borderRadius: 999, padding: "2px 6px", fontWeight: 800 }}>⭐ {item.priority}</span>}
+              {item.category && <span style={{ fontSize: fs(10), color: "#0369a1", background: "#e0f2fe", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{item.category}</span>}
+              {(item.city || item.country) && <span style={{ fontSize: fs(10), color: "#065f46", background: "#d1fae5", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{[item.city, item.country].filter(Boolean).join(" · ")}</span>}
+            </div>
+          )}
+          {item.note && <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 4, lineHeight: 1.35 }}>📝 {item.note}</div>}
+        </div>
+        <button onClick={() => rmShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fca5a5", fontSize: fs(19), lineHeight: 1 }}>×</button>
+      </div>
+    );
+
     return (
       <>
-        <Header grad="linear-gradient(135deg,#6d28d9,#db2777)" title="🛍️ Compras" sub={`${doneAll}/${totalAll} comprados`} />
+        <Header grad="linear-gradient(135deg,#6d28d9,#db2777)" title="🛍️ Compras" sub={shopView === "Todos" ? `${doneAll}/${totalAll} comprados` : `${shopView}: ${activeDone}/${activeTotal} comprados`} />
         <div style={{ padding: "8px 12px 110px" }}>
-          {/* Quem */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6, marginBottom: 10 }}>
-            {USERS.map(u => (
-              <button key={u} onClick={() => setShopUser(u)} style={{ padding: "9px 4px", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 700, fontSize: fs(12), background: shopUser === u ? UCOLOR[u] : "#f1f5f9", color: shopUser === u ? "#fff" : "#64748b", boxShadow: shopUser === u ? `0 3px 10px ${UCOLOR[u]}55` : "none" }}>
-                <PersonLabel name={u} size={22} selected={shopUser === u} photoSrc={photoFor(u)} />
-              </button>
-            ))}
+          {/* Abas por pessoa */}
+          <div style={{ position: "sticky", top: 0, zIndex: 5, background: "#f8fafc", padding: "4px 0 10px", marginBottom: 8 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 6 }}>
+              {["Todos", ...USERS].map(tab => {
+                const selected = shopView === tab;
+                const isAll = tab === "Todos";
+                const count = isAll ? totalAll : (st.shopping?.[tab] || []).length;
+                const done = isAll ? doneAll : (st.shopping?.[tab] || []).filter(i => i.done).length;
+                const color = isAll ? "#6d28d9" : UCOLOR[tab];
+                return (
+                  <button key={tab} onClick={() => changeShopView(tab)} style={{ padding: "8px 4px", borderRadius: 12, border: selected ? `2px solid ${color}` : "1px solid #e2e8f0", cursor: "pointer", fontWeight: 800, fontSize: fs(11), background: selected ? color : "#fff", color: selected ? "#fff" : "#64748b", boxShadow: selected ? `0 3px 10px ${color}33` : "0 1px 4px #00000008", minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4, minHeight: 24 }}>
+                      {isAll ? "🧾" : <PersonLabel name={tab} size={20} selected={selected} photoSrc={photoFor(tab)} />}
+                    </div>
+                    <div style={{ marginTop: 2, fontSize: fs(10), opacity: selected ? .95 : .75 }}>{done}/{count}</div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Form de adição */}
           <div style={{ background: "#fff", padding: 12, borderRadius: 14, boxShadow: "0 1px 6px #0000000d", marginBottom: 16 }}>
-            <div style={{ fontSize: fs(12), fontWeight: 700, color: UCOLOR[shopUser], marginBottom: 8 }}>Adicionar item para {shopUser}</div>
-            <input value={shopText} onChange={e => setShopText(e.target.value)} placeholder="O que comprar? (ex: Heattech, vinil KISS, perfume...)"
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginBottom: 8 }}>
+              <div style={{ fontSize: fs(12), fontWeight: 800, color: UCOLOR[shopUser] }}>Adicionar item</div>
+              <select value={shopUser} onChange={e => setShopUser(e.target.value)}
+                style={{ padding: "7px 9px", borderRadius: 999, border: "1px solid #e2e8f0", fontSize: fs(12), outline: "none", background: "#f8fafc", color: "#334155", fontWeight: 700 }}>
+                {USERS.map(u => <option key={u} value={u}>{u}</option>)}
+              </select>
+            </div>
+            <input value={shopText} onChange={e => setShopText(e.target.value)} placeholder={`O que comprar para ${shopUser}?`}
               style={{ width: "100%", boxSizing: "border-box", padding: "10px 12px", borderRadius: 9, border: "1px solid #e2e8f0", fontSize: fs(14), outline: "none", background: "#f8fafc", marginBottom: 8 }} />
             <select value={shopStore} onChange={e => setShopStore(e.target.value)}
               style={{ width: "100%", boxSizing: "border-box", padding: "10px 12px", borderRadius: 9, border: "1px solid #e2e8f0", fontSize: fs(14), outline: "none", background: "#f8fafc", marginBottom: shopStore === "Outros (especificar)" ? 8 : 10, color: shopStore ? "#1e293b" : "#94a3b8" }}>
@@ -1310,44 +1361,27 @@ export default function App() {
                 style={{ width: "100%", boxSizing: "border-box", padding: "10px 12px", borderRadius: 9, border: "1px solid #e2e8f0", fontSize: fs(14), outline: "none", background: "#f8fafc", marginBottom: 10 }} />
             )}
             <button onClick={addShop} disabled={!shopText.trim()}
-              style={{ width: "100%", padding: 11, borderRadius: 9, border: "none", cursor: shopText.trim() ? "pointer" : "default", background: shopText.trim() ? UCOLOR[shopUser] : "#e2e8f0", color: "#fff", fontWeight: 700, fontSize: fs(14) }}>
+              style={{ width: "100%", padding: 11, borderRadius: 9, border: "none", cursor: shopText.trim() ? "pointer" : "default", background: shopText.trim() ? UCOLOR[shopUser] : "#e2e8f0", color: "#fff", fontWeight: 800, fontSize: fs(14) }}>
               + Adicionar à lista de {shopUser}
             </button>
           </div>
 
-          {/* Listas por pessoa */}
-          {USERS.map(u => {
-            const items = st.shopping[u];
-            if (!items.length) return null;
+          {/* Lista filtrada */}
+          {visibleUsers.map(u => {
+            const items = st.shopping[u] || [];
+            if (!items.length) return (
+              <div key={u} style={{ textAlign: "center", padding: "30px 0", color: "#94a3b8", fontSize: fs(14) }}>Nenhum item para {u}.</div>
+            );
             const dn = items.filter(i => i.done).length;
             return (
               <div key={u} style={{ marginBottom: 14 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                  <span style={{ fontWeight: 800, fontSize: fs(14), color: UCOLOR[u] }}><PersonLabel name={u} size={24} photoSrc={photoFor(u)} /></span>
-                  <span style={{ fontSize: fs(11), color: "#94a3b8" }}>{dn}/{items.length} comprados</span>
-                </div>
-                {items.map(item => (
-                  <div key={item.id} style={{ background: "#fff", borderRadius: 10, padding: "9px 12px", marginBottom: 5, boxShadow: "0 1px 4px #0000000d", display: "flex", alignItems: "center", gap: 10, opacity: item.done ? .55 : 1 }}>
-                    <button onClick={() => toggleShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, flexShrink: 0 }}>
-                      <div style={{ width: 22, height: 22, borderRadius: 6, border: `2px solid ${item.done ? UCOLOR[u] : "#cbd5e1"}`, background: item.done ? UCOLOR[u] : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        {item.done && <span style={{ color: "#fff", fontWeight: 900, fontSize: fs(12) }}>✓</span>}
-                      </div>
-                    </button>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: fs(14), color: "#1e293b", textDecoration: item.done ? "line-through" : "none", fontWeight: 500 }}>{item.text}</div>
-                      <div style={{ fontSize: fs(11), color: "#94a3b8" }}>🏬 {item.store}{item.by ? ` · add por ${item.by}` : ""}</div>
-                      {(item.priority || item.category || item.city || item.country) && (
-                        <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 5 }}>
-                          {item.priority && <span style={{ fontSize: fs(10), color: "#6d28d9", background: "#f3e8ff", borderRadius: 999, padding: "2px 6px", fontWeight: 800 }}>⭐ {item.priority}</span>}
-                          {item.category && <span style={{ fontSize: fs(10), color: "#0369a1", background: "#e0f2fe", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{item.category}</span>}
-                          {(item.city || item.country) && <span style={{ fontSize: fs(10), color: "#065f46", background: "#d1fae5", borderRadius: 999, padding: "2px 6px", fontWeight: 700 }}>{[item.city, item.country].filter(Boolean).join(" · ")}</span>}
-                        </div>
-                      )}
-                      {item.note && <div style={{ fontSize: fs(11), color: "#64748b", marginTop: 4, lineHeight: 1.35 }}>📝 {item.note}</div>}
-                    </div>
-                    <button onClick={() => rmShop(u, item.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#fca5a5", fontSize: fs(19), lineHeight: 1 }}>×</button>
+                {(shopView === "Todos") && (
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                    <span style={{ fontWeight: 800, fontSize: fs(14), color: UCOLOR[u] }}><PersonLabel name={u} size={24} photoSrc={photoFor(u)} /></span>
+                    <span style={{ fontSize: fs(11), color: "#94a3b8" }}>{dn}/{items.length} comprados</span>
                   </div>
-                ))}
+                )}
+                {items.map(item => renderItem(u, item))}
               </div>
             );
           })}
